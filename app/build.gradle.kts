@@ -4,9 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.uaagi_app"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.uaagi_app"
