@@ -1,11 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.YourApp" parent="Theme.MaterialComponents.Light">
-        <item name="colorPrimary">#4285F4</item>
-        <item name="colorPrimaryVariant">#3367D6</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
+
+    <!-- Final theme used by the app -->
+    <style name="Theme.UAAGI_APP" parent="Base.Theme.UAAGI_APP" />
+
+    <!-- Base application theme -->
+    <style name="Base.Theme.UAAGI_APP"
+        parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here -->
     </style>
 
-    <style name="Theme.UAAGI_APP" parent="Base.Theme.UAAGI_APP" />
 </resources>

@@ -21,7 +21,5 @@ public class Login extends AppCompatActivity {
     }
 
     }
-//@+id/btnGoogleSignIn
-//@+id/btnlogin
-//@+id/btnemail
+
 
