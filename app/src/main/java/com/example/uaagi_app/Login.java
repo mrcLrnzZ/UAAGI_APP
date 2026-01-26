@@ -1,13 +1,19 @@
 package com.example.uaagi_app;
 
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.Window;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import com.google.android.material.button.MaterialButton;
 
 public class Login extends AppCompatActivity {
 
@@ -22,13 +28,56 @@ public class Login extends AppCompatActivity {
             window.setStatusBarColor(Color.parseColor("#002F62"));
         }
 
-        // Slide-up animation for the CardView
+        // Views
         CardView loginCard = findViewById(R.id.loginCard);
+        LinearLayout emailSection = findViewById(R.id.emailSection);
+        LinearLayout otpSection = findViewById(R.id.otpSection);
+        MaterialButton loginBtn = findViewById(R.id.btnlogin);
 
-        // Load the animation from res/anim/slide_up.xml
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
-
-        // Start the animation
         loginCard.startAnimation(slideUp);
+
+        // When login button is clicked
+        loginBtn.setOnClickListener(v -> {
+            emailSection.setVisibility(View.GONE);
+
+            otpSection.setVisibility(View.VISIBLE);
+
+            otpSection.setAlpha(0f);
+            otpSection.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+            loginCard.animate()
+                    .translationY(-1000f)
+                    .setDuration(400)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .start();
+        });
+
+        //back botun
+        MaterialButton backBtn = findViewById(R.id.btnBackToLogin);
+
+        backBtn.setOnClickListener(v -> {
+            otpSection.setVisibility(View.GONE);
+
+            emailSection.setVisibility(View.VISIBLE);
+
+            emailSection.setAlpha(0f);
+            emailSection.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .start();
+
+            loginCard.animate()
+                    .translationY(0f)
+                    .setDuration(400)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .start();
+        });
+
+
+
     }
 }

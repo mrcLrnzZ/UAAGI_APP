@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkblue"
-    >
+    android:background="@color/darkblue">
 
+    <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-
         android:src="@drawable/onehirelogo_darkmode"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.191" />
 
+    <!-- Login Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/loginCard"
         android:layout_width="0dp"
-        android:layout_height="600dp"
+        android:layout_height="1000dp"
         android:layout_marginTop="30dp"
         app:cardCornerRadius="32dp"
         android:backgroundTint="@color/white"
-
-
         app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/emailSection"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -48,9 +45,11 @@
                 android:layout_marginBottom="16dp"
                 android:drawableStart="@drawable/baseline_person_24"
                 android:drawablePadding="10dp"
-                android:hint="Enter Email Adress"
+                android:hint="Enter Email Address"
                 android:inputType="textEmailAddress"
-                android:paddingStart="16dp" />
+                android:paddingStart="16dp"
+                android:textColor="@color/black"
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnlogin"
@@ -60,12 +59,11 @@
                 android:text="Login"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/darkblue"
-                app:cornerRadius="10dp"
-                />
+                app:cornerRadius="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:text="By proceeding, you hereby acknowledge that you have read, understood, and expressly agree to be legally bound by the Terms and Conditions and Privacy Policy governing the use of this service."
@@ -74,7 +72,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -92,7 +90,7 @@
                     android:layout_marginEnd="8dp"
                     android:text="or Log in with"
                     android:textColor="#888888"
-                    android:textSize="10dp" />
+                    android:textSize="10sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -113,9 +111,140 @@
                 app:icon="@drawable/google"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="@null"
+                app:iconTint="@null" />
+
+        </LinearLayout>
+
+        <!-- OTP section hidden initially -->
+        <LinearLayout
+            android:id="@+id/otpSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="20dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackToLogin"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/baseline_keyboard_arrow_left_24"
+                android:layout_gravity="start"
+                android:layout_marginBottom="16dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:iconPadding="0dp"
+                app:iconSize="32dp"
+                app:iconTint="@color/black"
+                app:iconGravity="textStart"
+                style="@style/Widget.Material3.Button.IconButton"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Verify OTP"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/black"
                 />
+
+            <TextView
+                android:id="@+id/titemahabamasarap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter OTP sent to @Gmail.com"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/gray"
+                />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/otpInput1"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:backgroundTint="@color/black"
+                    android:layout_margin="4dp" />
+
+                <EditText
+                    android:id="@+id/otpInput2"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/black"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:layout_margin="4dp" />
+
+                <EditText
+                    android:id="@+id/otpInput3"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/black"
+                    android:layout_margin="4dp" />
+
+                <EditText
+                    android:id="@+id/otpInput4"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:maxLength="1"
+                    android:layout_margin="4dp" />
+
+            </LinearLayout>
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVerifyOTP"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Login"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/darkblue"
+                app:cornerRadius="10dp" />
+
+
+            <TextView
+                android:id="@+id/titemahabamasarapREAL"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Didn’t receive OTP? Resend OTP"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/gray"
+                />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
