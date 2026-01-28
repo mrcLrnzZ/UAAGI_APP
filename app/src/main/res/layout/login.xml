@@ -37,19 +37,29 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <EditText
-                android:id="@+id/btnemail"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
-                android:drawableStart="@drawable/baseline_person_24"
-                android:drawablePadding="10dp"
-                android:hint="Enter Email Address"
-                android:inputType="textEmailAddress"
-                android:paddingStart="16dp"
-                android:textColor="@color/black"
-                />
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/baseline_person_24"
+                app:startIconContentDescription="Email icon"
+                app:hintTextColor="@color/darkblue"
+                app:boxStrokeColor="@color/emailboxcolor"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/btnemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Email Address"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnlogin"
@@ -67,7 +77,7 @@
                 android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:text="By proceeding, you hereby acknowledge that you have read, understood, and expressly agree to be legally bound by the Terms and Conditions and Privacy Policy governing the use of this service."
-                android:textSize="10dp" />
+                android:textSize="10sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

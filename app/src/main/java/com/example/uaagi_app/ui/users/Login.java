@@ -20,6 +20,8 @@ import com.example.uaagi_app.utils.InputValidator;
 
 import com.example.uaagi_app.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.activity.OnBackPressedCallback;
 
 import org.json.JSONException;
@@ -47,18 +49,16 @@ public class Login extends AppCompatActivity {
         setupAnimations();
         setupClickListeners();
         setupBackHandler();
-        initEditText();
-        loginBtn.setOnClickListener(v -> handleLoginButtonClick());
-
     }
+
     private void initViews() {
         loginCard = findViewById(R.id.loginCard);
         emailSection = findViewById(R.id.emailSection);
         otpSection = findViewById(R.id.otpSection);
         loginBtn = findViewById(R.id.btnlogin);
         backBtn = findViewById(R.id.btnBackToLogin);
-    }
-    private void initEditText(){
+        btnVerifyOTP = findViewById(R.id.btnVerifyOTP); // Fixed: Was missing initialization
+
         Email = findViewById(R.id.btnemail);
         otpInput1 = findViewById(R.id.otpInput1);
         otpInput2 = findViewById(R.id.otpInput2);
@@ -67,73 +67,105 @@ public class Login extends AppCompatActivity {
         otpInput5 = findViewById(R.id.otpInput5);
         otpInput6 = findViewById(R.id.otpInput6);
     }
+
     private void setupStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#002F62"));
         }
     }
+
+
     private void setupAnimations() {
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         loginCard.startAnimation(slideUp);
     }
+
     private void setupClickListeners() {
-        loginBtn.setOnClickListener(v -> showOtpSection());
-        backBtn.setOnClickListener(v -> showEmailSection());
-        btnVerifyOTP.setOnClickListener(v -> verifyOtp());
+        loginBtn.setOnClickListener(v -> handleLoginButtonClick());
+
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v -> showEmailSection());
+        }
+        if (btnVerifyOTP != null) {
+            btnVerifyOTP.setOnClickListener(v -> verifyOtp());
+        }
     }
-    private void verifyOtp(){
+
+    private void verifyOtp() {
         EditText[] otpInputs = {otpInput1, otpInput2, otpInput3, otpInput4, otpInput5, otpInput6};
         StringBuilder otpBuilder = new StringBuilder();
 
         for (EditText input : otpInputs) {
-            otpBuilder.append(input.getText().toString().trim());
+            if (input != null) {
+                otpBuilder.append(input.getText().toString().trim());
+            }
         }
 
         String otp = otpBuilder.toString();
-        return;
+        // Handle OTP verification logic here
     }
+
     private void handleLoginButtonClick() {
         String emailInput = Email.getText().toString().trim();
 
+
+
+        // For now, let's just show the OTP section to test UI transition
+        // until your backend integration is fully ready.
+
+
         if (!validateEmailInput(emailInput)) return;
 
-        requestOtpFromServer(emailInput);
+        showOtpSection();
+        // requestOtpFromServer(emailInput);
     }
+
     private boolean validateEmailInput(String email) {
-        if (!InputValidator.isNotEmpty(email)) {
-            showToast("Please enter your email");
+        TextInputLayout emailInputLayout = findViewById(R.id.emailInputLayout);
+
+        if (email.isEmpty()) {
+            emailInputLayout.setError("Please enter your email");
             return false;
         }
-        if (!InputValidator.isValidEmail(email)) {
-            showToast("Please enter a valid email address");
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailInputLayout.setError("Please enter a valid email address");
             return false;
         }
+
+        // Clear error if validation passes
+        emailInputLayout.setError(null);
+        emailInputLayout.setErrorEnabled(false);
         return true;
     }
 
     private void requestOtpFromServer(String email) {
-        LoginRequest loginRequest = new LoginRequest(this);
-
-        loginRequest.requestLoginOtp(email, new LoginRequest.LoginCallback() {
-            @Override
-            public void onResponse(boolean success, JSONObject response) {
-                try {
-                    String message = response.getString("message");
-                    showToast(message);
-
-                    if (success) {
-                        showOtpSection();
+        // This requires your LoginRequest and network classes to be implemented
+        try {
+            LoginRequest loginRequest = new LoginRequest(this);
+            loginRequest.requestLoginOtp(email, new LoginRequest.LoginCallback() {
+                @Override
+                public void onResponse(boolean success, JSONObject response) {
+                    try {
+                        String message = response.getString("message");
+                        showToast(message);
+                        if (success) {
+                            showOtpSection();
+                        }
+                    } catch (JSONException e) {
+                        showToast("Invalid server response");
                     }
-                } catch (JSONException e) {
-                    showToast("Invalid server response");
                 }
-            }
 
-            @Override
-            public void onError(String errorMessage) {
-                showToast(errorMessage);
-            }
-        });
+                @Override
+                public void onError(String errorMessage) {
+                    showToast(errorMessage);
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Error requesting OTP", e);
+            showToast("Network error occurred");
+        }
     }
 
     private void showOtpSection() {
@@ -141,7 +173,10 @@ public class Login extends AppCompatActivity {
         otpSection.setVisibility(View.VISIBLE);
 
         otpSection.setAlpha(0f);
-        otpSection.animate().alpha(1f).setDuration(400).start();
+        otpSection.animate()
+                .alpha(1f)
+                .setDuration(400)
+                .start();
 
         loginCard.animate()
                 .translationY(-1000f)
@@ -161,7 +196,10 @@ public class Login extends AppCompatActivity {
         emailSection.setVisibility(View.VISIBLE);
 
         emailSection.setAlpha(0f);
-        emailSection.animate().alpha(1f).setDuration(400).start();
+        emailSection.animate()
+                .alpha(1f)
+                .setDuration(400)
+                .start();
 
         loginCard.animate()
                 .translationY(0f)
@@ -169,6 +207,7 @@ public class Login extends AppCompatActivity {
                 .setInterpolator(new DecelerateInterpolator())
                 .start();
     }
+
     private void setupBackHandler() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -184,10 +223,10 @@ public class Login extends AppCompatActivity {
 
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
     @Override protected void onStart() { super.onStart(); Log.d(TAG, "onStart"); }
     @Override protected void onResume() { super.onResume(); Log.d(TAG, "onResume"); }
     @Override protected void onPause() { super.onPause(); Log.d(TAG, "onPause"); }
     @Override protected void onStop() { super.onStop(); Log.d(TAG, "onStop"); }
     @Override protected void onDestroy() { super.onDestroy(); Log.d(TAG, "onDestroy"); }
 }
-
