@@ -214,6 +214,29 @@
                     android:maxLength="1"
                     android:layout_margin="4dp" />
 
+                <EditText
+                    android:id="@+id/otpInput5"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:maxLength="1"
+                    android:layout_margin="4dp" />
+
+                <EditText
+                    android:id="@+id/otpInput6"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/black"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:maxLength="1"
+                    android:layout_margin="4dp" />
+
+
             </LinearLayout>
 
 
