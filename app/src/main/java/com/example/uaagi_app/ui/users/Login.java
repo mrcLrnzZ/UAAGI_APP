@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.uaagi_app.network.dto.LoginRequest;
-import com.example.uaagi_app.utils.InputValidator;
+import com.example.uaagi_app.network.api.LoginAuth;
 
 import com.example.uaagi_app.R;
 import com.google.android.material.button.MaterialButton;
@@ -94,30 +94,64 @@ public class Login extends AppCompatActivity {
     private void verifyOtp() {
         EditText[] otpInputs = {otpInput1, otpInput2, otpInput3, otpInput4, otpInput5, otpInput6};
         StringBuilder otpBuilder = new StringBuilder();
-
+        String email = Email.getText().toString().trim();
         for (EditText input : otpInputs) {
             if (input != null) {
                 otpBuilder.append(input.getText().toString().trim());
             }
         }
-
         String otp = otpBuilder.toString();
-        // Handle OTP verification logic here
+        verifyLoginFromServer(otp, email);
+    }
+    private void verifyLoginFromServer(String otp, String email) {
+        try {
+            LoginAuth loginauth = new LoginAuth(this);
+
+            Log.d(TAG, "verifyLoginFromServer() called");
+            Log.d(TAG, "Sending OTP: " + otp + ", Email: " + email);
+
+            loginauth.verifyLogin(otp, email, new LoginAuth.verifyLoginCallback() {
+                @Override
+                public void onResponse(boolean success, JSONObject response) {
+                    Log.d(TAG, "Server response received");
+                    Log.d(TAG, "Success: " + success);
+                    Log.d(TAG, "Response JSON: " + response.toString());
+
+                    try {
+                        String message = response.getString("message");
+                        showToast(message);
+
+                        if (success) {
+                            Log.d(TAG, "OTP verification successful");
+                            showOtpSection();
+                        } else {
+                            Log.d(TAG, "OTP verification failed");
+                        }
+
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error", e);
+                        showToast("Invalid server response");
+                    }
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    Log.e(TAG, "verifyLogin error: " + errorMessage);
+                    showToast(errorMessage);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error verifying user", e);
+            showToast("Network error occurred");
+        }
     }
 
     private void handleLoginButtonClick() {
         String emailInput = Email.getText().toString().trim();
-
-
-
-        // For now, let's just show the OTP section to test UI transition
-        // until your backend integration is fully ready.
-
-
         if (!validateEmailInput(emailInput)) return;
-
         showOtpSection();
-        // requestOtpFromServer(emailInput);
+        requestOtpFromServer(emailInput);
     }
 
     private boolean validateEmailInput(String email) {
@@ -133,14 +167,12 @@ public class Login extends AppCompatActivity {
             return false;
         }
 
-        // Clear error if validation passes
         emailInputLayout.setError(null);
         emailInputLayout.setErrorEnabled(false);
         return true;
     }
 
     private void requestOtpFromServer(String email) {
-        // This requires your LoginRequest and network classes to be implemented
         try {
             LoginRequest loginRequest = new LoginRequest(this);
             loginRequest.requestLoginOtp(email, new LoginRequest.LoginCallback() {
