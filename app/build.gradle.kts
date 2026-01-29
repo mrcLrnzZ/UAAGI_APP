@@ -1,12 +1,10 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
 }
 
 android {
     namespace = "com.example.uaagi_app"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.uaagi_app"
@@ -41,4 +39,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.airbnb.android:lottie:3.4.4")
+    implementation ("androidx.cardview:cardview:1.0.0")
 }
