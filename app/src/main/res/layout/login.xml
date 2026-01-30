@@ -249,6 +249,17 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/otpErrorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="#F44336"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:text="Invalid OTP. Please try again." />
+
 
 
             <com.google.android.material.button.MaterialButton
