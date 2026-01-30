@@ -41,4 +41,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.airbnb.android:lottie:3.4.4")
     implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("com.google.android.material:material:1.9.0")
 }

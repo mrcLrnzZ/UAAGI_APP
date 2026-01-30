@@ -24,13 +24,14 @@ public class SplashActivity extends AppCompatActivity {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, PreEmpActivity.class);
                 startActivity(intent);
                 finish();
             }
         };
-        handler.postDelayed(runnable,6000);
+        handler.postDelayed(runnable, 6000);
     }
+
     @Override
     protected void onDestroy(){
         super.onDestroy();

@@ -32,11 +32,11 @@
                 android:padding="16dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_logo"
-                    android:tint="#FFFFFF" />
+<!--                <ImageView-->
+<!--                    android:layout_width="28dp"-->
+<!--                    android:layout_height="28dp"-->
+<!--                    android:src="@drawable/ic_logo"-->
+<!--                    android:tint="#FFFFFF" />-->
 
                 <TextView
                     android:layout_width="0dp"
@@ -48,11 +48,11 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_notifications"
-                    android:tint="#FFFFFF" />
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/ic_notifications"-->
+<!--                    android:tint="#FFFFFF" />-->
             </LinearLayout>
 
             <!-- Search Bar -->
@@ -72,11 +72,11 @@
                     android:gravity="center_vertical"
                     android:elevation="2dp">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="16dp"
-                        android:src="@drawable/ic_search" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="20dp"-->
+<!--                        android:layout_height="20dp"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:src="@drawable/ic_search" />-->
 
                     <EditText
                         android:layout_width="0dp"
@@ -94,10 +94,10 @@
                         android:background="#DDDDDD"
                         android:layout_marginEnd="12dp" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_location" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="20dp"-->
+<!--                        android:layout_height="20dp"-->
+<!--                        android:src="@drawable/ic_location" />-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -170,16 +170,16 @@
                                 android:orientation="vertical"
                                 android:gravity="end">
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/ic_bookmark_outline"
-                                    android:layout_marginBottom="4dp" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="20dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:src="@drawable/ic_bookmark_outline"-->
+<!--                                    android:layout_marginBottom="4dp" />-->
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/ic_briefcase" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="20dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:src="@drawable/ic_briefcase" />-->
                             </LinearLayout>
                         </LinearLayout>
 
@@ -197,10 +197,10 @@
                             android:orientation="horizontal"
                             android:layout_marginBottom="12dp">
 
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_location_pin" />
+<!--                            <ImageView-->
+<!--                                android:layout_width="14dp"-->
+<!--                                android:layout_height="14dp"-->
+<!--                                android:src="@drawable/ic_location_pin" />-->
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -311,16 +311,16 @@
                                 android:orientation="vertical"
                                 android:gravity="end">
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/ic_bookmark_outline"
-                                    android:layout_marginBottom="4dp" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="20dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:src="@drawable/ic_bookmark_outline"-->
+<!--                                    android:layout_marginBottom="4dp" />-->
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/ic_briefcase" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="20dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:src="@drawable/ic_briefcase" />-->
                             </LinearLayout>
                         </LinearLayout>
 
@@ -338,10 +338,10 @@
                             android:orientation="horizontal"
                             android:layout_marginBottom="12dp">
 
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_location_pin" />
+<!--                            <ImageView-->
+<!--                                android:layout_width="14dp"-->
+<!--                                android:layout_height="14dp"-->
+<!--                                android:src="@drawable/ic_location_pin" />-->
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -451,16 +451,16 @@
                                 android:orientation="vertical"
                                 android:gravity="end">
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/ic_bookmark_outline"
-                                    android:layout_marginBottom="4dp" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="20dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:src="@drawable/ic_bookmark_outline"-->
+<!--                                    android:layout_marginBottom="4dp" />-->
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:src="@drawable/ic_briefcase" />
+<!--                                <ImageView-->
+<!--                                    android:layout_width="20dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:src="@drawable/ic_briefcase" />-->
                             </LinearLayout>
                         </LinearLayout>
 
@@ -478,10 +478,10 @@
                             android:orientation="horizontal"
                             android:layout_marginBottom="12dp">
 
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_location_pin" />
+<!--                            <ImageView-->
+<!--                                android:layout_width="14dp"-->
+<!--                                android:layout_height="14dp"-->
+<!--                                android:src="@drawable/ic_location_pin" />-->
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -552,11 +552,11 @@
             android:gravity="center"
             android:padding="8dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_home"
-                android:tint="#4A90E2" />
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_home"-->
+<!--                android:tint="#4A90E2" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -575,11 +575,11 @@
             android:gravity="center"
             android:padding="8dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_bookmark_nav"
-                android:tint="#8E8E93" />
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_bookmark_nav"-->
+<!--                android:tint="#8E8E93" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -598,11 +598,11 @@
             android:gravity="center"
             android:padding="8dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_search_nav"
-                android:tint="#8E8E93" />
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_search_nav"-->
+<!--                android:tint="#8E8E93" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -621,11 +621,11 @@
             android:gravity="center"
             android:padding="8dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_profile"
-                android:tint="#8E8E93" />
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_profile"-->
+<!--                android:tint="#8E8E93" />-->
 
             <TextView
                 android:layout_width="wrap_content"
