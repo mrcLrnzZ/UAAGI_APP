@@ -1,4 +1,4 @@
-package com.example.uaagi_app;
+package com.example.uaagi_app.ui.users;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,13 +15,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.uaagi_app.MainActivity;
+import com.example.uaagi_app.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
 public class PreEmpActivity extends AppCompatActivity {
-
+    private static final String TAG = "PreEmpActLifecycle";
     // UI Components
     private TextInputLayout firstNameLayout, middleNameLayout, lastNameLayout;
     private TextInputLayout dobLayout, ageLayout, genderLayout, religionLayout;
@@ -47,6 +50,7 @@ public class PreEmpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "PreEmpAct onCreate()");
         setContentView(R.layout.pre_emp);
 
         initializeViews();

@@ -1,5 +1,6 @@
 package com.example.uaagi_app.ui.users;
 
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -28,8 +29,10 @@ import androidx.cardview.widget.CardView;
 
 import com.example.uaagi_app.network.dto.LoginRequest;
 import com.example.uaagi_app.network.api.LoginAuth;
-
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.utils.InputValidator;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -154,16 +157,14 @@ public class Login extends AppCompatActivity {
         }
 
         // Clear current OTP inputs
-        clearOtp();
-        hideOtpError();
-        resetOtpFieldsColor();
+        Helpers.clearOtp(otpInputs);
+        Helpers.hideOtpError(otpErrorText);
+        Helpers.resetOtpFieldsColor(otpInputs);
 
         // Request new OTP
         showToast("Resending OTP...");
         requestOtpFromServer(email);
     }
-
-
 
     private void setupOtpInputs() {
         for (int i = 0; i < otpInputs.length; i++) {
@@ -177,7 +178,7 @@ public class Login extends AppCompatActivity {
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     // Hide error when user starts typing
                     if (s.length() > 0) {
-                        hideOtpError();
+                        Helpers.hideOtpError(otpErrorText);
                     }
 
                     if (s.length() == 1) {
@@ -187,7 +188,7 @@ public class Login extends AppCompatActivity {
                         } else {
                             // Last field - hide keyboard
                             otpInputs[index].clearFocus();
-                            hideKeyboard();
+                            Helpers.hideKeyboard(Login.this, getCurrentFocus());
                         }
                     }
                 }
@@ -223,7 +224,7 @@ public class Login extends AppCompatActivity {
 
         // Validate OTP length
         if (otp.length() != 6) {
-            showOtpError("Please enter complete OTP");
+            Helpers.showOtpError(otpErrorText, "Please enter complete OTP");
             return;
         }
 
@@ -249,178 +250,107 @@ public class Login extends AppCompatActivity {
 
                         if (success) {
                             Log.d(TAG, "OTP verification successful");
-                            hideOtpError();
-                            resetOtpFieldsColor();
+                            Helpers.hideOtpError(otpErrorText);
+                            Helpers.resetOtpFieldsColor(otpInputs);
                             showToast(message);
                             // Navigate to next screen or perform success action
-                            // Intent intent = new Intent(Login.this, MainActivity.class);
-                            // startActivity(intent);
-                            // finish();
+                             Intent intent = new Intent(Login.this, PreEmpActivity.class);
+                             startActivity(intent);
+                             finish();
                         } else {
                             Log.d(TAG, "OTP verification failed");
-                            showOtpError(message);
-                            showOtpFieldError();
+                            Helpers.showOtpError(otpErrorText, message);
+                            Helpers.showOtpFieldError(Login.this, otpInputs);
+
 
                             // Clear OTP after delay
                             new android.os.Handler().postDelayed(() -> {
-                                clearOtp();
-                                resetOtpFieldsColor();
+                                Helpers.clearOtp(otpInputs);
+                                Helpers.resetOtpFieldsColor(otpInputs);
                             }, 1500);
                         }
 
                     } catch (JSONException e) {
                         Log.e(TAG, "JSON parsing error", e);
-                        showOtpError("Invalid server response");
-                        showOtpFieldError();
+                        Helpers.showOtpError(otpErrorText, "Invalid server response");
+                        Helpers.showOtpFieldError(Login.this, otpInputs);
                     }
                 }
 
                 @Override
                 public void onError(String errorMessage) {
                     Log.e(TAG, "verifyLogin error: " + errorMessage);
-                    showOtpError(errorMessage);
-                    showOtpFieldError();
+                    Helpers.showOtpError(otpErrorText, errorMessage);
+                    Helpers.showOtpFieldError(Login.this, otpInputs);
 
                     // Clear OTP after delay
                     new android.os.Handler().postDelayed(() -> {
-                        clearOtp();
-                        resetOtpFieldsColor();
+                        Helpers.clearOtp(otpInputs);
+                        Helpers.resetOtpFieldsColor(otpInputs);
                     }, 1500);
                 }
             });
 
         } catch (Exception e) {
             Log.e(TAG, "Error verifying user", e);
-            showOtpError("Network error occurred");
-            showOtpFieldError();
+            Helpers.showOtpError(otpErrorText, "Network error occurred");
+            Helpers.showOtpFieldError(Login.this, otpInputs);
         }
     }
 
     private void handleLoginButtonClick() {
         String emailInput = Email.getText().toString().trim();
-        if (!validateEmailInput(emailInput)) return;
+        if (!InputValidator.validateEmailInput(
+                findViewById(R.id.emailInputLayout),
+                emailInput
+        )) return;
         requestOtpFromServer(emailInput);
-    }
-
-    private boolean validateEmailInput(String email) {
-        TextInputLayout emailInputLayout = findViewById(R.id.emailInputLayout);
-
-        if (email.isEmpty()) {
-            emailInputLayout.setError("Please enter your email");
-            return false;
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailInputLayout.setError("Please enter a valid email address");
-            return false;
-        }
-
-        emailInputLayout.setError(null);
-        emailInputLayout.setErrorEnabled(false);
-        return true;
     }
 
     private void requestOtpFromServer(String email) {
         try {
+            Log.d(TAG, "requestOtpFromServer() called");
+            Log.d(TAG, "Requesting OTP for email: " + email);
+
             LoginRequest loginRequest = new LoginRequest(this);
             loginRequest.requestLoginOtp(email, new LoginRequest.LoginCallback() {
+
                 @Override
                 public void onResponse(boolean success, JSONObject response) {
+                    Log.d(TAG, "OTP response received");
+                    Log.d(TAG, "Success: " + success);
+                    Log.d(TAG, "Raw response: " + response.toString());
+
                     try {
                         String message = response.getString("message");
+                        Log.d(TAG, "Server message: " + message);
+
                         showToast(message);
+
                         if (success) {
+                            Log.d(TAG, "OTP request successful, showing OTP section");
                             showOtpSection();
+                        } else {
+                            Log.d(TAG, "OTP request failed");
                         }
+
                     } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error", e);
                         showToast("Invalid server response");
                     }
                 }
 
                 @Override
                 public void onError(String errorMessage) {
+                    Log.e(TAG, "OTP request error: " + errorMessage);
                     showToast(errorMessage);
                 }
             });
+
         } catch (Exception e) {
             Log.e(TAG, "Error requesting OTP", e);
             showToast("Network error occurred");
         }
-    }
-
-    // ---------------------- OTP Helper Methods ------------------------------
-
-    private void showOtpError(String message) {
-        if (otpErrorText != null) {
-            otpErrorText.setText(message);
-            otpErrorText.setVisibility(View.VISIBLE);
-
-            otpErrorText.setAlpha(0f);
-            otpErrorText.animate()
-                    .alpha(1f)
-                    .setDuration(300)
-                    .start();
-        }
-    }
-
-    private void hideOtpError() {
-        if (otpErrorText != null && otpErrorText.getVisibility() == View.VISIBLE) {
-            otpErrorText.animate()
-                    .alpha(0f)
-                    .setDuration(200)
-                    .withEndAction(() -> otpErrorText.setVisibility(View.GONE))
-                    .start();
-        }
-    }
-
-    private void showOtpFieldError() {
-        for (EditText input : otpInputs) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                input.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-                        Color.parseColor("#F44336") 
-                ));
-            }
-        }
-        shakeOtpFields();
-    }
-
-    private void resetOtpFieldsColor() {
-        for (EditText input : otpInputs) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                input.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-                        Color.BLACK
-                ));
-            }
-        }
-    }
-
-    private void shakeOtpFields() {
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-        for (EditText input : otpInputs) {
-            input.startAnimation(shake);
-        }
-    }
-
-    private void clearOtp() {
-        for (EditText input : otpInputs) {
-            input.setText("");
-        }
-        otpInputs[0].requestFocus();
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        View view = getCurrentFocus();
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    private void showKeyboard(View view) {
-        view.postDelayed(() -> {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-        }, 200);
     }
 
     // ---------------------- backend pang UI ------------------------------
@@ -436,7 +366,7 @@ public class Login extends AppCompatActivity {
                 .withEndAction(() -> {
                     // Focus first OTP input after animation
                     otpInputs[0].requestFocus();
-                    showKeyboard(otpInputs[0]);
+                    Helpers.showKeyboard(Login.this, otpInputs[0]);
                 })
                 .start();
 
@@ -470,9 +400,9 @@ public class Login extends AppCompatActivity {
                 .start();
 
         // Clear OTP fields and error when going back
-        clearOtp();
-        resetOtpFieldsColor();
-        hideOtpError();
+        Helpers.clearOtp(otpInputs);
+        Helpers.resetOtpFieldsColor(otpInputs);
+        Helpers.hideOtpError(otpErrorText);
     }
 
     private void setupBackHandler() {
