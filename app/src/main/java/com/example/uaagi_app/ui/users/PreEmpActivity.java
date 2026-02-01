@@ -1,5 +1,7 @@
 package com.example.uaagi_app.ui.users;
 
+
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +17,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.MainActivity;
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.utils.InputValidator;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -58,7 +65,6 @@ public class PreEmpActivity extends AppCompatActivity {
         setupHintsWithAsterisk();
         setupListeners();
     }
-
     private void initializeViews() {
         // Personal Information
         firstNameLayout = findViewById(R.id.firstNameLayout);
@@ -115,7 +121,6 @@ public class PreEmpActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
         btnSubmit = findViewById(R.id.btnSubmit);
     }
-
     private void setupSpinners() {
         // Gender
         String[] genders = {"Male", "Female", "Non-binary", "Other", "Prefer not to say"};
@@ -151,25 +156,11 @@ public class PreEmpActivity extends AppCompatActivity {
         ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, regions);
         regionSpinner.setAdapter(regionAdapter);
     }
-
     private void setupHintsWithAsterisk() {
-        setRequiredHint(firstNameLayout, "First Name");
-        setRequiredHint(middleNameLayout, "Middle Initial");
-        setRequiredHint(lastNameLayout, "Last Name");
+        UiHelpers.setRequiredHint(PreEmpActivity.this, firstNameLayout, "First Name");
+        UiHelpers.setRequiredHint(PreEmpActivity.this, middleNameLayout, "Middle Initial");
+        UiHelpers.setRequiredHint(PreEmpActivity.this, lastNameLayout, "Last Name");
     }
-
-    private void setRequiredHint(TextInputLayout layout, String text) {
-        String hint = text + " *";
-        SpannableString spannable = new SpannableString(hint);
-        spannable.setSpan(
-                new ForegroundColorSpan(getResources().getColor(android.R.color.holo_red_dark)),
-                hint.length() - 1,
-                hint.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
-        layout.setHint(spannable);
-    }
-
     private void setupListeners() {
         // Date of Birth picker
         dobInput.setOnClickListener(v -> showDatePicker());
@@ -186,23 +177,28 @@ public class PreEmpActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> submitForm());
 
         // Auto-generate current address
-        regionSpinner.setOnItemClickListener((parent, view, position, id) -> generateCurrentAddress());
-        citySpinner.setOnItemClickListener((parent, view, position, id) -> generateCurrentAddress());
-        barangaySpinner.setOnItemClickListener((parent, view, position, id) -> generateCurrentAddress());
+        regionSpinner.setOnItemClickListener((parent, view, position, id) ->
+                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
+                );
+        citySpinner.setOnItemClickListener((parent, view, position, id) ->
+                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
+                );
+        barangaySpinner.setOnItemClickListener((parent, view, position, id) ->
+                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
+                );
         streetInput.addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                generateCurrentAddress();
+                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput);
             }
 
             @Override
             public void afterTextChanged(android.text.Editable s) {}
         });
     }
-
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -214,45 +210,13 @@ public class PreEmpActivity extends AppCompatActivity {
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     String date = selectedYear + "-" + String.format("%02d", (selectedMonth + 1)) + "-" + String.format("%02d", selectedDay);
                     dobInput.setText(date);
-                    calculateAge(selectedYear, selectedMonth, selectedDay);
+                    ageInput.setText(Helpers.calculateAge(selectedYear, selectedMonth, selectedDay));
                 },
                 year, month, day
         );
-
-        // Set max date to today
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         datePickerDialog.show();
     }
-
-    private void calculateAge(int year, int month, int day) {
-        Calendar dob = Calendar.getInstance();
-        dob.set(year, month, day);
-
-        Calendar today = Calendar.getInstance();
-
-        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
-        if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH) ||
-                (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH) &&
-                        today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH))) {
-            age--;
-        }
-
-        ageInput.setText(String.valueOf(age));
-    }
-
-    private void generateCurrentAddress() {
-        String street = streetInput.getText().toString().trim();
-        String barangay = barangaySpinner.getText().toString().trim();
-        String city = citySpinner.getText().toString().trim();
-        String region = regionSpinner.getText().toString().trim();
-
-        if (!street.isEmpty() && !barangay.isEmpty() && !city.isEmpty() && !region.isEmpty()) {
-            String fullAddress = street + ", " + barangay + ", " + city + ", " + region;
-            currentAddressInput.setText(fullAddress);
-        }
-    }
-
     private boolean validateCurrentStep() {
         switch (currentStep) {
             case 1: // Personal Information
@@ -263,51 +227,44 @@ public class PreEmpActivity extends AppCompatActivity {
                 return true;
         }
     }
-
     private boolean validatePersonalInfo() {
         boolean isValid = true;
 
-        if (firstNameInput.getText().toString().trim().isEmpty()) {
-            firstNameLayout.setError("First name is required");
-            isValid = false;
-        } else {
-            firstNameLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                firstNameInput.getText().toString(),
+                firstNameLayout,
+                "First name is required"
+        );
 
-        if (middleNameInput.getText().toString().trim().isEmpty()) {
-            middleNameLayout.setError("Middle initial is required");
-            isValid = false;
-        } else {
-            middleNameLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                middleNameInput.getText().toString(),
+                middleNameLayout,
+                "Middle initial is required"
+        );
 
-        if (lastNameInput.getText().toString().trim().isEmpty()) {
-            lastNameLayout.setError("Last name is required");
-            isValid = false;
-        } else {
-            lastNameLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                lastNameInput.getText().toString(),
+                lastNameLayout,
+                "Last name is required"
+        );
 
-        if (dobInput.getText().toString().trim().isEmpty()) {
-            dobLayout.setError("Date of birth is required");
-            isValid = false;
-        } else {
-            dobLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                dobInput.getText().toString(),
+                dobLayout,
+                "Date of birth is required"
+        );
 
-        if (genderSpinner.getText().toString().trim().isEmpty()) {
-            genderLayout.setError("Gender is required");
-            isValid = false;
-        } else {
-            genderLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                genderSpinner.getText().toString(),
+                genderLayout,
+                "Gender is required"
+        );
 
-        if (civilStatusSpinner.getText().toString().trim().isEmpty()) {
-            civilStatusLayout.setError("Civil status is required");
-            isValid = false;
-        } else {
-            civilStatusLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                civilStatusSpinner.getText().toString(),
+                civilStatusLayout,
+                "Civil status is required"
+        );
 
         if (!isValid) {
             Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
@@ -315,58 +272,50 @@ public class PreEmpActivity extends AppCompatActivity {
 
         return isValid;
     }
-
     private boolean validateContactInfo() {
         boolean isValid = true;
 
-        if (phoneInput.getText().toString().trim().isEmpty()) {
-            phoneLayout.setError("Phone number is required");
-            isValid = false;
-        } else {
-            phoneLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                phoneInput.getText().toString(),
+                phoneLayout,
+                "Phone number is required"
+        );
 
-        if (otherPhoneInput.getText().toString().trim().isEmpty()) {
-            otherPhoneLayout.setError("Other contact is required");
-            isValid = false;
-        } else {
-            otherPhoneLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                otherPhoneInput.getText().toString(),
+                otherPhoneLayout,
+                "Other contact is required"
+        );
 
-        if (regionSpinner.getText().toString().trim().isEmpty()) {
-            regionLayout.setError("Region is required");
-            isValid = false;
-        } else {
-            regionLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                regionSpinner.getText().toString(),
+                regionLayout,
+                "Region is required"
+        );
 
-        if (citySpinner.getText().toString().trim().isEmpty()) {
-            cityLayout.setError("City/Municipality is required");
-            isValid = false;
-        } else {
-            cityLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                citySpinner.getText().toString(),
+                cityLayout,
+                "City/Municipality is required"
+        );
 
-        if (barangaySpinner.getText().toString().trim().isEmpty()) {
-            barangayLayout.setError("Barangay is required");
-            isValid = false;
-        } else {
-            barangayLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                barangaySpinner.getText().toString(),
+                barangayLayout,
+                "Barangay is required"
+        );
 
-        if (streetInput.getText().toString().trim().isEmpty()) {
-            streetLayout.setError("Street address is required");
-            isValid = false;
-        } else {
-            streetLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                streetInput.getText().toString(),
+                streetLayout,
+                "Street address is required"
+        );
 
-        if (permanentAddressInput.getText().toString().trim().isEmpty()) {
-            permanentAddressLayout.setError("Permanent address is required");
-            isValid = false;
-        } else {
-            permanentAddressLayout.setError(null);
-        }
+        isValid &= InputValidator.isValid(
+                permanentAddressInput.getText().toString(),
+                permanentAddressLayout,
+                "Permanent address is required"
+        );
 
         if (!isValid) {
             Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
@@ -374,7 +323,6 @@ public class PreEmpActivity extends AppCompatActivity {
 
         return isValid;
     }
-
     private void changeStep(int direction) {
         currentStep += direction;
         currentStep = Math.max(1, Math.min(totalSteps, currentStep));
@@ -385,7 +333,6 @@ public class PreEmpActivity extends AppCompatActivity {
         // This is a simplified version - you'll need to implement ViewPager or similar
         Toast.makeText(this, "Step " + currentStep + " of " + totalSteps, Toast.LENGTH_SHORT).show();
     }
-
     private void updateButtonsVisibility() {
         btnPrevious.setVisibility(currentStep == 1 ? View.GONE : View.VISIBLE);
 
@@ -397,7 +344,6 @@ public class PreEmpActivity extends AppCompatActivity {
             btnSubmit.setVisibility(View.GONE);
         }
     }
-
     private void submitForm() {
         // Validate all steps before submission
         if (!validatePersonalInfo() || !validateContactInfo()) {

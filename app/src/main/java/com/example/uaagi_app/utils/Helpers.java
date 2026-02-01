@@ -7,11 +7,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.uaagi_app.R;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Calendar;
+import java.util.Objects;
 
 public class Helpers {
 
@@ -87,5 +91,31 @@ public class Helpers {
                     (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }, 200);
+    }
+    public static String calculateAge(int year, int month, int day) {
+        Calendar dob = Calendar.getInstance();
+        dob.set(year, month, day);
+
+        Calendar today = Calendar.getInstance();
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH) ||
+                (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH) &&
+                        today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH))) {
+            age--;
+        }
+        return String.valueOf(age);
+    }
+    public static void generateCurrentAddress(TextInputEditText streetInput, AutoCompleteTextView barangaySpinner, AutoCompleteTextView citySpinner, AutoCompleteTextView regionSpinner, TextInputEditText currentAddressInput) {
+        String street = Objects.requireNonNull(streetInput.getText()).toString().trim();
+        String barangay = Objects.requireNonNull(barangaySpinner.getText()).toString().trim();
+        String city = Objects.requireNonNull(citySpinner.getText()).toString().trim();
+        String region = Objects.requireNonNull(regionSpinner.getText()).toString().trim();
+
+        if (!street.isEmpty() && !barangay.isEmpty() && !city.isEmpty() && !region.isEmpty()) {
+            String fullAddress = street + ", " + barangay + ", " + city + ", " + region;
+            currentAddressInput.setText(fullAddress);
+        }
     }
 }

@@ -32,6 +32,7 @@ import com.example.uaagi_app.network.api.LoginAuth;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -152,7 +153,7 @@ public class Login extends AppCompatActivity {
         String email = Email.getText().toString().trim();
 
         if (email.isEmpty()) {
-            showToast("Email not found. Please go back and enter your email.");
+            UiHelpers.showToast("Email not found. Please go back and enter your email.", Login.this);
             return;
         }
 
@@ -162,7 +163,7 @@ public class Login extends AppCompatActivity {
         Helpers.resetOtpFieldsColor(otpInputs);
 
         // Request new OTP
-        showToast("Resending OTP...");
+        UiHelpers.showToast("Resending OTP...", Login.this);
         requestOtpFromServer(email);
     }
 
@@ -252,7 +253,7 @@ public class Login extends AppCompatActivity {
                             Log.d(TAG, "OTP verification successful");
                             Helpers.hideOtpError(otpErrorText);
                             Helpers.resetOtpFieldsColor(otpInputs);
-                            showToast(message);
+                            UiHelpers.showToast(message, Login.this);
                             // Navigate to next screen or perform success action
                              Intent intent = new Intent(Login.this, PreEmpActivity.class);
                              startActivity(intent);
@@ -314,7 +315,6 @@ public class Login extends AppCompatActivity {
 
             LoginRequest loginRequest = new LoginRequest(this);
             loginRequest.requestLoginOtp(email, new LoginRequest.LoginCallback() {
-
                 @Override
                 public void onResponse(boolean success, JSONObject response) {
                     Log.d(TAG, "OTP response received");
@@ -325,7 +325,7 @@ public class Login extends AppCompatActivity {
                         String message = response.getString("message");
                         Log.d(TAG, "Server message: " + message);
 
-                        showToast(message);
+                        UiHelpers.showToast(message, Login.this);
 
                         if (success) {
                             Log.d(TAG, "OTP request successful, showing OTP section");
@@ -336,25 +336,24 @@ public class Login extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         Log.e(TAG, "JSON parsing error", e);
-                        showToast("Invalid server response");
+                        UiHelpers.showToast("Invalid server response", Login.this);
                     }
                 }
 
                 @Override
                 public void onError(String errorMessage) {
                     Log.e(TAG, "OTP request error: " + errorMessage);
-                    showToast(errorMessage);
+                    UiHelpers.showToast(errorMessage, Login.this);
                 }
             });
 
         } catch (Exception e) {
             Log.e(TAG, "Error requesting OTP", e);
-            showToast("Network error occurred");
+            UiHelpers.showToast("Network error occurred", Login.this);
         }
     }
 
     // ---------------------- backend pang UI ------------------------------
-
     private void showOtpSection() {
         emailSection.setVisibility(View.GONE);
         otpSection.setVisibility(View.VISIBLE);
@@ -376,11 +375,6 @@ public class Login extends AppCompatActivity {
                 .setInterpolator(new DecelerateInterpolator())
                 .start();
     }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
     private void showEmailSection() {
         Log.d(TAG, "Back button clicked");
 
