@@ -52,7 +52,7 @@ public class PreEmpActivity extends AppCompatActivity {
     private Button btnPrevious, btnNext, btnSubmit;
 
     private int currentStep = 1;
-    private final int totalSteps = 7;
+    private final int TOTAL_STEPS = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,39 +122,35 @@ public class PreEmpActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
     }
     private void setupSpinners() {
-        // Gender
-        String[] genders = {"Male", "Female", "Non-binary", "Other", "Prefer not to say"};
-        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, genders);
-        genderSpinner.setAdapter(genderAdapter);
-
-        // Religion
-        String[] religions = {"Roman Catholic", "Christian", "Iglesia ni Cristo", "Evangelical",
-                "Jehovah's Witness", "Seventh-day Adventist", "Islam", "Other", "Prefer not to say"};
-        ArrayAdapter<String> religionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, religions);
-        religionSpinner.setAdapter(religionAdapter);
-
-        // Civil Status
-        String[] civilStatus = {"Single", "Married", "Widowed", "Separated", "Divorced"};
-        ArrayAdapter<String> civilAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, civilStatus);
-        civilStatusSpinner.setAdapter(civilAdapter);
-
-        // Nationality
-        String[] nationalities = {"Filipino", "American", "Chinese", "Japanese", "Korean",
-                "British", "Australian", "Canadian", "Other"};
-        ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, nationalities);
-        nationalitySpinner.setAdapter(nationalityAdapter);
-
-        // Blood Type
-        String[] bloodTypes = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
-        ArrayAdapter<String> bloodAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, bloodTypes);
-        bloodTypeSpinner.setAdapter(bloodAdapter);
-
-        // Region
-        String[] regions = {"NCR", "Region I", "Region II", "Region III", "Region IV-A",
+        String[] genders = {
+                "Male", "Female", "Non-binary", "Other", "Prefer not to say"
+        };
+        UiHelpers.dropDownMaker(genders, genderSpinner, this);
+        String[] religions = {
+                "Roman Catholic", "Christian", "Iglesia ni Cristo", "Evangelical",
+                "Jehovah's Witness", "Seventh-day Adventist", "Islam",
+                "Other", "Prefer not to say"
+        };
+        UiHelpers.dropDownMaker(religions, religionSpinner, this);
+        String[] civilStatus = {
+                "Single", "Married", "Widowed", "Separated", "Divorced"
+        };
+        UiHelpers.dropDownMaker(civilStatus, civilStatusSpinner, this);
+        String[] nationalities = {
+                "Filipino", "American", "Chinese", "Japanese", "Korean",
+                "British", "Australian", "Canadian", "Other"
+        };
+        UiHelpers.dropDownMaker(nationalities, nationalitySpinner, this);
+        String[] bloodTypes = {
+                "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
+        };
+        UiHelpers.dropDownMaker(bloodTypes, bloodTypeSpinner, this);
+        String[] regions = {
+                "NCR", "Region I", "Region II", "Region III", "Region IV-A",
                 "Region IV-B", "Region V", "Region VI", "Region VII", "Region VIII",
-                "Region IX", "Region X", "Region XI", "Region XII", "CAR", "BARMM"};
-        ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, regions);
-        regionSpinner.setAdapter(regionAdapter);
+                "Region IX", "Region X", "Region XI", "Region XII", "CAR", "BARMM"
+        };
+        UiHelpers.dropDownMaker(regions, regionSpinner, this);
     }
     private void setupHintsWithAsterisk() {
         UiHelpers.setRequiredHint(PreEmpActivity.this, firstNameLayout, "First Name");
@@ -325,18 +321,18 @@ public class PreEmpActivity extends AppCompatActivity {
     }
     private void changeStep(int direction) {
         currentStep += direction;
-        currentStep = Math.max(1, Math.min(totalSteps, currentStep));
+        currentStep = Math.max(1, Math.min(TOTAL_STEPS, currentStep));
 
         updateButtonsVisibility();
 
         // Here you would show/hide the appropriate sections
         // This is a simplified version - you'll need to implement ViewPager or similar
-        Toast.makeText(this, "Step " + currentStep + " of " + totalSteps, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Step " + currentStep + " of " + TOTAL_STEPS, Toast.LENGTH_SHORT).show();
     }
     private void updateButtonsVisibility() {
         btnPrevious.setVisibility(currentStep == 1 ? View.GONE : View.VISIBLE);
 
-        if (currentStep == totalSteps) {
+        if (currentStep == TOTAL_STEPS) {
             btnNext.setVisibility(View.GONE);
             btnSubmit.setVisibility(View.VISIBLE);
         } else {

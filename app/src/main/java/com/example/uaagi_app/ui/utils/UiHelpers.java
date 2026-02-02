@@ -5,6 +5,8 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -15,7 +17,7 @@ public class UiHelpers {
     public static void showToast(String message, Context context) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
-    public static void TextInputLayoutSetErr(TextInputLayout layout, String ErrMessage){
+    public static void textInputLayoutSetErr(TextInputLayout layout, String ErrMessage){
         layout.setError(ErrMessage);
     }
     public static void setRequiredHint(Context context, TextInputLayout layout, String text) {
@@ -33,4 +35,12 @@ public class UiHelpers {
 
         layout.setHint(spannable);
     }
+    public static void dropDownMaker(String[] array, AutoCompleteTextView textView, Context context) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, array);
+        dropDownSetter(textView, adapter);
+    }
+    public static void dropDownSetter(AutoCompleteTextView textView, ArrayAdapter<String> adapter) {
+        textView.setAdapter(adapter);
+    }
+
 }

@@ -23,12 +23,12 @@ public class InputValidator {
     }
     public static boolean validateEmailInput(TextInputLayout emailInputLayout, String email) {
         if (isNotEmpty(email)) {
-            UiHelpers.TextInputLayoutSetErr(emailInputLayout, "Please enter your email");
+            UiHelpers.textInputLayoutSetErr(emailInputLayout, "Please enter your email");
             return false;
         }
 
         if (!isValidEmail(email)) {
-            UiHelpers.TextInputLayoutSetErr(emailInputLayout, "Please enter a valid email address");
+            UiHelpers.textInputLayoutSetErr(emailInputLayout, "Please enter a valid email address");
             return false;
         }
 
@@ -39,7 +39,7 @@ public class InputValidator {
 
     public static boolean isValid(String Input, TextInputLayout layout, String ErrMessage){
         if (isNotEmpty(Input)) {
-            UiHelpers.TextInputLayoutSetErr(layout, ErrMessage);
+            UiHelpers.textInputLayoutSetErr(layout, ErrMessage);
             return false;
         } else {
             layout.setError(null);
