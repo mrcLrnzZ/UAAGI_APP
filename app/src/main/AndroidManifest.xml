@@ -16,12 +16,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.users.PreEmpActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".ui.users.Login"
-            android:exported="false"/>
+<!--        <activity-->
+<!--            android:name=".ui.users.PreEmpActivity"-->
+<!--            android:exported="false"/>-->
+<!--        <activity-->
+<!--            android:name=".ui.users.Login"-->
+<!--            android:exported="false"/>-->
         <activity
             android:name=".ui.users.SplashActivity"
             android:exported="true">
