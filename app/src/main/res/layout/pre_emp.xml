@@ -31,7 +31,7 @@
                 android:letterSpacing="0.01"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"/>
-\
+            \
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,29 +62,29 @@
                         android:paddingStart="50dp"
                         android:paddingEnd="50dp">
 
-<!--                        <View-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="2dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:background="#80FFFFFF"/>-->
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
 
-<!--                        <View-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="2dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:background="#80FFFFFF"/>-->
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
 
-<!--                        <View-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="2dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:background="#80FFFFFF"/>-->
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
 
-<!--                        <View-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="2dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:background="#80FFFFFF"/>-->
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
                     </LinearLayout>
 
                     <!-- Steps -->
@@ -343,9 +343,9 @@
                         android:id="@+id/middleNameLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:layout_marginEnd="8dp"
-                        android:hint="Middle Initial *"
+                        android:hint="Middle Name *"
                         app:hintTextColor="#757575"
                         app:boxStrokeColor="#004B87"
                         app:boxStrokeWidth="2dp"
@@ -357,7 +357,6 @@
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:textColor="#1A1A1A"
-                            android:maxLength="2"
                             android:paddingTop="14dp"
                             android:paddingBottom="14dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -403,9 +402,6 @@
                         app:hintTextColor="#757575"
                         app:boxStrokeColor="#004B87"
                         app:boxStrokeWidth="2dp"
-                        app:endIconMode="custom"
-                        app:endIconDrawable="@android:drawable/ic_menu_my_calendar"
-                        app:endIconTint="#004B87"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -980,7 +976,6 @@
 
         </LinearLayout>
 
-        <!-- Bottom Spacing -->
         <View
             android:layout_width="match_parent"
             android:layout_height="32dp"/>
