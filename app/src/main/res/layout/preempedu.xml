@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#002F62"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="24dp"
+            android:elevation="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pre-Employment Application"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.01"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please fill out all required fields"
+                android:textColor="#E3F2FD"
+                android:textSize="14sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Connector lines  -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="50dp"
+                        android:paddingEnd="50dp">
+
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
+
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
+
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
+
+                        <!--                        <View-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="2dp"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:background="#80FFFFFF"/>-->
+                    </LinearLayout>
+
+                    <!-- Steps -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                        <!-- Step 1 - Completed -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp">
+
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="1"
+                                android:textColor="#FFFFFF"
+                                android:background="@drawable/circle_background_done"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="16sp"
+                                android:elevation="2dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Personal and \nContact"
+                                android:textColor="#E3F2FD"
+                                android:textSize="10sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:maxLines="3"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
+
+                        <!--Active -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp">
+
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="2"
+                                android:textColor="#004B87"
+                                android:background="@drawable/circle_white"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-black"
+                                android:textSize="18sp"
+                                android:elevation="2dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Education"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
+
+                        <!-- Step 3 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp">
+
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="3"
+                                android:textColor="#FFFFFF"
+                                android:background="@drawable/circle_outline"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="16sp"
+                                android:elevation="2dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Work\nExperience"
+                                android:textColor="#E3F2FD"
+                                android:textSize="10sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
+
+                        <!-- Step 4 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp">
+
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="4"
+                                android:textColor="#FFFFFF"
+                                android:background="@drawable/circle_outline"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="16sp"
+                                android:elevation="2dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Skills"
+                                android:textColor="#E3F2FD"
+                                android:textSize="10sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
+
+                        <!-- Step 5 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp">
+
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="5"
+                                android:textColor="#FFFFFF"
+                                android:background="@drawable/circle_outline"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="16sp"
+                                android:elevation="2dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Additional \n Information"
+                                android:textColor="#E3F2FD"
+                                android:textSize="10sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
+
+                        <!-- Step 6-->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:paddingStart="2dp"
+                            android:paddingEnd="2dp">
+
+                            <TextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:text="6"
+                                android:textColor="#FFFFFF"
+                                android:background="@drawable/circle_outline"
+                                android:gravity="center"
+                                android:fontFamily="sans-serif-medium"
+                                android:textSize="16sp"
+                                android:elevation="2dp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Preview"
+                                android:textColor="#E3F2FD"
+                                android:textSize="10sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:ellipsize="end"/>
+
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Educational Background  -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:elevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Section  -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="24dp">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="24dp"
+                        android:background="#004B87"
+                        android:layout_marginEnd="12dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Educational Background"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="#1A1A1A"/>
+
+                    <Button
+                        android:id="@+id/btnAddEducation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="+ Add Education"
+                        android:backgroundTint="#004B87"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="13sp"
+                        android:paddingHorizontal="16dp"
+                        app:cornerRadius="6dp"
+                        android:elevation="0dp"/>
+                </LinearLayout>
+
+                <!-- Education Entries Container -->
+                <LinearLayout
+                    android:id="@+id/educationEntriesContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- First Education Entry -->
+                    <LinearLayout
+                        android:id="@+id/educationEntry1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:background="@drawable/education_entry_background"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Education"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1A1A1A"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/educationLevel1Layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:hint="Education Level *"
+                            app:hintTextColor="#757575"
+                            app:boxStrokeColor="#004B87"
+                            app:boxStrokeWidth="2dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/educationLevel1Spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:textSize="15sp"
+                                android:textColor="#1A1A1A"
+                                android:paddingTop="14dp"
+                                android:paddingBottom="14dp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/schoolName1Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginEnd="8dp"
+                                android:hint="School Name *"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/schoolName1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/yearGraduated1Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:hint="Year Graduated *"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:placeholderText="YYYY"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/yearGraduated1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:maxLength="4"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/courseAchievements1Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginEnd="8dp"
+                                android:hint="Course/Degree &amp; Achievements"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/courseAchievements1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/status1Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:hint="Status"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/status1Spinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="none"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Second Education Entry -->
+                    <LinearLayout
+                        android:id="@+id/educationEntry2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:background="@drawable/education_entry_background"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Education"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1A1A1A"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/educationLevel2Layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:hint="Education Level *"
+                            app:hintTextColor="#757575"
+                            app:boxStrokeColor="#004B87"
+                            app:boxStrokeWidth="2dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/educationLevel2Spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:textSize="15sp"
+                                android:textColor="#1A1A1A"
+                                android:paddingTop="14dp"
+                                android:paddingBottom="14dp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/schoolName2Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginEnd="8dp"
+                                android:hint="School Name *"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/schoolName2Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/yearGraduated2Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:hint="Year Graduated *"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:placeholderText="YYYY"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/yearGraduated2Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:maxLength="4"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/courseAchievements2Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginEnd="8dp"
+                                android:hint="Course/Degree &amp; Achievements"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/courseAchievements2Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/status2Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:hint="Status"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/status2Spinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="none"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Third Education Entry -->
+                    <LinearLayout
+                        android:id="@+id/educationEntry3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:background="@drawable/education_entry_background"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Education"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1A1A1A"
+                            android:layout_marginBottom="16dp"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/educationLevel3Layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:hint="Education Level *"
+                            app:hintTextColor="#757575"
+                            app:boxStrokeColor="#004B87"
+                            app:boxStrokeWidth="2dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/educationLevel3Spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:textSize="15sp"
+                                android:textColor="#1A1A1A"
+                                android:paddingTop="14dp"
+                                android:paddingBottom="14dp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/schoolName3Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginEnd="8dp"
+                                android:hint="School Name *"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/schoolName3Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/yearGraduated3Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:hint="Year Graduated *"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:placeholderText="YYYY"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/yearGraduated3Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:maxLength="4"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/courseAchievements3Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:layout_marginEnd="8dp"
+                                android:hint="Course/Degree &amp; Achievements"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/courseAchievements3Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/status3Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:hint="Status"
+                                app:hintTextColor="#757575"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/status3Spinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="none"
+                                    android:textSize="15sp"
+                                    android:textColor="#1A1A1A"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Navigation Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btnPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:text="Previous"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#004B87"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginEnd="12dp"
+                android:paddingHorizontal="24dp"
+                app:strokeColor="#004B87"
+                app:strokeWidth="2dp"
+                app:cornerRadius="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:text="Next Step"
+                android:backgroundTint="#004B87"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
+                android:paddingHorizontal="32dp"
+                app:cornerRadius="8dp"
+                android:elevation="2dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp"/>
+
+    </LinearLayout>
+</ScrollView>
