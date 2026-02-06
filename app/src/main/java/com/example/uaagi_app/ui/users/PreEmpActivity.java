@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
-import com.example.uaagi_app.MainActivity;
+import com.example.uaagi_app.ui.users.HomePage;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.utils.InputValidator;
 
@@ -151,6 +151,19 @@ public class PreEmpActivity extends AppCompatActivity {
                 "Region IX", "Region X", "Region XI", "Region XII", "CAR", "BARMM"
         };
         UiHelpers.dropDownMaker(regions, regionSpinner, this);
+        String[] cities = {
+                "Manila", "Quezon City", "Caloocan", "Makati",
+                "Pasig", "Taguig", "Mandaluyong",
+                "Marikina", "Parañaque", "Las Piñas"
+        };
+        UiHelpers.dropDownMaker(cities, citySpinner, this);
+        String[] barangay = {
+                "Bagong Pag-asa", "Batasan Hills", "Commonwealth", "Diliman",
+                "Fairview", "Holy Spirit", "Novaliches", "Payatas",
+                "Project 6", "Tandang Sora"
+        };
+
+        UiHelpers.dropDownMaker(barangay, barangaySpinner, this);
     }
     private void setupHintsWithAsterisk() {
         UiHelpers.setRequiredHint(PreEmpActivity.this, firstNameLayout, "First Name");
@@ -158,10 +171,8 @@ public class PreEmpActivity extends AppCompatActivity {
         UiHelpers.setRequiredHint(PreEmpActivity.this, lastNameLayout, "Last Name");
     }
     private void setupListeners() {
-        // Date of Birth picker
         dobInput.setOnClickListener(v -> showDatePicker());
 
-        // Navigation buttons
         btnNext.setOnClickListener(v -> {
             if (validateCurrentStep()) {
                 changeStep(1);
@@ -172,7 +183,6 @@ public class PreEmpActivity extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(v -> submitForm());
 
-        // Auto-generate current address
         regionSpinner.setOnItemClickListener((parent, view, position, id) ->
                 Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
                 );
@@ -351,7 +361,7 @@ public class PreEmpActivity extends AppCompatActivity {
         Toast.makeText(this, "Form submitted successfully!", Toast.LENGTH_LONG).show();
 
         // Navigate to MainActivity
-        Intent intent = new Intent(PreEmpActivity.this, MainActivity.class);
+        Intent intent = new Intent(PreEmpActivity.this, HomePage.class);
 
         // Optional: Pass data to MainActivity
         intent.putExtra("firstName", firstNameInput.getText().toString());

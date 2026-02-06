@@ -1,12 +1,20 @@
 package com.example.uaagi_app.network.dto;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.example.uaagi_app.network.VolleySingleton;
+import com.example.uaagi_app.network.api.LoginAuth;
+import com.example.uaagi_app.ui.users.Login;
+import com.example.uaagi_app.ui.users.PreEmpActivity;
+import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +30,6 @@ public class LoginRequest {
     public LoginRequest(Context context) {
         this.context = context;
     }
-
     public void requestLoginOtp(String email, LoginCallback callback) {
         StringRequest request = new StringRequest(Request.Method.POST, SEND_OTP_URL,
                 response -> {

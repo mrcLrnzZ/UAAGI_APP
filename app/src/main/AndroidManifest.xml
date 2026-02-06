@@ -14,14 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UAAGI_APP">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.users.HomePage"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ui.users.PreEmpActivity"-->
-<!--            android:exported="false"/>-->
-<!--        <activity-->
-<!--            android:name=".ui.users.Login"-->
-<!--            android:exported="false"/>-->
+        <activity
+            android:name=".ui.users.PreEmpActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.users.Login"
+            android:exported="false"/>
         <activity
             android:name=".ui.users.SplashActivity"
             android:exported="true">
