@@ -1,6 +1,7 @@
 package com.example.uaagi_app.ui.users;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +12,10 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.text.TextWatcher;
 import android.text.Editable;
-import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ClickableSpan;
@@ -32,9 +30,9 @@ import com.example.uaagi_app.network.api.LoginAuth;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.activity.OnBackPressedCallback;
 
@@ -50,7 +48,7 @@ public class Login extends AppCompatActivity {
     private LinearLayout emailSection;
     private LinearLayout otpSection;
     private MaterialButton loginBtn, backBtn, btnVerifyOTP;
-    private EditText Email, otpInput1, otpInput2, otpInput3, otpInput4, otpInput5, otpInput6;
+    private EditText Email;
     private EditText[] otpInputs;
     private TextView otpErrorText;
     private TextView resendOtpText;
@@ -80,29 +78,26 @@ public class Login extends AppCompatActivity {
         resendOtpText = findViewById(R.id.titemahabamasarapREAL);
 
         Email = findViewById(R.id.btnemail);
-        otpInput1 = findViewById(R.id.otpInput1);
-        otpInput2 = findViewById(R.id.otpInput2);
-        otpInput3 = findViewById(R.id.otpInput3);
-        otpInput4 = findViewById(R.id.otpInput4);
-        otpInput5 = findViewById(R.id.otpInput5);
-        otpInput6 = findViewById(R.id.otpInput6);
+        EditText otpInput1 = findViewById(R.id.otpInput1);
+        EditText otpInput2 = findViewById(R.id.otpInput2);
+        EditText otpInput3 = findViewById(R.id.otpInput3);
+        EditText otpInput4 = findViewById(R.id.otpInput4);
+        EditText otpInput5 = findViewById(R.id.otpInput5);
+        EditText otpInput6 = findViewById(R.id.otpInput6);
 
         otpInputs = new EditText[]{otpInput1, otpInput2, otpInput3, otpInput4, otpInput5, otpInput6};
 
         setupOtpInputs();
     }
-
     private void setupStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#002F62"));
         }
     }
-
     private void setupAnimations() {
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         loginCard.startAnimation(slideUp);
     }
-
     private void setupClickListeners() {
         loginBtn.setOnClickListener(v -> handleLoginButtonClick());
 
@@ -113,7 +108,6 @@ public class Login extends AppCompatActivity {
             btnVerifyOTP.setOnClickListener(v -> verifyOtp());
         }
     }
-
     private void setupResendOtp() {
         String fullText = "Didn't receive OTP? Resend OTP";
         SpannableString spannableString = new SpannableString(fullText);
@@ -146,13 +140,11 @@ public class Login extends AppCompatActivity {
         resendOtpText.setMovementMethod(LinkMovementMethod.getInstance());
         resendOtpText.setHighlightColor(Color.TRANSPARENT); // Remove highlight on click
     }
-
-    // Handle resend OTP
     private void handleResendOtp() {
         String email = Email.getText().toString().trim();
 
         if (email.isEmpty()) {
-            showToast("Email not found. Please go back and enter your email.");
+            UiHelpers.showToast("Email not found. Please go back and enter your email.", Login.this);
             return;
         }
 
@@ -162,10 +154,9 @@ public class Login extends AppCompatActivity {
         Helpers.resetOtpFieldsColor(otpInputs);
 
         // Request new OTP
-        showToast("Resending OTP...");
+        UiHelpers.showToast("Resending OTP...", Login.this);
         requestOtpFromServer(email);
     }
-
     private void setupOtpInputs() {
         for (int i = 0; i < otpInputs.length; i++) {
             final int index = i;
@@ -210,7 +201,6 @@ public class Login extends AppCompatActivity {
             });
         }
     }
-
     private void verifyOtp() {
         StringBuilder otpBuilder = new StringBuilder();
         String email = Email.getText().toString().trim();
@@ -230,7 +220,6 @@ public class Login extends AppCompatActivity {
 
         verifyLoginFromServer(otp, email);
     }
-
     private void verifyLoginFromServer(String otp, String email) {
         try {
             LoginAuth loginauth = new LoginAuth(this);
@@ -252,11 +241,18 @@ public class Login extends AppCompatActivity {
                             Log.d(TAG, "OTP verification successful");
                             Helpers.hideOtpError(otpErrorText);
                             Helpers.resetOtpFieldsColor(otpInputs);
-                            showToast(message);
+                            UiHelpers.showToast(message, Login.this);
                             // Navigate to next screen or perform success action
-                             Intent intent = new Intent(Login.this, PreEmpActivity.class);
-                             startActivity(intent);
-                             finish();
+                            boolean hasForm = response.getBoolean("formExist");
+
+/*                            if (!hasForm) {*/
+                                 Helpers.saveLoginState(Login.this);
+                                 startActivity(new Intent(Login.this, PreEmpActivity.class));
+//                            } else {
+//                                Helpers.saveLoginState(Login.this);
+//                                startActivity(new Intent(Login.this, HomePage.class));
+//                            }
+                            finish();
                         } else {
                             Log.d(TAG, "OTP verification failed");
                             Helpers.showOtpError(otpErrorText, message);
@@ -297,16 +293,6 @@ public class Login extends AppCompatActivity {
             Helpers.showOtpFieldError(Login.this, otpInputs);
         }
     }
-
-    private void handleLoginButtonClick() {
-        String emailInput = Email.getText().toString().trim();
-        if (!InputValidator.validateEmailInput(
-                findViewById(R.id.emailInputLayout),
-                emailInput
-        )) return;
-        requestOtpFromServer(emailInput);
-    }
-
     private void requestOtpFromServer(String email) {
         try {
             Log.d(TAG, "requestOtpFromServer() called");
@@ -314,7 +300,6 @@ public class Login extends AppCompatActivity {
 
             LoginRequest loginRequest = new LoginRequest(this);
             loginRequest.requestLoginOtp(email, new LoginRequest.LoginCallback() {
-
                 @Override
                 public void onResponse(boolean success, JSONObject response) {
                     Log.d(TAG, "OTP response received");
@@ -325,7 +310,7 @@ public class Login extends AppCompatActivity {
                         String message = response.getString("message");
                         Log.d(TAG, "Server message: " + message);
 
-                        showToast(message);
+                        UiHelpers.showToast(message, Login.this);
 
                         if (success) {
                             Log.d(TAG, "OTP request successful, showing OTP section");
@@ -336,25 +321,23 @@ public class Login extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         Log.e(TAG, "JSON parsing error", e);
-                        showToast("Invalid server response");
+                        UiHelpers.showToast("Invalid server response", Login.this);
                     }
                 }
 
                 @Override
                 public void onError(String errorMessage) {
                     Log.e(TAG, "OTP request error: " + errorMessage);
-                    showToast(errorMessage);
+                    UiHelpers.showToast(errorMessage, Login.this);
                 }
             });
 
         } catch (Exception e) {
             Log.e(TAG, "Error requesting OTP", e);
-            showToast("Network error occurred");
+            UiHelpers.showToast("Network error occurred", Login.this);
         }
     }
-
     // ---------------------- backend pang UI ------------------------------
-
     private void showOtpSection() {
         emailSection.setVisibility(View.GONE);
         otpSection.setVisibility(View.VISIBLE);
@@ -376,11 +359,6 @@ public class Login extends AppCompatActivity {
                 .setInterpolator(new DecelerateInterpolator())
                 .start();
     }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
     private void showEmailSection() {
         Log.d(TAG, "Back button clicked");
 
@@ -404,7 +382,6 @@ public class Login extends AppCompatActivity {
         Helpers.resetOtpFieldsColor(otpInputs);
         Helpers.hideOtpError(otpErrorText);
     }
-
     private void setupBackHandler() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -420,7 +397,14 @@ public class Login extends AppCompatActivity {
 
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
-
+    private void handleLoginButtonClick() {
+        String emailInput = Email.getText().toString().trim();
+        if (!InputValidator.validateEmailInput(
+                findViewById(R.id.emailInputLayout),
+                emailInput
+        )) return;
+        requestOtpFromServer(emailInput);
+    }
     @Override protected void onStart() { super.onStart(); Log.d(TAG, "onStart"); }
     @Override protected void onResume() { super.onResume(); Log.d(TAG, "onResume"); }
     @Override protected void onPause() { super.onPause(); Log.d(TAG, "onPause"); }

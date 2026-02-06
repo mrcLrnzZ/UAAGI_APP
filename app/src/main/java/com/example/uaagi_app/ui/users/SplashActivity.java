@@ -8,8 +8,8 @@ import android.util.Log;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.uaagi_app.MainActivity;
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.utils.Helpers;
 
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashScreenLifecycle";
@@ -22,14 +22,15 @@ public class SplashActivity extends AppCompatActivity {
         Log.d(TAG, "SplashAct onCreate()");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
-
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+        runnable = () -> {
+            Intent intent;
+            if (Helpers.isLoggedIn(SplashActivity.this)){
+                 intent = new Intent(SplashActivity.this, HomePage.class);
+            }else{
+                 intent = new Intent(SplashActivity.this, Login.class);
             }
+            startActivity(intent);
+            finish();
         };
         handler.postDelayed(runnable, 6000);
     }

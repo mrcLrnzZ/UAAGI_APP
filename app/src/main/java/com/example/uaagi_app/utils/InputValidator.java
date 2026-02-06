@@ -2,6 +2,7 @@ package com.example.uaagi_app.utils;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import com.example.uaagi_app.ui.utils.UiHelpers;
 public class InputValidator {
 
     public static boolean isNotEmpty(String input) {
@@ -9,9 +10,8 @@ public class InputValidator {
     }
 
     public static boolean isValidEmail(String email) {
-        return email != null && email.matches("[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
+        return email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
     public static boolean isNumber(String input) {
         if (input == null) return false;
         try {
@@ -21,21 +21,28 @@ public class InputValidator {
             return false;
         }
     }
-
     public static boolean validateEmailInput(TextInputLayout emailInputLayout, String email) {
-        if (email.isEmpty()) {
-            emailInputLayout.setError("Please enter your email");
+        if (!isNotEmpty(email)) {
+            UiHelpers.textInputLayoutSetErr(emailInputLayout, "Please enter your email");
             return false;
         }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailInputLayout.setError("Please enter a valid email address");
+        if (!isValidEmail(email)) {
+            UiHelpers.textInputLayoutSetErr(emailInputLayout, "Please enter a valid email address");
             return false;
         }
-
         emailInputLayout.setError(null);
         emailInputLayout.setErrorEnabled(false);
         return true;
+    }
+
+    public static boolean isValid(String Input, TextInputLayout layout, String ErrMessage){
+        if (!isNotEmpty(Input)) {
+            UiHelpers.textInputLayoutSetErr(layout, ErrMessage);
+            return false;
+        } else {
+            layout.setError(null);
+            return true;
+        }
     }
 }
 
