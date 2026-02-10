@@ -14,50 +14,22 @@
         android:layout_marginTop="-70dp"
         android:layout_marginEnd="-250dp"
         android:background="@drawable/circle_background" />
-<!--    <View-->
-<!--        android:layout_width="350dp"-->
-<!--        android:layout_height="380dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_marginStart="-175dp"-->
-<!--        android:layout_marginBottom="-190dp"-->
-<!--        android:background="@drawable/circle_background" />-->
 
-    <!-- Top Bar-->
-    <LinearLayout
+
+
+    <include
         android:id="@+id/top_bar"
+        layout="@layout/header"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/darkblue"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:elevation="4dp">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/onehirelogo_darkmode" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/baseline_circle_notifications_24" />
-    </LinearLayout>
-
-    <!-- ScrollView (Below Top Bar) -->
+    <!-- ScrollView  -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top_bar"
-        android:layout_above="@+id/bottom_navigation">
+      >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,6 +126,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/firstjob"
                     android:layout_marginBottom="16dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="3dp"
@@ -189,7 +162,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="TechNova Solutions Inc."
+                                    android:text="Foton Philippines"
                                     android:textColor="#666666"
                                     android:textSize="14sp"
                                     android:layout_marginBottom="4dp" />
@@ -332,7 +305,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="DataCore Systems"
+                                    android:text="Cherry Auto Philippines"
                                     android:textColor="#666666"
                                     android:textSize="14sp"
                                     android:layout_marginBottom="4dp" />
@@ -474,7 +447,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="CloudServe BPO"
+                                    android:text="BAIC Philippines"
                                     android:textColor="#666666"
                                     android:textSize="14sp"
                                     android:layout_marginBottom="4dp" />
@@ -554,106 +527,11 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/bottom_navigation"
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_nav_background"
-        android:orientation="horizontal"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:elevation="8dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_home_24" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:textColor="#FFFF"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_bookmark_24"
-                android:tint="@color/white"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Applied Jobs"
-                android:textColor="#FFFF"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/search"
-                android:tint="@color/white"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Careers"
-                android:textColor="#ffff"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_account_circle_24"
-                app:tint="@color/white"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile"
-                android:textColor="#ffff"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
-    </LinearLayout>
+        android:id="@+id/bottom_navigation"
+        layout="@layout/bottomnavbar"
+        />
 </RelativeLayout>
