@@ -165,7 +165,7 @@ public class PreEmpActivity extends AppCompatActivity {
 
         UiHelpers.dropDownMaker(barangay, barangaySpinner, this);
     }
-    private void setupHintsWithAsterisk() {
+    private void setupHintsWithAsterisk()  {
         UiHelpers.setRequiredHint(PreEmpActivity.this, firstNameLayout, "First Name");
         UiHelpers.setRequiredHint(PreEmpActivity.this, middleNameLayout, "Middle Initial");
         UiHelpers.setRequiredHint(PreEmpActivity.this, lastNameLayout, "Last Name");
