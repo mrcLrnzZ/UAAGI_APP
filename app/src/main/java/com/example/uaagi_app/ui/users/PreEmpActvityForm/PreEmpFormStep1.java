@@ -1,36 +1,34 @@
-package com.example.uaagi_app.ui.users;
-
-
+package com.example.uaagi_app.ui.users.PreEmpActvityForm;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
-import com.example.uaagi_app.ui.users.HomePage;
-import com.example.uaagi_app.R;
 import com.example.uaagi_app.utils.InputValidator;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
-public class PreEmpActivity extends AppCompatActivity {
-    private static final String TAG = "PreEmpActLifecycle";
+public class PreEmpFormStep1 extends Fragment {
+
+    private PreEmpFormViewModel viewModel;
+    private static final String TAG = "PreEmpStep1Lifecycle";
     // UI Components
     private TextInputLayout firstNameLayout, middleNameLayout, lastNameLayout;
     private TextInputLayout dobLayout, ageLayout, genderLayout, religionLayout;
@@ -52,146 +50,151 @@ public class PreEmpActivity extends AppCompatActivity {
     private Button btnPrevious, btnNext, btnSubmit;
 
     private int currentStep = 1;
-    private final int TOTAL_STEPS = 7;
+    private final int TOTAL_STEPS = 6;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "PreEmpAct onCreate()");
-        setContentView(R.layout.pre_emp);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_preemp_step_1, container, false);
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity())
+                .get(PreEmpFormViewModel.class);
 
-        initializeViews();
+        firstNameInput = view.findViewById(R.id.firstNameInput);
+        lastNameInput = view.findViewById(R.id.lastNameInput);
+        initializeViews(view);
         setupSpinners();
-        setupHintsWithAsterisk();
+        //setupHintsWithAsterisk();
         setupListeners();
     }
-    private void initializeViews() {
+    public void next() {
+        viewModel.update(form -> {
+            form.setFirstName(firstNameInput.getText().toString());
+            form.setLastName(lastNameInput.getText().toString());
+        });
+        ((PreEmpStepperActivity) requireActivity()).nextStep(new PreEmpFormStep2());
+    }
+    private void initializeViews(View view) {
         // Personal Information
-        firstNameLayout = findViewById(R.id.firstNameLayout);
-        middleNameLayout = findViewById(R.id.middleNameLayout);
-        lastNameLayout = findViewById(R.id.lastNameLayout);
-        dobLayout = findViewById(R.id.dobLayout);
-        ageLayout = findViewById(R.id.ageLayout);
-        genderLayout = findViewById(R.id.genderLayout);
-        religionLayout = findViewById(R.id.religionLayout);
-        civilStatusLayout = findViewById(R.id.civilStatusLayout);
-        nationalityLayout = findViewById(R.id.nationalityLayout);
-        heightLayout = findViewById(R.id.heightLayout);
-        weightLayout = findViewById(R.id.weightLayout);
-        bloodTypeLayout = findViewById(R.id.bloodTypeLayout);
+        firstNameLayout = view.findViewById(R.id.firstNameLayout);
+        middleNameLayout = view.findViewById(R.id.middleNameLayout);
+        lastNameLayout = view.findViewById(R.id.lastNameLayout);
+        dobLayout = view.findViewById(R.id.dobLayout);
+        ageLayout = view.findViewById(R.id.ageLayout);
+        genderLayout = view.findViewById(R.id.genderLayout);
+        religionLayout = view.findViewById(R.id.religionLayout);
+        civilStatusLayout = view.findViewById(R.id.civilStatusLayout);
+        nationalityLayout = view.findViewById(R.id.nationalityLayout);
+        heightLayout = view.findViewById(R.id.heightLayout);
+        weightLayout = view.findViewById(R.id.weightLayout);
+        bloodTypeLayout = view.findViewById(R.id.bloodTypeLayout);
 
-        firstNameInput = findViewById(R.id.firstNameInput);
-        middleNameInput = findViewById(R.id.middleNameInput);
-        lastNameInput = findViewById(R.id.lastNameInput);
-        dobInput = findViewById(R.id.dobInput);
-        ageInput = findViewById(R.id.ageInput);
-        heightInput = findViewById(R.id.heightInput);
-        weightInput = findViewById(R.id.weightInput);
+        firstNameInput = view.findViewById(R.id.firstNameInput);
+        middleNameInput = view.findViewById(R.id.middleNameInput);
+        lastNameInput = view.findViewById(R.id.lastNameInput);
+        dobInput = view.findViewById(R.id.dobInput);
+        ageInput = view.findViewById(R.id.ageInput);
+        heightInput = view.findViewById(R.id.heightInput);
+        weightInput = view.findViewById(R.id.weightInput);
 
-        genderSpinner = findViewById(R.id.genderSpinner);
-        religionSpinner = findViewById(R.id.religionSpinner);
-        civilStatusSpinner = findViewById(R.id.civilStatusSpinner);
-        nationalitySpinner = findViewById(R.id.nationalitySpinner);
-        bloodTypeSpinner = findViewById(R.id.bloodTypeSpinner);
+        genderSpinner = view.findViewById(R.id.genderSpinner);
+        religionSpinner = view.findViewById(R.id.religionSpinner);
+        civilStatusSpinner = view.findViewById(R.id.civilStatusSpinner);
+        nationalitySpinner = view.findViewById(R.id.nationalitySpinner);
+        bloodTypeSpinner = view.findViewById(R.id.bloodTypeSpinner);
 
         // Contact Information
-        phoneLayout = findViewById(R.id.phoneLayout);
-        otherPhoneLayout = findViewById(R.id.otherPhoneLayout);
-        telephoneLayout = findViewById(R.id.telephoneLayout);
-        regionLayout = findViewById(R.id.regionLayout);
-        cityLayout = findViewById(R.id.cityLayout);
-        barangayLayout = findViewById(R.id.barangayLayout);
-        streetLayout = findViewById(R.id.streetLayout);
-        currentAddressLayout = findViewById(R.id.currentAddressLayout);
-        permanentAddressLayout = findViewById(R.id.permanentAddressLayout);
+        phoneLayout = view.findViewById(R.id.phoneLayout);
+        otherPhoneLayout = view.findViewById(R.id.otherPhoneLayout);
+        telephoneLayout = view.findViewById(R.id.telephoneLayout);
+        regionLayout = view.findViewById(R.id.regionLayout);
+        cityLayout = view.findViewById(R.id.cityLayout);
+        barangayLayout = view.findViewById(R.id.barangayLayout);
+        streetLayout = view.findViewById(R.id.streetLayout);
+        currentAddressLayout = view.findViewById(R.id.currentAddressLayout);
+        permanentAddressLayout = view.findViewById(R.id.permanentAddressLayout);
 
-        phoneInput = findViewById(R.id.phoneInput);
-        otherPhoneInput = findViewById(R.id.otherPhoneInput);
-        telephoneInput = findViewById(R.id.telephoneInput);
-        streetInput = findViewById(R.id.streetInput);
-        currentAddressInput = findViewById(R.id.currentAddressInput);
-        permanentAddressInput = findViewById(R.id.permanentAddressInput);
+        phoneInput = view.findViewById(R.id.phoneInput);
+        otherPhoneInput = view.findViewById(R.id.otherPhoneInput);
+        telephoneInput = view.findViewById(R.id.telephoneInput);
+        streetInput = view.findViewById(R.id.streetInput);
+        currentAddressInput = view.findViewById(R.id.currentAddressInput);
+        permanentAddressInput = view.findViewById(R.id.permanentAddressInput);
 
-        regionSpinner = findViewById(R.id.regionSpinner);
-        citySpinner = findViewById(R.id.citySpinner);
-        barangaySpinner = findViewById(R.id.barangaySpinner);
+        regionSpinner = view.findViewById(R.id.regionSpinner);
+        citySpinner = view.findViewById(R.id.citySpinner);
+        barangaySpinner = view.findViewById(R.id.barangaySpinner);
 
         // Buttons
-        btnPrevious = findViewById(R.id.btnPrevious);
-        btnNext = findViewById(R.id.btnNext);
-        btnSubmit = findViewById(R.id.btnSubmit);
+        btnPrevious = view.findViewById(R.id.btnPrevious);
+        btnNext = view.findViewById(R.id.btnNext);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
     }
     private void setupSpinners() {
         String[] genders = {
                 "Male", "Female", "Non-binary", "Other", "Prefer not to say"
         };
-        UiHelpers.dropDownMaker(genders, genderSpinner, this);
+        UiHelpers.dropDownMaker(genders, genderSpinner, requireContext());
         String[] religions = {
                 "Roman Catholic", "Christian", "Iglesia ni Cristo", "Evangelical",
                 "Jehovah's Witness", "Seventh-day Adventist", "Islam",
                 "Other", "Prefer not to say"
         };
-        UiHelpers.dropDownMaker(religions, religionSpinner, this);
+        UiHelpers.dropDownMaker(religions, religionSpinner, requireContext());
         String[] civilStatus = {
                 "Single", "Married", "Widowed", "Separated", "Divorced"
         };
-        UiHelpers.dropDownMaker(civilStatus, civilStatusSpinner, this);
+        UiHelpers.dropDownMaker(civilStatus, civilStatusSpinner, requireContext());
         String[] nationalities = {
                 "Filipino", "American", "Chinese", "Japanese", "Korean",
                 "British", "Australian", "Canadian", "Other"
         };
-        UiHelpers.dropDownMaker(nationalities, nationalitySpinner, this);
+        UiHelpers.dropDownMaker(nationalities, nationalitySpinner, requireContext());
         String[] bloodTypes = {
                 "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
         };
-        UiHelpers.dropDownMaker(bloodTypes, bloodTypeSpinner, this);
+        UiHelpers.dropDownMaker(bloodTypes, bloodTypeSpinner, requireContext());
         String[] regions = {
                 "NCR", "Region I", "Region II", "Region III", "Region IV-A",
                 "Region IV-B", "Region V", "Region VI", "Region VII", "Region VIII",
                 "Region IX", "Region X", "Region XI", "Region XII", "CAR", "BARMM"
         };
-        UiHelpers.dropDownMaker(regions, regionSpinner, this);
+        UiHelpers.dropDownMaker(regions, regionSpinner, requireContext());
         String[] cities = {
                 "Manila", "Quezon City", "Caloocan", "Makati",
                 "Pasig", "Taguig", "Mandaluyong",
                 "Marikina", "Parañaque", "Las Piñas"
         };
-        UiHelpers.dropDownMaker(cities, citySpinner, this);
+        UiHelpers.dropDownMaker(cities, citySpinner, requireContext());
         String[] barangay = {
                 "Bagong Pag-asa", "Batasan Hills", "Commonwealth", "Diliman",
                 "Fairview", "Holy Spirit", "Novaliches", "Payatas",
                 "Project 6", "Tandang Sora"
         };
 
-        UiHelpers.dropDownMaker(barangay, barangaySpinner, this);
+        UiHelpers.dropDownMaker(barangay, barangaySpinner, requireContext());
     }
     private void setupHintsWithAsterisk()  {
-        UiHelpers.setRequiredHint(PreEmpActivity.this, firstNameLayout, "First Name");
-        UiHelpers.setRequiredHint(PreEmpActivity.this, middleNameLayout, "Middle Initial");
-        UiHelpers.setRequiredHint(PreEmpActivity.this, lastNameLayout, "Last Name");
+        UiHelpers.setRequiredHint(requireContext(), firstNameLayout, "First Name");
+        UiHelpers.setRequiredHint(requireContext(), middleNameLayout, "Middle Initial");
+        UiHelpers.setRequiredHint(requireContext(), lastNameLayout, "Last Name");
     }
     private void setupListeners() {
         dobInput.setOnClickListener(v -> showDatePicker());
 
-        btnNext.setOnClickListener(v -> {
-            if (validateCurrentStep()) {
-                changeStep(1);
-            }
-        });
-
-        btnPrevious.setOnClickListener(v -> changeStep(-1));
-
-        btnSubmit.setOnClickListener(v -> submitForm());
+        btnNext.setOnClickListener(v -> next());
 
         regionSpinner.setOnItemClickListener((parent, view, position, id) ->
                 Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
-                );
+        );
         citySpinner.setOnItemClickListener((parent, view, position, id) ->
                 Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
-                );
+        );
         barangaySpinner.setOnItemClickListener((parent, view, position, id) ->
                 Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
-                );
+        );
         streetInput.addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -212,7 +215,7 @@ public class PreEmpActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
+                requireContext(),
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     String date = selectedYear + "-" + String.format("%02d", (selectedMonth + 1)) + "-" + String.format("%02d", selectedDay);
                     dobInput.setText(date);
@@ -223,16 +226,16 @@ public class PreEmpActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         datePickerDialog.show();
     }
-    private boolean validateCurrentStep() {
-        switch (currentStep) {
-            case 1: // Personal Information
-                return validatePersonalInfo();
-            case 2: // Contact Information
-                return validateContactInfo();
-            default:
-                return true;
-        }
-    }
+//    private boolean validateCurrentStep() {
+//        switch (currentStep) {
+//            case 1: // Personal Information
+//                return validatePersonalInfo();
+//            case 2: // Contact Information
+//                return validateContactInfo();
+//            default:
+//                return true;
+//        }
+//    }
     private boolean validatePersonalInfo() {
         boolean isValid = true;
 
@@ -273,7 +276,7 @@ public class PreEmpActivity extends AppCompatActivity {
         );
 
         if (!isValid) {
-            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show();
         }
 
         return isValid;
@@ -324,51 +327,46 @@ public class PreEmpActivity extends AppCompatActivity {
         );
 
         if (!isValid) {
-            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show();
         }
 
         return isValid;
     }
-    private void changeStep(int direction) {
-        currentStep += direction;
-        currentStep = Math.max(1, Math.min(TOTAL_STEPS, currentStep));
 
-        updateButtonsVisibility();
-
-        // Here you would show/hide the appropriate sections
-        // This is a simplified version - you'll need to implement ViewPager or similar
-        Toast.makeText(this, "Step " + currentStep + " of " + TOTAL_STEPS, Toast.LENGTH_SHORT).show();
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach");
     }
-    private void updateButtonsVisibility() {
-        btnPrevious.setVisibility(currentStep == 1 ? View.GONE : View.VISIBLE);
 
-        if (currentStep == TOTAL_STEPS) {
-            btnNext.setVisibility(View.GONE);
-            btnSubmit.setVisibility(View.VISIBLE);
-        } else {
-            btnNext.setVisibility(View.VISIBLE);
-            btnSubmit.setVisibility(View.GONE);
-        }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
     }
-    private void submitForm() {
-        // Validate all steps before submission
-        if (!validatePersonalInfo() || !validateContactInfo()) {
-            Toast.makeText(this, "Please complete all required fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        // Show success message
-        Toast.makeText(this, "Form submitted successfully!", Toast.LENGTH_LONG).show();
-
-        // Navigate to MainActivity
-        Intent intent = new Intent(PreEmpActivity.this, HomePage.class);
-
-        // Optional: Pass data to MainActivity
-        intent.putExtra("firstName", firstNameInput.getText().toString());
-        intent.putExtra("lastName", lastNameInput.getText().toString());
-        intent.putExtra("phone", phoneInput.getText().toString());
-
-        startActivity(intent);
-        finish(); // Prevent back navigation to PreEmpActivity
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
 }

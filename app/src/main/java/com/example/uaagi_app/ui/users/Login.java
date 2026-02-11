@@ -1,7 +1,6 @@
 package com.example.uaagi_app.ui.users;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +27,7 @@ import androidx.cardview.widget.CardView;
 import com.example.uaagi_app.network.dto.LoginRequest;
 import com.example.uaagi_app.network.api.LoginAuth;
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.ui.users.PreEmpActvityForm.PreEmpActivity;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
 import com.example.uaagi_app.ui.utils.UiHelpers;
@@ -57,7 +57,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         initViews();
         setupStatusBar();
@@ -66,7 +66,6 @@ public class Login extends AppCompatActivity {
         setupBackHandler();
         setupResendOtp();
     }
-
     private void initViews() {
         loginCard = findViewById(R.id.loginCard);
         emailSection = findViewById(R.id.emailSection);

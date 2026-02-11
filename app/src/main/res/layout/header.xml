@@ -8,7 +8,7 @@
         android:id="@+id/top_bar"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:background="@color/darkblue"
+        android:background="@color/DarkBlue"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="18dp"
