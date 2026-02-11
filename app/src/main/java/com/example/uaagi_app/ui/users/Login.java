@@ -53,6 +53,10 @@ public class Login extends AppCompatActivity {
     private TextView otpErrorText;
     private TextView resendOtpText;
 
+    private boolean isDebug = true;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,6 +208,7 @@ public class Login extends AppCompatActivity {
     private void verifyOtp() {
         StringBuilder otpBuilder = new StringBuilder();
         String email = Email.getText().toString().trim();
+
 
         for (EditText input : otpInputs) {
             if (input != null) {
