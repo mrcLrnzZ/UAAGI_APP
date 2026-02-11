@@ -23,6 +23,9 @@
             android:name=".ui.users.Login"
             android:exported="false"/>
         <activity
+            android:name=".ui.users.JobList"
+            android:exported="false" />
+        <activity
             android:name=".ui.users.JobDesc"
             android:exported="false" />
         <activity
