@@ -1,36 +1,43 @@
 package com.example.uaagi_app.ui.users;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.LinearLayout;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.example.uaagi_app.R;
 
 public class HomePage extends AppCompatActivity {
-    private static final String TAG = "MainActivityLifecycle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "MainAct onCreate()");
-        EdgeToEdge.enable(this);
         setContentView(R.layout.home_page);
 
-        // Initialize the CardView
-        CardView firstJobCard = findViewById(R.id.firstjob);
+        // Bottom bar tabs
+        LinearLayout tabHome = findViewById(R.id.tab_home);
+        LinearLayout tabApplied = findViewById(R.id.tab_applied);
+        LinearLayout tabCareers = findViewById(R.id.tab_careers);
+        LinearLayout tabProfile = findViewById(R.id.tab_profile);
 
-        // Set click listener
-        firstJobCard.setOnClickListener(v -> {
-            // Create intent to navigate to job details page
-            Intent intent = new Intent(HomePage.this, JobDesc.class);
+        // Load default fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new HomeFragment())
+                .commit();
 
+        // Click listeners
+        tabHome.setOnClickListener(v -> switchFragment(new HomeFragment()));
+        tabApplied.setOnClickListener(v -> switchFragment(new AppliedJobsFragment()));
+        tabCareers.setOnClickListener(v -> switchFragment(new CareersFragment()));
+        tabProfile.setOnClickListener(v -> switchFragment(new ProfileFragment()));
+    }
 
-            // Start the activity
-            startActivity(intent);
-        });
+    private void switchFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 }
