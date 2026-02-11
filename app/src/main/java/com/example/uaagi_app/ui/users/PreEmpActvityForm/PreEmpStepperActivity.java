@@ -21,7 +21,7 @@ public class PreEmpStepperActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preemp_main_activity);
+        setContentView(R.layout.activity_preemp_main);
         setupUI();
         if (savedInstanceState == null) {
             getSupportFragmentManager()
