@@ -21,6 +21,7 @@
             android:elevation="2dp">
 
             <LinearLayout
+                android:id="@+id/educationContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -40,7 +41,6 @@
                         android:layout_height="24dp"
                         android:background="#004B87"
                         android:layout_marginEnd="12dp"/>
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -49,7 +49,6 @@
                         android:textSize="18sp"
                         android:fontFamily="sans-serif-medium"
                         android:textColor="#1A1A1A"/>
-
                     <Button
                         android:id="@+id/btnAddEducation"
                         android:layout_width="wrap_content"
@@ -59,9 +58,24 @@
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="13sp"
+
                         android:paddingHorizontal="16dp"
                         app:cornerRadius="6dp"
                         android:elevation="0dp"/>
+                    <Button
+                        android:id="@+id/btnRemoveEducation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="- Remove Education"
+                        android:visibility="gone"
+                        android:backgroundTint="#004B87"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="13sp"
+                        android:paddingHorizontal="16dp"
+                        app:cornerRadius="6dp"
+                        android:elevation="0dp"/>
+
                 </LinearLayout>
 
                 <!-- Education Entries Container -->
@@ -90,16 +104,6 @@
                             android:textColor="#1A1A1A"
                             android:layout_marginBottom="16dp"/>
 
-                        <AutoCompleteTextView
-                            android:id="@+id/educationLevel1Spinner"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:paddingTop="14dp"
-                            android:paddingBottom="14dp"
-                            android:textColor="#1A1A1A"
-                            android:textSize="15sp" />
-
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/educationLevel1Layout"
                             android:layout_width="match_parent"
@@ -111,6 +115,15 @@
                             app:boxStrokeWidth="2dp"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
 
+                            <AutoCompleteTextView
+                                android:id="@+id/educationLevel1Spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:paddingTop="14dp"
+                                android:paddingBottom="14dp"
+                                android:textColor="#1A1A1A"
+                                android:textSize="15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
@@ -258,10 +271,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
                                 android:paddingTop="14dp"
-                                android:paddingBottom="14dp"/>
+                                android:paddingBottom="14dp"
+                                android:textColor="#1A1A1A"
+                                android:textSize="15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout

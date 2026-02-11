@@ -5,8 +5,11 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -41,6 +44,18 @@ public class UiHelpers {
     }
     public static void dropDownSetter(AutoCompleteTextView textView, ArrayAdapter<String> adapter) {
         textView.setAdapter(adapter);
+    }
+    public static void addEntry(int layoutResId, LinearLayout container, Context context) {
+        View entryView = LayoutInflater.from(context)
+                .inflate(layoutResId, container, false);
+
+//        // Optional remove button inside layout
+//        ImageButton btnRemove = entryView.findViewById(R.id.btnRemove);
+//        if (btnRemove != null) {
+//            btnRemove.setOnClickListener(v -> container.removeView(entryView));
+//        }
+
+        container.addView(entryView);
     }
 
 }

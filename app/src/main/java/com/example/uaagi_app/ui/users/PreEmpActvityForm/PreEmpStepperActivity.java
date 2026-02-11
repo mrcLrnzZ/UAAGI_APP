@@ -84,16 +84,25 @@ public class PreEmpStepperActivity extends AppCompatActivity {
         }
     }
     private void unHighlightSteps() {
-        for (TextView step : steps) {
-            step.setBackgroundResource(R.drawable.circle_outline);
-            step.setTextColor(getResources().getColor(R.color.White));
-            step.setTextSize(16);
-        }
-        for (TextView step : stepsTitle) {
-            step.setTextColor(getResources().getColor(R.color.PaleBlue));
 
+        for (int i = 0; i < TOTAL_STEPS; i++) {
+
+            if (i < currentStep) {
+                steps[i].setBackgroundResource(R.drawable.circle_background_done);
+                steps[i].setTextColor(getResources().getColor(R.color.White));
+
+            } else {
+
+                steps[i].setBackgroundResource(R.drawable.circle_outline);
+                steps[i].setTextColor(getResources().getColor(R.color.White));
+            }
+        }
+
+        for (TextView stepTitle : stepsTitle) {
+            stepTitle.setTextColor(getResources().getColor(R.color.PaleBlue));
         }
     }
+
     @Override protected void onStart() { super.onStart(); Log.d(TAG, "onStart"); }
     @Override protected void onResume() { super.onResume(); Log.d(TAG, "onResume"); }
     @Override protected void onPause() { super.onPause(); Log.d(TAG, "onPause"); }

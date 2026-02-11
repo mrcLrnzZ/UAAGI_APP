@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 public class PreEmpFormStep3 extends Fragment {
     private Button btnPrevious, btnNext, btnSubmit;
+    private LinearLayout workExperienceContainer;
+    private Button btnAddWorkExperience;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,8 +26,14 @@ public class PreEmpFormStep3 extends Fragment {
 
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
-        btnSubmit = view.findViewById(R.id.btnSubmit);
 
+        workExperienceContainer = view.findViewById(R.id.workExperienceEntriesContainer);
+        btnAddWorkExperience = view.findViewById(R.id.btnAddWorkExperience);
+
+
+        btnAddWorkExperience.setOnClickListener(v ->
+                UiHelpers.addEntry(R.layout.item_work_experience_entry, workExperienceContainer, requireContext())
+        );
 
         btnPrevious.setOnClickListener(v -> {
             ((PreEmpStepperActivity) requireActivity()).previousStep(new PreEmpFormStep2());
@@ -35,4 +45,7 @@ public class PreEmpFormStep3 extends Fragment {
 
         return view;
     }
+
+
+
 }

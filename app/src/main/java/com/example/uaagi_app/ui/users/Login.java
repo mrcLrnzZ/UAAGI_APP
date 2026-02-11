@@ -251,7 +251,7 @@ public class Login extends AppCompatActivity {
 
 /*                            if (!hasForm) {*/
                                  Helpers.saveLoginState(Login.this);
-                                 startActivity(new Intent(Login.this, PreEmpActivity.class));
+                                 startActivity(new Intent(Login.this, HomePage.class));
 //                            } else {
 //                                Helpers.saveLoginState(Login.this);
 //                                startActivity(new Intent(Login.this, HomePage.class));
