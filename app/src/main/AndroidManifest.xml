@@ -36,6 +36,9 @@
             android:name=".ui.users.JobDesc"
             android:exported="false" />
         <activity
+            android:name=".ui.users.apply_options"
+            android:exported="false" />
+        <activity
             android:name=".ui.users.SplashActivity"
             android:exported="true">
             <intent-filter>

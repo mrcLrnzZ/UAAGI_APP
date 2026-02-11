@@ -2,31 +2,23 @@ package com.example.uaagi_app.ui.users;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.uaagi_app.R;
-
-public class JobDesc extends AppCompatActivity {
-
+public class apply_options extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.job_desc);
+        setContentView(R.layout.apply_options);
 
         // Only handle back button
-        ImageButton btnBack = findViewById(R.id.btnBack);
+        ImageButton btnBack = findViewById(R.id.btnBackToDesc);
         btnBack.setOnClickListener(v -> finish());
-
-        Button ApplyNow = findViewById(R.id.btnApplyNow);
-
-        ApplyNow.setOnClickListener(view -> {
-            Intent intent = new Intent(JobDesc.this, apply_options.class);
-            startActivity(intent);
-        });
     }
 }
