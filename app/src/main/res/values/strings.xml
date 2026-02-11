@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">OneHire</string>
+    <string name="pre_emp_form_title">Pre-Employment Application</string>
+    <string name="pre_emp_form_prompt">Please fill out all required fields</string>
+    <string name="pre_emp_step_1">1</string>
+    <string name="pre_emp_step_1_title">Personal\nand\nContact</string>
+    <string name="pre_emp_step_2">2</string>
+    <string name="pre_emp_step_2_title">Education</string>
+    <string name="pre_emp_step_3">3</string>
+    <string name="pre_emp_step_3_title">Job\nHistory</string>
+    <string name="pre_emp_step_4">4</string>
+    <string name="pre_emp_step_4_title">Skills</string>
+    <string name="pre_emp_step_5">5</string>
+    <string name="pre_emp_step_5_title">Other\nInfo</string>
+    <string name="pre_emp_step_6">6</string>
+    <string name="pre_emp_step_6_title">Preview</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

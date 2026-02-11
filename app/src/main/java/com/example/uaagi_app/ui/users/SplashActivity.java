@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.utils.Helpers;
-
+import com.example.uaagi_app.ui.users.PreEmpActvityForm.*;
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashScreenLifecycle";
     private Handler handler = new Handler();
@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         runnable = () -> {
             Intent intent;
             if (Helpers.isLoggedIn(SplashActivity.this)){
-                 intent = new Intent(SplashActivity.this, HomePage.class);
+                 intent = new Intent(SplashActivity.this, PreEmpStepperActivity.class);
             }else{
                  intent = new Intent(SplashActivity.this, Login.class);
             }

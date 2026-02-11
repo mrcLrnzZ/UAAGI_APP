@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gray">#FF888888</color>
-    <color name="darkblue">#002F62</color>
-    <color name="lightgray">#BCBCBC</color>
-    <color name="red">#F44336</color>
+    <color name="Black">#FF000000</color>
+    <color name="White">#FFFFFFFF</color>
+    <color name="Gray">#FF888888</color>
+    <color name="DarkBlue">#002F62</color>
+    <color name="LightGray">#BCBCBC</color>
+    <color name="Deepwater">#004B87</color>
+    <color name="PaleBlue">#E3F2FD</color>
+    <color name="Red">#F44336</color>
 
 </resources>

@@ -10,7 +10,7 @@
     tools:context=".ui.users.SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/White"
         android:id="@+id/lottieAnimationView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

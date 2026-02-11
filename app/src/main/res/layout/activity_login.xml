@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkblue">
+    android:background="@color/DarkBlue">
 
     <!-- Logo -->
     <ImageView
@@ -25,7 +25,7 @@
         android:layout_height="1000dp"
         android:layout_marginTop="30dp"
         app:cardCornerRadius="32dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/White"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -46,7 +46,7 @@
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/baseline_person_24"
                 app:startIconContentDescription="Email icon"
-                app:hintTextColor="@color/darkblue"
+                app:hintTextColor="@color/DarkBlue"
                 app:boxStrokeColor="@color/emailboxcolor"
                 >
 
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Enter Email Address"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/Black" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +68,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Login"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/darkblue"
+                app:backgroundTint="@color/DarkBlue"
                 app:cornerRadius="10dp" />
 
             <TextView
@@ -145,7 +145,7 @@
                 android:insetBottom="0dp"
                 app:iconPadding="0dp"
                 app:iconSize="32dp"
-                app:iconTint="@color/black"
+                app:iconTint="@color/Black"
                 app:iconGravity="textStart"
                 style="@style/Widget.Material3.Button.IconButton"/>
 
@@ -156,7 +156,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/Black"
                 />
 
             <TextView
@@ -167,7 +167,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/gray"
+                android:textColor="@color/Gray"
                 />
 
 
@@ -185,10 +185,10 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/Black"
                     android:inputType="number"
                     android:maxLength="1"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/Black"
                     android:layout_margin="4dp" />
 
                 <EditText
@@ -196,8 +196,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:gravity="center"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/black"
+                    android:textColor="@color/Black"
+                    android:backgroundTint="@color/Black"
                     android:inputType="number"
                     android:maxLength="1"
                     android:layout_margin="4dp" />
@@ -206,21 +206,21 @@
                     android:id="@+id/otpInput3"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="1"
-                    android:textColor="@color/black"
+                    android:textColor="@color/Black"
                     android:layout_margin="4dp" />
 
                 <EditText
                     android:id="@+id/otpInput4"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="@color/black"
+                    android:textColor="@color/Black"
                     android:maxLength="1"
                     android:layout_margin="4dp" />
 
@@ -228,10 +228,10 @@
                     android:id="@+id/otpInput5"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="@color/black"
+                    android:textColor="@color/Black"
                     android:maxLength="1"
                     android:layout_margin="4dp" />
 
@@ -239,10 +239,10 @@
                     android:id="@+id/otpInput6"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
-                    android:textColor="@color/black"
+                    android:textColor="@color/Black"
                     android:maxLength="1"
                     android:layout_margin="4dp" />
 
@@ -270,7 +270,7 @@
                 android:text="Login"
                 android:layout_marginTop="20dp"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/darkblue"
+                app:backgroundTint="@color/DarkBlue"
                 app:cornerRadius="10dp" />
 
 
@@ -283,7 +283,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/gray"
+                android:textColor="@color/Gray"
                 />
 
         </LinearLayout>
