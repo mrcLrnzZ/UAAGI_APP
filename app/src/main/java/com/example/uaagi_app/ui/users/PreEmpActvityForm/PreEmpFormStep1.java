@@ -49,9 +49,6 @@ public class PreEmpFormStep1 extends Fragment {
 
     private Button btnPrevious, btnNext, btnSubmit;
 
-    private int currentStep = 1;
-    private final int TOTAL_STEPS = 6;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_preemp_step_1, container, false);
@@ -71,8 +68,7 @@ public class PreEmpFormStep1 extends Fragment {
     }
     public void next() {
         viewModel.update(form -> {
-            form.setFirstName(firstNameInput.getText().toString());
-            form.setLastName(lastNameInput.getText().toString());
+
         });
         ((PreEmpStepperActivity) requireActivity()).nextStep(new PreEmpFormStep2());
     }
