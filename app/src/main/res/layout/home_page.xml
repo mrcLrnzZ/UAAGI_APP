@@ -6,21 +6,25 @@
     android:background="#F5F5F5">
 
     <!-- Optional Circular Background / Decoration -->
-    <View
-        android:layout_width="380dp"
-        android:layout_height="350dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-70dp"
-        android:layout_marginEnd="-250dp"
-        android:background="@drawable/circle_background" />
+<!--    <View-->
+<!--        android:layout_width="380dp"-->
+<!--        android:layout_height="350dp"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginTop="-70dp"-->
+<!--        android:layout_marginEnd="-250dp"-->
+<!--        android:background="@drawable/circle_background" />-->
+    <include
+        android:id="@+id/top_bar"
+        layout="@layout/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
-    <!-- Fragment container -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Bottom Navigation -->
     <include
         android:id="@+id/bottom_navigation"
         layout="@layout/bottomnavbar"
