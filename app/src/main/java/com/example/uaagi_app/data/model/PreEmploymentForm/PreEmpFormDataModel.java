@@ -1,4 +1,4 @@
-package com.example.uaagi_app.data.model;
+package com.example.uaagi_app.data.model.PreEmploymentForm;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 //        PreEmpFormRequest request = new PreEmpFormRequest();
 //request.setEducations(list);
 //request.setUserInfo(userInfo);
-public class PreEmpForm {
+public class PreEmpFormDataModel {
 
     private UserInfo userInfo;
     private List<Education> educations;
