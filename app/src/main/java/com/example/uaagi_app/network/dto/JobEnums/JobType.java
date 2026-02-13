@@ -1,7 +1,7 @@
 package com.example.uaagi_app.network.dto.JobEnums;
 
 public enum JobType {
-    ENTRY_LEVEL("Ful-time"),
+    ENTRY_LEVEL("Full-time"),
     MID_LEVEL("Part-time"),
     SENIOR_LEVEL("Internship");
     private final String displayName;
