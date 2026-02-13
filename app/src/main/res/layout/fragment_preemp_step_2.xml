@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F9FA"
     android:fillViewport="true"
-    android:background="#F8F9FA">
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,65 +17,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:elevation="2dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:elevation="2dp">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:id="@+id/educationContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@color/White"
+                android:orientation="vertical"
                 android:padding="24dp">
 
                 <!-- Section  -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="24dp">
+                    android:orientation="horizontal">
 
                     <View
                         android:layout_width="4dp"
                         android:layout_height="24dp"
-                        android:background="#004B87"
-                        android:layout_marginEnd="12dp"/>
+                        android:layout_marginEnd="12dp"
+                        android:background="#004B87" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Educational Background"
-                        android:textSize="18sp"
                         android:fontFamily="sans-serif-medium"
-                        android:textColor="#1A1A1A"/>
+                        android:text="Educational Background"
+                        android:textColor="#1A1A1A"
+                        android:textSize="18sp" />
+
                     <Button
                         android:id="@+id/btnAddEducation"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:text="+ Add Education"
                         android:backgroundTint="#004B87"
-                        android:textColor="#FFFFFF"
+                        android:elevation="0dp"
                         android:fontFamily="sans-serif-medium"
-                        android:textSize="13sp"
-
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
-                        android:elevation="0dp"/>
+                        android:text="+ Add Education"
+
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        app:cornerRadius="6dp" />
+
                     <Button
                         android:id="@+id/btnRemoveEducation"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:text="- Remove Education"
-                        android:visibility="gone"
                         android:backgroundTint="#004B87"
-                        android:textColor="#FFFFFF"
+                        android:elevation="0dp"
                         android:fontFamily="sans-serif-medium"
-                        android:textSize="13sp"
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
-                        android:elevation="0dp"/>
+                        android:text="- Remove Education"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:cornerRadius="6dp" />
 
                 </LinearLayout>
 
@@ -90,30 +94,30 @@
                         android:id="@+id/educationEntry1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
+                        android:layout_marginBottom="16dp"
                         android:background="@drawable/education_entry_background"
-                        android:layout_marginBottom="16dp">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Education"
-                            android:textSize="15sp"
+                            android:layout_marginBottom="16dp"
                             android:fontFamily="sans-serif-medium"
+                            android:text="Education"
                             android:textColor="#1A1A1A"
-                            android:layout_marginBottom="16dp"/>
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/educationLevel1Layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:hint="Education Level *"
-                            app:hintTextColor="#757575"
                             app:boxStrokeColor="#004B87"
                             app:boxStrokeWidth="2dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                            app:hintTextColor="#757575">
 
                             <AutoCompleteTextView
                                 android:id="@+id/educationLevel1Spinner"
@@ -129,44 +133,44 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginBottom="16dp"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/schoolName1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginEnd="8dp"
+                                android:layout_weight="2"
                                 android:hint="School Name *"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/schoolName1Input"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/yearGraduated1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginStart="8dp"
+                                android:layout_weight="1"
                                 android:hint="Year Graduated *"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                app:placeholderText="YYYY"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575"
+                                app:placeholderText="YYYY">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/yearGraduated1Input"
@@ -174,63 +178,63 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
                                     android:maxLength="4"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/courseAchievements1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginEnd="8dp"
+                                android:layout_weight="2"
                                 android:hint="Course/Degree &amp; Achievements"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575"
+                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/courseAchievements1Input"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/status1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginStart="8dp"
+                                android:layout_weight="1"
                                 android:hint="Status"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                                app:hintTextColor="#757575">
 
                                 <AutoCompleteTextView
                                     android:id="@+id/status1Spinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="none"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
@@ -241,30 +245,30 @@
                         android:id="@+id/educationEntry2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
+                        android:layout_marginBottom="16dp"
                         android:background="@drawable/education_entry_background"
-                        android:layout_marginBottom="16dp">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Education"
-                            android:textSize="15sp"
+                            android:layout_marginBottom="16dp"
                             android:fontFamily="sans-serif-medium"
+                            android:text="Education"
                             android:textColor="#1A1A1A"
-                            android:layout_marginBottom="16dp"/>
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/educationLevel2Layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:hint="Education Level *"
-                            app:hintTextColor="#757575"
                             app:boxStrokeColor="#004B87"
                             app:boxStrokeWidth="2dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                            app:hintTextColor="#757575">
 
                             <AutoCompleteTextView
                                 android:id="@+id/educationLevel2Spinner"
@@ -280,44 +284,44 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginBottom="16dp"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/schoolName2Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginEnd="8dp"
+                                android:layout_weight="2"
                                 android:hint="School Name *"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/schoolName2Input"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/yearGraduated2Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginStart="8dp"
+                                android:layout_weight="1"
                                 android:hint="Year Graduated *"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                app:placeholderText="YYYY"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575"
+                                app:placeholderText="YYYY">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/yearGraduated2Input"
@@ -325,63 +329,63 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
                                     android:maxLength="4"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/courseAchievements2Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginEnd="8dp"
+                                android:layout_weight="2"
                                 android:hint="Course/Degree &amp; Achievements"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575"
+                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/courseAchievements2Input"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/status2Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginStart="8dp"
+                                android:layout_weight="1"
                                 android:hint="Status"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                                app:hintTextColor="#757575">
 
                                 <AutoCompleteTextView
                                     android:id="@+id/status2Spinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="none"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
@@ -392,83 +396,83 @@
                         android:id="@+id/educationEntry3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
+                        android:layout_marginBottom="16dp"
                         android:background="@drawable/education_entry_background"
-                        android:layout_marginBottom="16dp">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Education"
-                            android:textSize="15sp"
+                            android:layout_marginBottom="16dp"
                             android:fontFamily="sans-serif-medium"
+                            android:text="Education"
                             android:textColor="#1A1A1A"
-                            android:layout_marginBottom="16dp"/>
+                            android:textSize="15sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/educationLevel3Layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:hint="Education Level *"
-                            app:hintTextColor="#757575"
                             app:boxStrokeColor="#004B87"
                             app:boxStrokeWidth="2dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                            app:hintTextColor="#757575">
 
                             <AutoCompleteTextView
                                 android:id="@+id/educationLevel3Spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
                                 android:paddingTop="14dp"
-                                android:paddingBottom="14dp"/>
+                                android:paddingBottom="14dp"
+                                android:textColor="#1A1A1A"
+                                android:textSize="15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginBottom="16dp"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/schoolName3Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginEnd="8dp"
+                                android:layout_weight="2"
                                 android:hint="School Name *"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/schoolName3Input"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/yearGraduated3Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginStart="8dp"
+                                android:layout_weight="1"
                                 android:hint="Year Graduated *"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                app:placeholderText="YYYY"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575"
+                                app:placeholderText="YYYY">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/yearGraduated3Input"
@@ -476,63 +480,63 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
                                     android:maxLength="4"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/courseAchievements3Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
                                 android:layout_marginEnd="8dp"
+                                android:layout_weight="2"
                                 android:hint="Course/Degree &amp; Achievements"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                                app:hintTextColor="#757575"
+                                app:placeholderText="e.g., Bachelor of Science in Computer Science - Cum Laude">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/courseAchievements3Input"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/status3Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginStart="8dp"
+                                android:layout_weight="1"
                                 android:hint="Status"
-                                app:hintTextColor="#757575"
                                 app:boxStrokeColor="#004B87"
                                 app:boxStrokeWidth="2dp"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                                app:hintTextColor="#757575">
 
                                 <AutoCompleteTextView
                                     android:id="@+id/status3Spinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="none"
-                                    android:textSize="15sp"
-                                    android:textColor="#1A1A1A"
                                     android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"/>
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
 
@@ -547,44 +551,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:gravity="end">
+            android:padding="16dp">
 
             <Button
                 android:id="@+id/btnPrevious"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
-                android:text="Previous"
-                android:backgroundTint="#FFFFFF"
-                android:textColor="#004B87"
-                android:fontFamily="sans-serif-medium"
                 android:layout_marginEnd="12dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
                 android:paddingHorizontal="24dp"
-                app:strokeColor="#004B87"
-                app:strokeWidth="2dp"
+                android:text="Previous"
+                android:textColor="#004B87"
                 app:cornerRadius="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+                app:strokeColor="#004B87"
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
-                android:text="Next Step"
                 android:backgroundTint="#004B87"
-                android:textColor="#FFFFFF"
+                android:elevation="2dp"
                 android:fontFamily="sans-serif-medium"
                 android:paddingHorizontal="32dp"
-                app:cornerRadius="8dp"
-                android:elevation="2dp"/>
-
+                android:text="Next Step"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="8dp" />
 
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="32dp"/>
+            android:layout_height="32dp" />
 
     </LinearLayout>
 </LinearLayout>

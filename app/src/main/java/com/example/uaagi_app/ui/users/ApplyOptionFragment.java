@@ -12,10 +12,10 @@ import com.example.uaagi_app.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CareersFragment#newInstance} factory method to
+ * Use the {@link ApplyOptionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CareersFragment extends Fragment {
+public class ApplyOptionFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class CareersFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CareersFragment() {
+    public ApplyOptionFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class CareersFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CareersFragment.
+     * @return A new instance of fragment ApplyOptionFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CareersFragment newInstance(String param1, String param2) {
-        CareersFragment fragment = new CareersFragment();
+    public static ApplyOptionFragment newInstance(String param1, String param2) {
+        ApplyOptionFragment fragment = new ApplyOptionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -49,13 +49,22 @@ public class CareersFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_careers, container, false);
+        View view = inflater.inflate(R.layout.apply_options, container, false);
 
         // Find CardView
-        View firstJob = view.findViewById(R.id.fotonjob);
+        View firstJob = view.findViewById(R.id.btnBackToDesc);
 
         // Click listener
         firstJob.setOnClickListener(v -> {

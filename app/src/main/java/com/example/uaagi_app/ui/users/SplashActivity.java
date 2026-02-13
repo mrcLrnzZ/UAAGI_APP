@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         runnable = () -> {
             Intent intent;
             if (Helpers.isLoggedIn(SplashActivity.this)){
-                 intent = new Intent(SplashActivity.this, HomePage.class);
+                 intent = new Intent(SplashActivity.this, PreEmpStepperActivity.class);
             }else{
                  intent = new Intent(SplashActivity.this, Login.class);
             }

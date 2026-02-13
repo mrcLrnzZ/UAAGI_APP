@@ -1,5 +1,6 @@
 package com.example.uaagi_app.ui.users.PreEmpActvityForm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ScrollView;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.ui.users.HomePage;
 
 public class PreEmpStepperActivity extends AppCompatActivity {
     private static final String TAG = "MainPreEmpLifeCycle";
@@ -40,6 +42,12 @@ public class PreEmpStepperActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
+    public void submitForm() {
+        Intent intent = new Intent(this, HomePage.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
     public void previousStep(Fragment fragment) {
         changeStep(-1);
         highlightSteps();

@@ -77,7 +77,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="250dp"
+                                    android:layout_marginStart="230dp"
                                     android:textColor="#666666"
                                     android:text="Step 1 of 2"/>
 
@@ -114,10 +114,10 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
+                                    android:fontFamily="sans-serif-black"
                                     android:text="Junior Web Developer"
                                     android:textColor="#002F62"
-                                    android:textSize="25sp"
+                                    android:textSize="20sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -276,6 +276,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Continue with Pre-Employment"
+                                    android:textSize="12dp"
                                 android:background="@drawable/job_desc_button"
                                     />
 
