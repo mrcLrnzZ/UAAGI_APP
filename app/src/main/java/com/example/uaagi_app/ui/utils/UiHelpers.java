@@ -2,6 +2,7 @@ package com.example.uaagi_app.ui.utils;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -17,10 +18,12 @@ import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class UiHelpers {
@@ -104,15 +107,6 @@ public class UiHelpers {
         String shift = job.getRemoteOption() != null ? job.getRemoteOption().toString() : "N/A";
         String payTag = "✓ 13th Month Pay";
 
-        Log.d("JobEntry", "Job Title: " + jobTitle);
-        Log.d("JobEntry", "Company: " + company);
-        Log.d("JobEntry", "Location: " + location);
-        Log.d("JobEntry", "Salary: " + salary);
-        Log.d("JobEntry", "Job Type: " + jobType);
-        Log.d("JobEntry", "Experience Level: " + experienceLevel);
-        Log.d("JobEntry", "Shift: " + shift);
-        Log.d("JobEntry", "Pay Tag: " + payTag);
-        Log.d("JobEntry", "-----------------------------------");
 
         tvJobTitle.setText(jobTitle);
         tvCompany.setText(company);
@@ -122,6 +116,22 @@ public class UiHelpers {
         tvExperienceLevel.setText(experienceLevel);
         tvShift.setText(shift);
         tvPayTag.setText(payTag);
+
+        entryView.setOnClickListener(v -> {
+            JobDesc detailsFragment = new JobDesc();
+            Bundle args = new Bundle();
+            args.putString("jobTitle", jobTitle);
+            args.putString("company", company);
+            args.putString("location", location);
+            args.putString("salary", salary);
+
+            detailsFragment.setArguments(args);
+
+            if (context instanceof FragmentActivity) {
+                FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+                UiHelpers.switchFragment(fm, detailsFragment);
+            }
+        });
 
         container.addView(entryView);
     }
