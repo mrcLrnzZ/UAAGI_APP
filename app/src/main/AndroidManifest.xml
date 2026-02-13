@@ -15,31 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UAAGI_APP">
         <activity
-            android:name=".ui.users.PreEmpActvityForm.PreEmpFormStep1"
+            android:name=".ui.users.ActivityPreEmpForm.PreEmpForm"
             android:exported="false" />
         <activity
-            android:name=".ui.users.PreEmpActvityForm.PreEmpStepperActivity"
+            android:name=".ui.users.ActivityHomePage"
             android:exported="false" />
         <activity
-            android:name=".ui.users.HomePage"
+            android:name=".ui.users.ActivityLoginPage"
             android:exported="false" />
+
         <activity
-            android:name=".ui.users.PreEmpActvityForm.PreEmpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.users.Login"
-            android:exported="false" />
-        <activity
-            android:name=".ui.users.JobList"
-            android:exported="false" />
-        <activity
-            android:name=".ui.users.JobDesc"
-            android:exported="false" />
-        <activity
-            android:name=".ui.users.apply_options"
-            android:exported="false" />
-        <activity
-            android:name=".ui.users.SplashActivity"
+            android:name=".ui.users.ActivitySplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,6 +7,7 @@
     <color name="LightGray">#BCBCBC</color>
     <color name="Deepwater">#004B87</color>
     <color name="PaleBlue">#E3F2FD</color>
+    <color name="WhiteSmoke">#F5F5F5</color>
     <color name="Red">#F44336</color>
 
 </resources>
