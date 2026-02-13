@@ -125,6 +125,16 @@ public class Helpers {
         editor.putBoolean("isLoggedIn", true);
         editor.apply();
     }
+    public static void saveUserId(Context context, int userId) {
+        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("userId", userId);
+        editor.apply();
+    }
+    public static int getUserId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        return prefs.getInt("userId", -1);
+    }
     public static boolean isLoggedIn(Context context) {
         SharedPreferences prefs =
                 context.getSharedPreferences("auth", Context.MODE_PRIVATE);

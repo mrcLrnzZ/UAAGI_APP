@@ -29,6 +29,8 @@ public class LoginAuthService {
                         loginResponse.success = obj.getBoolean("success");
                         loginResponse.message = obj.optString("message");
                         loginResponse.formExist = obj.getBoolean("formExist");
+                        loginResponse.userId = obj.getInt("userId");
+
 
                         callback.onResponse(loginResponse);
 

@@ -247,6 +247,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                     UiHelpers.showToast(response.message, ActivityLoginPage.this);
 
                     Helpers.saveLoginState(ActivityLoginPage.this);
+                    Helpers.saveUserId(ActivityLoginPage.this, response.userId);
                     startActivity(new Intent(ActivityLoginPage.this, ActivityHomePage.class));
                     finish();
 

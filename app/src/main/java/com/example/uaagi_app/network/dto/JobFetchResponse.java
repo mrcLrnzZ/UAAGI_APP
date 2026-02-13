@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class JobRequest {
+public class JobFetchResponse {
 
     private final int id;
     private final String jobTitle;
@@ -37,7 +37,7 @@ public class JobRequest {
     private final LocalDateTime deletedAt;
 
     // Private constructor for builder
-    private JobRequest(Builder builder) {
+    private JobFetchResponse(Builder builder) {
         this.id = builder.id;
         this.jobTitle = builder.jobTitle;
         this.department = builder.department;
@@ -130,8 +130,8 @@ public class JobRequest {
         public Builder restoredAt(LocalDateTime restoredAt) { this.restoredAt = restoredAt; return this; }
         public Builder deletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; return this; }
 
-        public JobRequest build() {
-            return new JobRequest(this);
+        public JobFetchResponse build() {
+            return new JobFetchResponse(this);
         }
     }
 
@@ -164,28 +164,15 @@ public class JobRequest {
     public Integer getRestoredBy() { return restoredBy; }
     public LocalDateTime getRestoredAt() { return restoredAt; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
+    @Override
+    public String toString() {
+        return "JobFetchResponse{" +
+                "id=" + id +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", company=" + company +
+                ", location='" + location + '\'' +
+                '}';
+    }
+
 }
 
-//USES
-//JobDTO job = new JobDTO.Builder()
-//        .jobTitle("Software Engineer")
-//        .department("IT")
-//        .company(JobDTO.Company.BAIC_PHILIPPINES)
-//        .jobType(JobDTO.JobType.FULL_TIME)
-//        .experienceLevel(JobDTO.ExperienceLevel.ENTRY_LEVEL)
-//        .location("Manila")
-//        .remoteOption(JobDTO.RemoteOption.HYBRID)
-//        .minSalary(new BigDecimal("30000"))
-//        .maxSalary(new BigDecimal("50000"))
-//        .salaryBasis(JobDTO.SalaryBasis.PER_MONTH)
-//        .salaryPeriod(JobDTO.SalaryBasis.PER_MONTH)
-//        .benefits("Health insurance, 13th month pay")
-//        .jobSummary("Develop software applications")
-//        .jobDescription("Full development lifecycle")
-//        .requirements("Java, Spring, SQL")
-//        .applicationDeadline(LocalDate.of(2026, 3, 31))
-//        .contactEmail("hr@baic.ph")
-//        .applicationInstructions("Send resume to email")
-//        .postedBy(1)
-//        .status(JobDTO.Status.ACTIVE)
-//        .build();
