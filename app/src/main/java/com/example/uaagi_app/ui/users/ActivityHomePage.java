@@ -43,8 +43,6 @@ public class ActivityHomePage extends AppCompatActivity {
     private TextView textProfile;
     private View indicatorProfile;
 
-    private long lastClickTime = 0;
-
     private static final int ANIMATION_DURATION = 300;
 
     private int currentSelectedTab = R.id.tab_home;
@@ -65,42 +63,24 @@ public class ActivityHomePage extends AppCompatActivity {
         }
 
         tabHome.setOnClickListener(v -> {
-            if (isClickable()) { // Check if safe to click
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Home());
-                setSelectedTab(R.id.tab_home);
-            }
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new Home());
+            setSelectedTab(R.id.tab_home);
         });
 
         tabApplied.setOnClickListener(v -> {
-            if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new AppliedJobs());
-                setSelectedTab(R.id.tab_applied);
-            }
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new AppliedJobs());
+            setSelectedTab(R.id.tab_applied);
         });
 
         tabCareers.setOnClickListener(v -> {
-            if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Careers());
-                setSelectedTab(R.id.tab_careers);
-            }
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new Careers());
+            setSelectedTab(R.id.tab_careers);
         });
 
         tabProfile.setOnClickListener(v -> {
-            if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Profile());
-                setSelectedTab(R.id.tab_profile);
-            }
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new Profile());
+            setSelectedTab(R.id.tab_profile);
         });
-    }
-
-    private boolean isClickable() {
-        long currentTime = System.currentTimeMillis();
-        // If less than 300ms (animation duration) has passed, ignore the click
-        if (currentTime - lastClickTime < ANIMATION_DURATION) {
-            return false;
-        }
-        lastClickTime = currentTime;
-        return true;
     }
 
     private void initializeViews() {
