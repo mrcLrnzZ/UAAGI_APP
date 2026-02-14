@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Work Experience  -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:elevation="2dp">
+
+            <LinearLayout
+                android:id="@+id/workExperienceEntriesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="#004B87" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Work Experience"
+                        android:textColor="#1A1A1A"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/btnAddWorkExperience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#004B87"
+                        android:elevation="0dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="16dp"
+                        android:text="+ Add Work Experience"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        app:cornerRadius="6dp" />
+                </LinearLayout>
+
+                <!-- Container -->
+                <LinearLayout
+                    android:id="@+id/workExperienceEntry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Entry -->
+                    <LinearLayout
+                        android:id="@+id/workExperienceEntry1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/education_entry_background"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Work Experience"
+                            android:textColor="#1A1A1A"
+                            android:textSize="15sp" />
+
+                        <!-- Company Name and Position/Job Title -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/companyName1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:hint="Company Name *"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:hintTextColor="#757575">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/companyName1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/position1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:hint="Position/Job Title *"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:hintTextColor="#757575">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/position1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <!-- Start Date and End Date -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/startDate1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:hint="Employment Start Date *"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:hintTextColor="#757575">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/startDate1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="false"
+                                    android:inputType="date"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/endDate1Layout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_weight="1"
+                                android:hint="Employment End Date *"
+                                app:boxStrokeColor="#004B87"
+                                app:boxStrokeWidth="2dp"
+                                app:hintTextColor="#757575">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/endDate1Input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="false"
+                                    android:inputType="date"
+                                    android:paddingTop="14dp"
+                                    android:paddingBottom="14dp"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="15sp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <!-- Job Description & Responsibilities -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/jobDescription1Layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Job Description &amp; Responsibilities"
+                            app:boxStrokeColor="#004B87"
+                            app:boxStrokeWidth="2dp"
+                            app:hintTextColor="#757575"
+                            app:placeholderText="Describe your job responsibilities and achievements">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/jobDescription1Input"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="top|start"
+                                android:minLines="3"
+                                android:paddingTop="14dp"
+                                android:paddingBottom="14dp"
+                                android:textColor="#1A1A1A"
+                                android:textSize="15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Navigation Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btnPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:text="Previous"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#004B87"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginEnd="12dp"
+                android:paddingHorizontal="24dp"
+                app:strokeColor="#004B87"
+                app:strokeWidth="2dp"
+                app:cornerRadius="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:text="Next Step"
+                android:backgroundTint="#004B87"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
+                android:paddingHorizontal="32dp"
+                app:cornerRadius="8dp"
+                android:elevation="2dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp"/>
+
+    </LinearLayout>
+</ScrollView>
