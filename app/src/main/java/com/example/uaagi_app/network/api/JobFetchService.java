@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,8 +64,23 @@ public class JobFetchService {
                 },
                 error -> {
                     Log.e(TAG, "Volley Error", error);
-                    callback.onError("Network error");
+
+                    if (error.networkResponse != null) {
+                        int statusCode = error.networkResponse.statusCode;
+                        Log.e(TAG, "HTTP Status Code: " + statusCode);
+
+                        if (error.networkResponse.data != null) {
+                            String body = new String(
+                                    error.networkResponse.data,
+                                    StandardCharsets.UTF_8
+                            );
+                            Log.e(TAG, "Server Response: " + body);
+                        }
+                    }
+
+                    callback.onError("Server error");
                 }
+
         ) {
             @Override
             protected Map<String, String> getParams() {
