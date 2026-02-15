@@ -1,4 +1,4 @@
-package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.RecyclerView;
+package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Certificate;
-import android.text.Editable;
-import android.text.TextWatcher;
-
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.function.Consumer;
 import java.util.List;
 
-public class CertificateEntryAdapter extends RecyclerView.Adapter<CertificateEntryAdapter.CertViewHolder> {
+public class CertificateEntry extends RecyclerView.Adapter<CertificateEntry.CertViewHolder> {
 
     private final List<Certificate> certificationList;
 
-    public CertificateEntryAdapter(List<Certificate> certificationList) {
+    public CertificateEntry(List<Certificate> certificationList) {
         this.certificationList = certificationList;
     }
 
@@ -49,7 +46,6 @@ public class CertificateEntryAdapter extends RecyclerView.Adapter<CertificateEnt
         holder.etExpiryDate.addTextChangedListener(new SimpleTextWatcher(cert::setExpiry_date));
         holder.etDescription.addTextChangedListener(new SimpleTextWatcher(cert::setDescription));
     }
-
     @Override
     public int getItemCount() {
         return certificationList.size();
@@ -68,17 +64,4 @@ public class CertificateEntryAdapter extends RecyclerView.Adapter<CertificateEnt
         }
     }
 
-    private static class SimpleTextWatcher implements TextWatcher {
-        private final Consumer<String> onTextChanged;
-
-        public SimpleTextWatcher(Consumer<String> onTextChanged) {
-            this.onTextChanged = onTextChanged;
-        }
-
-        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-        @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-            onTextChanged.accept(s.toString());
-        }
-        @Override public void afterTextChanged(Editable s) {}
-    }
 }

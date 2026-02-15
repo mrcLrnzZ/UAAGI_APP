@@ -26,6 +26,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_contact_ref"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"/>
@@ -39,6 +40,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_occupation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"/>
@@ -52,6 +54,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"/>
@@ -64,6 +67,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_contact_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"/>
