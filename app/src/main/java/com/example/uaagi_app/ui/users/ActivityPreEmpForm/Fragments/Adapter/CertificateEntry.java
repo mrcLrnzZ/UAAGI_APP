@@ -1,5 +1,6 @@
 package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter;
 
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,24 +35,33 @@ public class CertificateEntry extends RecyclerView.Adapter<CertificateEntry.Cert
     public void onBindViewHolder(@NonNull CertViewHolder holder, int position) {
         Certificate cert = certificationList.get(position);
 
-        holder.etName.setText(cert.getName());
-        holder.etOrg.setText(cert.getOrganization());
-        holder.etDateObtained.setText(cert.getDate());
-        holder.etExpiryDate.setText(cert.getExpiry_date());
-        holder.etDescription.setText(cert.getDescription());
+        if(holder.dateObtainedWatcher != null) holder.etDateObtained.removeTextChangedListener(holder.dateObtainedWatcher);
+        if(holder.nameWatcher != null) holder.etName.removeTextChangedListener(holder.nameWatcher);
+        if(holder.orgWatcher != null) holder.etOrg.removeTextChangedListener(holder.orgWatcher);
+        if(holder.ExpiryDateWatcher != null) holder.etExpiryDate.removeTextChangedListener(holder.ExpiryDateWatcher);
+        if(holder.DescriptionWatcher != null) holder.etDescription.removeTextChangedListener(holder.DescriptionWatcher);
 
-        holder.etName.addTextChangedListener(new SimpleTextWatcher(cert::setName));
-        holder.etOrg.addTextChangedListener(new SimpleTextWatcher(cert::setOrganization));
-        holder.etDateObtained.addTextChangedListener(new SimpleTextWatcher(cert::setDate));
-        holder.etExpiryDate.addTextChangedListener(new SimpleTextWatcher(cert::setExpiry_date));
-        holder.etDescription.addTextChangedListener(new SimpleTextWatcher(cert::setDescription));
-    }
+        holder.nameWatcher = new SimpleTextWatcher(cert::setName);
+        holder.orgWatcher = new SimpleTextWatcher(cert::setOrganization);
+        holder.dateObtainedWatcher = new SimpleTextWatcher(cert::setDate);
+        holder.ExpiryDateWatcher = new SimpleTextWatcher(cert::setExpiryDate);
+        holder.DescriptionWatcher = new SimpleTextWatcher(cert::setDescription);
+
+        holder.etName.addTextChangedListener(holder.nameWatcher);
+        holder.etOrg.addTextChangedListener(holder.orgWatcher);
+        holder.etDateObtained.addTextChangedListener(holder.dateObtainedWatcher);
+        holder.etExpiryDate.addTextChangedListener(holder.ExpiryDateWatcher);
+        holder.etDescription.addTextChangedListener(holder.DescriptionWatcher);
+        holder.etDateObtained.addTextChangedListener(holder.dateObtainedWatcher);
+
+     }
     @Override
     public int getItemCount() {
         return certificationList.size();
     }
 
     static class CertViewHolder extends RecyclerView.ViewHolder {
+        TextWatcher nameWatcher, orgWatcher, dateObtainedWatcher, ExpiryDateWatcher, DescriptionWatcher;
         TextInputEditText etName, etOrg, etDateObtained, etExpiryDate, etDescription;
 
         public CertViewHolder(@NonNull View itemView) {

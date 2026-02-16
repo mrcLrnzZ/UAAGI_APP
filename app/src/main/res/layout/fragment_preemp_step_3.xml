@@ -21,7 +21,6 @@
             android:elevation="2dp">
 
             <LinearLayout
-                android:id="@+id/workExperienceEntriesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/White"
@@ -66,171 +65,16 @@
                 </LinearLayout>
 
                 <!-- Container -->
-                <LinearLayout
-                    android:id="@+id/workExperienceEntry"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/workExperienceEntriesContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <!-- Entry -->
-                    <LinearLayout
-                        android:id="@+id/workExperienceEntry1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/education_entry_background"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Work Experience"
-                            android:textColor="#1A1A1A"
-                            android:textSize="15sp" />
-
-                        <!-- Company Name and Position/Job Title -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:baselineAligned="false"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/companyName1Layout"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:layout_weight="1"
-                                android:hint="Company Name *"
-                                app:boxStrokeColor="#004B87"
-                                app:boxStrokeWidth="2dp"
-                                app:hintTextColor="#757575">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/companyName1Input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"
-                                    android:textColor="#1A1A1A"
-                                    android:textSize="15sp" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/position1Layout"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_weight="1"
-                                android:hint="Position/Job Title *"
-                                app:boxStrokeColor="#004B87"
-                                app:boxStrokeWidth="2dp"
-                                app:hintTextColor="#757575">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/position1Input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"
-                                    android:textColor="#1A1A1A"
-                                    android:textSize="15sp" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
-
-                        <!-- Start Date and End Date -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:baselineAligned="false"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/startDate1Layout"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:layout_weight="1"
-                                android:hint="Employment Start Date *"
-                                app:boxStrokeColor="#004B87"
-                                app:boxStrokeWidth="2dp"
-                                app:hintTextColor="#757575">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/startDate1Input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="false"
-                                    android:inputType="date"
-                                    android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"
-                                    android:textColor="#1A1A1A"
-                                    android:textSize="15sp" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/endDate1Layout"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_weight="1"
-                                android:hint="Employment End Date *"
-                                app:boxStrokeColor="#004B87"
-                                app:boxStrokeWidth="2dp"
-                                app:hintTextColor="#757575">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/endDate1Input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="false"
-                                    android:inputType="date"
-                                    android:paddingTop="14dp"
-                                    android:paddingBottom="14dp"
-                                    android:textColor="#1A1A1A"
-                                    android:textSize="15sp" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
-
-                        <!-- Job Description & Responsibilities -->
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/jobDescription1Layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Job Description &amp; Responsibilities"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            app:hintTextColor="#757575"
-                            app:placeholderText="Describe your job responsibilities and achievements">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/jobDescription1Input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="top|start"
-                                android:minLines="3"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:textColor="#1A1A1A"
-                                android:textSize="15sp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
 
 
-                </LinearLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

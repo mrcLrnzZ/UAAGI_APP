@@ -26,14 +26,14 @@ public class ActivitySplashActivity extends AppCompatActivity {
         runnable = () -> {
             Intent intent;
             if (Helpers.isLoggedIn(ActivitySplashActivity.this)){
-                 intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);
+                 intent = new Intent(ActivitySplashActivity.this, PreEmpForm.class);
             }else{
                  intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
             }
             startActivity(intent);
             finish();
         };
-        handler.postDelayed(runnable, 6000);
+        handler.postDelayed(runnable, 0);
     }
 
     @Override

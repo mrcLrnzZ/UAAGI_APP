@@ -19,7 +19,7 @@ public class PreEmpFormDataModel {
     private UserInfo userInfo;
     private List<Education> educations;
     private List<WorkExperience> workExp;
-    private List<Skill> skills;
+    private List<ProfessionalSkills> skills;
     private List<Certificate> certificates;
     private List<Qualification> qualifications;
     private List<Seminar> seminars;
@@ -52,11 +52,11 @@ public class PreEmpFormDataModel {
         this.workExp = workExp;
     }
 
-    public List<Skill> getSkills() {
+    public List<ProfessionalSkills> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(List<ProfessionalSkills> skills) {
         this.skills = skills;
     }
 
