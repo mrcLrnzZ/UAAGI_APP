@@ -1,10 +1,12 @@
 package com.example.uaagi_app.network.api;
+
 import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.network.VolleySingleton;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.network.mapper.JobFetchMapper;
@@ -14,95 +16,137 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class JobFetchService {
-
     private static final String TAG = "JobFetchService";
-    private static final String FETCH_JOB_SERVICE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/FetchJobsService.php";
+    private static final String BASE_URL =
 
+            "https://uaagionehire.bscs3b.com/MobileAPI/api";
     private final Context context;
-
     public JobFetchService(Context context) {
         this.context = context;
     }
-    public void fetchJobs(JobFetchCallback callback) {
+    /* =========================================================
+       Fetch jobs for a user
+       GET /api/users/{userId}/jobs
+       ========================================================= */
+    public void fetchJobsForUser(JobFetchCallback callback) {
 
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                FETCH_JOB_SERVICE_URL,
-                response -> {
-                    try {
-                        JSONObject json = new JSONObject(response);
-                        boolean success = json.optBoolean("success", false);
+        int userId = Helpers.getUserId(context);
+        String url = BASE_URL + "/users/" + userId + "/jobs";
+        Log.d(TAG, "User ID: " + userId);
+        Log.d(TAG, url);
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> handleSuccess(response, callback),
+                error -> handleError(error, callback)
+        );
 
-                        if (success) {
-                            JSONArray jobsArray = json.optJSONArray("data");
-                            if (jobsArray != null) {
-                                List<JobFetchResponse> jobs = new ArrayList<>();
-                                for (int i = 0; i < jobsArray.length(); i++) {
-                                    JSONObject jobJson = jobsArray.optJSONObject(i);
-                                    if (jobJson != null) jobs.add(JobFetchMapper.fromJson(jobJson));
-                                }
-                                callback.onResponse(jobs);
-                            } else {
-                                callback.onError("No jobs available");
-                            }
-                        } else {
-                            callback.onError(json.optString("message", "Unknown error"));
-                        }
+        applyRetryPolicy(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
+    }
+    /* =========================================================
+       Fetch single job
+       GET /api/jobs/{jobId}
+       ========================================================= */
+    public void fetchJobById(int jobId, JobFetchCallback callback) {
 
+        String url = BASE_URL + "/jobs/" + jobId;
 
-                    } catch (JSONException e) {
-                        Log.e(TAG, "JSON Error", e);
-                        callback.onError("Parsing error");
-                    }
-                },
-                error -> {
-                    Log.e(TAG, "Volley Error", error);
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> handleSingleJob(response, callback),
+                error -> handleError(error, callback)
+        );
 
-                    if (error.networkResponse != null) {
-                        int statusCode = error.networkResponse.statusCode;
-                        Log.e(TAG, "HTTP Status Code: " + statusCode);
+        applyRetryPolicy(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
+    }
 
-                        if (error.networkResponse.data != null) {
-                            String body = new String(
-                                    error.networkResponse.data,
-                                    StandardCharsets.UTF_8
-                            );
-                            Log.e(TAG, "Server Response: " + body);
-                        }
-                    }
+    /* =========================================================
+       Success handlers
+       ========================================================= */
+    private void handleSuccess(JSONObject response, JobFetchCallback callback) {
+        if (!response.optBoolean("success")) {
+            callback.onError(response.optString("message", "Unknown error"));
+            return;
+        }
 
-                    callback.onError("Server error");
-                }
+        JSONArray jobsArray = response.optJSONArray("data");
+        if (jobsArray == null || jobsArray.length() == 0) {
+            callback.onResponse(Collections.emptyList());
+            return;
+        }
 
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("id", String.valueOf(Helpers.getUserId(context)));
-                return params;
+        List<JobFetchResponse> jobs = new ArrayList<>();
+        for (int i = 0; i < jobsArray.length(); i++) {
+            JSONObject jobJson = jobsArray.optJSONObject(i);
+            if (jobJson != null) {
+                jobs.add(JobFetchMapper.fromJson(jobJson));
             }
-        };
+        }
 
+        callback.onResponse(jobs);
+
+    }
+
+    private void handleSingleJob(JSONObject response, JobFetchCallback callback) {
+        if (!response.optBoolean("success")) {
+            callback.onError(response.optString("message", "Unknown error"));
+            return;
+        }
+
+        JSONObject jobJson = response.optJSONObject("data");
+        if (jobJson == null) {
+            callback.onResponse(Collections.emptyList());
+            return;
+        }
+
+        List<JobFetchResponse> result = new ArrayList<>();
+        result.add(JobFetchMapper.fromJson(jobJson));
+        callback.onResponse(result);
+
+    }
+
+    /* =========================================================
+       Error handler
+       ========================================================= */
+
+    private void handleError(VolleyError error, JobFetchCallback callback) {
+        Log.e(TAG, "Volley Error", error);
+
+        if (error.networkResponse != null) {
+            Log.e(TAG, "HTTP Status Code: " + error.networkResponse.statusCode);
+        }
+
+        callback.onError("Server error");
+    }
+
+    /* =========================================================
+       Retry policy
+       ========================================================= */
+
+    private void applyRetryPolicy(JsonObjectRequest request) {
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
-
-        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
+
+    /* =========================================================
+       Callback
+       ========================================================= */
 
     public interface JobFetchCallback {
         void onResponse(List<JobFetchResponse> jobs);
         void onError(String errorMessage);
     }
-
 }
-

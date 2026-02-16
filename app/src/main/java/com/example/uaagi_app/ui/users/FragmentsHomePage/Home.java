@@ -41,7 +41,7 @@ public class Home extends Fragment {
     private void fetchJobs() {
         JobFetchService service = new JobFetchService(requireContext());
 
-        service.fetchJobs(new JobFetchService.JobFetchCallback() {
+        service.fetchJobsForUser(new JobFetchService.JobFetchCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 jobs = response;

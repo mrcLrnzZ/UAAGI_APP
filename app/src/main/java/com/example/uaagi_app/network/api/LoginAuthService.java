@@ -11,6 +11,7 @@ import com.example.uaagi_app.network.dto.LoginResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 public class LoginAuthService {
@@ -40,8 +41,23 @@ public class LoginAuthService {
                     }
                 },
                 error -> {
-                    String message = error.getMessage() != null ? error.getMessage() : "Unknown network error";
-                    callback.onError("Network error: " + message);
+                    Log.e("verifyLoginRequest", "VolleyError", error);
+
+                    if (error.networkResponse != null) {
+                        Log.e("verifyLoginRequest", "Status code: " + error.networkResponse.statusCode);
+
+                        if (error.networkResponse.data != null) {
+                            String body = new String(
+                                    error.networkResponse.data,
+                                    StandardCharsets.UTF_8
+                            );
+                            Log.e("verifyLoginRequest", "Server response: " + body);
+                        }
+                    } else {
+                        Log.e("verifyLoginRequest", "No network response (timeout / SSL / DNS issue)");
+                    }
+
+                    callback.onError("Network error");
                 }
                 ){
             @Override

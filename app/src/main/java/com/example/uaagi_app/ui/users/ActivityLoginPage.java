@@ -232,7 +232,6 @@ public class ActivityLoginPage extends AppCompatActivity {
         Log.d(TAG, "Sending OTP: " + otp + ", Email: " + email);
 
         loginAuthService.verifyLogin(otp, email, new LoginAuthService.verifyLoginCallback() {
-
             @Override
             public void onResponse(LoginResponse response) {
 
