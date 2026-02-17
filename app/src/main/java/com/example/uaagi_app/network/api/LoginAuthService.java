@@ -13,6 +13,8 @@ import com.example.uaagi_app.utils.Helpers;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+
 public class LoginAuthService {
     private final Context context;
     private static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/index.php";
@@ -73,8 +75,34 @@ public class LoginAuthService {
 
     private void handleError(com.android.volley.VolleyError error, VerifyLoginCallback callback) {
         Log.e("LoginAuthService", "Volley Error", error);
-        callback.onError("Network error");
+
+        String errorMessage = "Network error";
+
+        if (error.networkResponse != null && error.networkResponse.data != null) {
+            String responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+            Log.e("LoginAuthService", "Server Response: " + responseBody);
+
+            try {
+                JSONObject json = new JSONObject(responseBody);
+                errorMessage = json.optString("message", errorMessage);
+                String errorDetails = json.optString("error", "");
+                if (!errorDetails.isEmpty()) {
+                    errorMessage += " - " + errorDetails;
+                }
+            } catch (JSONException e) {
+                Log.e("LoginAuthService", "Failed to parse error JSON", e);
+            }
+        }
+
+        // Append HTTP status code if available
+        if (error.networkResponse != null) {
+            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+        }
+
+        // Pass the final error message to callback
+        callback.onError(errorMessage);
     }
+
 
     public interface VerifyLoginCallback {
         void onResponse(LoginResponse response);

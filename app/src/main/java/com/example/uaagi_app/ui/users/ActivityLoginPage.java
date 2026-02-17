@@ -239,6 +239,11 @@ public class ActivityLoginPage extends AppCompatActivity {
             @Override
             public void onError(String errorMessage) {
                 Log.e(TAG, "Error: " + errorMessage);
+                if (!errorMessage.contains("Invalid OTP")) {
+                    Helpers.showOtpError(otpErrorText, "Failed to verify OTP");
+                } else {
+                    Helpers.showOtpError(otpErrorText, "Incorrect OTP");
+                }
             }
         });
     }
