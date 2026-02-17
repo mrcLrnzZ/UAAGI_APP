@@ -24,7 +24,8 @@ public class JobFetchService {
     private static final String TAG = "JobFetchService";
     private static final String BASE_URL =
 
-            "https://uaagionehire.bscs3b.com/MobileAPI/api";
+            """
+                    https://uaagionehire.bscs3b.com/MobileAPI/api/index.php""";
     private final Context context;
     public JobFetchService(Context context) {
         this.context = context;
@@ -34,9 +35,8 @@ public class JobFetchService {
        GET /api/users/{userId}/jobs
        ========================================================= */
     public void fetchJobsForUser(JobFetchCallback callback) {
-
         int userId = Helpers.getUserId(context);
-        String url = BASE_URL + "/users/" + userId + "/jobs";
+        String url = BASE_URL + "/jobs?userId=" + userId;
         Log.d(TAG, "User ID: " + userId);
         Log.d(TAG, url);
         JsonObjectRequest request = new JsonObjectRequest(
@@ -56,7 +56,7 @@ public class JobFetchService {
        ========================================================= */
     public void fetchJobById(int jobId, JobFetchCallback callback) {
 
-        String url = BASE_URL + "/jobs/" + jobId;
+        String url = BASE_URL + "/jobs?jobId=" + jobId;
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -80,6 +80,7 @@ public class JobFetchService {
         }
 
         JSONArray jobsArray = response.optJSONArray("data");
+        Log.d(TAG, "Jobs Array: " + jobsArray);
         if (jobsArray == null || jobsArray.length() == 0) {
             callback.onResponse(Collections.emptyList());
             return;
@@ -104,6 +105,7 @@ public class JobFetchService {
         }
 
         JSONObject jobJson = response.optJSONObject("data");
+        Log.d(TAG, "Job JSON: " + jobJson);
         if (jobJson == null) {
             callback.onResponse(Collections.emptyList());
             return;

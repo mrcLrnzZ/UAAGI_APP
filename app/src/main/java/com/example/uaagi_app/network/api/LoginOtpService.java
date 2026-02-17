@@ -5,56 +5,73 @@ import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.network.VolleySingleton;
+import com.example.uaagi_app.utils.Helpers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LoginOtpService {
     private final Context context;
-    private static final String SEND_OTP_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/sendOtp.php";
-    private static final int TIMEOUT_MS = 5000;
+    private static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/index.php";
+    private static final String TAG = "LoginOtpService";
 
     public LoginOtpService(Context context) {
         this.context = context;
     }
-    public void requestLoginOtp(String email, LoginCallback callback) {
-        StringRequest request = new StringRequest(Request.Method.POST, SEND_OTP_URL,
-                response -> {
-                    try {
-                        JSONObject obj = new JSONObject(response);
-                        boolean success = obj.getBoolean("success");
-                        callback.onResponse(success, obj);
-                    } catch (JSONException e) {
-                        // Log the full server response and the exception
-                        Log.e("LoginOtpService", "Invalid JSON response: " + response, e);
-                        callback.onError("Invalid server response: " + e.getMessage());
-                    }
-                },
-                error -> {
-                    String message = error.getMessage() != null ? error.getMessage() : "Unknown network error";
-                    callback.onError("Network error: " + message);
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email);
-                return params;
-            }
-        };
 
+    public void requestOtp(String email, LoginCallback callback) {
+        String url = BASE_URL + "/auth/send-otp";
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("email", email);
+        } catch (JSONException e) {
+            callback.onError("Failed to create request body");
+            return;
+        }
+        Log.d(TAG, "Request URL: " + url);
+        Log.d(TAG, "Request body: " + body);
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                body,
+                response -> handleSuccess(response, callback),
+                error -> handleError(error, callback)
+        );
+        applyRetryPolicy(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
+    private void handleSuccess(JSONObject response, LoginCallback callback) {
+        boolean success = response.optBoolean("success", false);
+
+        if (!success) {
+            callback.onError(response.optString("message", "Unknown error"));
+            return;
+        }
+
+        callback.onResponse(true, response);
+    }
+
+    private void handleError(VolleyError error, LoginCallback callback) {
+        Log.e(TAG, "Volley Error", error);
+
+        if (error.networkResponse != null) {
+            Log.e(TAG, "HTTP Status Code: " + error.networkResponse.statusCode);
+        }
+
+        callback.onError("Server error");
+    }
+
+    private void applyRetryPolicy(JsonObjectRequest request) {
         request.setRetryPolicy(new DefaultRetryPolicy(
-                TIMEOUT_MS,
+                10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
-
-        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
     public interface LoginCallback {
