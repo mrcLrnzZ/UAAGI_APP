@@ -64,79 +64,15 @@
                 </LinearLayout>
 
                 <!-- Government ID Container -->
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/governmentIdContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <!-- Government ID Entry -->
-                    <LinearLayout
-                        android:id="@+id/governmentIdEntry1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="@drawable/education_entry_background"
-                        android:layout_marginBottom="16dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Government Issued Number"
-                            android:textSize="15sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:textColor="#1A1A1A"
-                            android:layout_marginBottom="16dp"/>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/idTypeLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:hint=""
-                            app:hintTextColor="#757575"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/idTypeInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:hint="Select ID Type"
-                                android:inputType="none"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/idNumberLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Number"
-                            app:hintTextColor="#757575"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            app:placeholderText="Enter ID number"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/idNumberInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:inputType="text"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -607,124 +543,16 @@
                 </LinearLayout>
 
                 <!-- Reference Container -->
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/referenceContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <!-- Reference Entry -->
-                    <LinearLayout
-                        android:id="@+id/referenceEntry1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="@drawable/education_entry_background"
-                        android:layout_marginBottom="16dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reference"
-                            android:textSize="15sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:textColor="#1A1A1A"
-                            android:layout_marginBottom="16dp"/>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/referenceNameLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:hint="Name"
-                            app:hintTextColor="#757575"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            app:placeholderText="Enter full name"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/referenceNameInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:inputType="textCapWords"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/referenceOccupationLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:hint="Occupation"
-                            app:hintTextColor="#757575"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            app:placeholderText="Enter occupation"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/referenceOccupationInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:inputType="textCapWords"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/referenceCompanyLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:hint="Company"
-                            app:hintTextColor="#757575"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            app:placeholderText="Enter company name"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/referenceCompanyInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:inputType="textCapWords"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/referenceContactLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Contact Number"
-                            app:hintTextColor="#757575"
-                            app:boxStrokeColor="#004B87"
-                            app:boxStrokeWidth="2dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/referenceContactInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:textColor="#1A1A1A"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="14dp"
-                                android:inputType="phone"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header with Response Warning and Menu -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
+
+            <!-- Response Warning Badge -->
+            <LinearLayout
+                android:id="@+id/layoutResponseWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/warning_badge_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:gravity="center"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Response seems unlikely"
+                    android:textSize="12sp"
+                    android:textColor="#B71C1C"
+                    android:fontFamily="sans-serif-medium" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_info"
+                    android:layout_marginStart="4dp"
+                    app:tint="#B71C1C" />
+            </LinearLayout>
+
+            <!-- Three Dots Menu -->
+            <ImageView
+                android:id="@+id/ivMenuDots"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_more_vert"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#5F6368" />
+        </RelativeLayout>
+
+        <!-- Job Title -->
+        <TextView
+            android:id="@+id/tvJobTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Intern - IT, Marketing, Finance, Admin and HR (Feb-March Start - Remote)"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-medium"
+            android:lineSpacingExtra="2dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Company Name -->
+        <TextView
+            android:id="@+id/tvCompanyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tiger Global Business Services Inc."
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Madrigal Business Park"
+            android:textSize="14sp"
+            android:textColor="#5F6368"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Applied Date -->
+        <TextView
+            android:id="@+id/tvAppliedDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Applied on Indeed on Jan 23"
+            android:textSize="13sp"
+            android:textColor="#5F6368"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Update Status Button -->
+        <Button
+            android:id="@+id/btnUpdateStatus"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Update status"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif-medium"
+            android:background="@drawable/update_status_button_background"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Employer Response Time -->
+        <LinearLayout
+            android:id="@+id/layoutEmployerResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_flash"
+                app:tint="#5F6368" />
+
+            <TextView
+                android:id="@+id/tvEmployerResponse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This employer typically responds within 1 day"
+                android:textSize="12sp"
+                android:textColor="#5F6368"
+                android:fontFamily="sans-serif"
+                android:layout_marginStart="6dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

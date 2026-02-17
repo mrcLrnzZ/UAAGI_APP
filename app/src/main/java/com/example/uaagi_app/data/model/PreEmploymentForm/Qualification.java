@@ -7,6 +7,21 @@ public class Qualification {
     private String date;
     private String description;
 
+    public Qualification(String type, String title, String authority, String date, String description) {
+        this.type = type != null ? type : "";
+        this.title = title != null ? title : "";
+        this.authority = authority != null ? authority : "";
+        this.date = date != null ? date : "";
+        this.description = description != null ? description : "";
+    }
+    public Qualification() {
+        this.type = "";
+        this.title = "";
+        this.authority = "";
+        this.date = "";
+        this.description = "";
+    }
+
     public String getType() {
         return type;
     }

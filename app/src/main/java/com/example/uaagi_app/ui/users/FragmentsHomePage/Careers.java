@@ -3,12 +3,15 @@ package com.example.uaagi_app.ui.users.FragmentsHomePage;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import android.util.Log;
@@ -24,9 +27,8 @@ import java.util.List;
 public class Careers extends Fragment {
     private static final String TAG = "CareersFragment";
     private List<JobFetchResponse> jobs;
-    private FrameLayout jobContainer;
-
-
+    private RecyclerView jobRecyclerView;
+    private  JobEntry adapter;
     public Careers() {
     }
 
@@ -39,23 +41,35 @@ public class Careers extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        jobRecyclerView = view.findViewById(R.id.job_container);
         fetchJobs();
     }
     private void fetchJobs() {
         JobFetchService service = new JobFetchService(requireContext());
 
-        service.fetchJobs(new JobFetchService.JobFetchCallback() {
+        service.fetchJobsForUser(new JobFetchService.JobFetchCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 jobs = response;
                 Log.d(TAG, "Jobs fetched: " + (jobs != null ? jobs.size() : 0));
+                if (jobs != null && !jobs.isEmpty() && jobRecyclerView != null) {
+                    adapter = new JobEntry(jobs, 0, 5, job -> {
+                        JobDesc fragment = new JobDesc();
 
-                LinearLayout jobContainer = getView().findViewById(R.id.job_container);
-                if (jobs != null && !jobs.isEmpty() && jobContainer != null) {
-                    for (JobFetchResponse job : jobs) {
-                        UiHelpers.addJobEntry(job, jobContainer, requireContext());
-                    }
+                        Bundle bundle = new Bundle();
+                        String jobId = String.valueOf(job.getId());
+                        bundle.putString("jobId", jobId);
+                        fragment.setArguments(bundle);
+
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    });
+                    jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    jobRecyclerView.setAdapter(adapter);
                 } else {
                     Toast.makeText(getContext(), "No jobs available", Toast.LENGTH_SHORT).show();
                 }

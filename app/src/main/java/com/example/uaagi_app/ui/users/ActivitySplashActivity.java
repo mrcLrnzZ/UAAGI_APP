@@ -21,6 +21,8 @@ public class ActivitySplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "SplashAct onCreate()");
+        int userId = Helpers.getUserId(this);
+        Log.d(TAG, "User ID: " + userId);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
         runnable = () -> {
@@ -33,7 +35,7 @@ public class ActivitySplashActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         };
-        handler.postDelayed(runnable, 6000);
+        handler.postDelayed(runnable, 0);
     }
 
     @Override
