@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/WhiteSmoke">
 
+    <View
+        android:layout_width="450dp"
+        android:layout_height="400dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-70dp"
+        android:layout_marginEnd="-250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/circle_background" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -25,6 +35,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="3dp"
@@ -65,7 +76,18 @@
                                 android:text="Foton Philippines"
                                 android:textColor="#666666"
                                 android:textSize="14sp"
-                                android:layout_marginBottom="4dp" />
+                              />
+
+                            <!-- Location -->
+                            <TextView
+                                android:id="@+id/tvLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quezon City, Philippines"
+                                android:textColor="#666666"
+                                android:textSize="13sp"
+
+                                android:layout_marginBottom="12dp" />
 
                         </LinearLayout>
 
@@ -79,17 +101,6 @@
                             android:scaleType="centerInside" />
 
                     </LinearLayout>
-
-                    <!-- Location -->
-                    <TextView
-                        android:id="@+id/tvLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quezon City, Philippines"
-                        android:textColor="#666666"
-                        android:textSize="13sp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="12dp" />
 
                     <!-- Actions -->
                     <LinearLayout
