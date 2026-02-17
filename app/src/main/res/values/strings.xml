@@ -14,7 +14,16 @@
     <string name="pre_emp_step_5_title">Other\nInfo</string>
     <string name="pre_emp_step_6">6</string>
     <string name="pre_emp_step_6_title">Preview</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_logo_desc">AppLogoDesc</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="login">Login</string>
+    <string name="by_proceeding_you_hereby_acknowledge_that_you_have_read_understood_and_expressly_agree_to_be_legally_bound_by_the_terms_and_conditions_and_privacy_policy_governing_the_use_of_this_service">By proceeding, you hereby acknowledge that you have read, understood, and expressly agree to be legally bound by the Terms and Conditions and Privacy Policy governing the use of this service.</string>
+    <string name="or_log_in_with">or Log in with</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="enter_otp_sent_to_gmail_com">Enter OTP sent to @Gmail.com</string>
+    <string name="invalid_otp_please_try_again">Invalid OTP. Please try again.</string>
+    <string name="didn_t_receive_otp_resend_otp">Didn’t receive OTP? Resend OTP</string>
 </resources>

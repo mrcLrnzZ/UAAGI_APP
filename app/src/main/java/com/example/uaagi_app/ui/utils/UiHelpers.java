@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +13,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.ViewGroup;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -83,58 +81,4 @@ public class UiHelpers {
                 .addToBackStack(null)
                 .commit();
     }
-    public static void addJobEntry(JobFetchResponse job, LinearLayout container, Context context) {
-        if (job == null || container == null || context == null) return;
-
-        View entryView = LayoutInflater.from(context).inflate(R.layout.item_job_card, container, false);
-
-        TextView tvJobTitle = entryView.findViewById(R.id.tvJobTitle);
-        TextView tvCompany = entryView.findViewById(R.id.tvCompany);
-        TextView tvLocation = entryView.findViewById(R.id.tvLocation);
-        TextView tvSalary = entryView.findViewById(R.id.tvSalary);
-        TextView tvJobType = entryView.findViewById(R.id.tvJobType);
-        TextView tvExperienceLevel = entryView.findViewById(R.id.tvExperienceLevel);
-        TextView tvShift = entryView.findViewById(R.id.tvShift);
-        TextView tvPayTag = entryView.findViewById(R.id.tvPayTag);
-
-        String jobTitle = job.getJobTitle() != null ? job.getJobTitle() : "N/A";
-        String company = (job.getCompany() != null && job.getCompany().getDisplayName() != null)
-                ? job.getCompany().getDisplayName() : "N/A";
-        String location = job.getLocation() != null ? job.getLocation() : "N/A";
-        String salary = "₱" + job.getMinSalary() + " – ₱" + job.getMaxSalary();
-        String jobType = job.getJobType() != null ? job.getJobType().toString() : "N/A";
-        String experienceLevel = job.getExperienceLevel() != null ? job.getExperienceLevel().toString() : "N/A";
-        String shift = job.getRemoteOption() != null ? job.getRemoteOption().toString() : "N/A";
-        String payTag = "✓ 13th Month Pay";
-
-
-        tvJobTitle.setText(jobTitle);
-        tvCompany.setText(company);
-        tvLocation.setText(location);
-        tvSalary.setText(salary);
-        tvJobType.setText(jobType);
-        tvExperienceLevel.setText(experienceLevel);
-        tvShift.setText(shift);
-        tvPayTag.setText(payTag);
-
-        entryView.setOnClickListener(v -> {
-            JobDesc detailsFragment = new JobDesc();
-            Bundle args = new Bundle();
-            args.putString("jobTitle", jobTitle);
-            args.putString("company", company);
-            args.putString("location", location);
-            args.putString("salary", salary);
-
-            detailsFragment.setArguments(args);
-
-            if (context instanceof FragmentActivity) {
-                FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
-                UiHelpers.switchFragment(fm, detailsFragment);
-            }
-        });
-
-        container.addView(entryView);
-    }
-
-
 }

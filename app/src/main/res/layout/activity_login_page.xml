@@ -11,6 +11,7 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/app_logo_desc"
         android:src="@drawable/onehirelogo_darkmode"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,7 +55,7 @@
                     android:id="@+id/btnemail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Email Address"
+                    android:hint="@string/enter_email_address"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/Black" />
 
@@ -66,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/DarkBlue"
                 app:cornerRadius="10dp" />
@@ -76,8 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:gravity="center"
-                android:text="By proceeding, you hereby acknowledge that you have read, understood, and expressly agree to be legally bound by the Terms and Conditions and Privacy Policy governing the use of this service."
-                android:textSize="10sp" />
+                android:text="@string/by_proceeding_you_hereby_acknowledge_that_you_have_read_understood_and_expressly_agree_to_be_legally_bound_by_the_terms_and_conditions_and_privacy_policy_governing_the_use_of_this_service"
+                android:textSize="11sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,9 +99,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="or Log in with"
+                    android:text="@string/or_log_in_with"
                     android:textColor="#888888"
-                    android:textSize="10sp" />
+                    android:textSize="11sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -113,7 +114,7 @@
                 android:id="@+id/btnGoogleSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign in with Google"
+                android:text="@string/sign_in_with_google"
                 android:textColor="#000000"
                 android:backgroundTint="#FFFFFF"
                 app:strokeColor="#DADCE0"
@@ -152,7 +153,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Verify OTP"
+                android:text="@string/verify_otp"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -163,7 +164,7 @@
                 android:id="@+id/titemahabamasarap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter OTP sent to @Gmail.com"
+                android:text="@string/enter_otp_sent_to_gmail_com"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -184,6 +185,7 @@
                     android:id="@+id/otpInput1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:autofillHints="x"
                     android:gravity="center"
                     android:textColor="@color/Black"
                     android:inputType="number"
@@ -195,6 +197,7 @@
                     android:id="@+id/otpInput2"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:autofillHints="x"
                     android:gravity="center"
                     android:textColor="@color/Black"
                     android:backgroundTint="@color/Black"
@@ -206,6 +209,7 @@
                     android:id="@+id/otpInput3"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:autofillHints="x"
                     android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
@@ -217,6 +221,7 @@
                     android:id="@+id/otpInput4"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:autofillHints="x"
                     android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
@@ -228,6 +233,7 @@
                     android:id="@+id/otpInput5"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:autofillHints="x"
                     android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
@@ -239,6 +245,7 @@
                     android:id="@+id/otpInput6"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:autofillHints="x"
                     android:backgroundTint="@color/Black"
                     android:gravity="center"
                     android:inputType="number"
@@ -258,7 +265,7 @@
                 android:textColor="#F44336"
                 android:textSize="14sp"
                 android:visibility="gone"
-                android:text="Invalid OTP. Please try again." />
+                android:text="@string/invalid_otp_please_try_again" />
 
 
 
@@ -267,7 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Login"
+                android:text="@string/login"
                 android:layout_marginTop="20dp"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/DarkBlue"
@@ -279,7 +286,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Didn’t receive OTP? Resend OTP"
+                android:text="@string/didn_t_receive_otp_resend_otp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:gravity="center"

@@ -5,6 +5,17 @@ public class EmergencyContact {
     private String contact;
     private String relationship;
 
+    public EmergencyContact(String name, String contact, String relationship) {
+        this.name = name != null ? name : "";
+        this.contact = contact != null ? contact : "";
+        this.relationship = relationship != null ? relationship : "";
+    }
+    public EmergencyContact() {
+        this.name = "";
+        this.contact = "";
+        this.relationship = "";
+    }
+
     public String getName() {
         return name;
     }

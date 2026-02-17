@@ -6,6 +6,21 @@ public class Education {
     private String gradYear;
     private String status;
     private String achievement;
+    public Education() {
+        this.level = "";
+        this.school = "";
+        this.gradYear = "";
+        this.status = "";
+        this.achievement = "";
+    }
+    public Education(String level, String school, String gradYear, String status, String achievement) {
+        this.level = level != null ? level : "";
+        this.school = school != null ? school : "";
+        this.gradYear = gradYear != null ? gradYear : "";
+        this.status = status != null ? status : "";
+        this.achievement = achievement != null ? achievement : "";
+    }
+
 
     public String getLevel() {
         return level;

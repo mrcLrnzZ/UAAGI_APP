@@ -19,110 +19,70 @@
         android:textColor="#1A1A1A"
         android:layout_marginBottom="16dp"/>
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
-        android:baselineAligned="false">
+        android:hint="Certification Name"
+        app:boxStrokeColor="#004B87"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/certificationNameLayout"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCertificationName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:hint="Name"
-            app:hintTextColor="#757575"
-            app:boxStrokeColor="#004B87"
-            app:boxStrokeWidth="2dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+            android:inputType="textCapWords"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/certificationNameInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#1A1A1A"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
-                android:inputType="textCapWords"/>
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Issuing Organization"
+        app:boxStrokeColor="#004B87"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/issuingOrganizationLayout"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etIssuingOrg"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Issuing Org"
-            app:hintTextColor="#757575"
-            app:boxStrokeColor="#004B87"
-            app:boxStrokeWidth="2dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/issuingOrganizationInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#1A1A1A"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
-                android:inputType="textCapWords"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+            android:inputType="textCapWords"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:weightSum="2">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dateObtainedLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"
             android:hint="Date Obtained"
-            app:hintTextColor="#757575"
             app:boxStrokeColor="#004B87"
-            app:boxStrokeWidth="2dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dateObtainedInput"
+                android:id="@+id/etDateObtained"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#1A1A1A"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
                 android:focusable="false"
                 android:clickable="true"
                 android:inputType="date"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/expiryDateLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Expiry Date (if applicable)"
-            app:hintTextColor="#757575"
+            android:layout_height="wrap_content"
+            android:hint="Expiry Date"
             app:boxStrokeColor="#004B87"
-            app:boxStrokeWidth="2dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/expiryDateInput"
+                android:id="@+id/etExpiryDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#1A1A1A"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
                 android:focusable="false"
                 android:clickable="true"
                 android:inputType="date"/>
@@ -130,27 +90,18 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/certificationDescriptionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        app:hintTextColor="#757575"
         app:boxStrokeColor="#004B87"
-        app:boxStrokeWidth="2dp"
-        app:placeholderText="Describe the certification and its relevance"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/certificationDescriptionInput"
+            android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="#1A1A1A"
-            android:minLines="3"
-            android:gravity="top|start"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:inputType="textMultiLine|textCapSentences"/>
+            android:inputType="textMultiLine"
+            android:minLines="3"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
