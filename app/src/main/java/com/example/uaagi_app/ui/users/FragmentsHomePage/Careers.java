@@ -59,14 +59,12 @@ public class Careers extends Fragment {
                         Bundle bundle = new Bundle();
                         String jobId = String.valueOf(job.getId());
                         bundle.putString("jobId", jobId);
+                        bundle.putString("jobTitle", job.getJobTitle());
+                        bundle.putString("jobLocation", job.getLocation());
+                        bundle.putString("jobCompany", job.getCompany().getDisplayName());
                         fragment.setArguments(bundle);
 
-                        requireActivity()
-                                .getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, fragment)
-                                .addToBackStack(null)
-                                .commit();
+                        UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), fragment);
                     });
                     jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     jobRecyclerView.setAdapter(adapter);

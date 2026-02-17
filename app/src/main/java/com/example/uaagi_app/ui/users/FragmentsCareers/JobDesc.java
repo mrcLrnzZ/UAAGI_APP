@@ -22,8 +22,9 @@ import java.util.List;
 public class JobDesc extends Fragment {
 
     View btnApplyNow, btnBack;
-    TextView jobTitle, jobDesc, jobLocation, jobQualifications,
+    TextView jobTitle, jobCompany, jobDesc, jobLocation, jobQualifications,
             jobBenefits, jobRemoteOption, jobDept;
+    String Title, Location, Company;
     private static final String TAG = "JobDescFragment";
 
     public JobDesc(){
@@ -35,6 +36,7 @@ public class JobDesc extends Fragment {
         btnApplyNow = view.findViewById(R.id.btnApplyNow);
         btnBack = view.findViewById(R.id.btnBack);
         jobTitle = view.findViewById(R.id.tvJobTitle);
+        jobCompany = view.findViewById(R.id.tvCompany);
         jobDesc = view.findViewById(R.id.tvJobDesc);
         jobLocation = view.findViewById(R.id.tvLocation);
         jobQualifications = view.findViewById(R.id.tvQualifications);
@@ -42,22 +44,35 @@ public class JobDesc extends Fragment {
         jobRemoteOption = view.findViewById(R.id.tvWorkSetupValue);
         jobDept = view.findViewById(R.id.tvDivisionValue);
 
-        if (getArguments() != null) {
-            String jobId = getArguments().getString("jobId");
+        String jobId = getArgumentsFromBundle();
 
-            UiHelpers.showToast(jobId, requireContext());
-            fetchJobDetails(jobId);
-        }
+        fetchJobDetails(getArgumentsFromBundle());
+
         btnApplyNow.setOnClickListener(v -> {
-            UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), new ApplyOption());
+            ApplyOption fragment = new ApplyOption();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("jobId", jobId);
+            bundle.putString("jobTitle", jobTitle.getText().toString());
+            bundle.putString("jobLocation", jobLocation.getText().toString());
+            bundle.putString("jobCompany", jobCompany.getText().toString());
+            fragment.setArguments(bundle);
+            UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), fragment);
         });
 
         btnBack.setOnClickListener(v -> {
             UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), new Careers());
         });
-
-
         return view;
+    }
+    private String getArgumentsFromBundle(){
+        if (getArguments() != null) {
+            Title = getArguments().getString("jobTitle");
+            Location = getArguments().getString("jobLocation");
+            Company = getArguments().getString("jobCompany");
+            return getArguments().getString("jobId");
+        }
+        return null;
     }
     private void fetchJobDetails(String jobId) {
         JobFetchService service = new JobFetchService(requireContext());
@@ -67,6 +82,7 @@ public class JobDesc extends Fragment {
                 JobFetchResponse job = response.get(0);
                 jobTitle.setText(job.getJobTitle());
                 jobDesc.setText(job.getJobDescription());
+                jobCompany.setText(job.getCompany().getDisplayName());
                 jobLocation.setText(job.getLocation());
                 jobQualifications.setText(job.getPreferredQualifications());
                 jobBenefits.setText(job.getBenefits());
