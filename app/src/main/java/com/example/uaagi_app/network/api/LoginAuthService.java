@@ -85,7 +85,7 @@ public class LoginAuthService {
             try {
                 JSONObject json = new JSONObject(responseBody);
                 errorMessage = json.optString("message", errorMessage);
-                String errorDetails = json.optString("error", "");
+                String errorDetails = json.optString("error", "No Key message found");
                 if (!errorDetails.isEmpty()) {
                     errorMessage += " - " + errorDetails;
                 }
@@ -93,7 +93,6 @@ public class LoginAuthService {
                 Log.e("LoginAuthService", "Failed to parse error JSON", e);
             }
         }
-
         // Append HTTP status code if available
         if (error.networkResponse != null) {
             errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
