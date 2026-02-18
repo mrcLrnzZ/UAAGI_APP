@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/WhiteSmoke"
     tools:context=".ui.users.FragmentsHomePage.Careers">
-    
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -47,9 +47,11 @@
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
                         android:background="@android:color/transparent"
-                        android:hint="Search Job"
+                        android:hint="Search Division"
                         android:textColorHint="#999999"
                         android:textSize="14sp" />
+
+
 
                 </LinearLayout>
             </LinearLayout>
@@ -80,25 +82,12 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginStart="5dp"/>
 
-                <FrameLayout
-                    android:id="@+id/loading_container"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
-
-                <FrameLayout
-                    android:id="@+id/error_container"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/job_container"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:visibility="gone">
+                    android:layout_marginBottom="16dp">
                 </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
