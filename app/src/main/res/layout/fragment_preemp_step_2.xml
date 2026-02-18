@@ -54,31 +54,31 @@
 
                     <Button
                         android:id="@+id/btnAddEducation"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:backgroundTint="#004B87"
                         android:elevation="0dp"
                         android:fontFamily="sans-serif-medium"
-                        android:paddingHorizontal="16dp"
-                        android:text="+ Add Education"
-
+                        android:paddingHorizontal="14dp"
+                        android:text="+ "
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
-                        app:cornerRadius="6dp" />
+                        app:cornerRadius="10dp" />
 
                     <Button
                         android:id="@+id/btnRemoveEducation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:backgroundTint="#004B87"
+                        android:layout_width="3dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:backgroundTint="#FE0000"
                         android:elevation="0dp"
                         android:fontFamily="sans-serif-medium"
-                        android:paddingHorizontal="16dp"
-                        android:text="- Remove Education"
+                        android:paddingHorizontal="14dp"
+                        android:text="-"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:visibility="gone"
-                        app:cornerRadius="6dp" />
+                        app:cornerRadius="10dp" />
 
                 </LinearLayout>
 

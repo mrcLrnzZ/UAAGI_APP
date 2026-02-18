@@ -53,16 +53,31 @@
 
                     <Button
                         android:id="@+id/btnAddWorkExperience"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="+ Add Skill"
+                        android:text="+"
                         android:backgroundTint="#004B87"
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="13sp"
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
+                        app:cornerRadius="10dp"
                         android:elevation="0dp"/>
+
+                    <Button
+                        android:id="@+id/btnRemoveWorkExperience"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#FE0000"
+                        android:elevation="0dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="14dp"
+                        android:layout_marginStart="5dp"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                     <!-- Entry -->
@@ -119,16 +134,31 @@
 
                     <Button
                         android:id="@+id/btnAddCert"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="+ Add Certification"
+                        android:text="+"
                         android:backgroundTint="#004B87"
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="13sp"
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
+                        app:cornerRadius="10dp"
                         android:elevation="0dp"/>
+
+                    <Button
+                        android:id="@+id/btnRemoveCert"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#FE0000"
+                        android:elevation="0dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="14dp"
+                        android:layout_marginStart="5dp"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <!-- Cert Container -->
@@ -159,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/White"
                 android:padding="24dp">
 
                 <!-- Header -->
@@ -186,16 +217,31 @@
 
                     <Button
                         android:id="@+id/btnAddQual"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="+ Add Qualification"
+                        android:text="+"
                         android:backgroundTint="#004B87"
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="13sp"
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
+                        app:cornerRadius="10dp"
                         android:elevation="0dp"/>
+
+                    <Button
+                        android:id="@+id/btnRemoveQual"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#FE0000"
+                        android:elevation="0dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="14dp"
+                        android:layout_marginStart="5dp"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <!-- Qual Container -->
@@ -225,6 +271,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/White"
                 android:padding="24dp">
 
                 <!-- Header -->
@@ -252,16 +299,32 @@
 
                     <Button
                         android:id="@+id/btnAddSeminar"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="+ Add Seminar/Training"
+                        android:text="+"
                         android:backgroundTint="#004B87"
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="13sp"
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
+                        app:cornerRadius="10dp"
                         android:elevation="0dp"/>
+
+                    <Button
+                        android:id="@+id/btnRemoveSeminar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#FE0000"
+                        android:elevation="0dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="14dp"
+                        android:layout_marginStart="5dp"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:cornerRadius="10dp" />
+
                 </LinearLayout>
 
                 <!-- Seminar Container -->

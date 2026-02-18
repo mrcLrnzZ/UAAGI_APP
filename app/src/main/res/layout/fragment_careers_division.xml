@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/WhiteSmoke"
     tools:context=".ui.users.FragmentsHomePage.Careers">
-    
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -47,9 +47,11 @@
                         android:layout_weight="1"
                         android:layout_marginStart="12dp"
                         android:background="@android:color/transparent"
-                        android:hint="Search Job"
+                        android:hint="Search Division"
                         android:textColorHint="#999999"
                         android:textSize="14sp" />
+
+
 
                 </LinearLayout>
             </LinearLayout>
