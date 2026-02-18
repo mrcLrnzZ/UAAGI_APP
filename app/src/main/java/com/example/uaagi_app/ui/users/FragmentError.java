@@ -1,4 +1,4 @@
-package com.example.uaagi_app.ui;
+package com.example.uaagi_app.ui.users;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.ui.utils.UiHelpers;
 
 public class FragmentError extends Fragment {
 

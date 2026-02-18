@@ -11,15 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.ui.FragmentError;
+import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.ui.utils.UiHelpers;
-import android.util.Log;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.uaagi_app.network.api.JobFetchService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;

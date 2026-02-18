@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.api.JobFetchService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
-import com.example.uaagi_app.ui.FragmentError;
+import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
