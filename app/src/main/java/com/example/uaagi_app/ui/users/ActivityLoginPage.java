@@ -253,11 +253,10 @@ public class ActivityLoginPage extends AppCompatActivity {
             LoginOtpService service = new LoginOtpService(this);
             service.requestOtp(email, new LoginOtpService.LoginCallback() {
                 @Override
-                public void onResponse(boolean success, JSONObject response) {
-                    Log.d(TAG, "Success: " + success + " Response: " + response.toString());
+                public void onResponse(String message) {
+                    Log.d(TAG, "Response: " + message);
                     showOtpSection();
                 }
-
                 @Override
                 public void onError(String errorMessage) {
                     Log.e(TAG, "Error: " + errorMessage);

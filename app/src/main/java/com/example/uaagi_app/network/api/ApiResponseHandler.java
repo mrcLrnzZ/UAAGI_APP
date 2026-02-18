@@ -60,7 +60,6 @@ public class ApiResponseHandler {
             errorCallback.onError("Invalid data format");
             return;
         }
-
         callback.onResponse(result);
     }
     public static <T> void handleSingleSuccess(
@@ -78,6 +77,23 @@ public class ApiResponseHandler {
             return;
         }
         errorCallback.onError("Invalid data format")    ;
+    }
+    public static void handleSendOnlySuccess(
+            JSONObject response,
+            ApiSingleResponseCallback<String> callback,
+            ApiErrorHandler.ApiErrorCallback errorCallback
+    ) {
+        boolean success = response.optBoolean("success", false);
+        String message = response.optString("message", "");
+
+        if (!success) {
+            errorCallback.onError(
+                    message.isEmpty() ? "Unknown error" : message
+            );
+            return;
+        }
+
+        callback.onResponse(message);
     }
 
 }

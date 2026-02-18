@@ -4,10 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.network.VolleySingleton;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
@@ -15,13 +12,6 @@ import com.example.uaagi_app.network.mapper.JobFetchMapper;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.NetworkUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class JobFetchService {
