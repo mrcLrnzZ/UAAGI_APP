@@ -1,5 +1,6 @@
 package com.example.uaagi_app.ui.users.FragmentsCareers.Adapter;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.List;
 
@@ -69,7 +72,6 @@ public class JobEntry extends RecyclerView.Adapter<JobEntry.JobViewHolder> {
         return limit > 0 ? Math.min(jobFetchResponseList.size(), limit)
                 : jobFetchResponseList.size();
     }
-
     public interface OnJobClickListener {
         void onJobClick(JobFetchResponse job);
     }
