@@ -1,6 +1,6 @@
 package com.example.uaagi_app.network.dto;
 
-public class LoginResponse {
+public class LoginFetchResponse {
     public boolean success;
     public String message;
     public boolean formExist;
@@ -38,13 +38,12 @@ public class LoginResponse {
     }
 
     public int userId;
-    private LoginResponse(Builder builder) {
+    private LoginFetchResponse(Builder builder) {
         this.success = builder.success;
         this.message = builder.message;
         this.formExist = builder.formExist;
         this.userId = builder.userId;
     }
-    public LoginResponse() {}
     public static class Builder {
         private boolean success;
         private String message;
@@ -57,8 +56,8 @@ public class LoginResponse {
         public Builder formExist(boolean formExist) { this.formExist = formExist; return this; }
         public Builder userId(int userId) { this.userId = userId; return this; }
 
-        public LoginResponse build() {
-            return new LoginResponse(this);
+        public LoginFetchResponse build() {
+            return new LoginFetchResponse(this);
         }
 
     }

@@ -7,7 +7,8 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.network.VolleySingleton;
-import com.example.uaagi_app.network.dto.LoginResponse;
+import com.example.uaagi_app.network.dto.LoginFetchResponse;
+import com.example.uaagi_app.network.mapper.LoginFetchResponseMapper;
 import com.example.uaagi_app.utils.Helpers;
 
 import org.json.JSONException;
@@ -41,8 +42,13 @@ public class LoginAuthService {
                 Request.Method.POST,
                 VERIFY_LOGIN_URL,
                 body,
-                response -> handleSuccess(response, callback),
-                error -> handleError(error, callback)
+                response -> ApiResponseHandler.handleSingleSuccess(
+                        response,
+                        LoginFetchResponseMapper::fromJson,
+                        callback::onResponse,
+                        callback::onError
+                ),
+                error -> ApiErrorHandler.handleError(error, callback::onError)
         );
 
         // Retry policy
@@ -55,56 +61,9 @@ public class LoginAuthService {
         VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    private void handleSuccess(JSONObject response, VerifyLoginCallback callback) {
-        boolean success = response.optBoolean("success", false);
-
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.success = success;
-        loginResponse.message = response.optString("message");
-        loginResponse.formExist = response.optBoolean("formExist", false);
-        loginResponse.userId = response.optInt("userId", 0);
-        Helpers.saveLoginState(context);
-        Helpers.saveUserId(context, loginResponse.userId);
-        if (!success) {
-            callback.onError(loginResponse.message);
-            return;
-        }
-
-        callback.onResponse(loginResponse);
-    }
-
-    private void handleError(com.android.volley.VolleyError error, VerifyLoginCallback callback) {
-        Log.e("LoginAuthService", "Volley Error", error);
-
-        String errorMessage = "Network error";
-
-        if (error.networkResponse != null && error.networkResponse.data != null) {
-            String responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-            Log.e("LoginAuthService", "Server Response: " + responseBody);
-
-            try {
-                JSONObject json = new JSONObject(responseBody);
-                errorMessage = json.optString("message", errorMessage);
-                String errorDetails = json.optString("error", "No Key message found");
-                if (!errorDetails.isEmpty()) {
-                    errorMessage += " - " + errorDetails;
-                }
-            } catch (JSONException e) {
-                Log.e("LoginAuthService", "Failed to parse error JSON", e);
-            }
-        }
-        // Append HTTP status code if available
-        if (error.networkResponse != null) {
-            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-        }
-
-        // Pass the final error message to callback
-        callback.onError(errorMessage);
-    }
 
 
-    public interface VerifyLoginCallback {
-        void onResponse(LoginResponse response);
-        void onError(String errorMessage);
+    public interface VerifyLoginCallback extends ApiErrorHandler.ApiErrorCallback {
+        void onResponse(LoginFetchResponse response);
     }
 }

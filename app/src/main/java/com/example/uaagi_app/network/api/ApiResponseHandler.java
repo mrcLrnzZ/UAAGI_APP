@@ -2,6 +2,8 @@ package com.example.uaagi_app.network.api;
 
 import android.util.Log;
 
+import com.example.uaagi_app.utils.Helpers;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +16,9 @@ public class ApiResponseHandler {
         void onResponse(List<T> response);
     }
 
+    public interface ApiSingleResponseCallback<T> {
+        void onResponse(T response);
+    }
     public interface JsonMapper<T> {
         T fromJson(JSONObject json);
     }
@@ -57,6 +62,22 @@ public class ApiResponseHandler {
         }
 
         callback.onResponse(result);
+    }
+    public static <T> void handleSingleSuccess(
+            JSONObject response,
+            JsonMapper<T> mapper,
+            ApiSingleResponseCallback<T> callback,
+            ApiErrorHandler.ApiErrorCallback errorCallback
+    ) {
+        Log.d(TAG, "FULL response: " + response.toString());
+        Object dataObj = response.opt("data");
+        Log.d(TAG, "Response data: " + dataObj);
+        if  (dataObj instanceof JSONObject) {
+            callback.onResponse(mapper.fromJson((JSONObject) dataObj));
+
+            return;
+        }
+        errorCallback.onError("Invalid data format")    ;
     }
 
 }

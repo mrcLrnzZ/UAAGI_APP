@@ -358,7 +358,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/BAIClogo"
+                                        android:src="@drawable/baiclogo"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
@@ -488,7 +488,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/Lynkco"
+                                        android:src="@drawable/lynkco"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
@@ -618,7 +618,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/Muttlogo"
+                                        android:src="@drawable/muttlogo"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
