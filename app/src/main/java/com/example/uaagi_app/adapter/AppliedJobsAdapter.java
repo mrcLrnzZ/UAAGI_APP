@@ -14,11 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.model.AppliedJob;
+import com.example.uaagi_app.data.model.AppliedJob;
 
 import java.util.List;
 
