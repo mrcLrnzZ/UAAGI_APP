@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class JobFetchMapper {
 
     public static JobFetchResponse fromJson(JSONObject job) {
-
         return new JobFetchResponse.Builder()
                 .id(job.optInt("id"))
                 .jobTitle(job.optString("job_title"))

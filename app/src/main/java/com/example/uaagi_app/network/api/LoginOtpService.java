@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.network.VolleySingleton;
+import com.example.uaagi_app.network.mapper.SendOnlyMapper;
 import com.example.uaagi_app.utils.Helpers;
 
 import org.json.JSONException;
@@ -38,34 +39,16 @@ public class LoginOtpService {
                 Request.Method.POST,
                 url,
                 body,
-                response -> handleSuccess(response, callback),
-                error -> handleError(error, callback)
+                response -> ApiResponseHandler.handleSendOnlySuccess(
+                        response,
+                        callback::onResponse,
+                        callback::onError
+                ),
+                error -> ApiErrorHandler.handleError(error, callback::onError)
         );
         applyRetryPolicy(request);
         VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
-
-    private void handleSuccess(JSONObject response, LoginCallback callback) {
-        boolean success = response.optBoolean("success", false);
-
-        if (!success) {
-            callback.onError(response.optString("message", "Unknown error"));
-            return;
-        }
-
-        callback.onResponse(true, response);
-    }
-
-    private void handleError(VolleyError error, LoginCallback callback) {
-        Log.e(TAG, "Volley Error", error);
-
-        if (error.networkResponse != null) {
-            Log.e(TAG, "HTTP Status Code: " + error.networkResponse.statusCode);
-        }
-
-        callback.onError("Server error");
-    }
-
     private void applyRetryPolicy(JsonObjectRequest request) {
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
@@ -74,8 +57,7 @@ public class LoginOtpService {
         ));
     }
 
-    public interface LoginCallback {
-        void onResponse(boolean success, JSONObject response);
-        void onError(String errorMessage);
+    public interface LoginCallback extends ApiErrorHandler.ApiErrorCallback {
+        void onResponse(String message);
     }
 }

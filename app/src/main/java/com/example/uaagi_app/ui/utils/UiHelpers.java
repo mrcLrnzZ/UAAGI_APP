@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
@@ -80,5 +81,27 @@ public class UiHelpers {
                 .replace(R.id.fragment_container, targetFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+    public static void replaceChildFragment(
+            FragmentManager fragmentManager,
+            int containerId,
+            Fragment fragment) {
+        if (fragmentManager.isStateSaved()) return;
+
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, fragment.getClass().getSimpleName())
+                .commit();
+    }
+
+    public static void replaceFragment(FragmentManager fragmentManager, Fragment fragment, boolean addToBackStack) {
+        var transaction = fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
     }
 }

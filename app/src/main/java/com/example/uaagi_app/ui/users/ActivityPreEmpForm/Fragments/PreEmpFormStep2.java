@@ -15,13 +15,14 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Education;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.EducationEntry;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreEmpFormStep2 extends Fragment {
 
-    private Button btnPrevious, btnNext, btnAddEducation;
+    private Button btnPrevious, btnNext, btnAddEducation, btnRemoveEducation;
     private RecyclerView educationRecyclerView;
     private EducationEntry adapter;
     private final List<Education> educationList = new ArrayList<>();
@@ -36,6 +37,7 @@ public class PreEmpFormStep2 extends Fragment {
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
         btnAddEducation = view.findViewById(R.id.btnAddEducation);
+        btnRemoveEducation = view.findViewById(R.id.btnRemoveEducation);
 
         educationRecyclerView = view.findViewById(R.id.educationEntriesContainer);
 
@@ -56,15 +58,28 @@ public class PreEmpFormStep2 extends Fragment {
         );
 
         btnAddEducation.setOnClickListener(v -> {
-            Log.d("PreEmpFormStep2", "Adding new education entry");
-
-            Education newEdu = new Education();
-            educationList.add(newEdu);
-
-            adapter.notifyItemInserted(educationList.size() - 1);
-            educationRecyclerView.scrollToPosition(educationList.size() - 1);
+            AddEducationEntry();
         });
-
+        btnRemoveEducation.setOnClickListener(v -> {
+            RemoveEducationEntry();
+        });
         return view;
+    }
+    private void AddEducationEntry() {
+        Education newEdu = new Education();
+        educationList.add(newEdu);
+        adapter.notifyItemInserted(educationList.size() - 1);
+        educationRecyclerView.scrollToPosition(educationList.size() - 1);
+        btnRemoveEducation.setVisibility(View.VISIBLE);
+    }
+    private void RemoveEducationEntry() {
+        if (educationList.size() > 3) {
+            int removeIndex = educationList.size() - 1;
+            educationList.remove(removeIndex);
+            adapter.notifyItemRemoved(removeIndex);
+            if (educationList.size() <= 3) btnRemoveEducation.setVisibility(View.GONE);
+        }else{
+            UiHelpers.showToast("Cannot remove more entries", requireContext());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.uaagi_app.model;
+package com.example.uaagi_app.data.model;
 
 public class AppliedJob {
     private String jobId;

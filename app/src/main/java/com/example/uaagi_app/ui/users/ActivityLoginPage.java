@@ -27,7 +27,7 @@ import androidx.cardview.widget.CardView;
 import com.example.uaagi_app.network.api.LoginOtpService;
 import com.example.uaagi_app.network.api.LoginAuthService;
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.network.dto.LoginResponse;
+import com.example.uaagi_app.network.dto.LoginFetchResponse;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
 import com.example.uaagi_app.ui.utils.UiHelpers;
@@ -36,7 +36,6 @@ import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ActivityLoginPage extends AppCompatActivity {
@@ -228,7 +227,9 @@ public class ActivityLoginPage extends AppCompatActivity {
         LoginAuthService authService = new LoginAuthService(this);
         authService.verifyLogin(email, otp, new LoginAuthService.VerifyLoginCallback() {
             @Override
-            public void onResponse(LoginResponse response) {
+            public void onResponse(LoginFetchResponse response) {
+                Helpers.saveLoginState(ActivityLoginPage.this);
+                Helpers.saveUserId(ActivityLoginPage.this, response.userId);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
                 Intent intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
@@ -252,11 +253,10 @@ public class ActivityLoginPage extends AppCompatActivity {
             LoginOtpService service = new LoginOtpService(this);
             service.requestOtp(email, new LoginOtpService.LoginCallback() {
                 @Override
-                public void onResponse(boolean success, JSONObject response) {
-                    Log.d(TAG, "Success: " + success + " Response: " + response.toString());
+                public void onResponse(String message) {
+                    Log.d(TAG, "Response: " + message);
                     showOtpSection();
                 }
-
                 @Override
                 public void onError(String errorMessage) {
                     Log.e(TAG, "Error: " + errorMessage);

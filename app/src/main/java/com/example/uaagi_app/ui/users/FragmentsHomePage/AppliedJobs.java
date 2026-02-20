@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.adapter.AppliedJobsAdapter;
-import com.example.uaagi_app.model.AppliedJob;
+import com.example.uaagi_app.data.model.AppliedJob;
 
 import java.util.ArrayList;
 import java.util.List;
