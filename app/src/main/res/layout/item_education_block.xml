@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Reusable layout for a single education entry.
+    Bind data from the fragment/activity using view IDs after <include>.
+
+    IDs exposed:
+      tvEducationLevel   - e.g. "Primary School:", "Secondary School (Lower):"
+      tvEducationSchool  - school name
+      tvEducationYear    - year graduated
+      tvEducationAchieve - achievement / honor
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvEducationLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Primary School: "
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEducationSchool"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Bagong Barrio Elementary School"
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvEducationYearLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Year Graduated: "
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEducationYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="2017"
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvEducationAchieveLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Achievement: "
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEducationAchieve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Top 9"
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
