@@ -40,6 +40,9 @@ public class GovIdEntry extends RecyclerView.Adapter<GovIdEntry.GovIdViewHolder>
         if (holder.idTypeWatcher != null) holder.idType.removeTextChangedListener(holder.idTypeWatcher);
         if (holder.idNumberWatcher != null) holder.idNumber.removeTextChangedListener(holder.idNumberWatcher);
 
+        holder.idType.setText(govId.getType() != null ? govId.getType() : "");
+        holder.idNumber.setText(govId.getNumber() != null ? govId.getNumber() : "");
+
         holder.idTypeWatcher = new SimpleTextWatcher(govId::setType);
         holder.idNumberWatcher = new SimpleTextWatcher(govId::setNumber);
 

@@ -6,57 +6,58 @@ import android.util.Log;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.uaagi_app.data.model.PreEmploymentForm.PreEmpFormDataModel;
 import com.example.uaagi_app.network.VolleySingleton;
-import com.example.uaagi_app.network.dto.LoginFetchResponse;
-import com.example.uaagi_app.network.mapper.LoginFetchResponseMapper;
+import com.example.uaagi_app.utils.NetworkUtils;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class LoginAuthService {
-    private static final String TAG = "LoginAuthService";
+public class PreEmpSendService {
+    private static final String TAG = "PreEmpSendService";
     private static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/index.php";
-    private static final String VERIFY_LOGIN_URL = BASE_URL + "/auth/verify";
-    private static final int TIMEOUT_MS = 10000;
+    private static final String SEND_PREEMP_URL = BASE_URL + "/preemployment/submit";
+    private static final int TIMEOUT_MS = 15000;
 
     private final Context context;
     private final Gson gson;
 
-    public LoginAuthService(Context context) {
+    public PreEmpSendService(Context context) {
         this.context = context;
         this.gson = new Gson();
     }
 
-    public void verifyLogin(String email, String otp, VerifyLoginCallback callback) {
-        try {
-            Map<String, String> requestData = new HashMap<>();
-            requestData.put("email", email);
-            requestData.put("otp", otp.toLowerCase());
+    public void sendPreEmploymentForm(PreEmpFormDataModel formData, SendPreEmploymentCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection. Please check your network.");
+            return;
+        }
 
-            String jsonString = gson.toJson(requestData);
+        if (formData == null) {
+            callback.onError("Form data cannot be null");
+            return;
+        }
+
+        try {
+            String jsonString = gson.toJson(formData);
             JSONObject body = new JSONObject(jsonString);
 
-            Log.d(TAG, "Request URL: " + VERIFY_LOGIN_URL);
-            Log.d(TAG, "Request body: " + body);
+            Log.d(TAG, "Request URL: " + SEND_PREEMP_URL);
+            Log.d(TAG, "Request body: " + body.toString());
 
             JsonObjectRequest request = new JsonObjectRequest(
                     Request.Method.POST,
-                    VERIFY_LOGIN_URL,
+                    SEND_PREEMP_URL,
                     body,
-                    response -> ApiResponseHandler.handleSingleSuccess(
+                    response -> ApiResponseHandler.handleSendOnlySuccess(
                             response,
-                            LoginFetchResponseMapper::fromJson,
-                            callback::onResponse,
+                            callback::onSuccess,
                             callback::onError
                     ),
                     error -> ApiErrorHandler.handleError(error, callback::onError)
             );
 
-            // Retry policy
             request.setRetryPolicy(new DefaultRetryPolicy(
                     TIMEOUT_MS,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -68,12 +69,13 @@ public class LoginAuthService {
         } catch (JSONException e) {
             callback.onError("Failed to create request body: " + e.getMessage());
             Log.e(TAG, "JSON conversion error", e);
+        } catch (Exception e) {
+            callback.onError("Unexpected error: " + e.getMessage());
+            Log.e(TAG, "Unexpected error", e);
         }
     }
 
-
-
-    public interface VerifyLoginCallback extends ApiErrorHandler.ApiErrorCallback {
-        void onResponse(LoginFetchResponse response);
+    public interface SendPreEmploymentCallback extends ApiErrorHandler.ApiErrorCallback {
+        void onSuccess(String message);
     }
 }

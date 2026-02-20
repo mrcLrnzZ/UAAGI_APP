@@ -40,6 +40,10 @@ public class ProfessionalSkillEntry extends RecyclerView.Adapter<ProfessionalSki
         if (holder.skillLevelWatcher != null) holder.skillLevel.removeTextChangedListener(holder.skillLevelWatcher);
         if (holder.skillDescWatcher != null) holder.skillDesc.removeTextChangedListener(holder.skillDescWatcher);
 
+        holder.skillCategory.setText(skill.getCategory() != null ? skill.getCategory() : "");
+        holder.skillLevel.setText(skill.getLevel() != null ? skill.getLevel() : "");
+        holder.skillDesc.setText(skill.getDescription() != null ? skill.getDescription() : "");
+
         holder.skillCategoryWatcher = new SimpleTextWatcher(skill::setCategory);
         holder.skillLevelWatcher = new SimpleTextWatcher(skill::setLevel);
         holder.skillDescWatcher = new SimpleTextWatcher(skill::setDescription);

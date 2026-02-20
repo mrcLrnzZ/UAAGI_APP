@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.model.PreEmploymentForm.UserInfo;
 import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.ui.utils.UiHelpers;
@@ -63,15 +64,57 @@ public class PreEmpFormStep1 extends Fragment {
         firstNameInput = view.findViewById(R.id.firstNameInput);
         lastNameInput = view.findViewById(R.id.lastNameInput);
         initializeViews(view);
+        hasTakenStep();
         setupSpinners();
         //setupHintsWithAsterisk();
         setupListeners();
     }
     public void next() {
         viewModel.update(form -> {
-
+            UserInfo userIfo = new UserInfo(
+                    null,
+                    null,
+                    firstNameInput.getText().toString(),
+                    middleNameInput.getText().toString(),
+                    lastNameInput.getText().toString(),
+                    dobInput.getText().toString(),
+                    ageInput.getText().toString(),
+                    genderSpinner.getText().toString(),
+                    religionSpinner.getText().toString(),
+                    civilStatusSpinner.getText().toString(),
+                    nationalitySpinner.getText().toString(),
+                    heightInput.getText().toString(),
+                    weightInput.getText().toString(),
+                    bloodTypeSpinner.getText().toString(),
+                    phoneInput.getText().toString(),
+                    otherPhoneInput.getText().toString(),
+                    streetInput.getText().toString(),
+                    currentAddressInput.getText().toString()
+            );
+            form.setUserInfo(userIfo);
         });
         ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep2());
+    }
+    private void hasTakenStep(){
+        UserInfo userInfo = viewModel.getValue().getUserInfo();
+        if(userInfo != null && !userInfo.getFirstName().isEmpty()){
+            firstNameInput.setText(userInfo.getFirstName());
+            middleNameInput.setText(userInfo.getMiddleName());
+            lastNameInput.setText(userInfo.getLastName());
+            dobInput.setText(userInfo.getDob());
+            ageInput.setText(userInfo.getAge());
+            genderSpinner.setText(userInfo.getGender());
+            religionSpinner.setText(userInfo.getReligion());
+            civilStatusSpinner.setText(userInfo.getCivilStatus());
+            nationalitySpinner.setText(userInfo.getNationality());
+            heightInput.setText(userInfo.getHeight());
+            weightInput.setText(userInfo.getWeight());
+            bloodTypeSpinner.setText(userInfo.getBloodType());
+            phoneInput.setText(userInfo.getCellNo());
+            otherPhoneInput.setText(userInfo.getTelNo());
+            streetInput.setText(userInfo.getCurrentAddress());
+            currentAddressInput.setText(userInfo.getPermanentAddress());
+        }
     }
     private void initializeViews(View view) {
         // Personal Information

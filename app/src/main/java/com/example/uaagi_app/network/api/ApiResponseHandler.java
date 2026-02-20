@@ -2,8 +2,6 @@ package com.example.uaagi_app.network.api;
 
 import android.util.Log;
 
-import com.example.uaagi_app.utils.Helpers;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 

@@ -43,6 +43,12 @@ public class SeminarEntry extends RecyclerView.Adapter<SeminarEntry.SeminarViewH
         if (holder.organizerWatcher != null) holder.seminarOrganizer.removeTextChangedListener(holder.organizerWatcher);
         if (holder.typeWatcher != null) holder.seminarType.removeTextChangedListener(holder.typeWatcher);
 
+        holder.seminarTitle.setText(seminar.getTitle() != null ? seminar.getTitle() : "");
+        holder.seminarDesc.setText(seminar.getDescription() != null ? seminar.getDescription() : "");
+        holder.seminarDate.setText(seminar.getDate() != null ? seminar.getDate() : "");
+        holder.seminarOrganizer.setText(seminar.getOrganizer() != null ? seminar.getOrganizer() : "");
+        holder.seminarType.setText(seminar.getType() != null ? seminar.getType() : "", false);
+
         holder.titleWatcher = new SimpleTextWatcher(seminar::setTitle);
         holder.descWatcher = new SimpleTextWatcher(seminar::setDescription);
         holder.dateWatcher = new SimpleTextWatcher(seminar::setDate);

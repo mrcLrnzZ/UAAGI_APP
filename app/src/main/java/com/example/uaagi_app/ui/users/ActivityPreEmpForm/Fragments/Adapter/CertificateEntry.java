@@ -41,6 +41,12 @@ public class CertificateEntry extends RecyclerView.Adapter<CertificateEntry.Cert
         if(holder.ExpiryDateWatcher != null) holder.etExpiryDate.removeTextChangedListener(holder.ExpiryDateWatcher);
         if(holder.DescriptionWatcher != null) holder.etDescription.removeTextChangedListener(holder.DescriptionWatcher);
 
+        holder.etName.setText(cert.getName() != null ? cert.getName() : "");
+        holder.etOrg.setText(cert.getOrganization() != null ? cert.getOrganization() : "");
+        holder.etDateObtained.setText(cert.getDate() != null ? cert.getDate() : "");
+        holder.etExpiryDate.setText(cert.getExpiryDate() != null ? cert.getExpiryDate() : "");
+        holder.etDescription.setText(cert.getDescription() != null ? cert.getDescription() : "");
+
         holder.nameWatcher = new SimpleTextWatcher(cert::setName);
         holder.orgWatcher = new SimpleTextWatcher(cert::setOrganization);
         holder.dateObtainedWatcher = new SimpleTextWatcher(cert::setDate);

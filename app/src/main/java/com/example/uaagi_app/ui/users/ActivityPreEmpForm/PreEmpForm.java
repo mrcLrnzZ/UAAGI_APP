@@ -36,6 +36,14 @@ public class PreEmpForm extends AppCompatActivity {
                     .replace(R.id.step_container, new PreEmpFormStep1())
                     .commit();
         }
+
+        // Listen for back stack changes to update step highlighting
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+            currentStep = backStackCount + 1; // +1 because first fragment has no back stack entry
+            highlightSteps();
+            scrollView.post(() -> scrollView.smoothScrollTo(0, 0));
+        });
     }
     public void nextStep(Fragment fragment) {
         changeStep(1);
@@ -126,3 +134,25 @@ public class PreEmpForm extends AppCompatActivity {
     @Override protected void onStop() { super.onStop(); Log.d(TAG, "onStop"); }
     @Override protected void onDestroy() { super.onDestroy(); Log.d(TAG, "onDestroy"); }
 }
+//// Create and populate your PreEmpFormDataModel
+//PreEmpFormDataModel formData = new PreEmpFormDataModel();
+//formData.setUserInfo(userInfo);
+//formData.setEducations(educationList);
+//formData.setWorkExperiences(workExperienceList);
+//// ... set other fields
+//
+//// Send the form
+//PreEmpSendService service = new PreEmpSendService(context);
+//service.sendPreEmploymentForm(formData, new PreEmpSendService.SendPreEmploymentCallback() {
+//    @Override
+//    public void onSuccess(String message) {
+//        // Handle success - form submitted successfully
+//        Log.d("PreEmp", "Success: " + message);
+//    }
+//
+//    @Override
+//    public void onError(String error) {
+//        // Handle error
+//        Log.e("PreEmp", "Error: " + error);
+//    }
+//});

@@ -3,28 +3,27 @@ package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Certificate;
-import com.example.uaagi_app.data.model.PreEmploymentForm.Education;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Qualification;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Seminar;
 import com.example.uaagi_app.data.model.PreEmploymentForm.ProfessionalSkills;
+import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.CertificateEntry;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.ProfessionalSkillEntry;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.QualificationEntry;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.SeminarEntry;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.EntryHandler;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
-import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,7 @@ public class PreEmpFormStep4 extends Fragment {
     private final List<Certificate> certificationList = new ArrayList<>();
     private final List<Qualification> qualificationList = new ArrayList<>();
     private final List<Seminar> seminarList = new ArrayList<>();
+    private PreEmpFormViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +53,8 @@ public class PreEmpFormStep4 extends Fragment {
         qualificationContainer = view.findViewById(R.id.qualificationContainer);
         seminarsContainer = view.findViewById(R.id.seminarContainer);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(PreEmpFormViewModel.class);
+
         professionalSkillList.add(new ProfessionalSkills());
         certificationList.add(new Certificate());
         qualificationList.add(new Qualification());
@@ -62,6 +64,16 @@ public class PreEmpFormStep4 extends Fragment {
         Button btnAddCertification = view.findViewById(R.id.btnAddCert);
         Button btnAddQualification = view.findViewById(R.id.btnAddQual);
         Button btnAddSeminar = view.findViewById(R.id.btnAddSeminar);
+        Button btnRemoveProfessionalSkill = view.findViewById(R.id.btnRemoveWorkExperience);
+        Button btnRemoveCertification = view.findViewById(R.id.btnRemoveCert);
+        Button btnRemoveQualification = view.findViewById(R.id.btnRemoveQual);
+        Button btnRemoveSeminar = view.findViewById(R.id.btnRemoveSeminar);
+
+        EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), new ProfessionalSkills());
+        EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), new Certificate());
+        EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), new Qualification());
+        EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), new Seminar());
+
 
         ProfessionalSkillEntry professionalSkillEntryAdapter = new ProfessionalSkillEntry(professionalSkillList);
         CertificateEntry certificateEntryAdapter = new CertificateEntry(certificationList);
@@ -78,54 +90,57 @@ public class PreEmpFormStep4 extends Fragment {
         qualificationContainer.setAdapter(qualificationEntryAdapter);
         seminarsContainer.setAdapter(seminarEntryAdapter);
 
-        btnAddProfessionalSkill.setOnClickListener(v -> {
-            Log.d("PreEmpFormStep4", "Adding new education entry");
+        btnAddProfessionalSkill.setOnClickListener(v ->
+            EntryHandler.addEntry(professionalSkillList, new ProfessionalSkills(), professionalSkillsContainer, professionalSkillEntryAdapter, 10)
+        );
 
-            ProfessionalSkills newSkill = new ProfessionalSkills();
-            professionalSkillList.add(newSkill);
+        btnAddCertification.setOnClickListener(v ->
+            EntryHandler.addEntry(certificationList, new Certificate(), certificationContainer, certificateEntryAdapter, 10)
+        );
 
-            professionalSkillEntryAdapter.notifyItemInserted(professionalSkillList.size() - 1);
-            professionalSkillsContainer.scrollToPosition(professionalSkillList.size() - 1);
-        });
+        btnAddQualification.setOnClickListener(v ->
+            EntryHandler.addEntry(qualificationList, new Qualification(), qualificationContainer, qualificationEntryAdapter, 10)
+        );
 
-        btnAddCertification.setOnClickListener(v -> {
-            Log.d("PreEmpFormStep4", "Adding new certification entry");
+        btnAddSeminar.setOnClickListener(v ->
+            EntryHandler.addEntry(seminarList, new Seminar(), seminarsContainer, seminarEntryAdapter, 10)
+        );
 
-            Certificate newCert = new Certificate();
-            certificationList.add(newCert);
+        btnRemoveProfessionalSkill.setOnClickListener(v ->
+            EntryHandler.removeEntry(professionalSkillList, professionalSkillsContainer, professionalSkillEntryAdapter, requireContext(), 1)
+        );
 
-            certificateEntryAdapter.notifyItemInserted(certificationList.size() - 1);
-            certificationContainer.scrollToPosition(certificationList.size() - 1);
-        });
+        btnRemoveCertification.setOnClickListener(v ->
+            EntryHandler.removeEntry(certificationList, certificationContainer, certificateEntryAdapter, requireContext(), 1)
+        );
 
-        btnAddQualification.setOnClickListener(v -> {
-            Log.d("PreEmpFormStep4", "Adding new qualification entry");
+        btnRemoveQualification.setOnClickListener(v ->
+            EntryHandler.removeEntry(qualificationList, qualificationContainer, qualificationEntryAdapter, requireContext(), 1)
+        );
 
-            Qualification newQual = new Qualification();
-            qualificationList.add(newQual);
+        btnRemoveSeminar.setOnClickListener(v ->
+            EntryHandler.removeEntry(seminarList, seminarsContainer, seminarEntryAdapter, requireContext(), 1)
+        );
 
-            qualificationEntryAdapter.notifyItemInserted(qualificationList.size() - 1);
-            qualificationContainer.scrollToPosition(qualificationList.size() - 1);
-        });
-
-        btnAddSeminar.setOnClickListener(v -> {
-            Log.d("PreEmpFormStep4", "Adding new seminar entry");
-
-            Seminar newSem = new Seminar();
-            seminarList.add(newSem);
-
-            seminarEntryAdapter.notifyItemInserted(seminarList.size() - 1);
-            seminarsContainer.scrollToPosition(seminarList.size() - 1);
-        });
 
         btnPrevious.setOnClickListener(v -> {
+            EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(professionalSkillList));
+            EntryHandler.saveData(viewModel, form -> form.setCertificates(certificationList));
+            EntryHandler.saveData(viewModel, form -> form.setQualifications(qualificationList));
+            EntryHandler.saveData(viewModel, form -> form.setSeminars(seminarList));
             ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep3());
         });
 
         btnNext.setOnClickListener(v -> {
+            EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(professionalSkillList));
+            EntryHandler.saveData(viewModel, form -> form.setCertificates(certificationList));
+            EntryHandler.saveData(viewModel, form -> form.setQualifications(qualificationList));
+            EntryHandler.saveData(viewModel, form -> form.setSeminars(seminarList));
             ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep5());
         });
 
         return view;
     }
+
+
 }

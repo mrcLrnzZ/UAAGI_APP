@@ -61,4 +61,14 @@ public class Education {
     public void setAchievement(String achievement) {
         this.achievement = achievement;
     }
+    @Override
+    public String toString() {
+        return "Education{" +
+                "level='" + level + '\'' +
+                ", school='" + school + '\'' +
+                ", gradYear='" + gradYear + '\'' +
+                ", status='" + status + '\'' +
+                ", achievement='" + achievement + '\'' +
+                '}';
+    }
 }
