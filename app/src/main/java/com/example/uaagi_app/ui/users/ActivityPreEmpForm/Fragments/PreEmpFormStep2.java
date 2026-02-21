@@ -64,9 +64,13 @@ public class PreEmpFormStep2 extends Fragment {
         });
 
         btnAddEducation.setOnClickListener(v -> {
+            btnRemoveEducation.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(educationList, new Education(), educationRecyclerView, adapter, 10);
         });
         btnRemoveEducation.setOnClickListener(v -> {
+            if (educationList.size() == 3) {
+                btnRemoveEducation.setVisibility(View.GONE);
+            }
             EntryHandler.removeEntry(educationList, educationRecyclerView, adapter, requireContext(), 3);
         });
         return view;

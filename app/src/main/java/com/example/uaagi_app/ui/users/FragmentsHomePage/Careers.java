@@ -17,7 +17,7 @@ import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
-import com.example.uaagi_app.network.api.JobFetchService;
+import com.example.uaagi_app.network.Services.JobFetchService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 
 import java.util.List;

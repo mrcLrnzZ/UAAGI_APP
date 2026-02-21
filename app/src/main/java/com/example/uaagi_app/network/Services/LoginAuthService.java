@@ -1,4 +1,4 @@
-package com.example.uaagi_app.network.api;
+package com.example.uaagi_app.network.Services;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,6 +7,8 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.network.VolleySingleton;
+import com.example.uaagi_app.network.dto.LoginFetchResponse;
+import com.example.uaagi_app.network.mapper.LoginFetchResponseMapper;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -15,45 +17,52 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginOtpService {
+public class LoginAuthService {
+    private static final String TAG = "LoginAuthService";
     private static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/index.php";
-    private static final String TAG = "LoginOtpService";
+    private static final String VERIFY_LOGIN_URL = BASE_URL + "/auth/verify";
     private static final int TIMEOUT_MS = 10000;
 
     private final Context context;
     private final Gson gson;
 
-    public LoginOtpService(Context context) {
+    public LoginAuthService(Context context) {
         this.context = context;
         this.gson = new Gson();
     }
 
-    public void requestOtp(String email, LoginCallback callback) {
-        String url = BASE_URL + "/auth/send-otp";
-
+    public void verifyLogin(String email, String otp, VerifyLoginCallback callback) {
         try {
             Map<String, String> requestData = new HashMap<>();
             requestData.put("email", email);
+            requestData.put("otp", otp.toLowerCase());
 
             String jsonString = gson.toJson(requestData);
             JSONObject body = new JSONObject(jsonString);
 
-            Log.d(TAG, "Request URL: " + url);
+            Log.d(TAG, "Request URL: " + VERIFY_LOGIN_URL);
             Log.d(TAG, "Request body: " + body);
 
             JsonObjectRequest request = new JsonObjectRequest(
                     Request.Method.POST,
-                    url,
+                    VERIFY_LOGIN_URL,
                     body,
-                    response -> ApiResponseHandler.handleSendOnlySuccess(
+                    response -> ApiResponseHandler.handleSingleSuccess(
                             response,
+                            LoginFetchResponseMapper::fromJson,
                             callback::onResponse,
                             callback::onError
                     ),
                     error -> ApiErrorHandler.handleError(error, callback::onError)
             );
 
-            applyRetryPolicy(request);
+            // Retry policy
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            ));
+
             VolleySingleton.getInstance(context).addToRequestQueue(request);
 
         } catch (JSONException e) {
@@ -61,15 +70,10 @@ public class LoginOtpService {
             Log.e(TAG, "JSON conversion error", e);
         }
     }
-    private void applyRetryPolicy(JsonObjectRequest request) {
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
-    }
 
-    public interface LoginCallback extends ApiErrorHandler.ApiErrorCallback {
-        void onResponse(String message);
+
+
+    public interface VerifyLoginCallback extends ApiErrorHandler.ApiErrorCallback {
+        void onResponse(LoginFetchResponse response);
     }
 }

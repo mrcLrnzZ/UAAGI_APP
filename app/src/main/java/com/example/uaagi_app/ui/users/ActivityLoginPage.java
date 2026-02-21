@@ -24,8 +24,8 @@ import android.text.style.ForegroundColorSpan;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.uaagi_app.network.api.LoginOtpService;
-import com.example.uaagi_app.network.api.LoginAuthService;
+import com.example.uaagi_app.network.Services.LoginOtpService;
+import com.example.uaagi_app.network.Services.LoginAuthService;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.LoginFetchResponse;
 import com.example.uaagi_app.utils.Helpers;
@@ -35,8 +35,6 @@ import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
-
-import org.json.JSONObject;
 
 public class ActivityLoginPage extends AppCompatActivity {
 

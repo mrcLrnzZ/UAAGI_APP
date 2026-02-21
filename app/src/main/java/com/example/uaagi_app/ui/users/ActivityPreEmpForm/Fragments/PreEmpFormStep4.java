@@ -90,37 +90,53 @@ public class PreEmpFormStep4 extends Fragment {
         qualificationContainer.setAdapter(qualificationEntryAdapter);
         seminarsContainer.setAdapter(seminarEntryAdapter);
 
-        btnAddProfessionalSkill.setOnClickListener(v ->
-            EntryHandler.addEntry(professionalSkillList, new ProfessionalSkills(), professionalSkillsContainer, professionalSkillEntryAdapter, 10)
-        );
+        btnAddProfessionalSkill.setOnClickListener(v -> {
+            btnRemoveProfessionalSkill.setVisibility(View.VISIBLE);
+            EntryHandler.addEntry(professionalSkillList, new ProfessionalSkills(), professionalSkillsContainer, professionalSkillEntryAdapter, 10);
+        });
 
-        btnAddCertification.setOnClickListener(v ->
-            EntryHandler.addEntry(certificationList, new Certificate(), certificationContainer, certificateEntryAdapter, 10)
-        );
+        btnAddCertification.setOnClickListener(v -> {
+            btnRemoveCertification.setVisibility(View.VISIBLE);
+            EntryHandler.addEntry(certificationList, new Certificate(), certificationContainer, certificateEntryAdapter, 10);
+        });
 
-        btnAddQualification.setOnClickListener(v ->
-            EntryHandler.addEntry(qualificationList, new Qualification(), qualificationContainer, qualificationEntryAdapter, 10)
-        );
+        btnAddQualification.setOnClickListener(v -> {
+            btnRemoveQualification.setVisibility(View.VISIBLE);
+            EntryHandler.addEntry(qualificationList, new Qualification(), qualificationContainer, qualificationEntryAdapter, 10);
+        });
 
-        btnAddSeminar.setOnClickListener(v ->
-            EntryHandler.addEntry(seminarList, new Seminar(), seminarsContainer, seminarEntryAdapter, 10)
-        );
+        btnAddSeminar.setOnClickListener(v -> {
+            btnRemoveSeminar.setVisibility(View.VISIBLE);
+            EntryHandler.addEntry(seminarList, new Seminar(), seminarsContainer, seminarEntryAdapter, 10);
+        });
 
-        btnRemoveProfessionalSkill.setOnClickListener(v ->
-            EntryHandler.removeEntry(professionalSkillList, professionalSkillsContainer, professionalSkillEntryAdapter, requireContext(), 1)
-        );
+        btnRemoveProfessionalSkill.setOnClickListener(v -> {
+            if (professionalSkillList.size() == 1) {
+                btnRemoveProfessionalSkill.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(professionalSkillList, professionalSkillsContainer, professionalSkillEntryAdapter, requireContext(), 1);
+        });
 
-        btnRemoveCertification.setOnClickListener(v ->
-            EntryHandler.removeEntry(certificationList, certificationContainer, certificateEntryAdapter, requireContext(), 1)
-        );
+        btnRemoveCertification.setOnClickListener(v -> {
+            if (certificationList.size() == 1) {
+                btnRemoveCertification.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(certificationList, certificationContainer, certificateEntryAdapter, requireContext(), 1);
+        });
 
-        btnRemoveQualification.setOnClickListener(v ->
-            EntryHandler.removeEntry(qualificationList, qualificationContainer, qualificationEntryAdapter, requireContext(), 1)
-        );
+        btnRemoveQualification.setOnClickListener(v -> {
+            if (qualificationList.size() == 1) {
+                btnRemoveQualification.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(qualificationList, qualificationContainer, qualificationEntryAdapter, requireContext(), 1);
+        });
 
-        btnRemoveSeminar.setOnClickListener(v ->
-            EntryHandler.removeEntry(seminarList, seminarsContainer, seminarEntryAdapter, requireContext(), 1)
-        );
+        btnRemoveSeminar.setOnClickListener(v -> {
+            if (seminarList.size() == 1) {
+                btnRemoveSeminar.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(seminarList, seminarsContainer, seminarEntryAdapter, requireContext(), 1);
+        });
 
 
         btnPrevious.setOnClickListener(v -> {

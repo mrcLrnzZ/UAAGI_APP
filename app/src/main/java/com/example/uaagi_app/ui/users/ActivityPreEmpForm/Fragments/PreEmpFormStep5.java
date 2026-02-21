@@ -65,18 +65,15 @@ public class PreEmpFormStep5 extends Fragment {
         Button btnRemoveGovernmentId = view.findViewById(R.id.btnRemoveGovernmentId);
         Button btnRemoveReference = view.findViewById(R.id.btnRemoveReference);
 
-        // Initialize Emergency Contact fields
         emergencyContactNameInput = view.findViewById(R.id.emergencyContactNameInput);
         emergencyRelationshipInput = view.findViewById(R.id.emergencyRelationshipInput);
         emergencyContactNumberInput = view.findViewById(R.id.emergencyContactNumberInput);
 
-        // Initialize Office Skills RadioGroups
         msWordRadioGroup = view.findViewById(R.id.msWordRadioGroup);
         msExcelRadioGroup = view.findViewById(R.id.msExcelRadioGroup);
         msPowerPointRadioGroup = view.findViewById(R.id.msPowerPointRadioGroup);
         msOutlookRadioGroup = view.findViewById(R.id.msOutlookRadioGroup);
 
-        // Setup relationship dropdown
         setupRelationshipDropdown();
 
         governmentIdList.add(new GovId());
@@ -85,7 +82,6 @@ public class PreEmpFormStep5 extends Fragment {
         EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), new GovId());
         EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), new ContactReference());
 
-        // Load existing data
         loadExistingData();
 
         GovIdEntry governmentIdEntryAdapter = new GovIdEntry(governmentIdList);
@@ -98,21 +94,30 @@ public class PreEmpFormStep5 extends Fragment {
         referenceContainer.setAdapter(contactReferenceEntryAdapter);
 
         btnAddGovernmentId.setOnClickListener(v ->{
+            btnRemoveGovernmentId.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(governmentIdList, new GovId(), governmentIdContainer,governmentIdEntryAdapter, 10);
 
         });
 
         btnAddReference.setOnClickListener(v ->{
+            btnRemoveReference.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(contactReferenceList, new ContactReference(), referenceContainer, contactReferenceEntryAdapter, 10);
         });
 
-        btnRemoveGovernmentId.setOnClickListener(v ->
-                EntryHandler.removeEntry(governmentIdList, governmentIdContainer, governmentIdEntryAdapter, requireContext(), 1)
-        );
+        btnRemoveGovernmentId.setOnClickListener(v ->{
+            if (governmentIdList.size() == 1) {
+                btnRemoveGovernmentId.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(governmentIdList, governmentIdContainer, governmentIdEntryAdapter, requireContext(), 1);
+        });
 
-        btnRemoveReference.setOnClickListener(v ->
-                EntryHandler.removeEntry(contactReferenceList, referenceContainer, contactReferenceEntryAdapter, requireContext(), 1)
-        );
+        btnRemoveReference.setOnClickListener(v ->{
+            if (contactReferenceList.size() == 1) {
+                btnRemoveReference.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(contactReferenceList, referenceContainer, contactReferenceEntryAdapter, requireContext(), 1);
+        });
+
         btnPrevious.setOnClickListener(v -> {
             saveAllData();
             ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep4());
@@ -140,7 +145,6 @@ public class PreEmpFormStep5 extends Fragment {
     }
 
     private void loadExistingData() {
-        // Load Emergency Contact data
         EmergencyContact emergencyContact = viewModel.getValue().getEmergencyContact();
         if (emergencyContact != null) {
             emergencyContactNameInput.setText(emergencyContact.getName());
@@ -148,7 +152,6 @@ public class PreEmpFormStep5 extends Fragment {
             emergencyContactNumberInput.setText(emergencyContact.getContact());
         }
 
-        // Load Office Skills data
         OfficeSkills officeSkills = viewModel.getValue().getOfficeSkills();
         if (officeSkills != null) {
             setRadioGroupSelection(msWordRadioGroup, officeSkills.getMsword());
@@ -210,20 +213,16 @@ public class PreEmpFormStep5 extends Fragment {
     }
 
     private void saveAllData() {
-        // Save Government IDs
         EntryHandler.saveData(viewModel, form -> form.setGovIds(governmentIdList));
 
-        // Save Contact References
         EntryHandler.saveData(viewModel, form -> form.setContactReferences(contactReferenceList));
 
-        // Save Emergency Contact
         EmergencyContact emergencyContact = new EmergencyContact();
         emergencyContact.setName(emergencyContactNameInput.getText().toString().trim());
         emergencyContact.setRelationship(emergencyRelationshipInput.getText().toString().trim());
         emergencyContact.setContact(emergencyContactNumberInput.getText().toString().trim());
         EntryHandler.saveData(viewModel, form -> form.setEmergencyContact(emergencyContact));
 
-        // Save Office Skills
         OfficeSkills officeSkills = new OfficeSkills();
         officeSkills.setMsword(getSelectedRadioButtonText(msWordRadioGroup, R.id.msWordBeginner, R.id.msWordIntermediate, R.id.msWordAdvanced));
         officeSkills.setMsexcel(getSelectedRadioButtonText(msExcelRadioGroup, R.id.msExcelBeginner, R.id.msExcelIntermediate, R.id.msExcelAdvanced));

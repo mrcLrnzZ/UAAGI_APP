@@ -52,13 +52,6 @@ public class PreEmpFormStep3 extends Fragment {
         workExperienceContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
         workExperienceContainer.setAdapter(adapter);
 
-        btnAddWorkExperience.setOnClickListener(v -> {
-            Log.d("PreEmpFormStep3", "Adding new work experience entry");
-            WorkExperience newWorkExp = new WorkExperience();
-            workExperienceList.add(newWorkExp);
-            adapter.notifyItemInserted(workExperienceList.size() - 1);
-            workExperienceContainer.scrollToPosition(workExperienceList.size() - 1);
-        });
 
         btnPrevious.setOnClickListener(v -> {
             EntryHandler.saveData(viewModel, form -> form.setWorkExperiences(workExperienceList));
@@ -69,11 +62,16 @@ public class PreEmpFormStep3 extends Fragment {
             EntryHandler.saveData(viewModel, form -> form.setWorkExperiences(workExperienceList));
             ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep4());
         });
+
         btnAddWorkExperience.setOnClickListener(v -> {
-        EntryHandler.addEntry(workExperienceList, new WorkExperience(), workExperienceContainer, adapter, 10);
+            btnRemoveWorkExperience.setVisibility(View.VISIBLE);
+            EntryHandler.addEntry(workExperienceList, new WorkExperience(), workExperienceContainer, adapter, 10);
         });
         btnRemoveWorkExperience.setOnClickListener(v -> {
-        EntryHandler.removeEntry(workExperienceList, workExperienceContainer, adapter, requireContext(), 1);
+            if (workExperienceList.size() == 1) {
+                btnRemoveWorkExperience.setVisibility(View.GONE);
+            }
+            EntryHandler.removeEntry(workExperienceList, workExperienceContainer, adapter, requireContext(), 1);
         });
         return view;
     }
