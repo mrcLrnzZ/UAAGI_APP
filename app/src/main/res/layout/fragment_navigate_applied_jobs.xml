@@ -192,9 +192,8 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Past 14 days Section -->
             <TextView
-                android:id="@+id/tvPast14Days"
+                android:id="@+id/tvSectionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Past 14 days"
@@ -202,38 +201,33 @@
                 android:textStyle="bold"
                 android:textColor="#000000"
                 android:paddingBottom="12dp"
-                android:fontFamily="sans-serif-medium" />
-
-            <!-- Recycler View for Applied Jobs -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAppliedJobs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_applied_job" />
-
-            <!-- Older Section -->
-            <TextView
-                android:id="@+id/tvOlder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Older"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:paddingTop="16dp"
-                android:paddingBottom="12dp"
                 android:fontFamily="sans-serif-medium"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
-            <!-- Recycler View for Older Jobs -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOlderJobs"
+                android:id="@+id/rvJobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone" />
+                android:nestedScrollingEnabled="false"/>
+
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/layoutEmptyState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingTop="60dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvEmptyMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nothing here yet"
+                    android:textSize="16sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

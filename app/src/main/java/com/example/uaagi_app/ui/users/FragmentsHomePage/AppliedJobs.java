@@ -10,90 +10,68 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.adapter.AppliedJobsAdapter;
+import com.example.uaagi_app.adapter.ArchivedJobsAdapter;
+import com.example.uaagi_app.adapter.InterviewJobsAdapter;
+import com.example.uaagi_app.adapter.SavedJobsAdapter;
 import com.example.uaagi_app.model.AppliedJob;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class AppliedJobs extends Fragment implements AppliedJobsAdapter.OnJobActionListener {
 
-    // Views
     private LinearLayout tabSaved, tabApplied, tabInterviews, tabArchived;
     private TextView tvSaved, tvApplied, tvInterviews, tvArchived;
     private TextView tvSavedCount, tvAppliedCount, tvInterviewsCount;
-    private RecyclerView rvAppliedJobs, rvOlderJobs;
-    private TextView tvOlder;
+    private TextView tvSectionLabel, tvEmptyMessage;
+    private LinearLayout layoutEmptyState;
+    private RecyclerView rvJobs;
 
-    // Data
-    private List<AppliedJob> appliedJobsList;
-    private List<AppliedJob> olderJobsList;
-    private AppliedJobsAdapter appliedJobsAdapter;
-    private AppliedJobsAdapter olderJobsAdapter;
+    private List<AppliedJob> savedJobs = new ArrayList<>();
+    private List<AppliedJob> appliedJobs = new ArrayList<>();
+    private List<AppliedJob> interviewJobs = new ArrayList<>();
+    private List<AppliedJob> archivedJobs = new ArrayList<>();
 
-    // Current selected tab
-    private String currentTab = "applied";
-
-    public AppliedJobs() {
-        // Required empty public constructor
-    }
-
-    public static AppliedJobs newInstance() {
-        return new AppliedJobs();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    @Nullable @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigate_applied_jobs, container, false);
 
-        // Initialize views
-        initializeViews(view);
-
-        // Setup tabs
-        setupTabs();
-
-        // Load sample data
+        initViews(view);
         loadSampleData();
-
-        // Setup RecyclerViews
-        setupRecyclerViews();
+        setupTabs();
+        selectTab("applied"); // default
 
         return view;
     }
 
-    private void initializeViews(View view) {
-        // Tabs
+    private void initViews(View view) {
         tabSaved = view.findViewById(R.id.tabSaved);
         tabApplied = view.findViewById(R.id.tabApplied);
         tabInterviews = view.findViewById(R.id.tabInterviews);
         tabArchived = view.findViewById(R.id.tabArchived);
 
-        // Tab TextViews
         tvSaved = view.findViewById(R.id.tvSaved);
         tvApplied = view.findViewById(R.id.tvApplied);
         tvInterviews = view.findViewById(R.id.tvInterviews);
         tvArchived = view.findViewById(R.id.tvArchived);
 
-        // Tab Counts
         tvSavedCount = view.findViewById(R.id.tvSavedCount);
         tvAppliedCount = view.findViewById(R.id.tvAppliedCount);
         tvInterviewsCount = view.findViewById(R.id.tvInterviewsCount);
 
-        // RecyclerViews
-        rvAppliedJobs = view.findViewById(R.id.rvAppliedJobs);
-        rvOlderJobs = view.findViewById(R.id.rvOlderJobs);
-        tvOlder = view.findViewById(R.id.tvOlder);
+        rvJobs = view.findViewById(R.id.rvJobs);
+        tvSectionLabel = view.findViewById(R.id.tvSectionLabel);
+        layoutEmptyState = view.findViewById(R.id.layoutEmptyState);
+        tvEmptyMessage = view.findViewById(R.id.tvEmptyMessage);
+
+        rvJobs.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
     private void setupTabs() {
@@ -101,165 +79,143 @@ public class AppliedJobs extends Fragment implements AppliedJobsAdapter.OnJobAct
         tabApplied.setOnClickListener(v -> selectTab("applied"));
         tabInterviews.setOnClickListener(v -> selectTab("interviews"));
         tabArchived.setOnClickListener(v -> selectTab("archived"));
-
-        // Set Applied as default selected
-        selectTab("applied");
     }
 
     private void selectTab(String tab) {
-        currentTab = tab;
+        resetTab(tabSaved, tvSaved, tvSavedCount);
+        resetTab(tabApplied, tvApplied, tvAppliedCount);
+        resetTab(tabInterviews, tvInterviews, tvInterviewsCount);
+        resetTab(tabArchived, tvArchived, null);
 
-        // Reset all tabs to unselected state
-        resetTabStyles(tabSaved, tvSaved, tvSavedCount);
-        resetTabStyles(tabApplied, tvApplied, tvAppliedCount);
-        resetTabStyles(tabInterviews, tvInterviews, tvInterviewsCount);
-        resetTabStyles(tabArchived, tvArchived, null);
-
-        // Highlight selected tab
         switch (tab) {
             case "saved":
                 highlightTab(tabSaved, tvSaved, tvSavedCount);
-                // Load saved jobs
-                Toast.makeText(getContext(), "Saved jobs", Toast.LENGTH_SHORT).show();
+                showList(savedJobs, "saved");
                 break;
             case "applied":
                 highlightTab(tabApplied, tvApplied, tvAppliedCount);
-                // Already showing applied jobs
+                showList(appliedJobs, "applied");
                 break;
             case "interviews":
                 highlightTab(tabInterviews, tvInterviews, tvInterviewsCount);
-                // Load interview jobs
-                Toast.makeText(getContext(), "Interview jobs", Toast.LENGTH_SHORT).show();
+                showList(interviewJobs, "interviews");
                 break;
             case "archived":
                 highlightTab(tabArchived, tvArchived, null);
-                // Load archived jobs
-                Toast.makeText(getContext(), "Archived jobs", Toast.LENGTH_SHORT).show();
+                showList(archivedJobs, "archived");
                 break;
         }
     }
 
-    private void resetTabStyles(LinearLayout tab, TextView textView, TextView countView) {
-        tab.setBackgroundResource(R.drawable.tab_unselected_background);
-        textView.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        if (countView != null) {
-            countView.setTextColor(getResources().getColor(android.R.color.darker_gray));
+    private void showList(List<AppliedJob> jobs, String type) {
+        if (jobs == null || jobs.isEmpty()) {
+            rvJobs.setVisibility(View.GONE);
+            tvSectionLabel.setVisibility(View.GONE);
+            layoutEmptyState.setVisibility(View.VISIBLE);
+            tvEmptyMessage.setText(getEmptyMessage(type));
+            return;
+        }
+
+        layoutEmptyState.setVisibility(View.GONE);
+        rvJobs.setVisibility(View.VISIBLE);
+        tvSectionLabel.setVisibility(type.equals("applied") ? View.VISIBLE : View.GONE);
+
+        switch (type) {
+            case "saved":
+                rvJobs.setAdapter(new SavedJobsAdapter(requireContext(), jobs,
+                        job -> {
+                            savedJobs.remove(job);
+                            showList(savedJobs, "saved");
+                            updateCounts();
+                        }));
+                break;
+            case "applied":
+                rvJobs.setAdapter(new AppliedJobsAdapter(requireContext(), jobs, this));
+                break;
+            case "interviews":
+                rvJobs.setAdapter(new InterviewJobsAdapter(requireContext(), jobs));
+                break;
+            case "archived":
+                rvJobs.setAdapter(new ArchivedJobsAdapter(requireContext(), jobs));
+                break;
         }
     }
 
-    private void highlightTab(LinearLayout tab, TextView textView, TextView countView) {
-        tab.setBackgroundResource(R.drawable.tab_selected_background);
-        textView.setTextColor(getResources().getColor(android.R.color.white));
-        if (countView != null) {
-            countView.setTextColor(getResources().getColor(android.R.color.white));
-            countView.setBackgroundResource(R.drawable.count_badge_background);
+    private String getEmptyMessage(String type) {
+        switch (type) {
+            case "saved": return "No saved jobs yet";
+            case "applied": return "No applied jobs yet";
+            case "interviews": return "No interviews scheduled";
+            case "archived": return "No archived jobs";
+            default: return "Nothing here yet";
         }
     }
 
     private void loadSampleData() {
-        appliedJobsList = new ArrayList<>();
-        olderJobsList = new ArrayList<>();
+        appliedJobs.add(new AppliedJob("1", "IT Intern - Remote",
+                "Tiger Global", "Madrigal Business Park",
+                "Jan 23", "Indeed",
+                "Typically responds within 1 day", true, "applied"));
 
-        // Sample job data (Past 14 days)
-        AppliedJob job1 = new AppliedJob(
-                "1",
-                "Intern - IT, Marketing, Finance, Admin and HR (Feb-March Start - Remote)",
-                "Tiger Global Business Services Inc.",
-                "Madrigal Business Park",
-                "Jan 23",
-                "Indeed",
-                "This employer typically responds within 1 day",
-                true,
-                "applied"
-        );
+        savedJobs.add(new AppliedJob("2", "Marketing Associate",
+                "Acme Corp", "Makati",
+                "Jan 20", "LinkedIn",
+                "", false, "saved"));
 
-        appliedJobsList.add(job1);
+        interviewJobs.add(new AppliedJob("3", "HR Assistant",
+                "StartupPH", "BGC",
+                "Jan 15", "Kalibrr",
+                "", false, "interviews"));
 
-        // Sample older job data
-        AppliedJob job2 = new AppliedJob(
-                "2",
-                "Intern - IT, Marketing, Finance, Admin and HR (Feb-March Start - Remote)",
-                "Tiger Global Business Services Inc.",
-                "Madrigal Business Park",
-                "Jan 10",
-                "Indeed",
-                "This employer typically responds within 2 days",
-                true,
-                "applied"
-        );
+        archivedJobs.add(new AppliedJob("4", "Finance Analyst",
+                "BDO", "Ortigas",
+                "Dec 10", "Indeed",
+                "", false, "archived"));
 
-        olderJobsList.add(job2);
-
-        // Update counts
-        tvSavedCount.setText("0");
-        tvAppliedCount.setText(String.valueOf(appliedJobsList.size()));
-        tvInterviewsCount.setText("0");
+        updateCounts();
     }
 
-    private void setupRecyclerViews() {
-        // Setup Applied Jobs RecyclerView
-        rvAppliedJobs.setLayoutManager(new LinearLayoutManager(getContext()));
-        appliedJobsAdapter = new AppliedJobsAdapter(getContext(), appliedJobsList, this);
-        rvAppliedJobs.setAdapter(appliedJobsAdapter);
+    private void updateCounts() {
+        tvSavedCount.setText(String.valueOf(savedJobs.size()));
+        tvAppliedCount.setText(String.valueOf(appliedJobs.size()));
+        tvInterviewsCount.setText(String.valueOf(interviewJobs.size()));
+    }
 
-        // Setup Older Jobs RecyclerView
-        if (!olderJobsList.isEmpty()) {
-            tvOlder.setVisibility(View.VISIBLE);
-            rvOlderJobs.setVisibility(View.VISIBLE);
-            rvOlderJobs.setLayoutManager(new LinearLayoutManager(getContext()));
-            olderJobsAdapter = new AppliedJobsAdapter(getContext(), olderJobsList, this);
-            rvOlderJobs.setAdapter(olderJobsAdapter);
+    private void resetTab(LinearLayout tab, TextView tv, TextView count) {
+        tab.setBackgroundResource(R.drawable.tab_unselected_background);
+        tv.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray));
+        if (count != null) count.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray));
+    }
+
+    private void highlightTab(LinearLayout tab, TextView tv, TextView count) {
+        tab.setBackgroundResource(R.drawable.tab_selected_background);
+        tv.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white));
+        if (count != null) {
+            count.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white));
+            count.setBackgroundResource(R.drawable.count_badge_background);
         }
     }
 
-    // Adapter callback methods
-    @Override
-    public void onStatusUpdated(AppliedJob job, String newStatus) {
-        // Handle status update - could move job to different tab based on status
-        switch (newStatus) {
-            case "interviewing":
-                // Move to interviews tab
-                break;
-            case "hired":
-            case "not_selected":
-            case "no_longer_interested":
-                // Could move to archived or remove from list
-                break;
-        }
-    }
+    // AppliedJobsAdapter callbacks
+    @Override public void onStatusUpdated(AppliedJob job, String newStatus) {}
 
     @Override
     public void onJobArchived(AppliedJob job) {
-        // Remove from current list and move to archived
-        appliedJobsList.remove(job);
-        olderJobsList.remove(job);
-        appliedJobsAdapter.notifyDataSetChanged();
-        if (olderJobsAdapter != null) {
-            olderJobsAdapter.notifyDataSetChanged();
-        }
+        appliedJobs.remove(job);
+        archivedJobs.add(job);
+        showList(appliedJobs, "applied");
         updateCounts();
     }
 
     @Override
     public void onApplicationWithdrawn(AppliedJob job) {
-        // Remove from list
-        appliedJobsList.remove(job);
-        olderJobsList.remove(job);
-        appliedJobsAdapter.notifyDataSetChanged();
-        if (olderJobsAdapter != null) {
-            olderJobsAdapter.notifyDataSetChanged();
-        }
+        appliedJobs.remove(job);
+        showList(appliedJobs, "applied");
         updateCounts();
     }
 
     @Override
     public void onViewDetails(AppliedJob job) {
-        // Navigate to job details screen
-        Toast.makeText(getContext(), "Viewing details: " + job.getJobTitle(), Toast.LENGTH_SHORT).show();
-        // Add navigation logic here
-    }
-
-    private void updateCounts() {
-        tvAppliedCount.setText(String.valueOf(appliedJobsList.size() + olderJobsList.size()));
+        Toast.makeText(getContext(), "Viewing: " + job.getJobTitle(), Toast.LENGTH_SHORT).show();
     }
 }

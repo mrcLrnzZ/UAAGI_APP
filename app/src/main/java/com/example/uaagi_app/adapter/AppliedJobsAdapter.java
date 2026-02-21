@@ -35,6 +35,10 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
         void onViewDetails(AppliedJob job);
     }
 
+    public void updateJobs(List<AppliedJob> newJobs) {
+        this.jobList = newJobs;
+        notifyDataSetChanged();
+    }
     public AppliedJobsAdapter(Context context, List<AppliedJob> jobList, OnJobActionListener listener) {
         this.context = context;
         this.jobList = jobList;
@@ -74,7 +78,7 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
 
     @Override
     public int getItemCount() {
-        return jobList.size();
+        return jobList != null ? jobList.size() : 0;
     }
 
     // Show Update Status Dialog
