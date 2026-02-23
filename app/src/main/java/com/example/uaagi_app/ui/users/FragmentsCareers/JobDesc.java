@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
-import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.List;
@@ -23,7 +23,8 @@ public class JobDesc extends Fragment {
     View btnApplyNow, btnBack;
     TextView jobTitle, jobCompany, jobDesc, jobLocation, jobQualifications,
             jobBenefits, jobRemoteOption, jobDept;
-    String Title, Location, Company;
+    String Title, Location, company, department;
+    private Company selectedCompany;
     private static final String TAG = "JobDescFragment";
 
     public JobDesc(){
@@ -44,8 +45,7 @@ public class JobDesc extends Fragment {
         jobDept = view.findViewById(R.id.tvDivisionValue);
 
         String jobId = getArgumentsFromBundle();
-
-        fetchJobDetails(getArgumentsFromBundle());
+        fetchJobDetails(jobId);
 
         btnApplyNow.setOnClickListener(v -> {
             ApplyOption fragment = new ApplyOption();
@@ -55,20 +55,29 @@ public class JobDesc extends Fragment {
             bundle.putString("jobTitle", jobTitle.getText().toString());
             bundle.putString("jobLocation", jobLocation.getText().toString());
             bundle.putString("jobCompany", jobCompany.getText().toString());
+            bundle.putString("company_enum", selectedCompany.name());
             fragment.setArguments(bundle);
             UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), fragment);
         });
-
-        btnBack.setOnClickListener(v -> {
-            UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), new Careers());
-        });
+        Log.d(TAG, "Job department: " + department);
+        btnBack.setOnClickListener(v ->
+                UiHelpers.switchFragment(
+                        requireActivity().getSupportFragmentManager(),
+                        JobsOption.newInstance(selectedCompany, department)
+                )
+        );
         return view;
     }
     private String getArgumentsFromBundle(){
         if (getArguments() != null) {
             Title = getArguments().getString("jobTitle");
             Location = getArguments().getString("jobLocation");
-            Company = getArguments().getString("jobCompany");
+            company = getArguments().getString("jobCompany");
+            department = getArguments().getString("Department");
+            String enumName = getArguments().getString("company_enum");
+            if (enumName != null) {
+                selectedCompany = Company.valueOf(enumName);
+            }
             return getArguments().getString("jobId");
         }
         return null;

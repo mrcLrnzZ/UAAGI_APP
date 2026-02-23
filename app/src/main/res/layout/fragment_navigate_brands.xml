@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/WhiteSmoke"
-    tools:context=".ui.users.FragmentsHomePage.Careers">
+    tools:context=".ui.users.FragmentsCareers.JobsOption">
 
 
     <ScrollView
@@ -73,6 +73,7 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
+                            android:id="@+id/fotonBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -203,6 +204,7 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
+                            android:id="@+id/cheryBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -333,6 +335,7 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
+                            android:id="@+id/baicBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -463,6 +466,7 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
+                            android:id="@+id/lynkcoBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -593,6 +597,7 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
+                            android:id="@+id/muttBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"

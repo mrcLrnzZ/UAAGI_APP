@@ -38,7 +38,6 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_preemp_step_2, container, false);
-        // Initialize ViewModel
         viewModel = new ViewModelProvider(requireActivity()).get(PreEmpFormViewModel.class);
 
         btnPrevious = view.findViewById(R.id.btnPrevious);

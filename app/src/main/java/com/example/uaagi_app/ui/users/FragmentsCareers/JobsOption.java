@@ -1,4 +1,4 @@
-package com.example.uaagi_app.ui.users.FragmentsHomePage;
+package com.example.uaagi_app.ui.users.FragmentsCareers;
 
 import android.os.Bundle;
 
@@ -6,38 +6,55 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
-import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import com.example.uaagi_app.network.Services.JobFetchService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Careers extends Fragment implements FragmentError.RetryListener {
-    private static final String TAG = "CareersFragment";
+public class JobsOption extends Fragment implements FragmentError.RetryListener {
+    private static final String TAG = "JobsOptionFragment";
+    public static final String ARG_COMPANY = "company";
     private RecyclerView jobRecyclerView;
     private View loadingContainer;
+    private String brandName, departmentName;
     private View errorContainer;
-    public Careers() {
+    public JobsOption() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigate_careers, container, false);
+        View view = inflater.inflate(R.layout.fragment_careers_jobs, container, false);
+        if (getArguments() != null) {
+            Company selectedCompany = Company.valueOf(getArguments().getString(ARG_COMPANY));
+            brandName = selectedCompany.getDisplayName();
+            departmentName = getArguments().getString("Department");
+        }
         setupUiStates(view);
         jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         fetchJobs();
         return view;
+    }
+    public static JobsOption newInstance(Company company, String department) {
+        JobsOption fragment = new JobsOption();
+        Bundle args = new Bundle();
+        args.putString(ARG_COMPANY, company.name());
+        args.putString("Department", department);
+        fragment.setArguments(args);
+        return fragment;
     }
     private void fetchJobs() {
         showLoading();
@@ -69,17 +86,38 @@ public class Careers extends Fragment implements FragmentError.RetryListener {
         );
     }
     private void showContent(List<JobFetchResponse> jobs) {
+
         loadingContainer.setVisibility(View.GONE);
         errorContainer.setVisibility(View.GONE);
         jobRecyclerView.setVisibility(View.VISIBLE);
 
-        JobEntry adapter = new JobEntry(jobs, 0, 5, job -> {
+        if (brandName == null || departmentName == null) return;
+
+        List<JobFetchResponse> filteredJobs = new ArrayList<>();
+        Log.d(TAG, "Brand Name: " + brandName);
+        Log.d(TAG, "Department Name: " + departmentName);
+        Log.d(TAG, "Jobs: " + jobs.toString());
+        for (JobFetchResponse job : jobs) {
+            if (job.getCompany() != null &&
+                    brandName.equals(job.getCompany().getDisplayName()) &&
+                    departmentName.equals(job.getDepartment())) {
+
+                filteredJobs.add(job);
+            }
+        }
+        Log.d(TAG, "Filtered Jobs Size: " + filteredJobs.size());
+
+        JobEntry adapter = new JobEntry(filteredJobs, 0, 5, job -> {
+
             JobDesc fragment = new JobDesc();
             Bundle bundle = new Bundle();
+
             bundle.putString("jobId", String.valueOf(job.getId()));
             bundle.putString("jobTitle", job.getJobTitle());
             bundle.putString("jobLocation", job.getLocation());
-            bundle.putString("jobCompany", job.getCompany().getDisplayName());
+            bundle.putString("Department", departmentName);
+            bundle.putString("company_enum", job.getCompany().name());
+
             fragment.setArguments(bundle);
 
             UiHelpers.switchFragment(
