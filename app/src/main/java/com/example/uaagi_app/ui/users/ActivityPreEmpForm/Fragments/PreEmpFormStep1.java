@@ -27,7 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
-public class PreEmpFormStep1 extends Fragment {
+public class PreEmpFormStep1 extends BaseFormStepFragment {
 
     private PreEmpFormViewModel viewModel;
     private static final String TAG = "PreEmpStep1Lifecycle";
@@ -69,11 +69,12 @@ public class PreEmpFormStep1 extends Fragment {
         //setupHintsWithAsterisk();
         setupListeners();
     }
-    public void next() {
+    @Override
+    public void saveFormData() {
         viewModel.update(form -> {
             UserInfo userIfo = new UserInfo(
-                    null,
-                    null,
+                    String.valueOf(Helpers.getUserId(requireContext())),
+                    Helpers.getUserEmail(requireContext()),
                     firstNameInput.getText().toString(),
                     middleNameInput.getText().toString(),
                     lastNameInput.getText().toString(),
@@ -93,7 +94,11 @@ public class PreEmpFormStep1 extends Fragment {
             );
             form.setUserInfo(userIfo);
         });
-        ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep2());
+    }
+
+    public void next() {
+        saveFormData();
+        ((PreEmpForm) requireActivity()).nextStep();
     }
     private void hasTakenStep(){
         UserInfo userInfo = viewModel.getValue().getUserInfo();
@@ -389,6 +394,12 @@ public class PreEmpFormStep1 extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        if(viewModel.getValue().getUserInfo() == null || viewModel.getValue().getUserInfo().getFirstName().isEmpty()){
+            Log.d(TAG, "onResume Data: Empty");
+        }else{
+            Log.d(TAG, "onResume Data: "+viewModel.getValue().getUserInfo().toString());
+        }
+        hasTakenStep();
     }
 
     @Override

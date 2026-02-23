@@ -32,7 +32,7 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.Semin
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.WorkExperiencePreviewAdapter;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 
-public class PreEmpFormStep6 extends Fragment {
+public class PreEmpFormStep6 extends BaseFormStepFragment {
 
     private PreEmpFormViewModel viewModel;
 
@@ -284,12 +284,19 @@ public class PreEmpFormStep6 extends Fragment {
 
     private void setupButtons() {
         btnPrevious.setOnClickListener(v -> {
-            ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep5());
+            saveFormData();
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
         btnSubmit.setOnClickListener(v -> {
             // Submit the form
             ((PreEmpForm) requireActivity()).submitForm();
         });
+    }
+
+    @Override
+    public void saveFormData() {
+        // Step 6 is a preview/summary step, no data to save
+        // All data has already been saved in previous steps
     }
 }

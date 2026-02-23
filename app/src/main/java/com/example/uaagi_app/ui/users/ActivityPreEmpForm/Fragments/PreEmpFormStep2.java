@@ -1,5 +1,6 @@
 package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +25,8 @@ import com.example.uaagi_app.ui.utils.UiHelpers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreEmpFormStep2 extends Fragment {
-
+public class PreEmpFormStep2 extends BaseFormStepFragment {
+    private static final String TAG = "PreEmpStep2Lifecycle";
     private Button btnPrevious, btnNext, btnAddEducation, btnRemoveEducation;
     private RecyclerView educationRecyclerView;
     private EducationEntry adapter;
@@ -34,10 +36,8 @@ public class PreEmpFormStep2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("PreEmpFormStep2", "onCreateView");
-
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_preemp_step_2, container, false);
-
         // Initialize ViewModel
         viewModel = new ViewModelProvider(requireActivity()).get(PreEmpFormViewModel.class);
 
@@ -47,20 +47,20 @@ public class PreEmpFormStep2 extends Fragment {
         btnRemoveEducation = view.findViewById(R.id.btnRemoveEducation);
 
         educationRecyclerView = view.findViewById(R.id.educationEntriesContainer);
-        EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), new Education());
-
         adapter = new EducationEntry(educationList, 0);
+        EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), Education::new, 3);
+        UiHelpers.updateRemoveButtonVisibility(educationList, btnRemoveEducation, 3);
         educationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         educationRecyclerView.setAdapter(adapter);
 
         btnPrevious.setOnClickListener(v -> {
-            EntryHandler.saveData(viewModel, form -> form.setEducations(educationList));
-            ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep1());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).previousStep();
         });
 
         btnNext.setOnClickListener(v -> {
-            EntryHandler.saveData(viewModel, form -> form.setEducations(educationList));
-            ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep3());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).nextStep();
         });
 
         btnAddEducation.setOnClickListener(v -> {
@@ -75,5 +75,43 @@ public class PreEmpFormStep2 extends Fragment {
         });
         return view;
     }
+    @Override
+    public void saveFormData() {
+        EntryHandler.saveData(viewModel, form -> form.setEducations(educationList));
+        Log.d(TAG, "saveFormDataStep2: "+viewModel.getValue().getEducations().toString());
+        Log.d(TAG, "saveFormData: "+ educationList.toString());
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach");
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+
+        if(viewModel.getValue().getEducations() == null || viewModel.getValue().getEducations().isEmpty()){
+            Log.d(TAG, "loadFormDataStep2: Empty");
+            EntryHandler.loadData(educationList, null, Education::new, 3);
+        } else {
+            Log.d(TAG, "loadFormDataStep2: "+ viewModel.getValue().getEducations().toString());
+            EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), Education::new, 3);
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EntryHandler.saveData(viewModel, form -> form.setEducations(new ArrayList<>(educationList)));
+        Log.d(TAG, "onDestroyView");
+    }
 }

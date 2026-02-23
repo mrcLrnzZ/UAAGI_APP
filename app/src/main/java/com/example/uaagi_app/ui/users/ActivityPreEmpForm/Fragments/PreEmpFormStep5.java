@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PreEmpFormStep5 extends Fragment {
+public class PreEmpFormStep5 extends BaseFormStepFragment {
     private RecyclerView governmentIdContainer;
     private RecyclerView referenceContainer;
     private final List<GovId> governmentIdList = new ArrayList<>();
@@ -79,9 +79,10 @@ public class PreEmpFormStep5 extends Fragment {
         governmentIdList.add(new GovId());
         contactReferenceList.add(new ContactReference());
 
-        EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), new GovId());
-        EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), new ContactReference());
-
+        EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), GovId::new, 1);
+        EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), ContactReference::new, 1);
+        UiHelpers.updateRemoveButtonVisibility(governmentIdList, btnRemoveGovernmentId, 1);
+        UiHelpers.updateRemoveButtonVisibility(contactReferenceList, btnRemoveReference, 1);
         loadExistingData();
 
         GovIdEntry governmentIdEntryAdapter = new GovIdEntry(governmentIdList);
@@ -119,13 +120,13 @@ public class PreEmpFormStep5 extends Fragment {
         });
 
         btnPrevious.setOnClickListener(v -> {
-            saveAllData();
-            ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep4());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).previousStep();
         });
 
         btnNext.setOnClickListener(v -> {
-            saveAllData();
-            ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep6());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).nextStep();
         });
 
         return view;
@@ -212,7 +213,8 @@ public class PreEmpFormStep5 extends Fragment {
         return "";
     }
 
-    private void saveAllData() {
+    @Override
+    public void saveFormData() {
         EntryHandler.saveData(viewModel, form -> form.setGovIds(governmentIdList));
 
         EntryHandler.saveData(viewModel, form -> form.setContactReferences(contactReferenceList));
@@ -231,4 +233,28 @@ public class PreEmpFormStep5 extends Fragment {
         EntryHandler.saveData(viewModel, form -> form.setOfficeSkills(officeSkills));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        governmentIdList.clear();
+        contactReferenceList.clear();
+
+        EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), GovId::new, 1);
+        EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), ContactReference::new, 1);
+
+        loadExistingData();
+
+        if (governmentIdContainer.getAdapter() != null) {
+            governmentIdContainer.getAdapter().notifyDataSetChanged();
+        }
+        if (referenceContainer.getAdapter() != null) {
+            referenceContainer.getAdapter().notifyDataSetChanged();
+        }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EntryHandler.saveData(viewModel, form -> form.setGovIds(new ArrayList<>(governmentIdList)));
+        EntryHandler.saveData(viewModel, form -> form.setContactReferences(new ArrayList<>(contactReferenceList)));
+    }
 }

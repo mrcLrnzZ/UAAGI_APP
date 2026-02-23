@@ -131,6 +131,16 @@ public class Helpers {
         editor.putInt("userId", userId);
         editor.apply();
     }
+    public static void saveUserEmail(Context context, String email) {
+        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("userEmail", email);
+        editor.apply();
+    }
+    public static String getUserEmail(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        return prefs.getString("userEmail", "");
+    }
     public static int getUserId(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
         return prefs.getInt("userId", -1);

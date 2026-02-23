@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 public class UiHelpers {
     public static void showToast(String message, Context context) {
@@ -103,5 +106,8 @@ public class UiHelpers {
         }
 
         transaction.commit();
+    }
+    public static <T> void updateRemoveButtonVisibility(List<T> list, Button button, int minEntries) {
+        button.setVisibility(list.size() > minEntries ? View.VISIBLE : View.GONE);
     }
 }

@@ -7,6 +7,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.uaagi_app.data.model.PreEmploymentForm.PreEmpFormDataModel;
+import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
 import com.example.uaagi_app.network.VolleySingleton;
 import com.example.uaagi_app.utils.NetworkUtils;
 import com.google.gson.Gson;
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 public class PreEmpSendService {
     private static final String TAG = "PreEmpSendService";
     private static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/index.php";
-    private static final String SEND_PREEMP_URL = BASE_URL + "/preemployment/submit";
+    private static final String SEND_PREEMP_URL = BASE_URL + "/pre-employment-forms";
     private static final int TIMEOUT_MS = 15000;
 
     private final Context context;
@@ -28,19 +29,19 @@ public class PreEmpSendService {
         this.gson = new Gson();
     }
 
-    public void sendPreEmploymentForm(PreEmpFormDataModel formData, SendPreEmploymentCallback callback) {
+    public void sendPreEmploymentForm(PreEmpFormViewModel viewModel, SendPreEmploymentCallback callback) {
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection. Please check your network.");
             return;
         }
 
-        if (formData == null) {
+        if (viewModel.getValue() == null) {
             callback.onError("Form data cannot be null");
             return;
         }
 
         try {
-            String jsonString = gson.toJson(formData);
+            String jsonString = gson.toJson(viewModel.getValue());
             JSONObject body = new JSONObject(jsonString);
 
             Log.d(TAG, "Request URL: " + SEND_PREEMP_URL);

@@ -10,6 +10,7 @@ import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Utility class for handling common entry operations in RecyclerViews
@@ -62,17 +63,19 @@ public class EntryHandler {
      * Generalized method to load data from ViewModel into a list
      * @param targetList The list to load data into
      * @param savedData The saved data from ViewModel
-     * @param defaultItem A default item to add if no saved data exists
+     * @param defaultItemSupplier A default item to add if no saved data exists
      * @param <T> The type of the list items
      */
-    public static <T> void loadData(List<T> targetList, List<T> savedData, T defaultItem) {
+    public static <T> void loadData(List<T> targetList, List<T> savedData, Supplier<T> defaultItemSupplier, int minEntries) {
         targetList.clear();
         if (savedData != null && !savedData.isEmpty()) {
             targetList.addAll(savedData);
-            Log.d(TAG, "Loaded " + savedData.size() + " entries of type: " + defaultItem.getClass().getSimpleName());
+            Log.d(TAG, "Loaded " + savedData.size() + " entries of type: " + defaultItemSupplier.get().getClass().getSimpleName());
         } else {
-            targetList.add(defaultItem);
-            Log.d(TAG, "No saved data, added default entry: " + defaultItem.getClass().getSimpleName());
+            for (int i = 0; i < minEntries; i++) {
+                targetList.add(defaultItemSupplier.get()); // call supplier each time
+            }
+            Log.d(TAG, "No saved data, added " + minEntries + " default entries of type: " + defaultItemSupplier.get().getClass().getSimpleName());
         }
     }
 
@@ -83,6 +86,7 @@ public class EntryHandler {
      */
     public static void saveData(PreEmpFormViewModel viewModel, DataSetter dataSetter) {
         viewModel.update(dataSetter::setData);
+        Log.d(TAG, "saveData: " + viewModel.getValue().getEducations());
     }
 
     /**

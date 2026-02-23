@@ -7,12 +7,23 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
+import com.example.uaagi_app.network.Services.PreEmpSendService;
 import com.example.uaagi_app.ui.users.ActivityHomePage;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.FormStepFragment;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep1;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep2;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep3;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep4;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep5;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep6;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 public class PreEmpForm extends AppCompatActivity {
     private static final String TAG = "MainPreEmpLifeCycle";
@@ -26,6 +37,7 @@ public class PreEmpForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preemp_main);
         setupUI();
+        getFragmentForStep(currentStep);
         if (savedInstanceState != null) {
             currentStep = savedInstanceState.getInt("CURRENT_STEP", 1);
             highlightSteps();
@@ -37,43 +49,56 @@ public class PreEmpForm extends AppCompatActivity {
                     .commit();
         }
 
-        // Listen for back stack changes to update step highlighting
-        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
-            currentStep = backStackCount + 1; // +1 because first fragment has no back stack entry
-            highlightSteps();
-            scrollView.post(() -> scrollView.smoothScrollTo(0, 0));
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                if (currentStep > 1) {
+                    previousStep();
+                } else {
+                    finish();
+                }
+            }
         });
     }
-    public void nextStep(Fragment fragment) {
-        changeStep(1);
-        highlightSteps();
-        scrollView.post(() -> scrollView.smoothScrollTo(0, 0));
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.step_container, fragment)
-                .addToBackStack(null)
-                .commit();
+    private Fragment getFragmentForStep(int step) {
+        switch (step) {
+            case 1: return new PreEmpFormStep1();
+            case 2: return new PreEmpFormStep2();
+            case 3: return new PreEmpFormStep3();
+            case 4: return new PreEmpFormStep4();
+            case 5: return new PreEmpFormStep5();
+            case 6: return new PreEmpFormStep6();
+            default: return new PreEmpFormStep1();
+        }
+    }
+    public void nextStep() {
+        navigateToStep(currentStep + 1, true);
     }
     public void submitForm() {
-        Intent intent = new Intent(this, ActivityHomePage.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        PreEmpFormViewModel viewModel =
+                new ViewModelProvider(this).get(PreEmpFormViewModel.class);
+
+        PreEmpSendService service = new PreEmpSendService(this);
+        service.sendPreEmploymentForm(viewModel, new PreEmpSendService.SendPreEmploymentCallback() {
+            @Override
+            public void onSuccess(String message) {
+                Toast.makeText(PreEmpForm.this, "Form submitted successfully!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PreEmpForm.this, ActivityHomePage.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(PreEmpForm.this, "Error: " + error, Toast.LENGTH_LONG).show();
+                Log.e("PreEmpForm", "Submission error: " + error);
+            }
+        });
     }
 
-    public void previousStep(Fragment fragment) {
-        changeStep(-1);
-        highlightSteps();
-        scrollView.post(() -> scrollView.smoothScrollTo(0, 0));
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.step_container, fragment)
-                .commit();
-    }
-    private void changeStep(int direction) {
-        currentStep += direction;
-        currentStep = Math.max(1, Math.min(TOTAL_STEPS, currentStep));
-        Toast.makeText(this, "Step " + currentStep + " of " + TOTAL_STEPS, Toast.LENGTH_SHORT).show();
+    public void previousStep() {
+        navigateToStep(currentStep - 1, false);
     }
     private void setupUI(){
         scrollView = findViewById(R.id.preemp_scrollview);
@@ -96,7 +121,7 @@ public class PreEmpForm extends AppCompatActivity {
     }
     private void highlightSteps(){
         unHighlightSteps();
-
+        UiHelpers.showToast("Step " + currentStep, this);
         if (currentStep >= 1 && currentStep <= steps.length) {
             steps[currentStep - 1].setBackgroundResource(R.drawable.circle_white);
             steps[currentStep - 1].setTextColor(getResources().getColor(R.color.Deepwater));
@@ -123,6 +148,30 @@ public class PreEmpForm extends AppCompatActivity {
             stepTitle.setTextColor(getResources().getColor(R.color.PaleBlue));
         }
     }
+    private void navigateToStep(int step, boolean addToBackStack) {
+
+        step = Math.max(1, Math.min(TOTAL_STEPS, step));
+
+        // Save current fragment first
+        Fragment currentFragment = getSupportFragmentManager()
+                .findFragmentById(R.id.step_container);
+
+        if (currentFragment instanceof FormStepFragment) {
+            ((FormStepFragment) currentFragment).saveFormData();
+        }
+
+        currentStep = step;
+        Log.d(TAG, "navigateToStep: "+currentStep);
+        highlightSteps();
+        scrollView.post(() -> scrollView.smoothScrollTo(0, 0));
+
+        Fragment fragment = getFragmentForStep(step);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.step_container, fragment)
+                .commit();
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -134,25 +183,3 @@ public class PreEmpForm extends AppCompatActivity {
     @Override protected void onStop() { super.onStop(); Log.d(TAG, "onStop"); }
     @Override protected void onDestroy() { super.onDestroy(); Log.d(TAG, "onDestroy"); }
 }
-//// Create and populate your PreEmpFormDataModel
-//PreEmpFormDataModel formData = new PreEmpFormDataModel();
-//formData.setUserInfo(userInfo);
-//formData.setEducations(educationList);
-//formData.setWorkExperiences(workExperienceList);
-//// ... set other fields
-//
-//// Send the form
-//PreEmpSendService service = new PreEmpSendService(context);
-//service.sendPreEmploymentForm(formData, new PreEmpSendService.SendPreEmploymentCallback() {
-//    @Override
-//    public void onSuccess(String message) {
-//        // Handle success - form submitted successfully
-//        Log.d("PreEmp", "Success: " + message);
-//    }
-//
-//    @Override
-//    public void onError(String error) {
-//        // Handle error
-//        Log.e("PreEmp", "Error: " + error);
-//    }
-//});

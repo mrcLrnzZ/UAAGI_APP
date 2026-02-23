@@ -24,11 +24,12 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.Quali
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.SeminarEntry;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.EntryHandler;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreEmpFormStep4 extends Fragment {
+public class PreEmpFormStep4 extends BaseFormStepFragment {
     private Button btnPrevious, btnNext;
     private RecyclerView professionalSkillsContainer;
     private RecyclerView certificationContainer;
@@ -69,11 +70,15 @@ public class PreEmpFormStep4 extends Fragment {
         Button btnRemoveQualification = view.findViewById(R.id.btnRemoveQual);
         Button btnRemoveSeminar = view.findViewById(R.id.btnRemoveSeminar);
 
-        EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), new ProfessionalSkills());
-        EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), new Certificate());
-        EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), new Qualification());
-        EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), new Seminar());
+        EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), ProfessionalSkills::new, 1);
+        EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), Certificate::new, 1);
+        EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), Qualification::new,1);
+        EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), Seminar::new,1);
 
+        UiHelpers.updateRemoveButtonVisibility(professionalSkillList, btnRemoveProfessionalSkill, 1);
+        UiHelpers.updateRemoveButtonVisibility(certificationList, btnRemoveCertification, 1);
+        UiHelpers.updateRemoveButtonVisibility(qualificationList, btnRemoveQualification, 1);
+        UiHelpers.updateRemoveButtonVisibility(seminarList, btnRemoveSeminar, 1);
 
         ProfessionalSkillEntry professionalSkillEntryAdapter = new ProfessionalSkillEntry(professionalSkillList);
         CertificateEntry certificateEntryAdapter = new CertificateEntry(certificationList);
@@ -91,72 +96,92 @@ public class PreEmpFormStep4 extends Fragment {
         seminarsContainer.setAdapter(seminarEntryAdapter);
 
         btnAddProfessionalSkill.setOnClickListener(v -> {
-            btnRemoveProfessionalSkill.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(professionalSkillList, new ProfessionalSkills(), professionalSkillsContainer, professionalSkillEntryAdapter, 10);
         });
 
         btnAddCertification.setOnClickListener(v -> {
-            btnRemoveCertification.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(certificationList, new Certificate(), certificationContainer, certificateEntryAdapter, 10);
         });
 
         btnAddQualification.setOnClickListener(v -> {
-            btnRemoveQualification.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(qualificationList, new Qualification(), qualificationContainer, qualificationEntryAdapter, 10);
         });
 
         btnAddSeminar.setOnClickListener(v -> {
-            btnRemoveSeminar.setVisibility(View.VISIBLE);
             EntryHandler.addEntry(seminarList, new Seminar(), seminarsContainer, seminarEntryAdapter, 10);
         });
 
         btnRemoveProfessionalSkill.setOnClickListener(v -> {
-            if (professionalSkillList.size() == 1) {
-                btnRemoveProfessionalSkill.setVisibility(View.GONE);
-            }
             EntryHandler.removeEntry(professionalSkillList, professionalSkillsContainer, professionalSkillEntryAdapter, requireContext(), 1);
         });
 
         btnRemoveCertification.setOnClickListener(v -> {
-            if (certificationList.size() == 1) {
-                btnRemoveCertification.setVisibility(View.GONE);
-            }
             EntryHandler.removeEntry(certificationList, certificationContainer, certificateEntryAdapter, requireContext(), 1);
         });
 
         btnRemoveQualification.setOnClickListener(v -> {
-            if (qualificationList.size() == 1) {
-                btnRemoveQualification.setVisibility(View.GONE);
-            }
             EntryHandler.removeEntry(qualificationList, qualificationContainer, qualificationEntryAdapter, requireContext(), 1);
         });
 
         btnRemoveSeminar.setOnClickListener(v -> {
-            if (seminarList.size() == 1) {
-                btnRemoveSeminar.setVisibility(View.GONE);
-            }
             EntryHandler.removeEntry(seminarList, seminarsContainer, seminarEntryAdapter, requireContext(), 1);
         });
 
 
         btnPrevious.setOnClickListener(v -> {
-            EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(professionalSkillList));
-            EntryHandler.saveData(viewModel, form -> form.setCertificates(certificationList));
-            EntryHandler.saveData(viewModel, form -> form.setQualifications(qualificationList));
-            EntryHandler.saveData(viewModel, form -> form.setSeminars(seminarList));
-            ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep3());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).previousStep();
         });
 
         btnNext.setOnClickListener(v -> {
-            EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(professionalSkillList));
-            EntryHandler.saveData(viewModel, form -> form.setCertificates(certificationList));
-            EntryHandler.saveData(viewModel, form -> form.setQualifications(qualificationList));
-            EntryHandler.saveData(viewModel, form -> form.setSeminars(seminarList));
-            ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep5());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).nextStep();
         });
 
         return view;
     }
 
+    @Override
+    public void saveFormData() {
+        EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(professionalSkillList));
+        EntryHandler.saveData(viewModel, form -> form.setCertificates(certificationList));
+        EntryHandler.saveData(viewModel, form -> form.setQualifications(qualificationList));
+        EntryHandler.saveData(viewModel, form -> form.setSeminars(seminarList));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        professionalSkillList.clear();
+        certificationList.clear();
+        qualificationList.clear();
+        seminarList.clear();
+
+        EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), ProfessionalSkills::new, 1);
+        EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), Certificate::new, 1);
+        EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), Qualification::new, 1);
+        EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), Seminar::new, 1);
+
+        if (professionalSkillsContainer.getAdapter() != null) {
+            professionalSkillsContainer.getAdapter().notifyDataSetChanged();
+        }
+        if (certificationContainer.getAdapter() != null) {
+            certificationContainer.getAdapter().notifyDataSetChanged();
+        }
+        if (qualificationContainer.getAdapter() != null) {
+            qualificationContainer.getAdapter().notifyDataSetChanged();
+        }
+        if (seminarsContainer.getAdapter() != null) {
+            seminarsContainer.getAdapter().notifyDataSetChanged();
+        }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(new ArrayList<>(professionalSkillList)));
+        EntryHandler.saveData(viewModel, form -> form.setCertificates(new ArrayList<>(certificationList)));
+        EntryHandler.saveData(viewModel, form -> form.setQualifications(new ArrayList<>(qualificationList)));
+        EntryHandler.saveData(viewModel, form -> form.setSeminars(new ArrayList<>(seminarList)));
+    }
 
 }

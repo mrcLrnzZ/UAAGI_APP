@@ -228,6 +228,7 @@ public class ActivityLoginPage extends AppCompatActivity {
             public void onResponse(LoginFetchResponse response) {
                 Helpers.saveLoginState(ActivityLoginPage.this);
                 Helpers.saveUserId(ActivityLoginPage.this, response.userId);
+                Helpers.saveUserEmail(ActivityLoginPage.this, email);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
                 Intent intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
