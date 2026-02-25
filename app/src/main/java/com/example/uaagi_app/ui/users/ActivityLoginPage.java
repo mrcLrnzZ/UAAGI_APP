@@ -28,6 +28,7 @@ import com.example.uaagi_app.network.Services.LoginOtpService;
 import com.example.uaagi_app.network.Services.LoginAuthService;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.LoginFetchResponse;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
 import com.example.uaagi_app.ui.utils.UiHelpers;
@@ -226,12 +227,18 @@ public class ActivityLoginPage extends AppCompatActivity {
         authService.verifyLogin(email, otp, new LoginAuthService.VerifyLoginCallback() {
             @Override
             public void onResponse(LoginFetchResponse response) {
+                Intent intent;
                 Helpers.saveLoginState(ActivityLoginPage.this);
                 Helpers.saveUserId(ActivityLoginPage.this, response.userId);
                 Helpers.saveUserEmail(ActivityLoginPage.this, email);
+                Helpers.savePreEmpResponse(ActivityLoginPage.this, response.formExist);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
-                Intent intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
+                if (response.formExist) {
+                    intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
+                } else {
+                    intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
+                }
                 startActivity(intent);
                 finish();
             }

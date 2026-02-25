@@ -2,6 +2,7 @@ package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.Quali
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.SeminarPreviewAdapter;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.WorkExperiencePreviewAdapter;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class PreEmpFormStep6 extends BaseFormStepFragment {
 
@@ -289,7 +292,13 @@ public class PreEmpFormStep6 extends BaseFormStepFragment {
         });
 
         btnSubmit.setOnClickListener(v -> {
-            // Submit the form
+            PreEmpFormDataModel formData = viewModel.getValue();
+
+            if (formData != null) {
+                Log.d("PRE_EMP_PAYLOAD", "Payload:\n" + new GsonBuilder().setPrettyPrinting().create().toJson(formData));
+            } else {
+                Log.d("PRE_EMP_PAYLOAD", "Payload is NULL");
+            }
             ((PreEmpForm) requireActivity()).submitForm();
         });
     }

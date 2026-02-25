@@ -94,6 +94,8 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
             );
             form.setUserInfo(userIfo);
         });
+        String Email = Helpers.getUserEmail(requireContext());
+        Log.d(TAG, "emailPreEmp: "+Email);
     }
 
     public void next() {
@@ -119,6 +121,8 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
             otherPhoneInput.setText(userInfo.getTelNo());
             streetInput.setText(userInfo.getCurrentAddress());
             currentAddressInput.setText(userInfo.getPermanentAddress());
+            permanentAddressInput.setText(userInfo.getPermanentAddress());
+            telephoneInput.setText(userInfo.getTelNo());
         }
     }
     private void initializeViews(View view) {

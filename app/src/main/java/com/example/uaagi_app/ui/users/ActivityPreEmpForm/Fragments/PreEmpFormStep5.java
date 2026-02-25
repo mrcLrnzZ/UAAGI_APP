@@ -204,11 +204,11 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
         }
 
         if (selectedId == beginnerId) {
-            return "Beginner";
+            return "beginner";
         } else if (selectedId == intermediateId) {
-            return "Intermediate";
+            return "intermediate";
         } else if (selectedId == advancedId) {
-            return "Advanced";
+            return "advanced";
         }
         return "";
     }

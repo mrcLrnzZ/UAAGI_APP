@@ -27,10 +27,12 @@ public class ActivitySplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         runnable = () -> {
             Intent intent;
-            if (Helpers.isLoggedIn(ActivitySplashActivity.this)){
-                 intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);
-            }else{
-                 intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
+            if (!Helpers.isLoggedIn(ActivitySplashActivity.this)){
+                intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
+            } else if (!Helpers.getPreEmpResponse(ActivitySplashActivity.this)) {
+                intent = new Intent(ActivitySplashActivity.this, PreEmpForm.class);
+            } else {
+                intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);
             }
             startActivity(intent);
             finish();
