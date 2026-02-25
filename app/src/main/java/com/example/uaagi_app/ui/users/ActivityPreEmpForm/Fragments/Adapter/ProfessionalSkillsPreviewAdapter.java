@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.ProfessionalSkills;
 
 import java.util.List;
-
+@Deprecated
 public class ProfessionalSkillsPreviewAdapter extends RecyclerView.Adapter<ProfessionalSkillsPreviewAdapter.ViewHolder> {
     private final List<ProfessionalSkills> skillsList;
 

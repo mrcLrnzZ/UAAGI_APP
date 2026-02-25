@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.WorkExperience;
 
 import java.util.List;
-
+@Deprecated
 public class WorkExperiencePreviewAdapter extends RecyclerView.Adapter<WorkExperiencePreviewAdapter.ViewHolder> {
     private final List<WorkExperience> workExperienceList;
 

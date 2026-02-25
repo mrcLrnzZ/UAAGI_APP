@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.AppliedJobs;
-import com.example.uaagi_app.ui.users.FragmentsHomePage.Brand;
+import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.utils.UiHelpers;
@@ -80,7 +80,7 @@ public class ActivityHomePage extends AppCompatActivity {
 
         tabCareers.setOnClickListener(v -> {
             if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Brand());
+                UiHelpers.switchToFragment(getSupportFragmentManager(), new Careers());
                 setSelectedTab(R.id.tab_careers);
             }
         });

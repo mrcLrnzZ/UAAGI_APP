@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.ContactReference;
 
 import java.util.List;
-
+@Deprecated
 public class CharacterReferencePreviewAdapter extends RecyclerView.Adapter<CharacterReferencePreviewAdapter.ViewHolder> {
     private final List<ContactReference> referenceList;
 

@@ -10,12 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
-import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import com.example.uaagi_app.network.Services.JobFetchService;
@@ -29,7 +30,7 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
     public static final String ARG_COMPANY = "company";
     private RecyclerView jobRecyclerView;
     private View loadingContainer;
-    private String brandName, departmentName;
+    private String companyName, departmentName;
     private View errorContainer;
     public JobsOption() {
     }
@@ -40,7 +41,7 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         View view = inflater.inflate(R.layout.fragment_careers_jobs, container, false);
         if (getArguments() != null) {
             Company selectedCompany = Company.valueOf(getArguments().getString(ARG_COMPANY));
-            brandName = selectedCompany.getDisplayName();
+            companyName = selectedCompany.getDisplayName();
             departmentName = getArguments().getString("Department");
         }
         setupUiStates(view);
@@ -91,15 +92,15 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         errorContainer.setVisibility(View.GONE);
         jobRecyclerView.setVisibility(View.VISIBLE);
 
-        if (brandName == null || departmentName == null) return;
+        if (companyName == null || departmentName == null) return;
 
         List<JobFetchResponse> filteredJobs = new ArrayList<>();
-        Log.d(TAG, "Brand Name: " + brandName);
+        Log.d(TAG, "Company Name: " + companyName);
         Log.d(TAG, "Department Name: " + departmentName);
         Log.d(TAG, "Jobs: " + jobs.toString());
         for (JobFetchResponse job : jobs) {
             if (job.getCompany() != null &&
-                    brandName.equals(job.getCompany().getDisplayName()) &&
+                    companyName.equals(job.getCompany().getDisplayName()) &&
                     departmentName.equals(job.getDepartment())) {
 
                 filteredJobs.add(job);
@@ -107,24 +108,46 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         }
         Log.d(TAG, "Filtered Jobs Size: " + filteredJobs.size());
 
-        JobEntry adapter = new JobEntry(filteredJobs, 0, 5, job -> {
+          GenericRecyclerAdapter<JobFetchResponse> adapter =
+                new GenericRecyclerAdapter<>(
+                        filteredJobs,
+                        R.layout.item_job_card,
+                        (view, job, position) -> {
 
+                            TextView tvTitle = view.findViewById(R.id.tvJobTitle);
+                            TextView tvLocation = view.findViewById(R.id.tvLocation);
+                            TextView tvCompany = view.findViewById(R.id.tvCompany);
+                            TextView tvSalary = view.findViewById(R.id.tvSalary);
+                            TextView tvJobType = view.findViewById(R.id.tvJobType);
+                            TextView tvExperienceLevel = view.findViewById(R.id.tvExperienceLevel);
+                            TextView tvShift = view.findViewById(R.id.tvShift);
+                            TextView tvPayTag = view.findViewById(R.id.tvPayTag);
+
+                            tvTitle.setText(job.getJobTitle());
+                            tvLocation.setText(job.getLocation());
+                            tvCompany.setText(job.getCompany().getDisplayName());
+                            tvSalary.setText("₱" + job.getMinSalary() + " – ₱" + job.getMaxSalary());
+                            tvJobType.setText(job.getJobType().toString());
+                            tvExperienceLevel.setText(job.getExperienceLevel().toString());
+                            tvShift.setText(job.getRemoteOption().toString());
+                            tvPayTag.setText("✓ 13th Month Pay");
+                        }
+                );
+          adapter.setOnItemClickListener((job, position) -> {
             JobDesc fragment = new JobDesc();
             Bundle bundle = new Bundle();
-
             bundle.putString("jobId", String.valueOf(job.getId()));
             bundle.putString("jobTitle", job.getJobTitle());
             bundle.putString("jobLocation", job.getLocation());
-            bundle.putString("Department", departmentName);
+            bundle.putString("Department", job.getDepartment());
             bundle.putString("company_enum", job.getCompany().name());
-
             fragment.setArguments(bundle);
 
             UiHelpers.switchFragment(
                     requireActivity().getSupportFragmentManager(),
                     fragment
             );
-        });
+          });
 
         jobRecyclerView.setAdapter(adapter);
     }

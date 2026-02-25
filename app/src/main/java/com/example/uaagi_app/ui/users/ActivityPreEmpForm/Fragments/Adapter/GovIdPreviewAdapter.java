@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.GovId;
 
 import java.util.List;
-
+@Deprecated
 public class GovIdPreviewAdapter extends RecyclerView.Adapter<GovIdPreviewAdapter.ViewHolder> {
     private final List<GovId> govIdList;
 

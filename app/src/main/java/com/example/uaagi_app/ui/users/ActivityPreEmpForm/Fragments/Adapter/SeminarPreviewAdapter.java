@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Seminar;
 
 import java.util.List;
-
+@Deprecated
 public class SeminarPreviewAdapter extends RecyclerView.Adapter<SeminarPreviewAdapter.ViewHolder> {
     private final List<Seminar> seminarList;
 

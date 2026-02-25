@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Education;
 
 import java.util.List;
-
+@Deprecated
 public class EducationPreviewAdapter extends RecyclerView.Adapter<EducationPreviewAdapter.ViewHolder> {
     private final List<Education> educationList;
 

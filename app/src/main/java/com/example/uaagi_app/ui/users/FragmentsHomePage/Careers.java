@@ -15,7 +15,7 @@ import com.example.uaagi_app.ui.users.FragmentsCareers.DivisionOption;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 
-public class Brand extends Fragment {
+public class Careers extends Fragment {
     LinearLayout fotonBrandCard, baicBrandCard, lynkcoBrandCard, muttBrandCard, cheryBrandCard;
     private final String FTON_PHILIPPINES = "Foton Philippines";
     private final String CHERY_PHILIPPINES = "Chery Auto Philippines";
@@ -23,7 +23,7 @@ public class Brand extends Fragment {
     private final String MUTT_PHILIPPINES = "Mutt Motorcycle Philippines";
     private final String BAIC_PHILIPPINES = "BAIC Philippines";
     private final String TAG = "BrandFragment";
-    public Brand() {
+    public Careers() {
         // Required empty public constructor
     }
 
@@ -35,7 +35,7 @@ public class Brand extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigate_brands, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigate_careers, container, false);
         initializeViews(view);
         setupListeners();
         return view;

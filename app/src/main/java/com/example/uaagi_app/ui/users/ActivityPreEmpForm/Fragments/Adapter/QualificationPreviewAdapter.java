@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Qualification;
 
 import java.util.List;
-
+@Deprecated
 public class QualificationPreviewAdapter extends RecyclerView.Adapter<QualificationPreviewAdapter.ViewHolder> {
     private final List<Qualification> qualificationList;
 

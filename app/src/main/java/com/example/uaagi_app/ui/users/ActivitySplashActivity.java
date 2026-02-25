@@ -29,7 +29,7 @@ public class ActivitySplashActivity extends AppCompatActivity {
             Intent intent;
             if (!Helpers.isLoggedIn(ActivitySplashActivity.this)){
                 intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
-            } else if (!Helpers.getPreEmpResponse(ActivitySplashActivity.this)) {
+            } else if (Helpers.getPreEmpResponse(ActivitySplashActivity.this)) {
                 intent = new Intent(ActivitySplashActivity.this, PreEmpForm.class);
             } else {
                 intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);

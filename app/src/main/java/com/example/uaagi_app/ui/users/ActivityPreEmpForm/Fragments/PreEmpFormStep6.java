@@ -12,27 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.data.model.PreEmploymentForm.EmergencyContact;
-import com.example.uaagi_app.data.model.PreEmploymentForm.OfficeSkills;
-import com.example.uaagi_app.data.model.PreEmploymentForm.PreEmpFormDataModel;
-import com.example.uaagi_app.data.model.PreEmploymentForm.UserInfo;
+import com.example.uaagi_app.data.model.PreEmploymentForm.*;
 import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.CertificatePreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.CharacterReferencePreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.EducationPreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GovIdPreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.ProfessionalSkillsPreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.QualificationPreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.SeminarPreviewAdapter;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.WorkExperiencePreviewAdapter;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.AdapterCollection;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class PreEmpFormStep6 extends BaseFormStepFragment {
@@ -80,7 +68,6 @@ public class PreEmpFormStep6 extends BaseFormStepFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_preemp_step_6, container, false);
     }
 
@@ -179,73 +166,91 @@ public class PreEmpFormStep6 extends BaseFormStepFragment {
 
         // Populate RecyclerViews
         if (formData.getEducations() != null && !formData.getEducations().isEmpty()) {
-            educationPreviewList.setAdapter(new EducationPreviewAdapter(formData.getEducations()));
+            educationPreviewList.setAdapter(
+                    AdapterCollection.createEducationAdapter(formData.getEducations())
+            );
         }
 
         if (formData.getWorkExperiences() != null && !formData.getWorkExperiences().isEmpty()) {
-            workExperiencePreviewList.setAdapter(new WorkExperiencePreviewAdapter(formData.getWorkExperiences()));
+            workExperiencePreviewList.setAdapter(
+                    AdapterCollection.createWorkExperienceAdapter(formData.getWorkExperiences())
+            );
         }
 
         if (formData.getProfessionalSkills() != null && !formData.getProfessionalSkills().isEmpty()) {
-            professionalSkillsPreviewList.setAdapter(new ProfessionalSkillsPreviewAdapter(formData.getProfessionalSkills()));
+            professionalSkillsPreviewList.setAdapter(
+                    AdapterCollection.createProfessionalSkillsAdapter(formData.getProfessionalSkills())
+            );
         }
 
         if (formData.getCertificates() != null && !formData.getCertificates().isEmpty()) {
-            certificationsPreviewList.setAdapter(new CertificatePreviewAdapter(formData.getCertificates()));
+            certificationsPreviewList.setAdapter(
+                    AdapterCollection.createCertificateAdapter(formData.getCertificates())
+            );
         }
 
         if (formData.getQualifications() != null && !formData.getQualifications().isEmpty()) {
-            qualificationsPreviewList.setAdapter(new QualificationPreviewAdapter(formData.getQualifications()));
+            qualificationsPreviewList.setAdapter(
+                    AdapterCollection.createQualificationAdapter(formData.getQualifications())
+            );
         }
 
         if (formData.getSeminars() != null && !formData.getSeminars().isEmpty()) {
-            seminarsPreviewList.setAdapter(new SeminarPreviewAdapter(formData.getSeminars()));
+            seminarsPreviewList.setAdapter(
+                    AdapterCollection.createSeminarAdapter(formData.getSeminars())
+            );
         }
 
         if (formData.getGovIds() != null && !formData.getGovIds().isEmpty()) {
-            governmentIssuedNumbersPreviewList.setAdapter(new GovIdPreviewAdapter(formData.getGovIds()));
+            governmentIssuedNumbersPreviewList.setAdapter(
+                    AdapterCollection.createGovIdAdapter(formData.getGovIds())
+            );
         }
 
         if (formData.getContactReferences() != null && !formData.getContactReferences().isEmpty()) {
-            characterReferencesPreviewList.setAdapter(new CharacterReferencePreviewAdapter(formData.getContactReferences()));
+            characterReferencesPreviewList.setAdapter(
+                    AdapterCollection.createCharacterReferenceAdapter(formData.getContactReferences())
+            );
         }
     }
-
+    private void setSafeText(TextView textView, String value) {
+        if (textView == null) return;
+        textView.setText(TextUtils.isEmpty(value) ? "—" : value);
+    }
     private void populatePersonalInfo(UserInfo userInfo) {
         if (userInfo == null) return;
 
-        previewFirstName.setText(TextUtils.isEmpty(userInfo.getFirstName()) ? "—" : userInfo.getFirstName());
-        previewMiddleName.setText(TextUtils.isEmpty(userInfo.getMiddleName()) ? "—" : userInfo.getMiddleName());
-        previewLastName.setText(TextUtils.isEmpty(userInfo.getLastName()) ? "—" : userInfo.getLastName());
-        previewDateOfBirth.setText(TextUtils.isEmpty(userInfo.getDob()) ? "—" : userInfo.getDob());
-        previewAge.setText(TextUtils.isEmpty(userInfo.getAge()) ? "—" : userInfo.getAge());
-        previewGender.setText(TextUtils.isEmpty(userInfo.getGender()) ? "—" : userInfo.getGender());
-        previewReligion.setText(TextUtils.isEmpty(userInfo.getReligion()) ? "—" : userInfo.getReligion());
-        previewCivilStatus.setText(TextUtils.isEmpty(userInfo.getCivilStatus()) ? "—" : userInfo.getCivilStatus());
-        previewNationality.setText(TextUtils.isEmpty(userInfo.getNationality()) ? "—" : userInfo.getNationality());
-        previewHeight.setText(TextUtils.isEmpty(userInfo.getHeight()) ? "—" : userInfo.getHeight());
-        previewWeight.setText(TextUtils.isEmpty(userInfo.getWeight()) ? "—" : userInfo.getWeight());
-        previewBloodType.setText(TextUtils.isEmpty(userInfo.getBloodType()) ? "—" : userInfo.getBloodType());
+        setSafeText(previewFirstName, userInfo.getFirstName());
+        setSafeText(previewMiddleName, userInfo.getMiddleName());
+        setSafeText(previewLastName, userInfo.getLastName());
+        setSafeText(previewDateOfBirth, userInfo.getDob());
+        setSafeText(previewAge, userInfo.getAge());
+        setSafeText(previewGender, userInfo.getGender());
+        setSafeText(previewReligion, userInfo.getReligion());
+        setSafeText(previewCivilStatus, userInfo.getCivilStatus());
+        setSafeText(previewNationality, userInfo.getNationality());
+        setSafeText(previewHeight, userInfo.getHeight());
+        setSafeText(previewWeight, userInfo.getWeight());
+        setSafeText(previewBloodType, userInfo.getBloodType());
 
-        // Contact Information
-        previewPhoneNumber.setText(TextUtils.isEmpty(userInfo.getCellNo()) ? "—" : userInfo.getCellNo());
-        previewAlternateContact.setText("—"); // Not in UserInfo model
-        previewLandline.setText(TextUtils.isEmpty(userInfo.getTelNo()) ? "—" : userInfo.getTelNo());
-        previewCurrentAddress.setText(TextUtils.isEmpty(userInfo.getCurrentAddress()) ? "—" : userInfo.getCurrentAddress());
-        previewPermanentAddress.setText(TextUtils.isEmpty(userInfo.getPermanentAddress()) ? "—" : userInfo.getPermanentAddress());
+        setSafeText(previewPhoneNumber, userInfo.getCellNo());
+        setSafeText(previewAlternateContact, null); // not in model
+        setSafeText(previewLandline, userInfo.getTelNo());
+        setSafeText(previewCurrentAddress, userInfo.getCurrentAddress());
+        setSafeText(previewPermanentAddress, userInfo.getPermanentAddress());
     }
 
     private void populateEmergencyContact(EmergencyContact emergency) {
         if (emergency == null) {
-            previewEmergencyContactName.setText("—");
-            previewEmergencyRelationship.setText("—");
-            previewEmergencyContactNumber.setText("—");
+            setSafeText(previewEmergencyContactName, null);
+            setSafeText(previewEmergencyRelationship, null);
+            setSafeText(previewEmergencyContactNumber, null);
             return;
         }
 
-        previewEmergencyContactName.setText(TextUtils.isEmpty(emergency.getName()) ? "—" : emergency.getName());
-        previewEmergencyRelationship.setText(TextUtils.isEmpty(emergency.getRelationship()) ? "—" : emergency.getRelationship());
-        previewEmergencyContactNumber.setText(TextUtils.isEmpty(emergency.getContact()) ? "—" : emergency.getContact());
+        setSafeText(previewEmergencyContactName, emergency.getName());
+        setSafeText(previewEmergencyRelationship, emergency.getRelationship());
+        setSafeText(previewEmergencyContactNumber, emergency.getContact());
     }
 
     private void populateOfficeSkills(OfficeSkills officeSkills) {
@@ -302,7 +307,6 @@ public class PreEmpFormStep6 extends BaseFormStepFragment {
             ((PreEmpForm) requireActivity()).submitForm();
         });
     }
-
     @Override
     public void saveFormData() {
         // Step 6 is a preview/summary step, no data to save

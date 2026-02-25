@@ -13,7 +13,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Certificate;
 
 import java.util.List;
-
+@Deprecated
 public class CertificatePreviewAdapter extends RecyclerView.Adapter<CertificatePreviewAdapter.ViewHolder> {
     private final List<Certificate> certificateList;
 
