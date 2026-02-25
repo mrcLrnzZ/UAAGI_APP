@@ -11,6 +11,7 @@ import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.network.mapper.JobFetchMapper;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.NetworkUtils;
+import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class JobFetchService {
             callback.onError("No internet connection. Please check your network.");
             return;
         }
-        int userId = Helpers.getUserId(context);
+        int userId = SessionManager.getInstance(context).getUserId();
         String url = BASE_URL + "/jobs?userId=" + userId;
         Log.d(TAG, "User ID: " + userId);
         Log.d(TAG, url);

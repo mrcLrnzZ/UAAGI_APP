@@ -54,20 +54,8 @@ public class UiHelpers {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, array);
         dropDownSetter(textView, adapter);
     }
-    public static void dropDownSetter(AutoCompleteTextView textView, ArrayAdapter<String> adapter) {
+    private static void dropDownSetter(AutoCompleteTextView textView, ArrayAdapter<String> adapter) {
         textView.setAdapter(adapter);
-    }
-    public static void addEntry(int layoutResId, LinearLayout container, Context context) {
-        View entryView = LayoutInflater.from(context)
-                .inflate(layoutResId, container, false);
-
-//        // Optional remove button inside layout
-//        ImageButton btnRemove = entryView.findViewById(R.id.btnRemove);
-//        if (btnRemove != null) {
-//            btnRemove.setOnClickListener(v -> container.removeView(entryView));
-//        }
-
-        container.addView(entryView);
     }
     public static void switchFragment(FragmentManager fragmentManager, Fragment targetFragment) {
         fragmentManager.beginTransaction()

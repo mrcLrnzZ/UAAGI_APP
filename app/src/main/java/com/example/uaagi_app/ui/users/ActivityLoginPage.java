@@ -33,6 +33,7 @@ import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
+import com.example.uaagi_app.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
@@ -228,10 +229,10 @@ public class ActivityLoginPage extends AppCompatActivity {
             @Override
             public void onResponse(LoginFetchResponse response) {
                 Intent intent;
-                Helpers.saveLoginState(ActivityLoginPage.this);
-                Helpers.saveUserId(ActivityLoginPage.this, response.userId);
-                Helpers.saveUserEmail(ActivityLoginPage.this, email);
-                Helpers.savePreEmpResponse(ActivityLoginPage.this, response.formExist);
+                SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
+                SessionManager.getInstance(ActivityLoginPage.this).saveUserId(response.userId);
+                SessionManager.getInstance(ActivityLoginPage.this).saveUserEmail(email);
+                SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(response.formExist);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
                 if (response.formExist) {

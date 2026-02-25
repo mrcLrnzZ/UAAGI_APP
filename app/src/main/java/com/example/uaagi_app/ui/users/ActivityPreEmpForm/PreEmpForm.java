@@ -25,6 +25,7 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormSte
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.PreEmpFormStep6;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.utils.SessionManager;
 
 public class PreEmpForm extends AppCompatActivity {
     private static final String TAG = "MainPreEmpLifeCycle";
@@ -85,7 +86,7 @@ public class PreEmpForm extends AppCompatActivity {
             @Override
             public void onSuccess(String message) {
                 Toast.makeText(PreEmpForm.this, "Form submitted successfully!", Toast.LENGTH_SHORT).show();
-                Helpers.savePreEmpResponse(PreEmpForm.this, true);
+                SessionManager.getInstance(PreEmpForm.this).savePreEmpResponse(true);
                 Intent intent = new Intent(PreEmpForm.this, ActivityHomePage.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

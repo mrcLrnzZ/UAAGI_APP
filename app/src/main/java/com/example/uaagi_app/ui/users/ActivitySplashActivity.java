@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.utils.SessionManager;
 
 public class ActivitySplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashScreenLifecycle";
@@ -21,15 +22,15 @@ public class ActivitySplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "SplashAct onCreate()");
-        int userId = Helpers.getUserId(this);
+        int userId = SessionManager.getInstance(this).getUserId();
         Log.d(TAG, "User ID: " + userId);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
         runnable = () -> {
             Intent intent;
-            if (!Helpers.isLoggedIn(ActivitySplashActivity.this)){
+            if (SessionManager.getInstance(ActivitySplashActivity.this).isLoggedIn()){
                 intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
-            } else if (Helpers.getPreEmpResponse(ActivitySplashActivity.this)) {
+            } else if (!SessionManager.getInstance(ActivitySplashActivity.this).getPreEmpResponse()) {
                 intent = new Intent(ActivitySplashActivity.this, PreEmpForm.class);
             } else {
                 intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);

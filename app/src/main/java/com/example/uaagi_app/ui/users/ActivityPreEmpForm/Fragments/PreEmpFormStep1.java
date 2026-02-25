@@ -22,6 +22,7 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
+import com.example.uaagi_app.utils.SessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -73,8 +74,8 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
     public void saveFormData() {
         viewModel.update(form -> {
             UserInfo userIfo = new UserInfo(
-                    String.valueOf(Helpers.getUserId(requireContext())),
-                    Helpers.getUserEmail(requireContext()),
+                    String.valueOf(SessionManager.getInstance(requireContext()).getUserId()),
+                    SessionManager.getInstance(requireContext()).getUserEmail(),
                     firstNameInput.getText().toString(),
                     middleNameInput.getText().toString(),
                     lastNameInput.getText().toString(),
@@ -94,7 +95,7 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
             );
             form.setUserInfo(userIfo);
         });
-        String Email = Helpers.getUserEmail(requireContext());
+        String Email = SessionManager.getInstance(requireContext()).getUserEmail();
         Log.d(TAG, "emailPreEmp: "+Email);
     }
 

@@ -120,55 +120,5 @@ public class Helpers {
             currentAddressInput.setText(fullAddress);
         }
     }
-    public static  void saveLoginState(Context context){
-        SharedPreferences prefs = context.getSharedPreferences("auth", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("isLoggedIn", true);
-        editor.apply();
-    }
-    public static void saveUserId(Context context, int userId) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("userId", userId);
-        editor.apply();
-    }
-    public static void saveUserEmail(Context context, String email) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Log.d("AUTH_DEBUG", "Saving Email: " + email);
-        editor.putString("userEmail", email);
-        editor.apply();
-    }
-    public static String getUserEmail(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        String email = prefs.getString("userEmail", "");
-        Log.d("AUTH_DEBUG", "Retrieved Email: " + email);
-        return email;
-    }
-    public static int getUserId(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        return prefs.getInt("userId", -1);
-    }
-    public static void savePreEmpResponse(Context context, boolean response) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("preEmpResponse", response);
-        editor.apply();
-    }
-    public static boolean getPreEmpResponse(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        return prefs.getBoolean("preEmpResponse", false);
-    }
-    public static boolean isLoggedIn(Context context) {
-        SharedPreferences prefs =
-                context.getSharedPreferences("auth", Context.MODE_PRIVATE);
 
-        return prefs.getBoolean("isLoggedIn", false);
-    }
-    public static void logout(Context context) {
-        SharedPreferences prefs =
-                context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-
-        prefs.edit().clear().apply();
-    }
 }
