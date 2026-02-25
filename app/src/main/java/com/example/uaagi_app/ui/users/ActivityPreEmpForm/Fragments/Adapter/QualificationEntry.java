@@ -76,7 +76,7 @@ public class QualificationEntry extends RecyclerView.Adapter<QualificationEntry.
             dateReceiveInput = itemView.findViewById(R.id.dateReceivedInput);
             qualificationTypeInput = itemView.findViewById(R.id.qualificationTypeInput);
             qualificationDescriptionInput = itemView.findViewById(R.id.qualificationDescriptionInput);
-            String[] types = {"Certification", "License", "Degree"};
+            String[] types = {"Professional License", "Award/Recognition", "Professional Membership","Achievement","Other"};
             UiHelpers.dropDownMaker(types, qualificationTypeInput, itemView.getContext());
         }
     }

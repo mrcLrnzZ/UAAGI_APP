@@ -77,7 +77,7 @@ public class SeminarEntry extends RecyclerView.Adapter<SeminarEntry.SeminarViewH
             seminarType = itemView.findViewById(R.id.seminarTypeInput);
             seminarOrganizer = itemView.findViewById(R.id.organizerInput);
             seminarDate = itemView.findViewById(R.id.dateAttendedInput);
-            String[] types = {"Workshop", "Training", "Conference"};
+            String[] types = {"Seminar", "Training", "Conference","Workshop","Webinar","Others"};
             UiHelpers.dropDownMaker(types, seminarType, itemView.getContext());
         }
     }

@@ -81,10 +81,10 @@ public class EducationEntry extends RecyclerView.Adapter<EducationEntry.Educatio
             courseAchievement = itemView.findViewById(R.id.courseAchievementsInput);
             status = itemView.findViewById(R.id.statusSpinner);
 
-            String[] levels = {"High School", "College", "Vocational", "Postgraduate"};
+            String[] levels = {"Primary Education", "Secondary Education", "Secondary Education (Lower)", "Tertiary Education", "Vocational/Technical", "Master's Degree", "Doctoral Degree", "Post-Graduate Degree", "Associate Degree", "Other"};
             UiHelpers.dropDownMaker(levels, eduLevel, itemView.getContext());
 
-            String[] statuses = {"Graduated", "Ongoing", "Dropped"};
+            String[] statuses = {"Graduated", "Undergraduate"};
             UiHelpers.dropDownMaker(statuses, status, itemView.getContext());
         }
     }
