@@ -98,6 +98,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:backgroundTint="@color/White"
                                         android:src="@drawable/foton"
                                         android:scaleType="fitCenter" />
 
@@ -228,6 +229,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:backgroundTint="@color/White"
                                         android:src="@drawable/cherylogo"
                                         android:scaleType="fitCenter" />
 
@@ -358,6 +360,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:backgroundTint="@color/White"
                                         android:src="@drawable/baiclogo"
                                         android:scaleType="fitCenter" />
 
@@ -488,6 +491,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:backgroundTint="@color/White"
                                         android:src="@drawable/lynkco"
                                         android:scaleType="fitCenter" />
 
@@ -618,6 +622,7 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:backgroundTint="@color/White"
                                         android:src="@drawable/muttlogo"
                                         android:scaleType="fitCenter" />
 
