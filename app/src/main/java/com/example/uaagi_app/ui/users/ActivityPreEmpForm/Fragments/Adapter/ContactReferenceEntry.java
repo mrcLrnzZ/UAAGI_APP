@@ -15,7 +15,7 @@ import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-
+@Deprecated
 public class ContactReferenceEntry extends RecyclerView.Adapter<ContactReferenceEntry.ContactReferenceViewHolder> {
 
     private static final String TAG = "ContactReferenceEntry";

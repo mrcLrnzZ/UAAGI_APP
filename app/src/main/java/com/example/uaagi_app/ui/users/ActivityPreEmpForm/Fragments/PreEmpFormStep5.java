@@ -25,9 +25,11 @@ import com.example.uaagi_app.data.model.PreEmploymentForm.OfficeSkills;
 import com.example.uaagi_app.data.model.PreEmploymentForm.ProfessionalSkills;
 import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.ContactReferenceEntry;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GovIdEntry;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.EntryHandler;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -40,6 +42,8 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
     private RecyclerView referenceContainer;
     private final List<GovId> governmentIdList = new ArrayList<>();
     private final List<ContactReference> contactReferenceList = new ArrayList<>();
+    private GenericRecyclerAdapter<GovId> governmentIdAdapter;
+    private GenericRecyclerAdapter<ContactReference> contactReferenceAdapter;
     private PreEmpFormViewModel viewModel;
     private TextInputEditText emergencyContactNameInput;
     private AutoCompleteTextView emergencyRelationshipInput;
@@ -81,43 +85,28 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
 
         EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), GovId::new, 1);
         EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), ContactReference::new, 1);
-        UiHelpers.updateRemoveButtonVisibility(governmentIdList, btnRemoveGovernmentId, 1);
-        UiHelpers.updateRemoveButtonVisibility(contactReferenceList, btnRemoveReference, 1);
         loadExistingData();
 
-        GovIdEntry governmentIdEntryAdapter = new GovIdEntry(governmentIdList);
-        ContactReferenceEntry contactReferenceEntryAdapter = new ContactReferenceEntry(contactReferenceList);
+
+        governmentIdAdapter = createGovIdAdapter();
+        contactReferenceAdapter = createReferenceAdapter();
 
         governmentIdContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
         referenceContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        governmentIdContainer.setAdapter(governmentIdEntryAdapter);
-        referenceContainer.setAdapter(contactReferenceEntryAdapter);
+        governmentIdContainer.setAdapter(governmentIdAdapter);
+        referenceContainer.setAdapter(contactReferenceAdapter);
 
         btnAddGovernmentId.setOnClickListener(v ->{
-            btnRemoveGovernmentId.setVisibility(View.VISIBLE);
-            EntryHandler.addEntry(governmentIdList, new GovId(), governmentIdContainer,governmentIdEntryAdapter, 10);
-
+            governmentIdAdapter.addItem(new GovId());
+            governmentIdAdapter.notifyDataSetChanged();
         });
 
         btnAddReference.setOnClickListener(v ->{
-            btnRemoveReference.setVisibility(View.VISIBLE);
-            EntryHandler.addEntry(contactReferenceList, new ContactReference(), referenceContainer, contactReferenceEntryAdapter, 10);
+            contactReferenceAdapter.addItem(new ContactReference());
+            contactReferenceAdapter.notifyDataSetChanged();
         });
 
-        btnRemoveGovernmentId.setOnClickListener(v ->{
-            if (governmentIdList.size() == 1) {
-                btnRemoveGovernmentId.setVisibility(View.GONE);
-            }
-            EntryHandler.removeEntry(governmentIdList, governmentIdContainer, governmentIdEntryAdapter, requireContext(), 1);
-        });
-
-        btnRemoveReference.setOnClickListener(v ->{
-            if (contactReferenceList.size() == 1) {
-                btnRemoveReference.setVisibility(View.GONE);
-            }
-            EntryHandler.removeEntry(contactReferenceList, referenceContainer, contactReferenceEntryAdapter, requireContext(), 1);
-        });
 
         btnPrevious.setOnClickListener(v -> {
             saveFormData();
@@ -131,18 +120,77 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
 
         return view;
     }
+    private GenericRecyclerAdapter<GovId> createGovIdAdapter() {
+        return new GenericRecyclerAdapter<>(
+                governmentIdList,
+                R.layout.item_government_id_entry,
+                (view, govId, position) -> {
 
+                    AutoCompleteTextView idType = view.findViewById(R.id.idTypeInput);
+                    TextInputEditText idNumber = view.findViewById(R.id.idNumberInput);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveGovernmentId);
+
+                    idType.setText(govId.getType() != null ? govId.getType() : "", false);
+                    idNumber.setText(govId.getNumber() != null ? govId.getNumber() : "");
+
+                    SimpleTextWatcher.bindTextWatcher(idType, new SimpleTextWatcher(govId::setType));
+                    SimpleTextWatcher.bindTextWatcher(idNumber, new SimpleTextWatcher(govId::setNumber));
+
+                    String[] idTypes = {"SSS", "TIN", "PAGIBIG", "PhilHealth","Passport"};
+                    UiHelpers.dropDownMaker(idTypes, idType, view.getContext());
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (governmentIdList.size() > 1) {
+                            governmentIdAdapter.removeItem(position);
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            governmentIdList.size() > 1 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
+    }
+    private GenericRecyclerAdapter<ContactReference> createReferenceAdapter() {
+        return new GenericRecyclerAdapter<>(
+                contactReferenceList,
+                R.layout.item_reference_entry,
+                (view, ref, position) -> {
+
+                    TextInputEditText name = view.findViewById(R.id.tiet_contact_ref);
+                    TextInputEditText occupation = view.findViewById(R.id.tiet_occupation);
+                    TextInputEditText company = view.findViewById(R.id.tiet_company);
+                    TextInputEditText contactNumber = view.findViewById(R.id.tiet_contact_no);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveReference);
+
+                    name.setText(ref.getName() != null ? ref.getName() : "");
+                    occupation.setText(ref.getOccupation() != null ? ref.getOccupation() : "");
+                    company.setText(ref.getCompany() != null ? ref.getCompany() : "");
+                    contactNumber.setText(ref.getPhone() != null ? ref.getPhone() : "");
+
+                    SimpleTextWatcher.bindTextWatcher(name, new SimpleTextWatcher(ref::setName));
+                    SimpleTextWatcher.bindTextWatcher(occupation, new SimpleTextWatcher(ref::setOccupation));
+                    SimpleTextWatcher.bindTextWatcher(company, new SimpleTextWatcher(ref::setCompany));
+                    SimpleTextWatcher.bindTextWatcher(contactNumber, new SimpleTextWatcher(ref::setPhone));
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (contactReferenceList.size() > 1) {
+                            contactReferenceAdapter.removeItem(position);
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            contactReferenceList.size() > 1 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
+    }
     private void setupRelationshipDropdown() {
         String[] relationships = new String[]{
                 "Spouse", "Parent", "Sibling", "Child", "Friend",
                 "Relative", "Colleague", "Neighbor", "Other"
         };
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                relationships
-        );
-        emergencyRelationshipInput.setAdapter(adapter);
+        UiHelpers.dropDownMaker(relationships, emergencyRelationshipInput, requireContext());
     }
 
     private void loadExistingData() {

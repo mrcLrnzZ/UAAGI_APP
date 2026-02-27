@@ -83,6 +83,7 @@ public class GenericRecyclerAdapter<T> extends RecyclerView.Adapter<GenericRecyc
             itemList = new ArrayList<>();
         }
         itemList.add(item);
+        notifyDataSetChanged();
         notifyItemInserted(itemList.size() - 1);
     }
 
@@ -104,6 +105,7 @@ public class GenericRecyclerAdapter<T> extends RecyclerView.Adapter<GenericRecyc
         if (itemList != null && position >= 0 && position < itemList.size()) {
             itemList.remove(position);
             notifyItemRemoved(position);
+            notifyDataSetChanged();
         }
     }
 

@@ -14,7 +14,7 @@ import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-
+@Deprecated
 public class WorkExperienceEntry extends RecyclerView.Adapter<WorkExperienceEntry.WorkExperienceViewHolder> {
 
     private final List<WorkExperience> workExperienceList;
