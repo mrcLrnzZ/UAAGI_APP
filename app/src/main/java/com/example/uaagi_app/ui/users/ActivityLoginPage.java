@@ -24,19 +24,19 @@ import android.text.style.ForegroundColorSpan;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.uaagi_app.network.api.LoginOtpService;
-import com.example.uaagi_app.network.api.LoginAuthService;
+import com.example.uaagi_app.network.Services.LoginOtpService;
+import com.example.uaagi_app.network.Services.LoginAuthService;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.LoginFetchResponse;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
+import com.example.uaagi_app.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
-
-import org.json.JSONObject;
 
 public class ActivityLoginPage extends AppCompatActivity {
 
@@ -228,11 +228,18 @@ public class ActivityLoginPage extends AppCompatActivity {
         authService.verifyLogin(email, otp, new LoginAuthService.VerifyLoginCallback() {
             @Override
             public void onResponse(LoginFetchResponse response) {
-                Helpers.saveLoginState(ActivityLoginPage.this);
-                Helpers.saveUserId(ActivityLoginPage.this, response.userId);
+                Intent intent;
+                SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
+                SessionManager.getInstance(ActivityLoginPage.this).saveUserId(response.userId);
+                SessionManager.getInstance(ActivityLoginPage.this).saveUserEmail(email);
+                SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(response.formExist);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
-                Intent intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
+//                if (response.formExist) {
+                    intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
+//                } else {
+//                    intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
+//                }
                 startActivity(intent);
                 finish();
             }

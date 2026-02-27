@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -119,32 +120,5 @@ public class Helpers {
             currentAddressInput.setText(fullAddress);
         }
     }
-    public static  void saveLoginState(Context context){
-        SharedPreferences prefs = context.getSharedPreferences("auth", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("isLoggedIn", true);
-        editor.apply();
-    }
-    public static void saveUserId(Context context, int userId) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("userId", userId);
-        editor.apply();
-    }
-    public static int getUserId(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        return prefs.getInt("userId", -1);
-    }
-    public static boolean isLoggedIn(Context context) {
-        SharedPreferences prefs =
-                context.getSharedPreferences("auth", Context.MODE_PRIVATE);
 
-        return prefs.getBoolean("isLoggedIn", false);
-    }
-    public static void logout(Context context) {
-        SharedPreferences prefs =
-                context.getSharedPreferences("auth", Context.MODE_PRIVATE);
-
-        prefs.edit().clear().apply();
-    }
 }

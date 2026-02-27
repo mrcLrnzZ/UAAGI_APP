@@ -45,6 +45,14 @@ public class EducationEntry extends RecyclerView.Adapter<EducationEntry.Educatio
             if (holder.eduLevelWatcher != null) holder.eduLevel.removeTextChangedListener(holder.eduLevelWatcher);
             if (holder.statusWatcher != null) holder.status.removeTextChangedListener(holder.statusWatcher);
 
+            // Populate fields with existing data
+            holder.schoolName.setText(edu.getSchool() != null ? edu.getSchool() : "");
+            holder.courseAchievement.setText(edu.getAchievement() != null ? edu.getAchievement() : "");
+            holder.yearGrad.setText(edu.getGradYear() != null ? edu.getGradYear() : "");
+            holder.eduLevel.setText(edu.getLevel() != null ? edu.getLevel() : "", false);
+            holder.status.setText(edu.getStatus() != null ? edu.getStatus() : "", false);
+
+            // Create and add new watchers
             holder.schoolNameWatcher = new SimpleTextWatcher(edu::setSchool);
             holder.courseAchievementWatcher = new SimpleTextWatcher(edu::setAchievement);
             holder.yearGradWatcher = new SimpleTextWatcher(edu::setGradYear);

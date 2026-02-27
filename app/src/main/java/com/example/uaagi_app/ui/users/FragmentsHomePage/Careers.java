@@ -3,105 +3,64 @@ package com.example.uaagi_app.ui.users.FragmentsHomePage;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.ui.users.FragmentError;
-import com.example.uaagi_app.ui.users.FragmentLoading;
-import com.example.uaagi_app.ui.users.FragmentsCareers.Adapter.JobEntry;
-import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
+import com.example.uaagi_app.network.dto.JobEnums.Company;
+import com.example.uaagi_app.ui.users.FragmentsCareers.DivisionOption;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
-import com.example.uaagi_app.network.api.JobFetchService;
-import com.example.uaagi_app.network.dto.JobFetchResponse;
 
-import java.util.List;
-
-public class Careers extends Fragment implements FragmentError.RetryListener {
-    private static final String TAG = "CareersFragment";
-    private RecyclerView jobRecyclerView;
-    private View loadingContainer;
-    private View errorContainer;
+public class Careers extends Fragment {
+    LinearLayout fotonBrandCard, baicBrandCard, lynkcoBrandCard, muttBrandCard, cheryBrandCard;
+    private final String FTON_PHILIPPINES = "Foton Philippines";
+    private final String CHERY_PHILIPPINES = "Chery Auto Philippines";
+    private final String LYNKCO_PHILIPPINES = "Lynk & Co Philippines";
+    private final String MUTT_PHILIPPINES = "Mutt Motorcycle Philippines";
+    private final String BAIC_PHILIPPINES = "BAIC Philippines";
+    private final String TAG = "BrandFragment";
     public Careers() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigate_careers, container, false);
-        setupUiStates(view);
-        jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        fetchJobs();
+        initializeViews(view);
+        setupListeners();
         return view;
     }
-    private void fetchJobs() {
-        showLoading();
-        JobFetchService service = new JobFetchService(requireContext());
-        service.fetchJobsForUser(new JobFetchService.JobFetchCallback() {
-            @Override
-            public void onResponse(List<JobFetchResponse> response) {
-                showContent(response);
-            }
-            @Override
-            public void onError(String errorMessage) {
-                showError(errorMessage);
-            }
-        });
+    private void initializeViews(View view) {
+        fotonBrandCard = view.findViewById(R.id.fotonBrandCard);
+        baicBrandCard = view.findViewById(R.id.baicBrandCard);
+        lynkcoBrandCard = view.findViewById(R.id.lynkcoBrandCard);
+        muttBrandCard = view.findViewById(R.id.muttBrandCard);
+        cheryBrandCard = view.findViewById(R.id.cheryBrandCard);
     }
-    private void setupUiStates(View view){
-        jobRecyclerView = view.findViewById(R.id.job_container);
-        loadingContainer = view.findViewById(R.id.loading_container);
-        errorContainer = view.findViewById(R.id.error_container);
+    private void setupListeners() {
+        fotonBrandCard.setOnClickListener(v -> openCareers(Company.FOTON_PHILIPPINES));
+        baicBrandCard.setOnClickListener(v -> openCareers(Company.BAIC_PHILIPPINES));
+        lynkcoBrandCard.setOnClickListener(v -> openCareers(Company.LYNK_AND_CO_PHILIPPINES));
+        muttBrandCard.setOnClickListener(v -> openCareers(Company.MUTT_MOTORCYCLE_PHILIPPINES));
+        cheryBrandCard.setOnClickListener(v -> openCareers(Company.CHERY_AUTO_PHILIPPINES));
     }
-    private void showLoading() {
-        loadingContainer.setVisibility(View.VISIBLE);
-        errorContainer.setVisibility(View.GONE);
-        jobRecyclerView.setVisibility(View.GONE);
-        UiHelpers.replaceChildFragment(
-                getChildFragmentManager(),
-                R.id.loading_container,
-                FragmentLoading.newInstance()
+
+    private void openCareers(Company company) {
+        DivisionOption fragment = DivisionOption.newInstance(company);
+
+        UiHelpers.switchFragment(
+                requireActivity().getSupportFragmentManager(),
+                fragment
         );
-    }
-    private void showContent(List<JobFetchResponse> jobs) {
-        loadingContainer.setVisibility(View.GONE);
-        errorContainer.setVisibility(View.GONE);
-        jobRecyclerView.setVisibility(View.VISIBLE);
-
-        JobEntry adapter = new JobEntry(jobs, 0, 5, job -> {
-            JobDesc fragment = new JobDesc();
-            Bundle bundle = new Bundle();
-            bundle.putString("jobId", String.valueOf(job.getId()));
-            bundle.putString("jobTitle", job.getJobTitle());
-            bundle.putString("jobLocation", job.getLocation());
-            bundle.putString("jobCompany", job.getCompany().getDisplayName());
-            fragment.setArguments(bundle);
-
-            UiHelpers.switchFragment(
-                    requireActivity().getSupportFragmentManager(),
-                    fragment
-            );
-        });
-
-        jobRecyclerView.setAdapter(adapter);
-    }
-    private void showError(String message) {
-        loadingContainer.setVisibility(View.GONE);
-        jobRecyclerView.setVisibility(View.GONE);
-        errorContainer.setVisibility(View.VISIBLE);
-        UiHelpers.replaceChildFragment(
-                getChildFragmentManager(),
-                R.id.error_container,
-                FragmentError.newInstance(message)
-        );
-    }
-    @Override
-    public void onRetry() {
-        fetchJobs();
     }
 }

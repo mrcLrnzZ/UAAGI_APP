@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UAAGI_APP">
-
         <activity
             android:name=".ui.users.ActivityPreEmpForm.PreEmpForm"
             android:exported="false" />

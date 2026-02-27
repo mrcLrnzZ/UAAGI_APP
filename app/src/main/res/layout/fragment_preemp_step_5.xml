@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -326,32 +326,40 @@
                             android:paddingStart="8dp"
                             android:paddingEnd="4dp"/>
 
-                        <RadioButton
-                            android:id="@+id/msWordBeginner"
+                        <RadioGroup
+                            android:id="@+id/msWordRadioGroup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/msWordIntermediate"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msWordBeginner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
 
-                        <RadioButton
-                            android:id="@+id/msWordAdvanced"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msWordIntermediate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+
+                            <RadioButton
+                                android:id="@+id/msWordAdvanced"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:buttonTint="#004B87"
+                                android:gravity="center" />
+                        </RadioGroup>
                     </LinearLayout>
 
                     <!-- MS Excel Row -->
@@ -375,32 +383,40 @@
                             android:paddingStart="8dp"
                             android:paddingEnd="4dp"/>
 
-                        <RadioButton
-                            android:id="@+id/msExcelBeginner"
+                        <RadioGroup
+                            android:id="@+id/msExcelRadioGroup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/msExcelIntermediate"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msExcelBeginner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
 
-                        <RadioButton
-                            android:id="@+id/msExcelAdvanced"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msExcelIntermediate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+
+                            <RadioButton
+                                android:id="@+id/msExcelAdvanced"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+                        </RadioGroup>
                     </LinearLayout>
 
                     <!-- MS PowerPoint Row -->
@@ -424,32 +440,40 @@
                             android:paddingStart="8dp"
                             android:paddingEnd="4dp"/>
 
-                        <RadioButton
-                            android:id="@+id/msPowerPointBeginner"
+                        <RadioGroup
+                            android:id="@+id/msPowerPointRadioGroup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/msPowerPointIntermediate"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msPowerPointBeginner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
 
-                        <RadioButton
-                            android:id="@+id/msPowerPointAdvanced"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msPowerPointIntermediate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+
+                            <RadioButton
+                                android:id="@+id/msPowerPointAdvanced"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+                        </RadioGroup>
                     </LinearLayout>
 
                     <!-- MS Outlook Row -->
@@ -472,32 +496,40 @@
                             android:paddingStart="8dp"
                             android:paddingEnd="4dp"/>
 
-                        <RadioButton
-                            android:id="@+id/msOutlookBeginner"
+                        <RadioGroup
+                            android:id="@+id/msOutlookRadioGroup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/msOutlookIntermediate"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msOutlookBeginner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
 
-                        <RadioButton
-                            android:id="@+id/msOutlookAdvanced"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:buttonTint="#004B87"/>
+                            <RadioButton
+                                android:id="@+id/msOutlookIntermediate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+
+                            <RadioButton
+                                android:id="@+id/msOutlookAdvanced"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:buttonTint="#004B87"/>
+                        </RadioGroup>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -545,16 +577,32 @@
 
                     <Button
                         android:id="@+id/btnAddReference"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="+ Add Reference"
+                        android:text="+"
                         android:backgroundTint="#004B87"
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"
                         android:textSize="13sp"
                         android:paddingHorizontal="16dp"
-                        app:cornerRadius="6dp"
+                        app:cornerRadius="10dp"
                         android:elevation="0dp"/>
+
+                    <Button
+                        android:id="@+id/btnRemoveReference"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:backgroundTint="#FE0000"
+                        android:elevation="0dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="14dp"
+                        android:layout_marginStart="5dp"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:cornerRadius="10dp" />
+
                 </LinearLayout>
 
                 <!-- Reference Container -->
@@ -614,4 +662,4 @@
             android:layout_height="32dp"/>
 
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -43,6 +43,12 @@ public class QualificationEntry extends RecyclerView.Adapter<QualificationEntry.
         if (holder.authorityWatcher != null) holder.issuingAuthorityInput.removeTextChangedListener(holder.authorityWatcher);
         if (holder.typeWatcher != null) holder.qualificationTypeInput.removeTextChangedListener(holder.typeWatcher);
 
+        holder.qualificationTitleInput.setText(qualification.getTitle() != null ? qualification.getTitle() : "");
+        holder.qualificationDescriptionInput.setText(qualification.getDescription() != null ? qualification.getDescription() : "");
+        holder.dateReceiveInput.setText(qualification.getDate() != null ? qualification.getDate() : "");
+        holder.issuingAuthorityInput.setText(qualification.getAuthority() != null ? qualification.getAuthority() : "");
+        holder.qualificationTypeInput.setText(qualification.getType() != null ? qualification.getType() : "", false);
+
         holder.titleWatcher = new SimpleTextWatcher(qualification::setTitle);
         holder.descriptionWatcher = new SimpleTextWatcher(qualification::setDescription);
         holder.dateWatcher = new SimpleTextWatcher(qualification::setDate);

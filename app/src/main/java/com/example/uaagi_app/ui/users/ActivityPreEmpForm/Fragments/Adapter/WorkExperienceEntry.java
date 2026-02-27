@@ -41,6 +41,12 @@ public class WorkExperienceEntry extends RecyclerView.Adapter<WorkExperienceEntr
         if (holder.endDateWatcher != null) holder.endDate.removeTextChangedListener(holder.endDateWatcher);
         if (holder.descriptionWatcher != null) holder.description.removeTextChangedListener(holder.descriptionWatcher);
 
+        holder.companyName.setText(work.getCompany() != null ? work.getCompany() : "");
+        holder.position.setText(work.getPosition() != null ? work.getPosition() : "");
+        holder.startDate.setText(work.getStartDate() != null ? work.getStartDate() : "");
+        holder.endDate.setText(work.getEndDate() != null ? work.getEndDate() : "");
+        holder.description.setText(work.getDescription() != null ? work.getDescription() : "");
+
         holder.companyNameWatcher = new SimpleTextWatcher(work::setCompany);
         holder.positionWatcher = new SimpleTextWatcher(work::setPosition);
         holder.startDateWatcher = new SimpleTextWatcher(work::setStartDate);

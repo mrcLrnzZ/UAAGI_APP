@@ -43,6 +43,11 @@ public class ContactReferenceEntry extends RecyclerView.Adapter<ContactReference
             if (holder.companyWatcher != null) holder.company.removeTextChangedListener(holder.companyWatcher);
             if (holder.contactNumberWatcher != null) holder.contactNumber.removeTextChangedListener(holder.contactNumberWatcher);
 
+            holder.name.setText(ref.getName() != null ? ref.getName() : "");
+            holder.occupation.setText(ref.getOccupation() != null ? ref.getOccupation() : "");
+            holder.company.setText(ref.getCompany() != null ? ref.getCompany() : "");
+            holder.contactNumber.setText(ref.getPhone() != null ? ref.getPhone() : "");
+
             holder.nameWatcher = new SimpleTextWatcher(ref::setName);
             holder.occupationWatcher = new SimpleTextWatcher(ref::setOccupation);
             holder.companyWatcher = new SimpleTextWatcher(ref::setCompany);
