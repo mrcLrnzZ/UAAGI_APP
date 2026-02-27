@@ -235,11 +235,11 @@ public class ActivityLoginPage extends AppCompatActivity {
                 SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(response.formExist);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
-                if (response.formExist) {
+//                if (response.formExist) {
                     intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
-                } else {
-                    intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
-                }
+//                } else {
+//                    intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
+//                }
                 startActivity(intent);
                 finish();
             }
