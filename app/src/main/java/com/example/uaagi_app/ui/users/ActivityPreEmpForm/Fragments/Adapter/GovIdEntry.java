@@ -65,7 +65,7 @@ public class GovIdEntry extends RecyclerView.Adapter<GovIdEntry.GovIdViewHolder>
 
             idNumber = itemView.findViewById(R.id.idNumberInput);
             idType = itemView.findViewById(R.id.idTypeInput);
-            String[] idTypes = {"SSS", "TIN", "PAGIBIG", "PhilHealth"};
+            String[] idTypes = {"SSS", "TIN", "PAGIBIG", "PhilHealth","Passport"};
             UiHelpers.dropDownMaker(idTypes, idType, itemView.getContext());
         }
     }

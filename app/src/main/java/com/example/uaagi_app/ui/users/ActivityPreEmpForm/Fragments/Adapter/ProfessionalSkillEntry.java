@@ -70,9 +70,9 @@ public class ProfessionalSkillEntry extends RecyclerView.Adapter<ProfessionalSki
             skillCategory = itemView.findViewById(R.id.categoryInput);
             skillLevel = itemView.findViewById(R.id.levelInput);
             skillDesc = itemView.findViewById(R.id.descriptionInput);
-            String[] categories = {"Technical", "Soft", "Management"};
+            String[] categories = {"Technical", "Communication", "Leadership","Management","Creative","Analytical","Others"};
             UiHelpers.dropDownMaker(categories, skillCategory, itemView.getContext());
-            String[] levels = {"Beginner", "Intermediate", "Advanced"};
+            String[] levels = {"Beginner", "Intermediate", "Advanced","Expert"};
             UiHelpers.dropDownMaker(levels, skillLevel, itemView.getContext());
         }
     }
