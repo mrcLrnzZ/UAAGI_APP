@@ -28,7 +28,7 @@ public class ActivitySplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         runnable = () -> {
             Intent intent;
-            if (SessionManager.getInstance(ActivitySplashActivity.this).isLoggedIn()){
+            if (!SessionManager.getInstance(ActivitySplashActivity.this).isLoggedIn()){
                 intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
             } else {
                 intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);

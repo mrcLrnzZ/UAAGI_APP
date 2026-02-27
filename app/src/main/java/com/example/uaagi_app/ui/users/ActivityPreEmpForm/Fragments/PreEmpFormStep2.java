@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,19 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.Education;
 import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.EducationEntry;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.EntryHandler;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreEmpFormStep2 extends BaseFormStepFragment {
     private static final String TAG = "PreEmpStep2Lifecycle";
-    private Button btnPrevious, btnNext, btnAddEducation, btnRemoveEducation;
+    private Button btnPrevious, btnNext, btnAddEducation;
     private RecyclerView educationRecyclerView;
-    private EducationEntry adapter;
+    private GenericRecyclerAdapter<Education> adapter;
     private final List<Education> educationList = new ArrayList<>();
     private PreEmpFormViewModel viewModel;
 
@@ -43,13 +45,25 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
         btnAddEducation = view.findViewById(R.id.btnAddEducation);
-        btnRemoveEducation = view.findViewById(R.id.btnRemoveEducation);
 
         educationRecyclerView = view.findViewById(R.id.educationEntriesContainer);
-        adapter = new EducationEntry(educationList, 0);
         EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), Education::new, 3);
-        UiHelpers.updateRemoveButtonVisibility(educationList, btnRemoveEducation, 3);
         educationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        educationRecyclerView = view.findViewById(R.id.educationEntriesContainer);
+
+        EntryHandler.loadData(
+                educationList,
+                viewModel.getValue().getEducations(),
+                Education::new,
+                3
+        );
+
+        educationRecyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext())
+        );
+
+        adapter = createEducationAdapter();
         educationRecyclerView.setAdapter(adapter);
 
         btnPrevious.setOnClickListener(v -> {
@@ -63,16 +77,67 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
         });
 
         btnAddEducation.setOnClickListener(v -> {
-            btnRemoveEducation.setVisibility(View.VISIBLE);
-            EntryHandler.addEntry(educationList, new Education(), educationRecyclerView, adapter, 10);
-        });
-        btnRemoveEducation.setOnClickListener(v -> {
-            if (educationList.size() == 3) {
-                btnRemoveEducation.setVisibility(View.GONE);
+            if (educationList.size() < 10) {
+                adapter.addItem(new Education());
             }
-            EntryHandler.removeEntry(educationList, educationRecyclerView, adapter, requireContext(), 3);
         });
+
         return view;
+    }
+    private GenericRecyclerAdapter<Education> createEducationAdapter(){
+        return new GenericRecyclerAdapter<>(
+                educationList,
+                R.layout.item_education_entry,
+                (view, edu, position) -> {
+
+                    TextInputEditText schoolName = view.findViewById(R.id.schoolNameInput);
+                    TextInputEditText courseAchievement = view.findViewById(R.id.courseAchievementsInput);
+                    TextInputEditText yearGrad = view.findViewById(R.id.yearGraduatedInput);
+                    AutoCompleteTextView eduLevel = view.findViewById(R.id.educationLevelInput);
+                    AutoCompleteTextView status = view.findViewById(R.id.statusSpinner);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveEduc);
+
+                    schoolName.setText(edu.getSchool() != null ? edu.getSchool() : "");
+                    courseAchievement.setText(edu.getAchievement() != null ? edu.getAchievement() : "");
+                    yearGrad.setText(edu.getGradYear() != null ? edu.getGradYear() : "");
+                    eduLevel.setText(edu.getLevel() != null ? edu.getLevel() : "", false);
+                    status.setText(edu.getStatus() != null ? edu.getStatus() : "", false);
+
+                    schoolName.addTextChangedListener(new SimpleTextWatcher(edu::setSchool));
+                    courseAchievement.addTextChangedListener(new SimpleTextWatcher(edu::setAchievement));
+                    yearGrad.addTextChangedListener(new SimpleTextWatcher(edu::setGradYear));
+                    eduLevel.addTextChangedListener(new SimpleTextWatcher(edu::setLevel));
+                    status.addTextChangedListener(new SimpleTextWatcher(edu::setStatus));
+
+                    String[] levels = {
+                            "Primary Education",
+                            "Secondary Education",
+                            "Secondary Education (Lower)",
+                            "Tertiary Education",
+                            "Vocational/Technical",
+                            "Master's Degree",
+                            "Doctoral Degree",
+                            "Post-Graduate Degree",
+                            "Associate Degree",
+                            "Other"
+                    };
+
+                    UiHelpers.dropDownMaker(levels, eduLevel, view.getContext());
+
+                    String[] statuses = {"Graduated", "Undergraduate"};
+                    UiHelpers.dropDownMaker(statuses, status, view.getContext());
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (educationList.size() > 3) {
+                            adapter.removeItem(position);
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            educationList.size() > 3 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
     }
     @Override
     public void saveFormData() {
@@ -94,17 +159,19 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume");
+        if (viewModel.getValue().getEducations() == null ||
+                viewModel.getValue().getEducations().isEmpty()) {
 
-        if(viewModel.getValue().getEducations() == null || viewModel.getValue().getEducations().isEmpty()){
-            Log.d(TAG, "loadFormDataStep2: Empty");
             EntryHandler.loadData(educationList, null, Education::new, 3);
         } else {
-            Log.d(TAG, "loadFormDataStep2: "+ viewModel.getValue().getEducations().toString());
-            EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), Education::new, 3);
+            EntryHandler.loadData(
+                    educationList,
+                    viewModel.getValue().getEducations(),
+                    Education::new,
+                    3
+            );
         }
-
-        adapter.notifyDataSetChanged();
+        adapter.updateList(educationList);
     }
 
     @Override
