@@ -1,103 +1,129 @@
 package com.example.uaagi_app.network.Services;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.uaagi_app.network.VolleySingleton;
+import com.example.uaagi_app.network.RetrofitClient;
+import com.example.uaagi_app.network.api.JobsApi;
+import com.example.uaagi_app.network.dto.ApiResponse;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
-import com.example.uaagi_app.network.mapper.JobFetchMapper;
-import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.NetworkUtils;
 import com.example.uaagi_app.utils.SessionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class JobFetchService {
-    private static final String TAG = "JobFetchService";
-    private static final String BASE_URL =
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-            """
-                    https://uaagionehire.bscs3b.com/MobileAPI/api/index.php""";
+public class JobFetchService {
+
     private final Context context;
+    private final JobsApi jobsApi;
+
     public JobFetchService(Context context) {
         this.context = context;
+        this.jobsApi = RetrofitClient
+                .getInstance()
+                .create(JobsApi.class);
     }
+
     /* =========================================================
-       Fetch jobs for a user
-       GET /api/users/{userId}/jobs
+       Fetch jobs for user
        ========================================================= */
+
     public void fetchJobsForUser(JobFetchCallback callback) {
+
         if (!NetworkUtils.isInternetAvailable(context)) {
-            callback.onError("No internet connection. Please check your network.");
+            callback.onError("No internet connection.");
             return;
         }
-        int userId = SessionManager.getInstance(context).getUserId();
-        String url = BASE_URL + "/jobs?userId=" + userId;
-        Log.d(TAG, "User ID: " + userId);
-        Log.d(TAG, url);
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                response -> ApiResponseHandler.handleSuccess(
-                        response,
-                        JobFetchMapper::fromJson,
-                        callback::onResponse,
-                        callback::onError
-                ),
-                error -> ApiErrorHandler.handleError(error, callback::onError)
-        );
 
-        applyRetryPolicy(request);
-        VolleySingleton.getInstance(context).addToRequestQueue(request);
+        int userId = SessionManager.getInstance(context).getUserId();
+
+        Call<ApiResponse<List<JobFetchResponse>>> call =
+                jobsApi.fetchJobsForUser(userId);
+
+        call.enqueue(new Callback<ApiResponse<List<JobFetchResponse>>>() {
+            @Override
+            public void onResponse(
+                    Call<ApiResponse<List<JobFetchResponse>>> call,
+                    Response<ApiResponse<List<JobFetchResponse>>> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    ApiResponse<List<JobFetchResponse>> apiResponse = response.body();
+
+                    if (apiResponse.isSuccess()) {
+                        callback.onResponse(apiResponse.getData());
+                    } else {
+                        callback.onError(apiResponse.getMessage());
+                    }
+
+                } else {
+                    callback.onError("Server error.");
+                }
+            }
+
+            @Override
+            public void onFailure(
+                    Call<ApiResponse<List<JobFetchResponse>>> call,
+                    Throwable t) {
+
+                callback.onError(t.getMessage());
+            }
+        });
     }
+
     /* =========================================================
        Fetch single job
-       GET /api/jobs/{jobId}
        ========================================================= */
+
     public void fetchJobById(int jobId, JobFetchCallback callback) {
+
         if (!NetworkUtils.isInternetAvailable(context)) {
-            callback.onError("No internet connection. Please check your network.");
+            callback.onError("No internet connection.");
             return;
         }
-        String url = BASE_URL + "/jobs?jobId=" + jobId;
 
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                response -> ApiResponseHandler.handleSuccess(
-                        response,
-                        JobFetchMapper::fromJson,
-                        callback::onResponse,
-                        callback::onError
-                ),
-                error -> ApiErrorHandler.handleError(error, callback::onError)
-        );
+        Call<ApiResponse<JobFetchResponse>> call =
+                jobsApi.fetchJobById(jobId);
 
-        applyRetryPolicy(request);
-        VolleySingleton.getInstance(context).addToRequestQueue(request);
-    }
-    /* =========================================================
-       Retry policy
-       ========================================================= */
+        call.enqueue(new Callback<ApiResponse<JobFetchResponse>>() {
+            @Override
+            public void onResponse(
+                    Call<ApiResponse<JobFetchResponse>> call,
+                    Response<ApiResponse<JobFetchResponse>> response) {
 
-    private void applyRetryPolicy(JsonObjectRequest request) {
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10_000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<JobFetchResponse> apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        List<JobFetchResponse> jobs = new ArrayList<>();
+                        jobs.add(apiResponse.getData());
+                        callback.onResponse(jobs);
+                    } else {
+                        callback.onError(apiResponse.getMessage());
+                    }
+                } else {
+                    callback.onError("Server error.");
+                }
+            }
+
+            @Override
+            public void onFailure(
+                    Call<ApiResponse<JobFetchResponse>> call,
+                    Throwable t) {
+
+                callback.onError(t.getMessage());
+            }
+        });
     }
 
     /* =========================================================
        Callback
        ========================================================= */
 
-    public interface JobFetchCallback extends ApiErrorHandler.ApiErrorCallback {
+    public interface JobFetchCallback extends ApiErrorHandler.ApiErrorCallback{
         void onResponse(List<JobFetchResponse> jobs);
     }
 }

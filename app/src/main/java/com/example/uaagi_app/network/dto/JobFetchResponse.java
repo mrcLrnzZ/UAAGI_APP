@@ -1,6 +1,8 @@
 package com.example.uaagi_app.network.dto;
 
 import com.example.uaagi_app.network.dto.JobEnums.*;
+import com.google.gson.annotations.SerializedName;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,32 +10,52 @@ import java.time.LocalDateTime;
 public class JobFetchResponse {
 
     private final int id;
+    @SerializedName("job_title")
     private final String jobTitle;
     private final String department;
     private final Company company;
+    @SerializedName("job_type")
     private final JobType jobType;
+    @SerializedName("experience_level")
     private final ExperienceLevel experienceLevel;
     private final String location;
+    @SerializedName("remote_option")
     private final RemoteOption remoteOption;
+    @SerializedName("min_salary")
     private final BigDecimal minSalary;
+    @SerializedName("max_salary")
     private final BigDecimal maxSalary;
+    @SerializedName("salary_basis")
     private final SalaryBasis salaryBasis;
+    @SerializedName("salary_period")
     private final SalaryBasis salaryPeriod;
     private final String benefits;
+    @SerializedName("job_summary")
     private final String jobSummary;
+    @SerializedName("job_description")
     private final String jobDescription;
     private final String requirements;
+    @SerializedName("preferred_qualification")
     private final String preferredQualifications;
+    @SerializedName("application_deadline")
     private final LocalDate applicationDeadline;
+    @SerializedName("contact_email")
     private final String contactEmail;
+    @SerializedName("application_instruction")
     private final String applicationInstructions;
+    @SerializedName("posted_by")
     private final int postedBy;
+    @SerializedName("created_at")
     private final LocalDateTime createdAt;
     private final int applicants;
     private final Status status;
+    @SerializedName("deleted_by")
     private final Integer deletedBy;
+    @SerializedName("restored_by")
     private final Integer restoredBy;
+    @SerializedName("restored_at")
     private final LocalDateTime restoredAt;
+    @SerializedName("deleted_at")
     private final LocalDateTime deletedAt;
 
     // Private constructor for builder

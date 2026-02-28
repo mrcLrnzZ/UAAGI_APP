@@ -1,8 +1,13 @@
 package com.example.uaagi_app.network.dto.JobEnums;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum ExperienceLevel {
+    @SerializedName("Entry Level")
     ENTRY_LEVEL("Entry Level"),
+    @SerializedName("Mid Level")
     MID_LEVEL("Mid Level"),
+    @SerializedName("Senior Level")
     SENIOR_LEVEL("Senior Level");
     private final String displayName;
     ExperienceLevel(String displayName) {

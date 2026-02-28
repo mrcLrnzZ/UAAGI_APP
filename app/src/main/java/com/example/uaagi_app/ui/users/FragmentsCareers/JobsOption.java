@@ -137,10 +137,6 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
             JobDesc fragment = new JobDesc();
             Bundle bundle = new Bundle();
             bundle.putString("jobId", String.valueOf(job.getId()));
-            bundle.putString("jobTitle", job.getJobTitle());
-            bundle.putString("jobLocation", job.getLocation());
-            bundle.putString("Department", job.getDepartment());
-            bundle.putString("company_enum", job.getCompany().name());
             fragment.setArguments(bundle);
 
             UiHelpers.switchFragment(
