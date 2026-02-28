@@ -48,7 +48,6 @@ public class PreEmpFormStep3 extends BaseFormStepFragment {
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
         btnAddWorkExperience = view.findViewById(R.id.btnAddWorkExperience);
-        btnRemoveWorkExperience = view.findViewById(R.id.btnRemoveWorkExperience);
 
         workExperienceContainer = view.findViewById(R.id.workExperienceEntriesContainer);
 

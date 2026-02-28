@@ -28,13 +28,13 @@ public class ActivitySplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         runnable = () -> {
             Intent intent;
-//            if (SessionManager.getInstance(ActivitySplashActivity.this).isLoggedIn()){
-//                intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
-//            }else if (!SessionManager.getInstance(ActivitySplashActivity.this).getPreEmpResponse()){
+            if (!SessionManager.getInstance(ActivitySplashActivity.this).isLoggedIn()){
+                intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
+            }else if (!SessionManager.getInstance(ActivitySplashActivity.this).getPreEmpResponse()){
                 intent = new Intent(ActivitySplashActivity.this, PreEmpForm.class);
-//            } else {
-//                intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);
-//            }
+            } else {
+                intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);
+            }
             startActivity(intent);
             finish();
         };

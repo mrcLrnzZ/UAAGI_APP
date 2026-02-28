@@ -20,7 +20,9 @@ public class SimpleTextWatcher implements TextWatcher {
     public static void bindTextWatcher(TextView view, TextWatcher watcher) {
         Object tag = view.getTag();
 
-        removeWatcher(view, tag);
+        if (tag instanceof TextWatcher) {
+            view.removeTextChangedListener((TextWatcher) tag);
+        }
 
         view.addTextChangedListener(watcher);
         view.setTag(watcher);

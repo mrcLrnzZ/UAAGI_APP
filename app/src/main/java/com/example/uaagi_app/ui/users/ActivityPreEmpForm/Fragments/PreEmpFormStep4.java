@@ -133,7 +133,7 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     TextInputEditText seminarDesc = view.findViewById(R.id.seminarDescriptionInput);
                     TextInputEditText seminarOrganizer = view.findViewById(R.id.organizerInput);
                     TextInputEditText seminarDate = view.findViewById(R.id.dateAttendedInput);
-                    Button btnRemove = view.findViewById(R.id.btnRemoveSeminar);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveSemTrain);
 
                     seminarTitle.setText(seminar.getTitle() != null ? seminar.getTitle() : "");
                     seminarDesc.setText(seminar.getDescription() != null ? seminar.getDescription() : "");
@@ -141,15 +141,43 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     seminarDate.setText(seminar.getDate() != null ? seminar.getDate() : "");
                     seminarType.setText(seminar.getType() != null ? seminar.getType() : "", false);
 
-                    SimpleTextWatcher.bindTextWatcher(seminarTitle, new SimpleTextWatcher(seminar::setTitle));
-                    SimpleTextWatcher.bindTextWatcher(seminarDesc, new SimpleTextWatcher(seminar::setDescription));
-                    SimpleTextWatcher.bindTextWatcher(seminarOrganizer, new SimpleTextWatcher(seminar::setOrganizer));
-                    SimpleTextWatcher.bindTextWatcher(seminarDate, new SimpleTextWatcher(seminar::setDate));
-                    SimpleTextWatcher.bindTextWatcher(seminarType, new SimpleTextWatcher(seminar::setType));
+                    if (seminarTitle.getTag() instanceof SimpleTextWatcher)
+                        seminarTitle.removeTextChangedListener((SimpleTextWatcher) seminarTitle.getTag());
+
+                    if (seminarDesc.getTag() instanceof SimpleTextWatcher)
+                        seminarDesc.removeTextChangedListener((SimpleTextWatcher) seminarDesc.getTag());
+
+                    if (seminarOrganizer.getTag() instanceof SimpleTextWatcher)
+                        seminarOrganizer.removeTextChangedListener((SimpleTextWatcher) seminarOrganizer.getTag());
+
+                    if (seminarDate.getTag() instanceof SimpleTextWatcher)
+                        seminarDate.removeTextChangedListener((SimpleTextWatcher) seminarDate.getTag());
+
+                    if (seminarType.getTag() instanceof SimpleTextWatcher)
+                        seminarType.removeTextChangedListener((SimpleTextWatcher) seminarType.getTag());
+
+                    SimpleTextWatcher titleWatcher = new SimpleTextWatcher(seminar::setTitle);
+                    SimpleTextWatcher descWatcher = new SimpleTextWatcher(seminar::setDescription);
+                    SimpleTextWatcher organizerWatcher = new SimpleTextWatcher(seminar::setOrganizer);
+                    SimpleTextWatcher dateWatcher = new SimpleTextWatcher(seminar::setDate);
+                    SimpleTextWatcher typeWatcher = new SimpleTextWatcher(seminar::setType);
+
+                    seminarTitle.addTextChangedListener(titleWatcher);
+                    seminarDesc.addTextChangedListener(descWatcher);
+                    seminarOrganizer.addTextChangedListener(organizerWatcher);
+                    seminarDate.addTextChangedListener(dateWatcher);
+                    seminarType.addTextChangedListener(typeWatcher);
+
+                    seminarTitle.setTag(titleWatcher);
+                    seminarDesc.setTag(descWatcher);
+                    seminarOrganizer.setTag(organizerWatcher);
+                    seminarDate.setTag(dateWatcher);
+                    seminarType.setTag(typeWatcher);
 
                     btnRemove.setOnClickListener(v -> {
                         if (seminarList.size() > 1) {
                             seminarAdapter.removeItem(position);
+                            seminarAdapter.notifyDataSetChanged();
                         }
                     });
 
@@ -170,7 +198,7 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     TextInputEditText qualificationDesc = view.findViewById(R.id.qualificationDescriptionInput);
                     TextInputEditText issuingAuthority = view.findViewById(R.id.issuingAuthorityInput);
                     TextInputEditText dateReceived = view.findViewById(R.id.dateReceivedInput);
-                    Button btnRemove = view.findViewById(R.id.btnRemoveQual);
+                    Button btnRemove = view.findViewById(R.id.btnQualificationEntry);
 
                     qualificationTitle.setText(qualification.getTitle() != null ? qualification.getTitle() : "");
                     qualificationDesc.setText(qualification.getDescription() != null ? qualification.getDescription() : "");
@@ -178,11 +206,38 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     dateReceived.setText(qualification.getDate() != null ? qualification.getDate() : "");
                     qualificationType.setText(qualification.getType() != null ? qualification.getType() : "", false);
 
-                    SimpleTextWatcher.bindTextWatcher(qualificationTitle, new SimpleTextWatcher(qualification::setTitle));
-                    SimpleTextWatcher.bindTextWatcher(qualificationDesc, new SimpleTextWatcher(qualification::setDescription));
-                    SimpleTextWatcher.bindTextWatcher(issuingAuthority, new SimpleTextWatcher(qualification::setAuthority));
-                    SimpleTextWatcher.bindTextWatcher(dateReceived, new SimpleTextWatcher(qualification::setDate));
-                    SimpleTextWatcher.bindTextWatcher(qualificationType, new SimpleTextWatcher(qualification::setType));
+                    if (qualificationTitle.getTag() instanceof SimpleTextWatcher)
+                        qualificationTitle.removeTextChangedListener((SimpleTextWatcher) qualificationTitle.getTag());
+
+                    if (qualificationDesc.getTag() instanceof SimpleTextWatcher)
+                        qualificationDesc.removeTextChangedListener((SimpleTextWatcher) qualificationDesc.getTag());
+
+                    if (issuingAuthority.getTag() instanceof SimpleTextWatcher)
+                        issuingAuthority.removeTextChangedListener((SimpleTextWatcher) issuingAuthority.getTag());
+
+                    if (dateReceived.getTag() instanceof SimpleTextWatcher)
+                        dateReceived.removeTextChangedListener((SimpleTextWatcher) dateReceived.getTag());
+
+                    if (qualificationType.getTag() instanceof SimpleTextWatcher)
+                        qualificationType.removeTextChangedListener((SimpleTextWatcher) qualificationType.getTag());
+
+                    SimpleTextWatcher titleWatcher = new SimpleTextWatcher(qualification::setTitle);
+                    SimpleTextWatcher descWatcher = new SimpleTextWatcher(qualification::setDescription);
+                    SimpleTextWatcher authorityWatcher = new SimpleTextWatcher(qualification::setAuthority);
+                    SimpleTextWatcher dateWatcher = new SimpleTextWatcher(qualification::setDate);
+                    SimpleTextWatcher typeWatcher = new SimpleTextWatcher(qualification::setType);
+
+                    qualificationTitle.addTextChangedListener(titleWatcher);
+                    qualificationDesc.addTextChangedListener(descWatcher);
+                    issuingAuthority.addTextChangedListener(authorityWatcher);
+                    dateReceived.addTextChangedListener(dateWatcher);
+                    qualificationType.addTextChangedListener(typeWatcher);
+
+                    qualificationTitle.setTag(titleWatcher);
+                    qualificationDesc.setTag(descWatcher);
+                    issuingAuthority.setTag(authorityWatcher);
+                    dateReceived.setTag(dateWatcher);
+                    qualificationType.setTag(typeWatcher);
 
                     String[] types = {"Professional License", "Award/Recognition", "Professional Membership","Achievement","Other"};
                     UiHelpers.dropDownMaker(types, qualificationType, view.getContext());
@@ -190,6 +245,7 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     btnRemove.setOnClickListener(v -> {
                         if (qualificationList.size() > 1) {
                             qualificationAdapter.removeItem(position);
+                            qualificationAdapter.notifyDataSetChanged();
                         }
                     });
 
@@ -218,10 +274,38 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     etExpiryDate.setText(cert.getExpiryDate() != null ? cert.getExpiryDate() : "");
                     etDescription.setText(cert.getDescription() != null ? cert.getDescription() : "");
 
-                    SimpleTextWatcher.bindTextWatcher(etName, new SimpleTextWatcher(cert::setName));
-                    SimpleTextWatcher.bindTextWatcher(etOrg, new SimpleTextWatcher(cert::setOrganization));
-                    SimpleTextWatcher.bindTextWatcher(etDateObtained, new SimpleTextWatcher(cert::setDate));
-                    SimpleTextWatcher.bindTextWatcher(etDescription, new SimpleTextWatcher(cert::setDescription));
+                    if (etName.getTag() instanceof SimpleTextWatcher)
+                        etName.removeTextChangedListener((SimpleTextWatcher) etName.getTag());
+
+                    if (etOrg.getTag() instanceof SimpleTextWatcher)
+                        etOrg.removeTextChangedListener((SimpleTextWatcher) etOrg.getTag());
+
+                    if (etDateObtained.getTag() instanceof SimpleTextWatcher)
+                        etDateObtained.removeTextChangedListener((SimpleTextWatcher) etDateObtained.getTag());
+
+                    if (etExpiryDate.getTag() instanceof SimpleTextWatcher)
+                        etExpiryDate.removeTextChangedListener((SimpleTextWatcher) etExpiryDate.getTag());
+
+                    if (etDescription.getTag() instanceof SimpleTextWatcher)
+                        etDescription.removeTextChangedListener((SimpleTextWatcher) etDescription.getTag());
+
+                    SimpleTextWatcher companyWatcher = new SimpleTextWatcher(cert::setName);
+                    SimpleTextWatcher positionWatcher = new SimpleTextWatcher(cert::setOrganization);
+                    SimpleTextWatcher startWatcher = new SimpleTextWatcher(cert::setDate);
+                    SimpleTextWatcher endWatcher = new SimpleTextWatcher(cert::setExpiryDate);
+                    SimpleTextWatcher descWatcher = new SimpleTextWatcher(cert::setDescription);
+
+                    etName.addTextChangedListener(companyWatcher);
+                    etOrg.addTextChangedListener(positionWatcher);
+                    etDateObtained.addTextChangedListener(startWatcher);
+                    etExpiryDate.addTextChangedListener(endWatcher);
+                    etDescription.addTextChangedListener(descWatcher);
+
+                    etName.setTag(companyWatcher);
+                    etOrg.setTag(positionWatcher);
+                    etDateObtained.setTag(startWatcher);
+                    etExpiryDate.setTag(endWatcher);
+                    etDescription.setTag(descWatcher);
 
                     btnRemove.setOnClickListener(v -> {
                         if (certificationList.size() > 1) {
@@ -244,7 +328,7 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     AutoCompleteTextView skillCategory = view.findViewById(R.id.categoryInput);
                     AutoCompleteTextView skillLevel = view.findViewById(R.id.levelInput);
                     TextView skillDesc = view.findViewById(R.id.descriptionInput);
-                    Button btnRemove = view.findViewById(R.id.btnRemoveWorkExperience);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveProfSkills);
 
                     skillCategory.setText(skill.getCategory() != null ? skill.getCategory() : "");
                     skillLevel.setText(skill.getLevel() != null ? skill.getLevel() : "");
@@ -256,7 +340,7 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
                     if (skillLevel.getTag() instanceof SimpleTextWatcher)
                         skillLevel.removeTextChangedListener((SimpleTextWatcher) skillLevel.getTag());
 
-                    if (skillDesc.getText() instanceof SimpleTextWatcher)
+                    if (skillDesc.getTag() instanceof SimpleTextWatcher)
                         skillDesc.removeTextChangedListener((SimpleTextWatcher) skillDesc.getTag());
 
                     SimpleTextWatcher skillCategoryWatcher = new SimpleTextWatcher(skill::setCategory);
@@ -295,28 +379,14 @@ public class PreEmpFormStep4 extends BaseFormStepFragment {
     @Override
     public void onResume() {
         super.onResume();
-        professionalSkillList.clear();
-        certificationList.clear();
-        qualificationList.clear();
-        seminarList.clear();
-
         EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), ProfessionalSkills::new, 1);
         EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), Certificate::new, 1);
         EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), Qualification::new, 1);
         EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), Seminar::new, 1);
-
-        if (professionalSkillsContainer.getAdapter() != null) {
-            professionalSkillsContainer.getAdapter().notifyDataSetChanged();
-        }
-        if (certificationContainer.getAdapter() != null) {
-            certificationContainer.getAdapter().notifyDataSetChanged();
-        }
-        if (qualificationContainer.getAdapter() != null) {
-            qualificationContainer.getAdapter().notifyDataSetChanged();
-        }
-        if (seminarsContainer.getAdapter() != null) {
-            seminarsContainer.getAdapter().notifyDataSetChanged();
-        }
+        seminarAdapter.notifyDataSetChanged();
+        certificateAdapter.notifyDataSetChanged();
+        seminarAdapter.notifyDataSetChanged();
+        professionalSkillsAdapter.notifyDataSetChanged();
     }
     @Override
     public void onDestroyView() {

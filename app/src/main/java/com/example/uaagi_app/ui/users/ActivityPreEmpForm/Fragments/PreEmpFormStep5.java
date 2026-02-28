@@ -66,8 +66,6 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
 
         Button btnAddGovernmentId = view.findViewById(R.id.btnAddGovernmentId);
         Button btnAddReference = view.findViewById(R.id.btnAddReference);
-        Button btnRemoveGovernmentId = view.findViewById(R.id.btnRemoveGovernmentId);
-        Button btnRemoveReference = view.findViewById(R.id.btnRemoveReference);
 
         emergencyContactNameInput = view.findViewById(R.id.emergencyContactNameInput);
         emergencyRelationshipInput = view.findViewById(R.id.emergencyRelationshipInput);
@@ -128,7 +126,7 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
 
                     AutoCompleteTextView idType = view.findViewById(R.id.idTypeInput);
                     TextInputEditText idNumber = view.findViewById(R.id.idNumberInput);
-                    Button btnRemove = view.findViewById(R.id.btnRemoveGovernmentId);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveGovID);
 
                     idType.setText(govId.getType() != null ? govId.getType() : "", false);
                     idNumber.setText(govId.getNumber() != null ? govId.getNumber() : "");
@@ -161,7 +159,7 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
                     TextInputEditText occupation = view.findViewById(R.id.tiet_occupation);
                     TextInputEditText company = view.findViewById(R.id.tiet_company);
                     TextInputEditText contactNumber = view.findViewById(R.id.tiet_contact_no);
-                    Button btnRemove = view.findViewById(R.id.btnRemoveReference);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveRef);
 
                     name.setText(ref.getName() != null ? ref.getName() : "");
                     occupation.setText(ref.getOccupation() != null ? ref.getOccupation() : "");
