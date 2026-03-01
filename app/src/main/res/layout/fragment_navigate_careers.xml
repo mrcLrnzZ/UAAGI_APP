@@ -92,15 +92,16 @@
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
                                     app:cardCornerRadius="12dp"
+                                    app:cardBackgroundColor="@color/White"
                                     app:cardElevation="2dp">
 
                                     <ImageView
                                         android:id="@+id/brandPicture"
-                                        android:layout_width="40dp"
+                                        android:layout_width="41dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/foton"
-                                        android:scaleType="fitCenter" />
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/foton" />
 
                                 </androidx.cardview.widget.CardView>
 
@@ -223,6 +224,7 @@
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
                                     app:cardCornerRadius="12dp"
+                                    app:cardBackgroundColor="@color/White"
                                     app:cardElevation="2dp">
 
                                     <ImageView
@@ -354,6 +356,7 @@
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
                                     app:cardCornerRadius="12dp"
+                                    app:cardBackgroundColor="@color/White"
                                     app:cardElevation="2dp">
 
                                     <ImageView
@@ -485,6 +488,7 @@
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
                                     app:cardCornerRadius="12dp"
+                                    app:cardBackgroundColor="@color/White"
                                     app:cardElevation="2dp">
 
                                     <ImageView
@@ -616,6 +620,7 @@
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
                                     app:cardCornerRadius="12dp"
+                                    app:cardBackgroundColor="@color/White"
                                     app:cardElevation="2dp">
 
                                     <ImageView

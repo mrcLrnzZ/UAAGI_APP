@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/WhiteSmoke"
+    android:background="@color/DarkBlue"
     tools:context=".ui.users.FragmentsHomePage.Profile">
 
     <ScrollView
@@ -28,6 +28,7 @@
                     android:id="@+id/layoutHeader"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
+                    android:layout_marginTop="40dp"
                     android:background="@color/DarkBlue">
 
                     <TextView
@@ -40,15 +41,6 @@
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/MenuIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/menu" />
 
                 </RelativeLayout>
 
@@ -73,7 +65,8 @@
                         android:text="Angel Emie Jane Bien"
                         android:textColor="@color/DarkBlue"
                         android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="sans-serif-black"
+                        />
 
                     <TextView
                         android:id="@+id/JobPosition"
@@ -174,7 +167,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/WhiteSmoke"
+                android:background="@color/White"
                 android:orientation="vertical"
                 android:padding="20dp">
 
@@ -183,7 +176,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:text="Pre-Employment Form"
-                    android:textColor="#333333"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -193,6 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     app:cardCornerRadius="12dp"
+                    android:backgroundTint="@color/White"
                     app:cardElevation="2dp">
 
                     <LinearLayout
@@ -217,6 +212,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="OneHire Resume"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/Black"
                                 android:textStyle="bold"
                                 android:textSize="15sp" />
 
@@ -233,12 +230,23 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Get better job matches"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/ViewPersonalInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     app:cardCornerRadius="12dp"
+                    android:backgroundTint="@color/White"
                     app:cardElevation="2dp">
 
                     <RelativeLayout
@@ -256,6 +264,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Personal Information"
+                                android:fontFamily="sans-serif-black"
                                 android:textColor="#000000"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -286,6 +295,7 @@
                     android:id="@+id/ViewProfBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/White"
                     android:layout_marginBottom="40dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp">
@@ -305,6 +315,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Professional Background"
+                                android:fontFamily="sans-serif-black"
                                 android:textColor="#000000"
                                 android:textSize="16sp"
                                 android:textStyle="bold"

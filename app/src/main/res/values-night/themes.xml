@@ -9,7 +9,8 @@
         <!-- Customize your dark theme here -->
         <item name="colorPrimary">@color/DarkBlue</item>
         <item name="colorPrimaryVariant">@color/DarkBlue</item>
-
+        <item name="android:windowBackground">@color/WhiteSmoke</item>
+        <item name="cardBackgroundColor">@color/White</item>
         <item name="colorError">#A80303</item>
     </style>
 
