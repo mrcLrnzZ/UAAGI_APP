@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/WhiteSmoke"
-    tools:context=".ui.users.FragmentsCareers.JobsOption">
+    android:backgroundTint="@color/WhiteSmoke"
+    tools:context=".ui.users.FragmentsHomePage.Careers">
 
 
     <ScrollView
@@ -73,13 +73,12 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
-                            android:id="@+id/fotonBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Careers  -->
+                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -98,14 +97,15 @@
                                     <ImageView
                                         android:id="@+id/brandPicture"
                                         android:layout_width="41dp"
-                                        android:layout_height="40dp"
+                                        android:layout_height="45dp"
                                         android:layout_gravity="center"
+                                        android:background="@android:color/transparent"
                                         android:scaleType="fitCenter"
                                         android:src="@drawable/foton" />
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Careers Name + Tag -->
+                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -205,13 +205,12 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
-                            android:id="@+id/cheryBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Careers  -->
+                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -232,12 +231,13 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:background="#FFFFFF"
                                         android:src="@drawable/cherylogo"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Careers Name + Tag -->
+                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -337,13 +337,12 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
-                            android:id="@+id/baicBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Careers  -->
+                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -364,12 +363,13 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:background="#FFFFFF"
                                         android:src="@drawable/baiclogo"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Careers Name + Tag -->
+                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -469,13 +469,12 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
-                            android:id="@+id/lynkcoBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Careers  -->
+                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -496,12 +495,13 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:background="#FFFFFF"
                                         android:src="@drawable/lynkco"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Careers Name + Tag -->
+                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -586,9 +586,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginHorizontal="12dp"
+                    app:cardBackgroundColor="@color/WhiteSmoke"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="6dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -601,13 +601,12 @@
 <!--                            android:background="#002F62" />-->
 
                         <LinearLayout
-                            android:id="@+id/muttBrandCard"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Careers  -->
+                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -628,12 +627,13 @@
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
                                         android:layout_gravity="center"
+                                        android:background="#FFFFFF"
                                         android:src="@drawable/muttlogo"
                                         android:scaleType="fitCenter" />
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Careers Name + Tag -->
+                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
