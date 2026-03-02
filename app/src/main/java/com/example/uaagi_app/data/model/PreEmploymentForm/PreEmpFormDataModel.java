@@ -1,19 +1,6 @@
 package com.example.uaagi_app.data.model.PreEmploymentForm;
 
 import java.util.List;
-
-//HOW TO USE
-//Education edu = new Education();
-//edu.setLevel("College");
-//edu.setSchool("Ateneo");
-//edu.setGradYear("2024");
-//
-//        List<Education> list = new ArrayList<>();
-//list.add(edu);
-//
-//        PreEmpFormRequest request = new PreEmpFormRequest();
-//request.setEducations(list);
-//request.setUserInfo(userInfo);
 public class PreEmpFormDataModel {
 
     private UserInfo userInfo;
