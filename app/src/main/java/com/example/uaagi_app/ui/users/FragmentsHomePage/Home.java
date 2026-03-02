@@ -92,7 +92,11 @@ public class Home extends Fragment implements FragmentError.RetryListener {
                             tvTitle.setText(job.getJobTitle());
                             tvLocation.setText(job.getLocation());
                             tvCompany.setText(job.getCompany().getDisplayName());
-                            tvSalary.setText("₱" + job.getMinSalary() + " – ₱" + job.getMaxSalary());
+                            tvSalary.setText(
+                                    String.format("₱%,.2f – ₱%,.2f",
+                                            job.getMinSalary(),
+                                            job.getMaxSalary())
+                            );
                             tvJobType.setText(job.getJobType().toString());
                             tvExperienceLevel.setText(job.getExperienceLevel().toString());
                             tvShift.setText(job.getRemoteOption().toString());
@@ -104,12 +108,9 @@ public class Home extends Fragment implements FragmentError.RetryListener {
             JobDesc fragment = new JobDesc();
             Bundle bundle = new Bundle();
             bundle.putString("jobId", String.valueOf(job.getId()));
-            bundle.putString("jobTitle", job.getJobTitle());
-            bundle.putString("jobLocation", job.getLocation());
             bundle.putString("Department", job.getDepartment());
-            bundle.putString("company_enum", job.getCompany().name());
             fragment.setArguments(bundle);
-
+           // UiHelpers.showToast("job Id: " + String.valueOf(job.getId()) + " ", requireContext());
             UiHelpers.switchFragment(
                     requireActivity().getSupportFragmentManager(),
                     fragment

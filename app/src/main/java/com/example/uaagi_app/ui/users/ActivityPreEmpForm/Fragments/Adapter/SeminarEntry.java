@@ -16,7 +16,7 @@ import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-
+@Deprecated
 public class SeminarEntry extends RecyclerView.Adapter<SeminarEntry.SeminarViewHolder> {
 
     private final List<Seminar> seminarList;

@@ -79,6 +79,7 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
         btnAddEducation.setOnClickListener(v -> {
             if (educationList.size() < 10) {
                 adapter.addItem(new Education());
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -103,11 +104,35 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
                     eduLevel.setText(edu.getLevel() != null ? edu.getLevel() : "", false);
                     status.setText(edu.getStatus() != null ? edu.getStatus() : "", false);
 
-                    schoolName.addTextChangedListener(new SimpleTextWatcher(edu::setSchool));
-                    courseAchievement.addTextChangedListener(new SimpleTextWatcher(edu::setAchievement));
-                    yearGrad.addTextChangedListener(new SimpleTextWatcher(edu::setGradYear));
-                    eduLevel.addTextChangedListener(new SimpleTextWatcher(edu::setLevel));
-                    status.addTextChangedListener(new SimpleTextWatcher(edu::setStatus));
+                    if (schoolName.getTag() instanceof SimpleTextWatcher)
+                        schoolName.removeTextChangedListener((SimpleTextWatcher) schoolName.getTag());
+
+                    if (courseAchievement.getTag() instanceof SimpleTextWatcher)
+                        courseAchievement.removeTextChangedListener((SimpleTextWatcher) courseAchievement.getTag());
+
+                    if (yearGrad.getTag() instanceof SimpleTextWatcher)
+                        yearGrad.removeTextChangedListener((SimpleTextWatcher) yearGrad.getTag());
+
+                    if (eduLevel.getTag() instanceof SimpleTextWatcher)
+                        eduLevel.removeTextChangedListener((SimpleTextWatcher) eduLevel.getTag());
+
+                    if (status.getTag() instanceof SimpleTextWatcher)
+                        status.removeTextChangedListener((SimpleTextWatcher) status.getTag());
+
+                    SimpleTextWatcher schoolNameWatcher = new SimpleTextWatcher(edu::setSchool);
+                    SimpleTextWatcher courseAchievementWatcher = new SimpleTextWatcher(edu::setAchievement);
+                    SimpleTextWatcher yearGradWatcher = new SimpleTextWatcher(edu::setGradYear);
+                    SimpleTextWatcher statusWatcher = new SimpleTextWatcher(edu::setStatus);
+
+                    schoolName.addTextChangedListener(schoolNameWatcher);
+                    courseAchievement.addTextChangedListener(courseAchievementWatcher);
+                    yearGrad.addTextChangedListener(yearGradWatcher);
+                    status.addTextChangedListener(statusWatcher);
+
+                    schoolName.setTag(schoolNameWatcher);
+                    courseAchievement.setTag(courseAchievementWatcher);
+                    yearGrad.setTag(yearGradWatcher);
+                    status.setTag(statusWatcher);
 
                     String[] levels = {
                             "Primary Education",
@@ -130,6 +155,7 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
                     btnRemove.setOnClickListener(v -> {
                         if (educationList.size() > 3) {
                             adapter.removeItem(position);
+                            adapter.notifyDataSetChanged();
                         }
                     });
 

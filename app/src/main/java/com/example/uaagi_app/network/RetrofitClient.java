@@ -1,5 +1,13 @@
 package com.example.uaagi_app.network;
 
+import com.example.uaagi_app.network.RetrofitUtils.LocalDateAdapter;
+import com.example.uaagi_app.network.RetrofitUtils.LocalDateTimeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -21,10 +29,15 @@ public class RetrofitClient {
                     .addInterceptor(logging)
                     .build();
 
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                    .create();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
 

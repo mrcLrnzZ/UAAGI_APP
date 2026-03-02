@@ -64,20 +64,6 @@
                         app:cornerRadius="10dp"
                         android:elevation="0dp"/>
 
-                    <Button
-                        android:id="@+id/btnRemoveWorkExperience"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:backgroundTint="#FE0000"
-                        android:elevation="0dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:paddingHorizontal="14dp"
-                        android:layout_marginStart="5dp"
-                        android:text="-"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:visibility="gone"
-                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                     <!-- Entry -->
@@ -144,21 +130,6 @@
                         android:paddingHorizontal="16dp"
                         app:cornerRadius="10dp"
                         android:elevation="0dp"/>
-
-                    <Button
-                        android:id="@+id/btnRemoveCert"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:backgroundTint="#FE0000"
-                        android:elevation="0dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:paddingHorizontal="14dp"
-                        android:layout_marginStart="5dp"
-                        android:text="-"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:visibility="gone"
-                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <!-- Cert Container -->

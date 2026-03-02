@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.data.model.PreEmploymentForm.PreEmpFormDataModel;
 import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.List;
@@ -21,14 +22,35 @@ public class EntryHandler {
     private static final String TAG = "EntryHandler";
 
     /**
-     * Generalized method to add a new entry to a list and update the RecyclerView
-     * @param list The list to add the entry to
+     * @deprecated This method is deprecated because list mutations and adapter updates
+     * should now be handled directly through {@link GenericRecyclerAdapter}.
+     *
+     * <p>Using this utility method tightly couples the list, adapter, and RecyclerView,
+     * which reduces flexibility and breaks encapsulation principles.</p>
+     *
+     * <p><b>Use instead:</b></p>
+     * <pre>
+     * adapter.addItem(newItem);
+     * </pre>
+     *
+     * <p>The {@link GenericRecyclerAdapter} now handles list updates,
+     * notifyItemInserted(), and internal state management.</p>
+     *
+     * @param list The list to add the entry to (legacy support only)
      * @param newItem The new item instance to add
-     * @param container The RecyclerView container
+     * @param container The RecyclerView container (legacy scrolling support)
      * @param adapter The adapter for the RecyclerView
+     * @param maxEntries Maximum number of allowed entries
      * @param <T> The type of the list items
      */
-    public static <T> void addEntry(List<T> list, T newItem, RecyclerView container, RecyclerView.Adapter adapter, int maxEntries) {
+    @Deprecated
+    public static <T> void addEntry(
+            List<T> list,
+            T newItem,
+            RecyclerView container,
+            RecyclerView.Adapter adapter,
+            int maxEntries
+    ) {
         Log.d(TAG, "Adding new entry: " + newItem.getClass().getSimpleName());
         if (list.size() < maxEntries) {
             list.add(newItem);
@@ -40,15 +62,32 @@ public class EntryHandler {
     }
 
     /**
-     * Generalized method to remove the last entry from a list and update the RecyclerView
-     * @param list The list to remove the entry from
+     * @deprecated This method is deprecated because removal operations should be handled
+     * directly inside {@link GenericRecyclerAdapter} to preserve separation of concerns.
+     *
+     * <p>Manipulating both the list and adapter externally can cause inconsistencies
+     * and makes the architecture harder to maintain.</p>
+     *
+     * <p><b>Use instead:</b></p>
+     * <pre>
+     * adapter.removeItem(position);
+     * </pre>
+     *
+     * @param list The list to remove the entry from (legacy support only)
      * @param container The RecyclerView container
      * @param adapter The adapter for the RecyclerView
-     * @param context The context for showing toast messages
-     * @param minEntries The minimum number of entries allowed in the list
+     * @param context Context used for displaying toast messages
+     * @param minEntries Minimum number of allowed entries
      * @param <T> The type of the list items
      */
-    public static <T> void removeEntry(List<T> list, RecyclerView container, RecyclerView.Adapter adapter, Context context, int minEntries) {
+    @Deprecated
+    public static <T> void removeEntry(
+            List<T> list,
+            RecyclerView container,
+            RecyclerView.Adapter adapter,
+            Context context,
+            int minEntries
+    ) {
         if (list.size() > minEntries) {
             int removeIndex = list.size() - 1;
             list.remove(removeIndex);

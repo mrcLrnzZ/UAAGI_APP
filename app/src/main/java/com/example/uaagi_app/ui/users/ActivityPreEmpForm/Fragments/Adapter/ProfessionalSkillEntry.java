@@ -16,7 +16,7 @@ import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-
+@Deprecated
 public class ProfessionalSkillEntry extends RecyclerView.Adapter<ProfessionalSkillEntry.ProfessionalSkillViewHolder> {
 
     private final List<ProfessionalSkills> skillList;

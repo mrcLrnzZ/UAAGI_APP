@@ -14,7 +14,7 @@ import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-
+@Deprecated
 public class CertificateEntry extends RecyclerView.Adapter<CertificateEntry.CertViewHolder> {
 
     private final List<Certificate> certificationList;

@@ -30,13 +30,15 @@ public class ActivitySplashActivity extends AppCompatActivity {
             Intent intent;
             if (!SessionManager.getInstance(ActivitySplashActivity.this).isLoggedIn()){
                 intent = new Intent(ActivitySplashActivity.this, ActivityLoginPage.class);
+            }else if (!SessionManager.getInstance(ActivitySplashActivity.this).getPreEmpResponse()){
+                intent = new Intent(ActivitySplashActivity.this, PreEmpForm.class);
             } else {
                 intent = new Intent(ActivitySplashActivity.this, ActivityHomePage.class);
             }
             startActivity(intent);
             finish();
         };
-        handler.postDelayed(runnable, 6000);
+        handler.postDelayed(runnable, 0);
     }
 
     @Override

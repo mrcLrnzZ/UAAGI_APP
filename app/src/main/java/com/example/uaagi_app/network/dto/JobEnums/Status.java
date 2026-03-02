@@ -1,8 +1,13 @@
 package com.example.uaagi_app.network.dto.JobEnums;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum Status {
+    @SerializedName("Active")
     ACTIVE("Active"),
+    @SerializedName("Closed")
     CLOSED("Closed"),
+    @SerializedName("Paused")
     PAUSED("Paused");
     private final String displayName;
     Status(String displayName){

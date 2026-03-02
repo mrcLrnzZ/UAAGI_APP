@@ -46,33 +46,19 @@ public class JobDesc extends Fragment {
 
         String jobId = getArgumentsFromBundle();
         fetchJobDetails(jobId);
-
         btnApplyNow.setOnClickListener(v -> {
             ApplyOption fragment = new ApplyOption();
 
             Bundle bundle = new Bundle();
             bundle.putString("jobId", jobId);
-            bundle.putString("jobTitle", jobTitle.getText().toString());
-            bundle.putString("jobLocation", jobLocation.getText().toString());
-            bundle.putString("jobCompany", jobCompany.getText().toString());
-            bundle.putString("company_enum", selectedCompany.name());
             fragment.setArguments(bundle);
             UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), fragment);
         });
         Log.d(TAG, "Job department: " + department);
-        btnBack.setOnClickListener(v ->
-                UiHelpers.switchFragment(
-                        requireActivity().getSupportFragmentManager(),
-                        JobsOption.newInstance(selectedCompany, department)
-                )
-        );
         return view;
     }
     private String getArgumentsFromBundle(){
         if (getArguments() != null) {
-            Title = getArguments().getString("jobTitle");
-            Location = getArguments().getString("jobLocation");
-            company = getArguments().getString("jobCompany");
             department = getArguments().getString("Department");
             String enumName = getArguments().getString("company_enum");
             if (enumName != null) {
@@ -84,6 +70,7 @@ public class JobDesc extends Fragment {
     }
     private void fetchJobDetails(String jobId) {
         JobFetchService service = new JobFetchService(requireContext());
+        Log.d(TAG, "fetchJobDetails: "+ jobId);
         service.fetchJobById(Integer.parseInt(jobId), new JobFetchService.JobFetchCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
@@ -96,6 +83,13 @@ public class JobDesc extends Fragment {
                 jobBenefits.setText(job.getBenefits());
                 jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                 jobDept.setText(job.getDepartment());
+
+                btnBack.setOnClickListener(v ->
+                        UiHelpers.switchFragment(
+                                requireActivity().getSupportFragmentManager(),
+                                JobsOption.newInstance(job.getCompany(), job.getDepartment())
+                        )
+                );
             }
 
             @Override
