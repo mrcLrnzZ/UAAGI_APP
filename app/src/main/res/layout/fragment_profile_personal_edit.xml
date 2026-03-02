@@ -45,7 +45,7 @@
 
                 </RelativeLayout>
 
-                <!-- Profile summary card -->
+                <!-- ChildProfile summary card -->
                 <LinearLayout
                     android:id="@+id/layoutProfileCard"
                     android:layout_width="match_parent"
@@ -81,7 +81,7 @@
 
                 </LinearLayout>
 
-                <!-- Profile Photo -->
+                <!-- ChildProfile Photo -->
                 <ImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="140dp"
