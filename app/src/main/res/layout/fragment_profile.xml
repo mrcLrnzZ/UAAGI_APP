@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="OneHire Resume"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="sans-serif-black"
                         android:textColor="@color/Black"
                         android:textStyle="bold"
                         android:textSize="15sp" />
