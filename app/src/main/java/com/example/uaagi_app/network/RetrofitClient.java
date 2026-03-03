@@ -15,7 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/";
+    public static final String BASE_URL = "https://uaagionehire.bscs3b.com/MobileAPI/api/";
+    public static final String IMAGE_BASE_URL = "https://uaagionehire.bscs3b.com/DONT_TOUCH/user_img/";
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
