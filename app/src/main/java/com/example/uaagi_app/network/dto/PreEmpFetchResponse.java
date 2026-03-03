@@ -2,17 +2,27 @@ package com.example.uaagi_app.network.dto;
 
 
 import com.example.uaagi_app.network.dto.PreEmpDto.*;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class PreEmpFetchResponse {
     private UserInfo userInfo;
-    private Certificate certificate;
-    private Qualification qualification;
-    private Seminar seminar;
-    private GovermentId govId;
-    private ContactReference contactReference;
-    private WorkExperience workExperience;
-    private ProfessionalSkills professionalSkills;
-    private Education education;
+    @SerializedName("certifications")
+    private List<Certificate> certificate;
+    @SerializedName("qualifications")
+    private List<Qualification> qualification;
+    @SerializedName("seminars")
+    private List<Seminar> seminar;
+    @SerializedName("govIds")
+    private List<GovermentId> govId;
+    @SerializedName("contactReferences")
+    private List<ContactReference> contactReference;
+    @SerializedName("workExperiences")
+    private List<WorkExperience> workExperience;
+    @SerializedName("educations")
+    private List<Education> education;
+    private List<ProfessionalSkills> professionalSkills;
 
     public UserInfo getUserInfo() {
         return userInfo;
@@ -22,67 +32,67 @@ public class PreEmpFetchResponse {
         this.userInfo = userInfo;
     }
 
-    public Certificate getCertificate() {
+    public List<Certificate> getCertificate() {
         return certificate;
     }
 
-    public void setCertificate(Certificate certificate) {
+    public void setCertificate(List<Certificate> certificate) {
         this.certificate = certificate;
     }
 
-    public Qualification getQualification() {
+    public List<Qualification> getQualification() {
         return qualification;
     }
 
-    public void setQualification(Qualification qualification) {
+    public void setQualification(List<Qualification> qualification) {
         this.qualification = qualification;
     }
 
-    public Seminar getSeminar() {
+    public List<Seminar> getSeminar() {
         return seminar;
     }
 
-    public void setSeminar(Seminar seminar) {
+    public void setSeminar(List<Seminar> seminar) {
         this.seminar = seminar;
     }
 
-    public GovermentId getGovId() {
+    public List<GovermentId> getGovId() {
         return govId;
     }
 
-    public void setGovId(GovermentId govId) {
+    public void setGovId(List<GovermentId> govId) {
         this.govId = govId;
     }
 
-    public ContactReference getContactReference() {
+    public List<ContactReference> getContactReference() {
         return contactReference;
     }
 
-    public void setContactReference(ContactReference contactReference) {
+    public void setContactReference(List<ContactReference> contactReference) {
         this.contactReference = contactReference;
     }
 
-    public WorkExperience getWorkExperience() {
+    public List<WorkExperience> getWorkExperience() {
         return workExperience;
     }
 
-    public void setWorkExperience(WorkExperience workExperience) {
+    public void setWorkExperience(List<WorkExperience> workExperience) {
         this.workExperience = workExperience;
     }
 
-    public ProfessionalSkills getProfessionalSkills() {
+    public List<ProfessionalSkills> getProfessionalSkills() {
         return professionalSkills;
     }
 
-    public void setProfessionalSkills(ProfessionalSkills professionalSkills) {
+    public void setProfessionalSkills(List<ProfessionalSkills> professionalSkills) {
         this.professionalSkills = professionalSkills;
     }
 
-    public Education getEducation() {
+    public List<Education> getEducation() {
         return education;
     }
 
-    public void setEducation(Education education) {
+    public void setEducation(List<Education> education) {
         this.education = education;
     }
 }

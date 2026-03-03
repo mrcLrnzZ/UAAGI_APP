@@ -229,7 +229,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/Gender"
+                            android:id="@+id/tvGender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -271,7 +271,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/Religion"
+                            android:id="@+id/tvReligion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -296,7 +296,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/CivilStatus"
+                            android:id="@+id/tvCivilStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -321,7 +321,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/Nationality"
+                            android:id="@+id/tvNationality"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -404,7 +404,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/Mobile"
+                            android:id="@+id/tvMobileNo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -429,7 +429,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/Telephone"
+                            android:id="@+id/tvTelephoneNo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -465,7 +465,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/Email"
+                        android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -541,7 +541,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/CurrentAddr"
+                        android:id="@+id/tvCurrentAddr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -577,7 +577,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/PermanentAddr"
+                        android:id="@+id/tvPermanentAddr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"

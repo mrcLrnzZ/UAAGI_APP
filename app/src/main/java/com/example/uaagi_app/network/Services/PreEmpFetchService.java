@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.uaagi_app.network.api.PreEmpApi;
 import com.example.uaagi_app.network.dto.ApiResponse;
 import com.example.uaagi_app.network.dto.PreEmpFetchResponse;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +48,7 @@ public class PreEmpFetchService {
                         Log.d(TAG, "Request SUCCESS");
                         Log.d(TAG, "User First Name: " +
                                 body.getData().getUserInfo().getFirstName());
-
+                        Log.d(TAG, "Raw Response: " + new Gson().toJson(body.getData()));
                         callback.onSuccess(body.getData());
 
                     } else {
