@@ -27,7 +27,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/WorkCompany"
+                android:id="@+id/tvWorkCompany"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -53,7 +53,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/WorkPosition"
+                android:id="@+id/tvWorkPosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -79,7 +79,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/WorkDescription"
+                android:id="@+id/tvWorkDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
