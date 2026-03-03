@@ -1,6 +1,7 @@
 package com.example.uaagi_app.ui.users.FragmentsHomePage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.uaagi_app.ui.users.FragmentProfile.ChildProfile;
 public class Profile extends Fragment {
 
     private ProfileViewModel viewModel;
+    private static final String TAG = "Profile";
     private TextView fullNameTv;
     private ProgressBar progressBar;
 
@@ -43,16 +45,14 @@ public class Profile extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Observe loading state
         viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
             progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             fullNameTv.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         });
 
-        // Observe profile data
         viewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
             if (data != null && data.getUserInfo() != null) {
-
+                Log.d(TAG, "onViewCreated: "+ data.getEducation());
                 String fullName =
                         data.getUserInfo().getFirstName() + " " +
                                 data.getUserInfo().getMiddleName() + " " +
@@ -62,14 +62,12 @@ public class Profile extends Fragment {
             }
         });
 
-        // Load child fragment
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.profileOptionsContainer, new ChildProfile())
                 .commit();
     }
 
-    // 🔥 Hide header ONLY when Profile is visible
     @Override
     public void onResume() {
         super.onResume();
@@ -77,11 +75,11 @@ public class Profile extends Fragment {
                 .setVisibility(View.GONE);
     }
 
-    // 🔥 Show header again when leaving Profile
     @Override
     public void onPause() {
         super.onPause();
         requireActivity().findViewById(R.id.top_bar)
                 .setVisibility(View.VISIBLE);
     }
+
 }

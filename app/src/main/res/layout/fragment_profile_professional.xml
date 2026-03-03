@@ -61,7 +61,7 @@
                         android:background="#F0F3F7" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/WorkExperience"
+                        android:id="@+id/rvWorkExperience"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
@@ -114,7 +114,7 @@
                         android:background="#F0F3F7" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/Certificates"
+                        android:id="@+id/rvCertificates"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
@@ -167,7 +167,7 @@
                         android:background="#F0F3F7" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/Skills"
+                        android:id="@+id/rvSkills"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"

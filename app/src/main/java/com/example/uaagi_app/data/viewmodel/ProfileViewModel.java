@@ -4,13 +4,18 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.uaagi_app.network.RetrofitClient;
 import com.example.uaagi_app.network.Services.PreEmpFetchService;
 import com.example.uaagi_app.network.api.PreEmpApi;
+import com.example.uaagi_app.network.dto.PreEmpDto.Education;
 import com.example.uaagi_app.network.dto.PreEmpFetchResponse;
 import com.example.uaagi_app.utils.SessionManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileViewModel extends ViewModel {
 
@@ -66,6 +71,14 @@ public class ProfileViewModel extends ViewModel {
                 loading.setValue(false);
                 error.setValue(message);
             }
+        });
+    }
+    public LiveData<List<Education>> getEducationList() {
+        return Transformations.map(preEmpData, data -> {
+            if (data != null) {
+                return data.getEducation();
+            }
+            return new ArrayList<>();
         });
     }
 }
