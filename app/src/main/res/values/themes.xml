@@ -9,7 +9,7 @@
         <!-- Customize your light theme here -->
         <item name="colorPrimary">@color/DarkBlue</item>
         <item name="colorPrimaryVariant">@color/DarkBlue</item>
-        <item name="android:windowBackground">@color/WhiteSmoke</item>
+        <item name="android:windowBackground">@color/White</item>
         <item name="cardBackgroundColor">@color/White</item>
     </style>
 

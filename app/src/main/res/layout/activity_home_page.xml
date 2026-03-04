@@ -5,15 +5,58 @@
     android:layout_height="match_parent">
 
     <!-- Top Bar -->
-    <include
-        android:id="@+id/top_bar"
-        layout="@layout/item_bar_header"
+<!--    <include-->
+<!--        android:id="@+id/top_bar"-->
+<!--        layout="@layout/item_bar_header"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+    <View
+        android:id="@+id/status_bar_spacer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:layout_height="20dp"
+        android:background="@color/DarkBlue"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@color/DarkBlue"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="18dp"
+        android:elevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/status_bar_spacer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/HomePageLogo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/onehirelogo_darkmode" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/notifIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/baseline_circle_notifications_24" />
+
+    </LinearLayout>
+
 
     <!-- Fragment Container -->
     <FrameLayout
