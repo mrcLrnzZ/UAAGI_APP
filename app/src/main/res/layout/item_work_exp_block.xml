@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Reusable layout for a single education entry.
-    Bind data from the fragment/activity using view IDs after <include>.
-
-    IDs exposed:
-      tvEducationLevel   - e.g. "Primary School:", "Secondary School (Lower):"
-      tvEducationSchool  - school name
-      tvEducationYear    - year graduated
-      tvEducationAchieve - achievement / honor
--->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -21,16 +11,16 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvEducationLevel"
+            android:id="@+id/tvWorkPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Primary School: "
+            android:text="Job Position: "
             android:textColor="#213448"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvEducationSchool"
+            android:id="@+id/tvWorkPositionValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -47,20 +37,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvEducationYearLabel"
+            android:id="@+id/tvCompany"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:text="Year Graduated: "
+            android:text="Company: "
             android:textColor="#213448"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvEducationYear"
+            android:id="@+id/tvCompanyValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="2017"
+            android:text="Bagong Barrio Elementary School"
             android:textColor="#213448"
             android:textSize="14sp" />
 
@@ -72,7 +62,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvEducationAchieveLabel"
+            android:id="@+id/tvWorkAchieveLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
@@ -81,7 +71,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvEducationAchievement"
+            android:id="@+id/tvWorkAchievement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"

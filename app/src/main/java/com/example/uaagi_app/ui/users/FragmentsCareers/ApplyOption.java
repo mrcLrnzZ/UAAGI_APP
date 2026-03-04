@@ -72,16 +72,19 @@ public class ApplyOption extends Fragment {
             if (selectedRadio[0] == null) {
                 Toast.makeText(requireContext(), "Please select an option", Toast.LENGTH_SHORT).show();
             } else if (selectedRadio[0] == radioPreEmployment) {
-                Toast.makeText(requireContext(), "You selected Pre-Employment Form", Toast.LENGTH_SHORT).show();
-
+                unsetRadioButtons();
+                UiHelpers.switchFragment(
+                        requireActivity().getSupportFragmentManager(),
+                        ApplyPreEmp.newInstance(Integer.parseInt(jobID))
+                );
             } else if (selectedRadio[0] == radioUploadResume) {
+                unsetRadioButtons();
                 Toast.makeText(requireContext(), "You selected Upload Resume", Toast.LENGTH_SHORT).show();
 
             }
         });
         return view;
     }
-
     private void fetchJobs(int jobID) {
         showLoading();
         JobFetchService service = new JobFetchService(requireContext());
@@ -154,5 +157,9 @@ public class ApplyOption extends Fragment {
             return getArguments().getString("jobId");
         }
         return null;
+    }
+    private void unsetRadioButtons() {
+        radioPreEmployment.setChecked(false);
+        radioUploadResume.setChecked(false);
     }
 }
