@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#F5F5F5">
 
     <!-- Decorative circle background (top-right) -->
@@ -96,7 +97,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
-                                android:text="Junior Web Developer"
+                                android:text="@string/placeholder"
                                 android:textColor="#002F62"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -106,7 +107,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="Foton Philippines • Quezon City"
+                                android:text="@string/placeholder"
                                 android:textColor="#666666"
                                 android:textSize="14sp" />
 
@@ -188,7 +189,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
-                                android:text="BIEN, ANGEL EMIE JANE"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
@@ -206,7 +207,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
-                                android:text="angelemiejane.bien@gmail.com"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
@@ -224,7 +225,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
-                                android:text="09685413999"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
@@ -242,7 +243,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
-                                android:text="183 KKK Street, Bagong Barrio, Barangay 150, City of Caloocan, National Capital Region (NCR)"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
@@ -275,34 +276,38 @@
 
                             <!-- Applicant summary header -->
                             <TextView
+                                android:id="@+id/summaryFullName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
-                                android:text="BIEN, ANGEL EMIE JANE"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="18sp" />
 
                             <TextView
+                                android:id="@+id/summaryEmail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="angelemiejane.bien@gmail.com"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/summaryPhone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="09685413999"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/summaryCurrAddr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="183 KKK Street, Bagong Barrio, Barangay 150, City of Caloocan, National Capital Region (NCR)"
+                                android:text="@string/placeholder"
                                 android:textColor="#213448"
                                 android:textSize="14sp" />
 
@@ -321,33 +326,15 @@
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
-                            <include
-                                android:id="@+id/educationPrimary"
-                                layout="@layout/item_education_block"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvEducation"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp" />
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/item_education_block"
+                                tools:itemCount="3">
 
-                            <include
-                                android:id="@+id/educationSecondaryLower"
-                                layout="@layout/item_education_block"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp" />
-
-                            <include
-                                android:id="@+id/educationSecondaryUpper"
-                                layout="@layout/item_education_block"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp" />
-
-                            <include
-                                android:id="@+id/educationTertiary"
-                                layout="@layout/item_education_block"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp" />
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <View
                                 android:layout_width="match_parent"
@@ -364,78 +351,14 @@
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvAppliedJobs"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal">
+                                tools:listitem="@layout/item_work_exp_block"
+                                tools:itemCount="1">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Job Position: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvWorkPosition"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Junior Software Developer"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Company: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvWorkCompany"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="TechNova Solutions Inc."
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Years Worked: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvWorkYears"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="November 2022 - November 2023"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <View
                                 android:layout_width="match_parent"
@@ -452,102 +375,13 @@
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
-                            <LinearLayout
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSeminars"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Type: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvSeminarType"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Seminar"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Title: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvSeminarTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Basic Programming and Problem-Solving Workshop"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Organizer: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvSeminarOrganizer"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="University IT Department"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Date: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvSeminarDate"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="November 30, 2023"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/item_seminar_block"
+                                tools:itemCount="2" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -564,80 +398,13 @@
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
-                            <LinearLayout
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSkillsQualifications"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Skill: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvSkillType"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Technical"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Description: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvSkillDescription"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Proficient in basic web development technologies including HTML, CSS, and JavaScript. Able to create responsive layouts, troubleshoot front-end issues, and follow coding best practices. Familiar with basic Java programming concepts, data structures, and object-oriented programming. Capable of learning new tools and technologies quickly."
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="Qualification: "
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/tvQualification"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Bachelor of Science in Computer Science (Undergraduate)"
-                                    android:textColor="#213448"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
+                                android:nestedScrollingEnabled="false"
+                                tools:listitem="@layout/item_skill_qualification_block"
+                                tools:itemCount="1" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>

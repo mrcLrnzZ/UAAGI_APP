@@ -45,6 +45,8 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+    implementation(libs.glide)
+
 
     implementation(libs.appcompat)
     implementation(libs.material)

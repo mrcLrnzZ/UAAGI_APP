@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.*;
+import com.example.uaagi_app.utils.Helpers;
 
 
 import java.util.List;
@@ -22,10 +23,10 @@ public class AdapterCollection {
                     TextView company = view.findViewById(R.id.tvPreviewRefCompany);
                     TextView phone = view.findViewById(R.id.tvPreviewRefPhone);
 
-                    name.setText(safeText(reference.getName()));
-                    occupation.setText(safeText(reference.getOccupation()));
-                    company.setText(safeText(reference.getCompany()));
-                    phone.setText(safeText(reference.getPhone()));
+                    name.setText(Helpers.safeText(reference.getName()));
+                    occupation.setText(Helpers.safeText(reference.getOccupation()));
+                    company.setText(Helpers.safeText(reference.getCompany()));
+                    phone.setText(Helpers.safeText(reference.getPhone()));
 
                 }
         );
@@ -40,8 +41,8 @@ public class AdapterCollection {
                     TextView type = view.findViewById(R.id.tvPreviewGovIdType);
                     TextView number = view.findViewById(R.id.tvPreviewGovIdNumber);
 
-                    type.setText(safeText(govId.getType()));
-                    number.setText(safeText(govId.getNumber()));
+                    type.setText(Helpers.safeText(govId.getType()));
+                    number.setText(Helpers.safeText(govId.getNumber()));
                 }
         );
     }
@@ -58,11 +59,11 @@ public class AdapterCollection {
                     TextView date = view.findViewById(R.id.tvPreviewSeminarDate);
                     TextView description = view.findViewById(R.id.tvPreviewSeminarDescription);
 
-                    type.setText(safeText(seminar.getType()));
-                    title.setText(safeText(seminar.getTitle()));
-                    organizer.setText(safeText(seminar.getOrganizer()));
-                    date.setText(safeText(seminar.getDate()));
-                    description.setText(safeText(seminar.getDescription()));
+                    type.setText(Helpers.safeText(seminar.getType()));
+                    title.setText(Helpers.safeText(seminar.getTitle()));
+                    organizer.setText(Helpers.safeText(seminar.getOrganizer()));
+                    date.setText(Helpers.safeText(seminar.getDate()));
+                    description.setText(Helpers.safeText(seminar.getDescription()));
 
                 }
         );
@@ -80,11 +81,11 @@ public class AdapterCollection {
                     TextView date = view.findViewById(R.id.tvPreviewQualDate);
                     TextView description = view.findViewById(R.id.tvPreviewQualDescription);
 
-                    type.setText(safeText(qualification.getType()));
-                    title.setText(safeText(qualification.getTitle()));
-                    authority.setText(safeText(qualification.getAuthority()));
-                    date.setText(safeText(qualification.getDate()));
-                    description.setText(safeText(qualification.getDescription()));
+                    type.setText(Helpers.safeText(qualification.getType()));
+                    title.setText(Helpers.safeText(qualification.getTitle()));
+                    authority.setText(Helpers.safeText(qualification.getAuthority()));
+                    date.setText(Helpers.safeText(qualification.getDate()));
+                    description.setText(Helpers.safeText(qualification.getDescription()));
                 }
         );
     }
@@ -101,11 +102,11 @@ public class AdapterCollection {
                     TextView expiry = view.findViewById(R.id.tvPreviewCertExpiry);
                     TextView description = view.findViewById(R.id.tvPreviewCertDescription);
 
-                    name.setText(safeText(certificate.getName()));
-                    organization.setText(safeText(certificate.getOrganization()));
-                    date.setText(safeText(certificate.getDate()));
-                    expiry.setText(safeText(certificate.getExpiryDate()));
-                    description.setText(safeText(certificate.getDescription()));
+                    name.setText(Helpers.safeText(certificate.getName()));
+                    organization.setText(Helpers.safeText(certificate.getOrganization()));
+                    date.setText(Helpers.safeText(certificate.getDate()));
+                    expiry.setText(Helpers.safeText(certificate.getExpiryDate()));
+                    description.setText(Helpers.safeText(certificate.getDescription()));
                 }
         );
     }
@@ -120,9 +121,9 @@ public class AdapterCollection {
                     TextView level = view.findViewById(R.id.tvPreviewSkillLevel);
                     TextView description = view.findViewById(R.id.tvPreviewSkillDescription);
 
-                    category.setText(safeText(skill.getCategory()));
-                    level.setText(safeText(skill.getLevel()));
-                    description.setText((safeText(skill.getDescription())));
+                    category.setText(Helpers.safeText(skill.getCategory()));
+                    level.setText(Helpers.safeText(skill.getLevel()));
+                    description.setText((Helpers.safeText(skill.getDescription())));
                 }
         );
     }
@@ -137,8 +138,8 @@ public class AdapterCollection {
                     TextView durationtv = view.findViewById(R.id.tvPreviewWorkDuration);
                     TextView description = view.findViewById(R.id.tvPreviewWorkDescription);
 
-                    company.setText(safeText(workExperience.getCompany()));
-                    workPosition.setText(safeText(workExperience.getPosition()));
+                    company.setText(Helpers.safeText(workExperience.getCompany()));
+                    workPosition.setText(Helpers.safeText(workExperience.getPosition()));
                     String duration = "";
                     if (!TextUtils.isEmpty(workExperience.getStartDate()) && !TextUtils.isEmpty(workExperience.getEndDate())) {
                         duration = workExperience.getStartDate() + " - " + workExperience.getEndDate();
@@ -147,8 +148,8 @@ public class AdapterCollection {
                     } else {
                         duration = "—";
                     }
-                    durationtv.setText(safeText(duration));
-                    description.setText(safeText(workExperience.getDescription()));
+                    durationtv.setText(Helpers.safeText(duration));
+                    description.setText(Helpers.safeText(workExperience.getDescription()));
 
                 }
         );
@@ -166,15 +167,12 @@ public class AdapterCollection {
                     TextView status = view.findViewById(R.id.tvPreviewEducationStatus);
                     TextView achievement = view.findViewById(R.id.tvPreviewEducationAchievement);
 
-                    level.setText(safeText(education.getLevel()));
-                    school.setText(safeText(education.getSchool()));
-                    year.setText(safeText(education.getGradYear()));
-                    status.setText(safeText(education.getStatus()));
-                    achievement.setText(safeText(education.getAchievement()));
+                    level.setText(Helpers.safeText(education.getLevel()));
+                    school.setText(Helpers.safeText(education.getSchool()));
+                    year.setText(Helpers.safeText(education.getGradYear()));
+                    status.setText(Helpers.safeText(education.getStatus()));
+                    achievement.setText(Helpers.safeText(education.getAchievement()));
                 }
         );
-    }
-    public static String safeText(String value) {
-        return TextUtils.isEmpty(value) ? "—" : value;
     }
 }
