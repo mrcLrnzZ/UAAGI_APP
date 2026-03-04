@@ -24,8 +24,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@drawable/gradient_banner"
+                android:layout_height="54dp"
+                android:background="@color/DarkBlue"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
@@ -35,17 +35,17 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     app:cardCornerRadius="12dp"
-                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardBackgroundColor="@color/DarkBlue"
                     app:cardElevation="0dp">
 
                     <ImageView
                         android:id="@+id/notificationIcon"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/baseline_circle_notifications_24"
-                        android:tint="#1A56DB"
-                        android:scaleType="fitCenter" />
+                        android:tint="@color/White" />
 
                 </androidx.cardview.widget.CardView>
 
