@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
+import com.example.uaagi_app.network.Services.ApplicationService;
 import com.example.uaagi_app.network.dto.PreEmpDto.Education;
 import com.example.uaagi_app.network.dto.PreEmpDto.ProfessionalSkills;
 import com.example.uaagi_app.network.dto.PreEmpDto.Seminar;
@@ -25,6 +26,7 @@ import com.example.uaagi_app.network.dto.PreEmpDto.WorkExperience;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.utils.SessionManager;
 
 public class ApplyPreEmp extends Fragment {
     private TextView jobTitle, jobCompanyLocation, fullName, email, tvPhone, tvAddress;
@@ -77,6 +79,7 @@ public class ApplyPreEmp extends Fragment {
 
         return view;
     }
+
     private void observeJobData() {
 
         jobViewModel.getJobData().observe(getViewLifecycleOwner(), job -> {
@@ -95,6 +98,7 @@ public class ApplyPreEmp extends Fragment {
             }
         });
     }
+
     private void observeProfileData() {
 
         profileViewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
@@ -128,6 +132,7 @@ public class ApplyPreEmp extends Fragment {
             }
         });
     }
+
     private void setupRecyclerViews() {
 
         rvEducation.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -194,6 +199,7 @@ public class ApplyPreEmp extends Fragment {
         rvSkillsQualifications.setAdapter(adapterSkillsQualifications);
         rvAppliedJobs.setAdapter(adapterWorkExperience);
     }
+
     private void initializeViews(View view) {
         jobTitle = view.findViewById(R.id.jobTitle);
         jobCompanyLocation = view.findViewById(R.id.jobCompany_jobLocation);
@@ -214,6 +220,7 @@ public class ApplyPreEmp extends Fragment {
         btnSubmitApplication = view.findViewById(R.id.btnSubmitApplication);
         btnBackToDesc = view.findViewById(R.id.btnBackToDesc);
     }
+
     private void setupButtons() {
 
         btnBackToDesc.setOnClickListener(v -> {
@@ -231,9 +238,45 @@ public class ApplyPreEmp extends Fragment {
                 return;
             }
 
-            Toast.makeText(requireContext(),
-                    "Application Submitted Successfully!",
-                    Toast.LENGTH_LONG).show();
+            submitApplication();
         });
+    }
+
+    private void submitApplication() {
+        ApplicationService service = new ApplicationService(requireContext());
+
+        service.submitApplication(
+                SessionManager.getInstance(requireContext()).getUserId(),
+                jobViewModel.getJobData().getValue().getId(),
+                "form",
+                new ApplicationService.SubmitApplicationCallback() {
+
+                    @Override
+                    public void onResponse() {
+
+                        navigateToResult("success");
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                        if ("Already sent".equalsIgnoreCase(errorMessage)) {
+                            navigateToResult("alreadysent");
+                        } else {
+                            navigateToResult("error");
+                        }
+                    }
+                }
+        );
+    }
+
+    private void navigateToResult(String result) {
+        ApplyResult fragment = ApplyResult.newInstance(result);
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
