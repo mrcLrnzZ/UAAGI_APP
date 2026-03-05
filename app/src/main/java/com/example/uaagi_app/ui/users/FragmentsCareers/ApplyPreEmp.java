@@ -253,14 +253,13 @@ public class ApplyPreEmp extends Fragment {
 
                     @Override
                     public void onResponse() {
-
                         navigateToResult("success");
                     }
 
                     @Override
                     public void onError(String errorMessage) {
 
-                        if ("Already sent".equalsIgnoreCase(errorMessage)) {
+                        if ("Already sent".contains(errorMessage)) {
                             navigateToResult("alreadysent");
                         } else {
                             navigateToResult("error");

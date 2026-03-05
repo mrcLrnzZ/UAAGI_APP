@@ -40,9 +40,11 @@ public class RetrofitErrorHandler {
                 if (apiResponse != null && apiResponse.getMessage() != null) {
                     callback.onError(apiResponse.getMessage());
                 } else {
+                    Log.d(TAG, "Error " + code + ": " + errorBody);
                     callback.onError("Error " + code);
                 }
             } catch (Exception e) {
+                Log.d(TAG, "Error " + code + ": " + errorBody);
                 callback.onError("Error " + code + ": " + errorBody);
             }
             return;

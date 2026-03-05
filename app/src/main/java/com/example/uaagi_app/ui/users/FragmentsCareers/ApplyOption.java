@@ -17,6 +17,7 @@ import com.example.uaagi_app.network.Services.JobFetchService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
+import com.example.uaagi_app.ui.utils.PdfPickerHelper;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.List;
@@ -28,10 +29,15 @@ public class ApplyOption extends Fragment {
     private RadioButton radioPreEmployment, radioUploadResume;
     private Button btnContinuePreEmployment;
     private View contentContainer, loadingContainer, errorContainer;
+    private PdfPickerHelper pdfPickerHelper;
     private View btnBackToDesc;
 
     public ApplyOption() {}
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        pdfPickerHelper = new PdfPickerHelper(this);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_careers_apply_options, container, false);
@@ -80,7 +86,21 @@ public class ApplyOption extends Fragment {
             } else if (selectedRadio[0] == radioUploadResume) {
                 unsetRadioButtons();
                 Toast.makeText(requireContext(), "You selected Upload Resume", Toast.LENGTH_SHORT).show();
+                pdfPickerHelper.openPdfPicker(Integer.parseInt(jobID), new PdfPickerHelper.PdfUploadCallback() {
+                    @Override
+                    public void onSuccess() {
+                        navigateToResult("success");
+                    }
 
+                    @Override
+                    public void onError(String errorMessage) {
+                        if ("Already sent".contains(errorMessage)) {
+                            navigateToResult("alreadysent");
+                        } else {
+                            navigateToResult("error");
+                        }
+                    }
+                });
             }
         });
         return view;
@@ -161,5 +181,14 @@ public class ApplyOption extends Fragment {
     private void unsetRadioButtons() {
         radioPreEmployment.setChecked(false);
         radioUploadResume.setChecked(false);
+    }
+    private void navigateToResult(String result) {
+        ApplyResult fragment = ApplyResult.newInstance(result);
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
