@@ -140,15 +140,6 @@
                             android:layout_marginEnd="8dp"
                             android:scaleType="centerInside" />
 
-                        <ImageButton
-                            android:id="@+id/btnShare"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/icon_button_background"
-                            android:src="@drawable/link"
-                            android:padding="8dp"
-                            android:scaleType="centerInside" />
-
                     </LinearLayout>
 
                 </LinearLayout>

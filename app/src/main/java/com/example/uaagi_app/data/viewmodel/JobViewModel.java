@@ -2,15 +2,13 @@ package com.example.uaagi_app.data.viewmodel;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
-import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +42,9 @@ public class JobViewModel extends ViewModel {
 
         isLoading.setValue(true);
 
-        JobFetchService service = new JobFetchService(context);
+        JobService service = new JobService(context);
 
-        service.fetchJobById(jobId, new JobFetchService.JobFetchCallback() {
+        service.fetchJobById(jobId, new JobService.JobServiceCallback() {
 
             @Override
             public void onResponse(List<JobFetchResponse> response) {
@@ -70,13 +68,15 @@ public class JobViewModel extends ViewModel {
 
     public void fetchSavedJobs(int userId, Context context) {
         isLoading.setValue(true);
-        JobFetchService jobFetchService = new JobFetchService(context);
-        jobFetchService.fetchSavedJob(userId, new JobFetchService.JobFetchCallback() {
+        JobService jobService = new JobService(context);
+        jobService.fetchSavedJob(userId, new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 isLoading.setValue(false);
                 if (response != null && !response.isEmpty()) {
-                    Jobs.setValue(response);
+                    Log.d("JobViewModel", "Saved jobs fetched: " + response);
+                    Jobs.setValue(response != null ? response : new ArrayList<>());
+                    Log.d("JobViewModel", "Saved jobs after setValue: " + Jobs.getValue());
                 } else {
                     Jobs.setValue(new ArrayList<>());
                     errorMessage.setValue("No saved jobs found for the given user ID.");
@@ -92,13 +92,13 @@ public class JobViewModel extends ViewModel {
 
     public void fetchArchivedJobs(int userId, Context context) {
         isLoading.setValue(true);
-        JobFetchService service = new JobFetchService(context);
-        service.fetchArchivedJob(userId, new JobFetchService.JobFetchCallback() {
+        JobService service = new JobService(context);
+        service.fetchArchivedJob(userId, new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 isLoading.setValue(false);
                 if (response != null && !response.isEmpty()) {
-                    Jobs.setValue(response);
+                    Jobs.setValue(response != null ? response : new ArrayList<>());
                 } else {
                     Jobs.setValue(new ArrayList<>());
                     errorMessage.setValue("No archived jobs found for the given user ID.");

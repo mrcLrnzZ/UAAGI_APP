@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.network.Services.JobService;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -121,8 +122,23 @@ public class Helpers {
             currentAddressInput.setText(fullAddress);
         }
     }
-
     public static String safeText(String value) {
         return TextUtils.isEmpty(value) ? "—" : value;
+    }
+    public static void actionSaveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.saveJob(jobId, callback);
+    }
+    public static void actionUnsaveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.unsaveJob(jobId, callback);
+    }
+    public static void actionArchiveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.archiveJob(jobId, callback);
+    }
+    public static void actionUnarchiveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.unarchiveJob(jobId, callback);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.uaagi_app.network.Services;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.uaagi_app.network.RetrofitClient;
 import com.example.uaagi_app.network.api.JobsApi;
@@ -16,12 +17,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class JobFetchService {
+public class JobService {
 
     private final Context context;
     private final JobsApi jobsApi;
 
-    public JobFetchService(Context context) {
+    public JobService(Context context) {
         this.context = context;
         this.jobsApi = RetrofitClient
                 .getInstance()
@@ -32,7 +33,7 @@ public class JobFetchService {
        Fetch jobs for user
        ========================================================= */
 
-    public void fetchJobsForUser(JobFetchCallback callback) {
+    public void fetchJobsForUser(JobServiceCallback callback) {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
@@ -79,7 +80,7 @@ public class JobFetchService {
        Fetch single job
        ========================================================= */
 
-    public void fetchJobById(int jobId, JobFetchCallback callback) {
+    public void fetchJobById(int jobId, JobServiceCallback callback) {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
@@ -123,7 +124,7 @@ public class JobFetchService {
        Fetch saved job
        ========================================================= */
 
-    public void fetchSavedJob(int jobId, JobFetchCallback callback) {
+    public void fetchSavedJob(int userId, JobServiceCallback callback) {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
@@ -131,7 +132,7 @@ public class JobFetchService {
         }
 
         Call<ApiResponse<List<JobFetchResponse>>> call =
-                jobsApi.fetchSavedJobs(jobId);
+                jobsApi.fetchSavedJobs(userId);
 
         call.enqueue(new Callback<ApiResponse<List<JobFetchResponse>>>() {
             @Override
@@ -164,7 +165,7 @@ public class JobFetchService {
        Fetch archived job
        ========================================================= */
 
-    public void fetchArchivedJob(int jobId, JobFetchCallback callback) {
+    public void fetchArchivedJob(int jobId, JobServiceCallback callback) {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
@@ -201,12 +202,139 @@ public class JobFetchService {
             }
         });
     }
+    /* =========================================================
+       Archived job
+       ========================================================= */
+    public void archiveJob(int jobId, FeedbackCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.feedback("No internet connection.");
+            return;
+        }
+
+        Call<ApiResponse> call = jobsApi.archiveJob(SessionManager.getInstance(context).getUserId(), jobId);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.feedback("Job archived!");
+                    } else {
+                        RetrofitErrorHandler.handleError(response, null, callback::onError);
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+    /* =========================================================
+       Unarchived job
+       ========================================================= */
+    public void unarchiveJob(int jobId, FeedbackCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.feedback("No internet connection.");
+            return;
+        }
+
+        Call<ApiResponse> call = jobsApi.unarchiveJob(SessionManager.getInstance(context).getUserId(), jobId);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.feedback("Job unarchived!");
+                    } else {
+                        RetrofitErrorHandler.handleError(response, null, callback::onError);
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+    /* =========================================================
+       Save job
+       ========================================================= */
+    public void saveJob(int jobId, FeedbackCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.feedback("No internet connection.");
+            return;
+        }
+        Log.d("saveJob", "User ID: " + SessionManager.getInstance(context).getUserId() + ", Job ID: " + jobId);
+        Call<ApiResponse> call = jobsApi.saveJob(SessionManager.getInstance(context).getUserId(), jobId);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.feedback("Job saved!");
+                    } else {
+                        RetrofitErrorHandler.handleError(response, null, callback::onError);
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+
+    /* =========================================================
+       Unsave job
+       ========================================================= */
+    public void unsaveJob(int jobId, FeedbackCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.feedback("No internet connection.");
+            return;
+        }
+        Call<ApiResponse> call = jobsApi.unsaveJob(SessionManager.getInstance(context).getUserId(), jobId);
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.feedback("Job unbookmarked!");
+                    } else {
+                        RetrofitErrorHandler.handleError(response, null, callback::onError);
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
 
     /* =========================================================
        Callback
        ========================================================= */
 
-    public interface JobFetchCallback extends RetrofitErrorHandler.ApiErrorCallback{
+    public interface JobServiceCallback extends RetrofitErrorHandler.ApiErrorCallback{
         void onResponse(List<JobFetchResponse> jobs);
+    }
+    public interface FeedbackCallback extends RetrofitErrorHandler.ApiErrorCallback{
+        void feedback(String message);
     }
 }

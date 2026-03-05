@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
@@ -67,8 +67,8 @@ public class DivisionOption extends Fragment {
     }
     private void fetchJobs() {
         showLoading();
-        JobFetchService service = new JobFetchService(requireContext());
-        service.fetchJobsForUser(new JobFetchService.JobFetchCallback() {
+        JobService service = new JobService(requireContext());
+        service.fetchJobsForUser(new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 showContent(response);

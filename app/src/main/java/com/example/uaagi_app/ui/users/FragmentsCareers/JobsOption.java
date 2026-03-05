@@ -10,16 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
-import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 
 import java.util.ArrayList;
@@ -59,8 +57,8 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
     }
     private void fetchJobs() {
         showLoading();
-        JobFetchService service = new JobFetchService(requireContext());
-        service.fetchJobsForUser(new JobFetchService.JobFetchCallback() {
+        JobService service = new JobService(requireContext());
+        service.fetchJobsForUser(new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 showContent(response);
@@ -108,44 +106,13 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         }
         Log.d(TAG, "Filtered Jobs Size: " + filteredJobs.size());
 
-          GenericRecyclerAdapter<JobFetchResponse> adapter =
-                new GenericRecyclerAdapter<>(
-                        filteredJobs,
-                        R.layout.item_job_card,
-                        (view, job, position) -> {
-
-                            TextView tvTitle = view.findViewById(R.id.tvJobTitle);
-                            TextView tvLocation = view.findViewById(R.id.tvLocation);
-                            TextView tvCompany = view.findViewById(R.id.tvCompany);
-                            TextView tvSalary = view.findViewById(R.id.tvSalary);
-                            TextView tvJobType = view.findViewById(R.id.tvJobType);
-                            TextView tvExperienceLevel = view.findViewById(R.id.tvExperienceLevel);
-                            TextView tvShift = view.findViewById(R.id.tvShift);
-                            TextView tvPayTag = view.findViewById(R.id.tvPayTag);
-
-                            tvTitle.setText(job.getJobTitle());
-                            tvLocation.setText(job.getLocation());
-                            tvCompany.setText(job.getCompany().getDisplayName());
-                            tvSalary.setText("₱" + job.getMinSalary() + " – ₱" + job.getMaxSalary());
-                            tvJobType.setText(job.getJobType().toString());
-                            tvExperienceLevel.setText(job.getExperienceLevel().toString());
-                            tvShift.setText(job.getRemoteOption().toString());
-                            tvPayTag.setText("✓ 13th Month Pay");
-                        }
-                );
-          adapter.setOnItemClickListener((job, position) -> {
-            JobDesc fragment = new JobDesc();
-            Bundle bundle = new Bundle();
-            bundle.putString("jobId", String.valueOf(job.getId()));
-            fragment.setArguments(bundle);
-
-            UiHelpers.switchFragment(
-                    requireActivity().getSupportFragmentManager(),
-                    fragment
-            );
-          });
-
-        jobRecyclerView.setAdapter(adapter);
+        UiHelpers
+                .jobCardAdapter(
+                jobRecyclerView,
+                filteredJobs,
+                requireActivity().getSupportFragmentManager(),
+                requireContext()
+        );
     }
     private void showError(String message) {
         loadingContainer.setVisibility(View.GONE);

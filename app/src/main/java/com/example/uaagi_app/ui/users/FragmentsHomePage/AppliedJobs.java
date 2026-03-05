@@ -1,31 +1,33 @@
 package com.example.uaagi_app.ui.users.FragmentsHomePage;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.adapter.AppliedJobsAdapter;
-import com.example.uaagi_app.data.model.AppliedJob;
-import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionApplied;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionArchived;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionInterview;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionSaved;
-import com.example.uaagi_app.utils.SessionManager;
+import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
+import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 
 import java.util.ArrayList;
 import java.util.List;

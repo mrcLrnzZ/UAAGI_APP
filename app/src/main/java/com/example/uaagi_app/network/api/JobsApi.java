@@ -22,13 +22,34 @@ public interface JobsApi {
             @Query("jobId") int jobId
     );
 
+    @POST("index.php/user/save-job")
+    Call<ApiResponse> saveJob(
+            @Query("user_id") int userId,
+            @Query("job_id") int jobId
+    );
+    @POST("index.php/user/unsave-job")
+    Call<ApiResponse> unsaveJob(
+            @Query("user_id") int userId,
+            @Query("job_id") int jobId
+    );
+    @POST("index.php/user/archive-job")
+    Call<ApiResponse> archiveJob(
+            @Query("user_id") int userId,
+            @Query("job_id") int jobId
+    );
+    @POST("index.php/user/unarchive-job")
+    Call<ApiResponse> unarchiveJob(
+            @Query("user_id") int userId,
+            @Query("job_id") int jobId
+    );
+
     @POST("index.php/user/fetch-saved-jobs")
     Call<ApiResponse<List<JobFetchResponse>>>  fetchSavedJobs(
-            @Query("userId") int userId
+            @Query("user_id") int userId
     );
 
     @POST("index.php/user/fetch-archived-jobs")
     Call<ApiResponse<List<JobFetchResponse>>>  fetchArchivedJobs(
-            @Query("userId") int userId
+            @Query("user_id") int userId
     );
 }
