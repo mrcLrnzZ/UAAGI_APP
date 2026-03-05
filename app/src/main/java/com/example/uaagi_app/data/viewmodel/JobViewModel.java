@@ -2,6 +2,7 @@ package com.example.uaagi_app.data.viewmodel;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,7 +10,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.uaagi_app.network.Services.JobFetchService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.utils.SessionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JobViewModel extends ViewModel {
@@ -17,9 +20,16 @@ public class JobViewModel extends ViewModel {
     private final MutableLiveData<JobFetchResponse> jobData = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
+    private final MutableLiveData<List<JobFetchResponse>> Jobs = new MutableLiveData<>();
     public LiveData<JobFetchResponse> getJobData() {
         return jobData;
+    }
+
+    public LiveData<List<JobFetchResponse>> getSavedJobs() {
+        return Jobs;
+    }
+    public LiveData<List<JobFetchResponse>> getArchivedJobs() {
+        return Jobs;
     }
 
     public LiveData<String> getErrorMessage() {
@@ -30,7 +40,7 @@ public class JobViewModel extends ViewModel {
         return isLoading;
     }
 
-    public void fetchJob(int jobId, Context context) {
+    public void fetchJobById(int jobId, Context context) {
 
         isLoading.setValue(true);
 
@@ -57,4 +67,50 @@ public class JobViewModel extends ViewModel {
             }
         });
     }
+
+    public void fetchSavedJobs(int userId, Context context) {
+        isLoading.setValue(true);
+        JobFetchService jobFetchService = new JobFetchService(context);
+        jobFetchService.fetchSavedJob(userId, new JobFetchService.JobFetchCallback() {
+            @Override
+            public void onResponse(List<JobFetchResponse> response) {
+                isLoading.setValue(false);
+                if (response != null && !response.isEmpty()) {
+                    Jobs.setValue(response);
+                } else {
+                    Jobs.setValue(new ArrayList<>());
+                    errorMessage.setValue("No saved jobs found for the given user ID.");
+                }
+            }
+            @Override
+            public void onError(String message) {
+                isLoading.setValue(false);
+                errorMessage.setValue(message);
+            }
+        });
+    }
+
+    public void fetchArchivedJobs(int userId, Context context) {
+        isLoading.setValue(true);
+        JobFetchService service = new JobFetchService(context);
+        service.fetchArchivedJob(userId, new JobFetchService.JobFetchCallback() {
+            @Override
+            public void onResponse(List<JobFetchResponse> response) {
+                isLoading.setValue(false);
+                if (response != null && !response.isEmpty()) {
+                    Jobs.setValue(response);
+                } else {
+                    Jobs.setValue(new ArrayList<>());
+                    errorMessage.setValue("No archived jobs found for the given user ID.");
+                }
+            }
+            @Override
+            public void onError(String message) {
+                isLoading.setValue(false);
+                errorMessage.setValue(message);
+            }
+        });
+    }
 }
+
+

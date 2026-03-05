@@ -1,9 +1,7 @@
 package com.example.uaagi_app.ui.users.FragmentsHomePage;
 
-import static com.example.uaagi_app.network.RetrofitClient.BASE_URL;
 import static com.example.uaagi_app.network.RetrofitClient.IMAGE_BASE_URL;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,13 +23,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
 import com.example.uaagi_app.network.Services.UploadImageService;
-import com.example.uaagi_app.ui.users.FragmentProfile.ChildProfile;
+import com.example.uaagi_app.ui.users.FragmentsProfile.ChildProfile;
 import com.example.uaagi_app.utils.SessionManager;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Profile extends Fragment {
 

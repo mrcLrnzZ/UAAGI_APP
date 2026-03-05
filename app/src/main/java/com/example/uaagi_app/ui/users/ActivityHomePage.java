@@ -1,17 +1,23 @@
 package com.example.uaagi_app.ui.users;
 
+import static com.example.uaagi_app.ui.utils.UiHelpers.switchToFragment;
+
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.AppliedJobs;
@@ -20,6 +26,9 @@ import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityHomePage extends AppCompatActivity {
 
@@ -50,54 +59,65 @@ public class ActivityHomePage extends AppCompatActivity {
 
     private static final int ANIMATION_DURATION = 300;
 
-    private int currentSelectedTab = R.id.tab_home;
+    private String currentSelectedTab = "home";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
-        initializeViews();
+        getSupportFragmentManager().registerFragmentLifecycleCallbacks(
+                new FragmentManager.FragmentLifecycleCallbacks() {
+                    @Override
+                    public void onFragmentResumed(FragmentManager fm, Fragment f) {
+                        Log.d("FRAGMENT_DEBUG", "Resumed: " + f.getClass().getSimpleName());
+                    }
+                }, true
+        );
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Home())
-                    .commit();
-            setSelectedTab(R.id.tab_home);
+            switchToFragment(getSupportFragmentManager(), new Home(), "home");
         }
+
+        initializeViews();
+       //setupBackHandler();
 
         tabHome.setOnClickListener(v -> {
             if (isClickable()) { // Check if safe to click
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Home());
-                setSelectedTab(R.id.tab_home);
+                switchToFragment(getSupportFragmentManager(), new Home(), "home");
+                setSelectedTab("home");
+                logFragmentStack(getSupportFragmentManager());
             }
         });
 
         tabApplied.setOnClickListener(v -> {
             if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new AppliedJobs());
-                setSelectedTab(R.id.tab_applied);
+                switchToFragment(getSupportFragmentManager(), new AppliedJobs(), "applied");
+                setSelectedTab("applied");
+                logFragmentStack(getSupportFragmentManager());
             }
         });
 
         tabCareers.setOnClickListener(v -> {
             if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Careers());
-                setSelectedTab(R.id.tab_careers);
+                switchToFragment(getSupportFragmentManager(), new Careers(), "careers");
+                setSelectedTab("careers");
+                logFragmentStack(getSupportFragmentManager());
             }
         });
 
         tabProfile.setOnClickListener(v -> {
             if (isClickable()) {
-                UiHelpers.switchToFragment(getSupportFragmentManager(), new Profile());
-                setSelectedTab(R.id.tab_profile);
+                switchToFragment(getSupportFragmentManager(), new Profile(), "profile");
+                setSelectedTab("profile");
+                logFragmentStack(getSupportFragmentManager());
             }
         });
 
         notifIcon.setOnClickListener(v -> {
-            UiHelpers.switchToFragment(getSupportFragmentManager(), new Notification());
+            switchToFragment(getSupportFragmentManager(), new Notification(), "notification");
+            logFragmentStack(getSupportFragmentManager());
         });
+        logFragmentStack(getSupportFragmentManager());
     }
 
     private boolean isClickable() {
@@ -135,32 +155,32 @@ public class ActivityHomePage extends AppCompatActivity {
         notifIcon = findViewById(R.id.notifIcon);
     }
 
-    private void setSelectedTab(int selectedTabId) {
-        if (currentSelectedTab == selectedTabId) {
+    private void setSelectedTab(String selectedTab) {
+        if (currentSelectedTab.equals(selectedTab)) {
             return;
         }
 
-        if (currentSelectedTab == R.id.tab_home) {
+        if (currentSelectedTab.equals("home")) {
             animateToInactive(iconHome, textHome, indicatorHome);
-        } else if (currentSelectedTab == R.id.tab_applied) {
+        } else if (currentSelectedTab.equals("applied")) {
             animateToInactive(iconApplied, textApplied, indicatorApplied);
-        } else if (currentSelectedTab == R.id.tab_careers) {
+        } else if (currentSelectedTab.equals("careers")) {
             animateToInactive(iconCareers, textCareers, indicatorCareers);
-        } else if (currentSelectedTab == R.id.tab_profile) {
+        } else if (currentSelectedTab.equals("profile")) {
             animateToInactive(iconProfile, textProfile, indicatorProfile);
         }
 
-        if (selectedTabId == R.id.tab_home) {
+        if (selectedTab.equals("home")) {
             animateToActive(iconHome, textHome, indicatorHome);
-        } else if (selectedTabId == R.id.tab_applied) {
+        } else if (selectedTab.equals("applied")) {
             animateToActive(iconApplied, textApplied, indicatorApplied);
-        } else if (selectedTabId == R.id.tab_careers) {
+        } else if (selectedTab.equals("careers")) {
             animateToActive(iconCareers, textCareers, indicatorCareers);
-        } else if (selectedTabId == R.id.tab_profile) {
+        } else if (selectedTab.equals("profile")) {
             animateToActive(iconProfile, textProfile, indicatorProfile);
         }
 
-        currentSelectedTab = selectedTabId;
+        currentSelectedTab = selectedTab;
     }
 
     private void animateToActive(ImageView icon, TextView text, View indicator) {
@@ -244,5 +264,47 @@ public class ActivityHomePage extends AppCompatActivity {
                 })
                 .start();
     }
+    private void setupBackHandler() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                List<String> backStackEntries = new ArrayList<>();
+                for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
+                    backStackEntries.add(getSupportFragmentManager().getBackStackEntryAt(i).getName());
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.popBackStack(currentSelectedTab, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                currentSelectedTab = backStackEntries.isEmpty() ? "home" : backStackEntries.get(backStackEntries.size() - 1);
+                Log.d("BACKSTACK", "Backstack: " + backStackEntries);
+                setSelectedTab(currentSelectedTab);
+            }
+        };
 
+        getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+    private void logFragmentStack(FragmentManager fragmentManager) {
+
+        List<Fragment> fragments = fragmentManager.getFragments();
+
+        Log.d("FRAGMENT_DEBUG", "----- Active Fragments -----");
+
+        for (Fragment fragment : fragments) {
+            if (fragment != null) {
+                Log.d("FRAGMENT_DEBUG",
+                        "Fragment: " + fragment.getClass().getSimpleName()
+                                + " | Tag: " + fragment.getTag()
+                                + " | Visible: " + fragment.isVisible()
+                                + " | Added: " + fragment.isAdded());
+            }
+        }
+
+        Log.d("FRAGMENT_DEBUG", "BackStack Count: " + fragmentManager.getBackStackEntryCount());
+
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(i);
+            Log.d("FRAGMENT_DEBUG", "BackStack[" + i + "] = " + entry.getName());
+        }
+
+        Log.d("FRAGMENT_DEBUG", "---------------------------");
+    }
 }

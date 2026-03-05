@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/outline_block_24"
+        android:contentDescription="No jobs"
+        android:alpha="0.7"/>
+
+    <TextView
+        android:id="@+id/txtNoJobsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Jobs Available"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/txtNoJobsMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="There are currently no jobs. Please check back later."
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"/>
+
+</LinearLayout>

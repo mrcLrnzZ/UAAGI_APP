@@ -178,64 +178,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#E0E0E0" />
-
-    <!-- Jobs List -->
-    <androidx.core.widget.NestedScrollView
+    <!-- Fragment Container -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Past 14 days Section -->
-            <TextView
-                android:id="@+id/tvPast14Days"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Past 14 days"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:paddingBottom="12dp"
-                android:fontFamily="sans-serif-medium" />
-
-            <!-- Recycler View for Applied Jobs -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAppliedJobs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_applied_job" />
-
-            <!-- Older Section -->
-            <TextView
-                android:id="@+id/tvOlder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Older"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:paddingTop="16dp"
-                android:paddingBottom="12dp"
-                android:fontFamily="sans-serif-medium"
-                android:visibility="gone" />
-
-            <!-- Recycler View for Older Jobs -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOlderJobs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone" />
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        android:layout_weight="1"/>
 
 </LinearLayout>
