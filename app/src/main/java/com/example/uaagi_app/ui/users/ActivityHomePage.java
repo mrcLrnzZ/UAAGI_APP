@@ -18,6 +18,7 @@ import com.example.uaagi_app.ui.users.FragmentsHomePage.AppliedJobs;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
+import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 public class ActivityHomePage extends AppCompatActivity {
@@ -44,6 +45,8 @@ public class ActivityHomePage extends AppCompatActivity {
     private View indicatorProfile;
 
     private long lastClickTime = 0;
+
+    private ImageView notifIcon;
 
     private static final int ANIMATION_DURATION = 300;
 
@@ -91,6 +94,10 @@ public class ActivityHomePage extends AppCompatActivity {
                 setSelectedTab(R.id.tab_profile);
             }
         });
+
+        notifIcon.setOnClickListener(v -> {
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new Notification());
+        });
     }
 
     private boolean isClickable() {
@@ -124,6 +131,8 @@ public class ActivityHomePage extends AppCompatActivity {
         iconProfile = findViewById(R.id.icon_profile);
         textProfile = findViewById(R.id.text_profile);
         indicatorProfile = findViewById(R.id.indicator_profile);
+
+        notifIcon = findViewById(R.id.notifIcon);
     }
 
     private void setSelectedTab(int selectedTabId) {

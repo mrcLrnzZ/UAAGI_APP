@@ -3,53 +3,89 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginVertical="10dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="3dp"
-    app:cardBackgroundColor="#FFFFFF">
+    android:layout_height="match_parent"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/White">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/White">
 
         <View
-            android:layout_width="4dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:background="@color/DarkBlue" />
+            android:layout_width="450dp"
+            android:layout_height="400dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-70dp"
+            android:layout_marginEnd="-250dp"
+            android:background="@drawable/circle_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="12dp"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingTop="16dp"
             android:paddingEnd="16dp"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp">
+            android:paddingBottom="16dp">
 
-            <ImageView
-                android:id="@+id/backArrow"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/baseline_arrow_back_24"
-                android:tint="@color/DarkBlue"
-                android:scaleType="fitCenter" />
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp">
 
-            <TextView
-                android:id="@+id/cardTitle"
+                <ImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/baseline_arrow_back_24"
+                    android:tint="@color/DarkBlue" />
+            </FrameLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:text="Notifications"
-                android:textColor="@color/DarkBlue"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-black" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.02"
+                    android:text="Notifications"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/cardSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="sans-serif"
+                    android:text="3 new alerts"
+                    android:textColor="#80000000"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/badgeCount"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/badge_outline_rounded"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:src="@drawable/baseline_circle_notifications_24"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
 
         </LinearLayout>
 

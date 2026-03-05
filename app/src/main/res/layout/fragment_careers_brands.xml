@@ -5,9 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/WhiteSmoke"
+    android:background="@color/White"
     tools:context=".ui.users.FragmentsHomePage.Careers">
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,21 +15,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="24dp">
-            </LinearLayout>
+            android:orientation="vertical"
+            android:background="@color/White"
+            >
 
             <!-- Featured Jobs Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="25dp">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/White"
                 android:padding="16dp">
 
                 <TextView
@@ -52,7 +52,9 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginStart="5dp"/>
 
+                <!-- ✅ FOTON CARD -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/fotonBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -67,18 +69,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -86,7 +82,6 @@
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="12dp">
 
-                                <!-- Logo -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
@@ -105,7 +100,6 @@
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -134,7 +128,6 @@
                                         android:textSize="12sp" />
 
                                 </LinearLayout>
-
                             </LinearLayout>
 
                             <View
@@ -158,6 +151,7 @@
                                 android:layout_height="1dp"
                                 android:background="#E5E7EB"
                                 android:layout_marginBottom="12dp" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -177,14 +171,15 @@
                                     android:text="Quezon, Philippines"
                                     android:textColor="#9CA3AF"
                                     android:textSize="12sp" />
-
-
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+                <!-- ✅ CHERY CARD -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cheryBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -199,18 +194,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -218,7 +207,6 @@
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="12dp">
 
-                                <!-- Logo -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
@@ -237,7 +225,6 @@
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -266,7 +253,6 @@
                                         android:textSize="12sp" />
 
                                 </LinearLayout>
-
                             </LinearLayout>
 
                             <View
@@ -290,6 +276,7 @@
                                 android:layout_height="1dp"
                                 android:background="#E5E7EB"
                                 android:layout_marginBottom="12dp" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -309,14 +296,15 @@
                                     android:text="Quezon, Philippines"
                                     android:textColor="#9CA3AF"
                                     android:textSize="12sp" />
-
-
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+                <!-- ✅ BAIC CARD -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/baicBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -331,18 +319,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -350,7 +332,6 @@
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="12dp">
 
-                                <!-- Logo -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
@@ -369,7 +350,6 @@
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -398,7 +378,6 @@
                                         android:textSize="12sp" />
 
                                 </LinearLayout>
-
                             </LinearLayout>
 
                             <View
@@ -422,6 +401,7 @@
                                 android:layout_height="1dp"
                                 android:background="#E5E7EB"
                                 android:layout_marginBottom="12dp" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -441,14 +421,15 @@
                                     android:text="Quezon, Philippines"
                                     android:textColor="#9CA3AF"
                                     android:textSize="12sp" />
-
-
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+                <!-- ✅ LYNK & CO CARD -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/lynkcoBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -463,18 +444,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -482,7 +457,6 @@
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="12dp">
 
-                                <!-- Logo -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
@@ -501,7 +475,6 @@
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -530,7 +503,6 @@
                                         android:textSize="12sp" />
 
                                 </LinearLayout>
-
                             </LinearLayout>
 
                             <View
@@ -554,6 +526,7 @@
                                 android:layout_height="1dp"
                                 android:background="#E5E7EB"
                                 android:layout_marginBottom="12dp" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -573,14 +546,15 @@
                                     android:text="Quezon, Philippines"
                                     android:textColor="#9CA3AF"
                                     android:textSize="12sp" />
-
-
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+                <!-- ✅ MUTT CARD -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/muttBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -595,18 +569,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Logo + Brand  -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -614,7 +582,6 @@
                                 android:gravity="center_vertical"
                                 android:layout_marginBottom="12dp">
 
-                                <!-- Logo -->
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="56dp"
                                     android:layout_height="56dp"
@@ -633,7 +600,6 @@
 
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Brand Name + Tag -->
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -662,7 +628,6 @@
                                         android:textSize="12sp" />
 
                                 </LinearLayout>
-
                             </LinearLayout>
 
                             <View
@@ -686,6 +651,7 @@
                                 android:layout_height="1dp"
                                 android:background="#E5E7EB"
                                 android:layout_marginBottom="12dp" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -705,14 +671,11 @@
                                     android:text="Quezon, Philippines"
                                     android:textColor="#9CA3AF"
                                     android:textSize="12sp" />
-
-
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
 
             </LinearLayout>
         </LinearLayout>
