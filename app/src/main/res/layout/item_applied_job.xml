@@ -23,6 +23,7 @@
 
             <!-- Response Warning Badge -->
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/layoutResponseWarning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,6 +54,7 @@
 
             <!-- Three Dots Menu -->
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/ivMenuDots"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -112,6 +114,7 @@
 
         <!-- Update Status Button -->
         <Button
+            android:visibility="gone"
             android:id="@+id/btnUpdateStatus"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -125,6 +128,7 @@
 
         <!-- Employer Response Time -->
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/layoutEmployerResponse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

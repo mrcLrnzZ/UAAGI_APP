@@ -6,7 +6,10 @@ import com.example.uaagi_app.network.RetrofitClient;
 import com.example.uaagi_app.network.api.ApplicationApi;
 import com.example.uaagi_app.network.api.DocumentApi;
 import com.example.uaagi_app.network.dto.ApiResponse;
+import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.utils.NetworkUtils;
+
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -30,33 +33,18 @@ public class ApplicationService {
                 .create(DocumentApi.class);
     }
     public void submitApplication(int userId, int jobId, String applyMethod, SubmitApplicationCallback callback) {
+
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
             return;
         }
-        applicationApi.submitApplication(userId, jobId, applyMethod)
-                .enqueue(new retrofit2.Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<ApiResponse> call, Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            ApiResponse apiResponse = response.body();
-                            if (apiResponse.isSuccess()) {
-                                callback.onResponse();
-                            } else {
-                                callback.onError(apiResponse.getMessage());
-                            }
-                        } else {
-                            RetrofitErrorHandler.handleError(response, null, callback::onError);
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(retrofit2.Call<ApiResponse> call, Throwable t) {
-                        RetrofitErrorHandler.handleError(null, t, callback::onError);
-                    }
-                });
+        Call<ApiResponse> call = applicationApi.submitApplication(userId, jobId, applyMethod);
+        executeVoidCall(call, callback);
     }
-    public void submitResumeApplication(int userId, int jobId, String applyMethod, MultipartBody.Part file, SubmitApplicationCallback callback) {
+    public void submitResumeApplication(int userId, int jobId, String applyMethod,
+                                        MultipartBody.Part file, SubmitApplicationCallback callback) {
+
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
             return;
@@ -66,29 +54,79 @@ public class ApplicationService {
         RequestBody jobIdBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(jobId));
         RequestBody applyMethodBody = RequestBody.create(MediaType.parse("text/plain"), applyMethod);
 
-        applicationApi.submitResumeApplication(userIdBody, jobIdBody, applyMethodBody, file)
-                .enqueue(new retrofit2.Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<ApiResponse> call, Response<ApiResponse> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            ApiResponse apiResponse = response.body();
-                            if (apiResponse.isSuccess()) {
-                                callback.onResponse();
-                            } else {
-                                callback.onError(apiResponse.getMessage());
-                            }
-                        } else {
-                            RetrofitErrorHandler.handleError(response, null, callback::onError);
-                        }
-                    }
+        Call<ApiResponse> call = applicationApi.submitResumeApplication(
+                userIdBody,
+                jobIdBody,
+                applyMethodBody,
+                file
+        );
 
-                    @Override
-                    public void onFailure(retrofit2.Call<ApiResponse> call, Throwable t) {
-                        RetrofitErrorHandler.handleError(null, t, callback::onError);
-                    }
-                });
+        executeVoidCall(call, callback);
     }
+    private void executeVoidCall(Call<ApiResponse> call, SubmitApplicationCallback callback) {
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.onResponse();
+                    } else {
+                        callback.onError(apiResponse.getMessage());
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+    public void fetchApplicantsForUser(int userId, FetchApplicantsCallback callback) {
+
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection.");
+            return;
+        }
+
+        Call<ApiResponse<List<Applicant>>> call =
+                applicationApi.fetchApplicantsForUser(userId);
+
+        call.enqueue(new Callback<ApiResponse<List<Applicant>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Applicant>>> call,
+                                   Response<ApiResponse<List<Applicant>>> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    ApiResponse<List<Applicant>> apiResponse = response.body();
+
+                    if (apiResponse.isSuccess()) {
+                        callback.onResponse(apiResponse.getData());
+                    } else {
+                        callback.onError(apiResponse.getMessage());
+                    }
+
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Applicant>>> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+    private RequestBody text(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value);
+    }
+    public interface FetchApplicantsCallback extends RetrofitErrorHandler.ApiErrorCallback{
+        void onResponse(List<Applicant> applicants);
+    }
     public interface SubmitApplicationCallback extends RetrofitErrorHandler.ApiErrorCallback{
         void onResponse();
     }
