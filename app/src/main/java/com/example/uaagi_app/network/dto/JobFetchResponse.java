@@ -58,6 +58,7 @@ public class JobFetchResponse {
     @SerializedName("deleted_at")
     private final LocalDateTime deletedAt;
 
+
     // Private constructor for builder
     private JobFetchResponse(Builder builder) {
         this.id = builder.id;

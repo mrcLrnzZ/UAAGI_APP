@@ -24,7 +24,6 @@ import com.example.uaagi_app.network.dto.PreEmpDto.ProfessionalSkills;
 import com.example.uaagi_app.network.dto.PreEmpDto.Seminar;
 import com.example.uaagi_app.network.dto.PreEmpDto.WorkExperience;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
-import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
@@ -72,7 +71,7 @@ public class ApplyPreEmp extends Fragment {
 
         setupButtons();
         if (jobId != -1) {
-            jobViewModel.fetchJob(jobId, requireContext());
+            jobViewModel.fetchJobById(jobId, requireContext());
         }
 
         profileViewModel.fetchContent(requireContext());

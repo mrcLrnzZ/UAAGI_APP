@@ -10,16 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
-import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 
 import java.util.ArrayList;
@@ -31,6 +31,9 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
     private RecyclerView jobRecyclerView;
     private View loadingContainer;
     private String companyName, departmentName;
+    private EditText searchJob;
+    private List<JobFetchResponse> allJobs;
+    private List<JobFetchResponse> filteredJobs;
     private View errorContainer;
     public JobsOption() {
     }
@@ -59,8 +62,8 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
     }
     private void fetchJobs() {
         showLoading();
-        JobFetchService service = new JobFetchService(requireContext());
-        service.fetchJobsForUser(new JobFetchService.JobFetchCallback() {
+        JobService service = new JobService(requireContext());
+        service.fetchJobsForUser(new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 showContent(response);
@@ -75,6 +78,14 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         jobRecyclerView = view.findViewById(R.id.job_container);
         loadingContainer = view.findViewById(R.id.loading_container);
         errorContainer = view.findViewById(R.id.error_container);
+        searchJob = view.findViewById(R.id.searchJob);
+        setupSearchFunctionality();
+    }
+
+    private void setupSearchFunctionality() {
+        SimpleTextWatcher.bindTextWatcher(searchJob,
+                new SimpleTextWatcher(query -> filterJobs(query))
+        );
     }
     private void showLoading() {
         loadingContainer.setVisibility(View.VISIBLE);
@@ -94,7 +105,8 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
 
         if (companyName == null || departmentName == null) return;
 
-        List<JobFetchResponse> filteredJobs = new ArrayList<>();
+        filteredJobs = new ArrayList<>();
+
         Log.d(TAG, "Company Name: " + companyName);
         Log.d(TAG, "Department Name: " + departmentName);
         Log.d(TAG, "Jobs: " + jobs.toString());
@@ -108,44 +120,15 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         }
         Log.d(TAG, "Filtered Jobs Size: " + filteredJobs.size());
 
-          GenericRecyclerAdapter<JobFetchResponse> adapter =
-                new GenericRecyclerAdapter<>(
-                        filteredJobs,
-                        R.layout.item_job_card,
-                        (view, job, position) -> {
+        allJobs = new ArrayList<>(filteredJobs);
 
-                            TextView tvTitle = view.findViewById(R.id.tvJobTitle);
-                            TextView tvLocation = view.findViewById(R.id.tvLocation);
-                            TextView tvCompany = view.findViewById(R.id.tvCompany);
-                            TextView tvSalary = view.findViewById(R.id.tvSalary);
-                            TextView tvJobType = view.findViewById(R.id.tvJobType);
-                            TextView tvExperienceLevel = view.findViewById(R.id.tvExperienceLevel);
-                            TextView tvShift = view.findViewById(R.id.tvShift);
-                            TextView tvPayTag = view.findViewById(R.id.tvPayTag);
-
-                            tvTitle.setText(job.getJobTitle());
-                            tvLocation.setText(job.getLocation());
-                            tvCompany.setText(job.getCompany().getDisplayName());
-                            tvSalary.setText("₱" + job.getMinSalary() + " – ₱" + job.getMaxSalary());
-                            tvJobType.setText(job.getJobType().toString());
-                            tvExperienceLevel.setText(job.getExperienceLevel().toString());
-                            tvShift.setText(job.getRemoteOption().toString());
-                            tvPayTag.setText("✓ 13th Month Pay");
-                        }
-                );
-          adapter.setOnItemClickListener((job, position) -> {
-            JobDesc fragment = new JobDesc();
-            Bundle bundle = new Bundle();
-            bundle.putString("jobId", String.valueOf(job.getId()));
-            fragment.setArguments(bundle);
-
-            UiHelpers.switchFragment(
-                    requireActivity().getSupportFragmentManager(),
-                    fragment
-            );
-          });
-
-        jobRecyclerView.setAdapter(adapter);
+        UiHelpers
+                .jobCardAdapter(
+                jobRecyclerView,
+                filteredJobs,
+                requireActivity().getSupportFragmentManager(),
+                requireContext()
+        );
     }
     private void showError(String message) {
         loadingContainer.setVisibility(View.GONE);
@@ -157,6 +140,34 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
                 FragmentError.newInstance(message)
         );
     }
+
+    private void filterJobs(String query){
+        if (allJobs == null) {
+            return;
+        }
+
+        List<JobFetchResponse> searchResults = new ArrayList<>();
+
+        if (query.isEmpty()) {
+            searchResults.addAll(allJobs);
+        } else {
+            String lowerCaseQuery = query.toLowerCase().trim();
+            for (JobFetchResponse job : allJobs) {
+                if (job.getJobTitle() != null &&
+                    job.getJobTitle().toLowerCase().contains(lowerCaseQuery)) {
+                    searchResults.add(job);
+                }
+            }
+        }
+
+        UiHelpers.jobCardAdapter(
+                jobRecyclerView,
+                searchResults,
+                requireActivity().getSupportFragmentManager(),
+                requireContext()
+        );
+    }
+
     @Override
     public void onRetry() {
         fetchJobs();

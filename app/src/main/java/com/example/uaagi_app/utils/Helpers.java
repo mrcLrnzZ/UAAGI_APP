@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.network.Services.JobService;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -121,8 +122,54 @@ public class Helpers {
             currentAddressInput.setText(fullAddress);
         }
     }
+    public static String getTimeAgo(long time) {
+        long now = System.currentTimeMillis();
+        long diff = now - time;
 
+        final long SECOND_MILLIS = 1000;
+        final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
+        final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
+        final long DAY_MILLIS = 24 * HOUR_MILLIS;
+
+        if (diff < MINUTE_MILLIS) {
+            long seconds = diff / SECOND_MILLIS;
+            return seconds <= 1 ? "1 second ago" : seconds + " seconds ago";
+        } else if (diff < HOUR_MILLIS) {
+            long minutes = diff / MINUTE_MILLIS;
+            return minutes == 1 ? "1 minute ago" : minutes + " minutes ago";
+        } else if (diff < DAY_MILLIS) {
+            long hours = diff / HOUR_MILLIS;
+            return hours == 1 ? "1 hour ago" : hours + " hours ago";
+        } else {
+            long days = diff / DAY_MILLIS;
+            return days == 1 ? "1 day ago" : days + " days ago";
+        }
+    }
     public static String safeText(String value) {
         return TextUtils.isEmpty(value) ? "—" : value;
+    }
+    public static void actionSaveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.saveJob(jobId, callback);
+    }
+    public static void actionUnsaveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.unsaveJob(jobId, callback);
+    }
+    public static void actionArchiveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.archiveJob(jobId, callback);
+    }
+    public static void actionUnarchiveJob(Context context, int jobId, JobService.FeedbackCallback callback) {
+        JobService service = new JobService(context);
+        service.unarchiveJob(jobId, callback);
+    }
+    public static void actionFetchSavedJobId(Context context, JobService.JobIdServiceCallback callback) {
+        JobService service = new JobService(context);
+        service.fetchSavedJobId(SessionManager.getInstance(context).getUserId(), callback);
+    }
+    public static void actionFetchArchivedJobId(Context context, JobService.JobIdServiceCallback callback) {
+        JobService service = new JobService(context);
+        service.fetchArchivedJobId(SessionManager.getInstance(context).getUserId(), callback);
     }
 }

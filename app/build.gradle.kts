@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.glide)
-
+    implementation(libs.pusher.java.client)
 
     implementation(libs.appcompat)
     implementation(libs.material)

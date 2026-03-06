@@ -1,4 +1,4 @@
-package com.example.uaagi_app.ui.users.FragmentProfile;
+package com.example.uaagi_app.ui.users.FragmentsProfile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

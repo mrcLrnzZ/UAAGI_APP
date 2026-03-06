@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.network.Services.JobFetchService;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
@@ -107,8 +107,8 @@ public class ApplyOption extends Fragment {
     }
     private void fetchJobs(int jobID) {
         showLoading();
-        JobFetchService service = new JobFetchService(requireContext());
-        service.fetchJobById(jobID, new JobFetchService.JobFetchCallback() {
+        JobService service = new JobService(requireContext());
+        service.fetchJobById(jobID, new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> jobs) {
                 showContent(jobs);
