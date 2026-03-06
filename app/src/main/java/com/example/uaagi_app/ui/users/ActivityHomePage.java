@@ -20,12 +20,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.model.NotificationModel;
+import com.example.uaagi_app.data.repository.NotificationRepository;
+import com.example.uaagi_app.network.Realtime.NotificationCenter;
+import com.example.uaagi_app.network.Realtime.PusherManager;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.AppliedJobs;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +61,7 @@ public class ActivityHomePage extends AppCompatActivity {
     private long lastClickTime = 0;
 
     private ImageView notifIcon;
+    private PusherManager pusherManager;
 
     private static final int ANIMATION_DURATION = 300;
 
@@ -74,6 +80,26 @@ public class ActivityHomePage extends AppCompatActivity {
                 }, true
         );
 
+        pusherManager = new PusherManager();
+
+        pusherManager.connect();
+
+        int userId = SessionManager.getInstance(this).getUserId();
+
+        pusherManager.subscribeToUserChannel(userId);
+        pusherManager.subscribeToPublicChannel((title, message) -> {
+            runOnUiThread(() -> {
+                View notifDot = findViewById(R.id.notifDot);
+                notifDot.setVisibility(View.VISIBLE);
+
+                NotificationModel notif = new NotificationModel(title, message);
+                NotificationRepository.getInstance().addNotification(notif);
+
+                NotificationCenter.notify(title, message);
+
+            });
+
+        });
         if (savedInstanceState == null) {
             switchToFragment(getSupportFragmentManager(), new Home());
         }
@@ -114,8 +140,9 @@ public class ActivityHomePage extends AppCompatActivity {
         });
 
         notifIcon.setOnClickListener(v -> {
+            View notifDot = findViewById(R.id.notifDot);
+            notifDot.setVisibility(View.GONE);
             switchToFragment(getSupportFragmentManager(), new Notification());
-            logFragmentStack(getSupportFragmentManager());
         });
         logFragmentStack(getSupportFragmentManager());
     }
@@ -306,5 +333,10 @@ public class ActivityHomePage extends AppCompatActivity {
         }
 
         Log.d("FRAGMENT_DEBUG", "---------------------------");
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pusherManager.disconnect();
     }
 }

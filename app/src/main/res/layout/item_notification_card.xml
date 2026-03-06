@@ -39,7 +39,7 @@
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:src="@drawable/baseline_circle_notifications_24"
-                    android:tint="@color/White" />
+                    app:tint="@color/White" />
 
             </androidx.cardview.widget.CardView>
 

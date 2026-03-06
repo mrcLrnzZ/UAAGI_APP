@@ -49,6 +49,13 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
+        <View
+            android:id="@+id/notifDot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="top|end"
+            android:background="@drawable/circle_red"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/notifIcon"
