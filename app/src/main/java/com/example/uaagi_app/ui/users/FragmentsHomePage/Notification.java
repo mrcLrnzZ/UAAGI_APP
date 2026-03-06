@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.data.model.NotificationModel;
 import com.example.uaagi_app.data.repository.NotificationRepository;
 import com.example.uaagi_app.network.Realtime.NotificationCenter;
 import com.example.uaagi_app.ui.NotificationAdapter;
@@ -31,7 +30,6 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
         View view = inflater.inflate(R.layout.activity_notification, container, false);
 
-        // Get the singleton repository instance
         notificationRepository = NotificationRepository.getInstance();
 
         recyclerView = view.findViewById(R.id.rvNotification);
@@ -45,7 +43,7 @@ public class Notification extends Fragment implements NotificationCenter.Listene
         return view;
     }
     @Override
-    public void onNotification(String title, String message) {
+    public void onNotification(String title, String message, String timeAgo) {
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {

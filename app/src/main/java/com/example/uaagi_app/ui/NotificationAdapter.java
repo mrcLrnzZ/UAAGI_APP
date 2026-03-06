@@ -27,13 +27,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, message;
+        TextView title, message, timeAgo;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.notificationTitle);
             message = itemView.findViewById(R.id.notificationMessage);
+            timeAgo = itemView.findViewById(R.id.notificationTime);
         }
     }
 
@@ -53,6 +54,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.title.setText(notif.getTitle());
         holder.message.setText(notif.getMessage());
+        holder.timeAgo.setText(notif.getTimeAgo());
     }
 
     @Override

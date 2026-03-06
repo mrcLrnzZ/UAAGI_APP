@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.ArrayList;
@@ -29,6 +33,8 @@ public class DivisionOption extends Fragment {
     private String brandName;
     private GenericRecyclerAdapter<JobFetchResponse> adapter;
     private FrameLayout loadingContainer, errorContainer;
+    private EditText searchEditText;
+    private List<JobFetchResponse> allJobs;
     private static final String ARG_COMPANY = "company";
     public DivisionOption() {
     }
@@ -44,6 +50,36 @@ public class DivisionOption extends Fragment {
         divisionRecyclerView = view.findViewById(R.id.division_container);
         loadingContainer = view.findViewById(R.id.loading_container);
         errorContainer = view.findViewById(R.id.error_container);
+        searchEditText = view.findViewById(R.id.search_division);
+        setupSearchFunctionality();
+    }
+
+    private void setupSearchFunctionality() {
+        SimpleTextWatcher.bindTextWatcher(searchEditText,
+                new SimpleTextWatcher(query -> filterDepartments(query))
+        );
+    }
+
+    private void filterDepartments(String query) {
+        if (allJobs == null || adapter == null) {
+            return;
+        }
+
+        List<JobFetchResponse> filteredList = new ArrayList<>();
+
+        if (query.isEmpty()) {
+            filteredList.addAll(allJobs);
+        } else {
+            String lowerCaseQuery = query.toLowerCase().trim();
+            for (JobFetchResponse job : allJobs) {
+                if (job.getDepartment() != null &&
+                    job.getDepartment().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(job);
+                }
+            }
+        }
+
+        adapter.updateList(filteredList);
     }
     private void showLoading() {
         loadingContainer.setVisibility(View.VISIBLE);
@@ -89,6 +125,8 @@ public class DivisionOption extends Fragment {
                 filteredJobs.add(job);
             }
         }
+
+        allJobs = new ArrayList<>(filteredJobs);
 
         adapter = new GenericRecyclerAdapter<>(
                 filteredJobs,

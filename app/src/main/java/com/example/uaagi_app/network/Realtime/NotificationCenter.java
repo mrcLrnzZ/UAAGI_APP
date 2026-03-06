@@ -3,7 +3,7 @@ package com.example.uaagi_app.network.Realtime;
 public class NotificationCenter {
 
     public interface Listener {
-        void onNotification(String title, String message);
+        void onNotification(String title, String message, String timeAgo);
     }
 
     private static Listener listener;
@@ -12,9 +12,9 @@ public class NotificationCenter {
         listener = l;
     }
 
-    public static void notify(String title, String message) {
+    public static void notify(String title, String message, String timeAgo) {
         if (listener != null) {
-            listener.onNotification(title, message);
+            listener.onNotification(title, message, timeAgo);
         }
     }
 }

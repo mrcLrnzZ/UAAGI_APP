@@ -122,6 +122,29 @@ public class Helpers {
             currentAddressInput.setText(fullAddress);
         }
     }
+    public static String getTimeAgo(long time) {
+        long now = System.currentTimeMillis();
+        long diff = now - time;
+
+        final long SECOND_MILLIS = 1000;
+        final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
+        final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
+        final long DAY_MILLIS = 24 * HOUR_MILLIS;
+
+        if (diff < MINUTE_MILLIS) {
+            long seconds = diff / SECOND_MILLIS;
+            return seconds <= 1 ? "1 second ago" : seconds + " seconds ago";
+        } else if (diff < HOUR_MILLIS) {
+            long minutes = diff / MINUTE_MILLIS;
+            return minutes == 1 ? "1 minute ago" : minutes + " minutes ago";
+        } else if (diff < DAY_MILLIS) {
+            long hours = diff / HOUR_MILLIS;
+            return hours == 1 ? "1 hour ago" : hours + " hours ago";
+        } else {
+            long days = diff / DAY_MILLIS;
+            return days == 1 ? "1 day ago" : days + " days ago";
+        }
+    }
     public static String safeText(String value) {
         return TextUtils.isEmpty(value) ? "—" : value;
     }

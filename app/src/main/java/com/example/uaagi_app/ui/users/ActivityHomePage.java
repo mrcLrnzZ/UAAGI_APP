@@ -30,6 +30,7 @@ import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class ActivityHomePage extends AppCompatActivity {
     private View indicatorProfile;
 
     private long lastClickTime = 0;
-
+    long eventTime = System.currentTimeMillis();
     private ImageView notifIcon;
     private PusherManager pusherManager;
 
@@ -92,10 +93,10 @@ public class ActivityHomePage extends AppCompatActivity {
                 View notifDot = findViewById(R.id.notifDot);
                 notifDot.setVisibility(View.VISIBLE);
 
-                NotificationModel notif = new NotificationModel(title, message);
+                NotificationModel notif = new NotificationModel(title, message, Helpers.getTimeAgo(eventTime));
                 NotificationRepository.getInstance().addNotification(notif);
 
-                NotificationCenter.notify(title, message);
+                NotificationCenter.notify(title, message, Helpers.getTimeAgo(eventTime));
 
             });
 
