@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ public class SectionArchived extends Fragment {
         View view = inflater.inflate(R.layout.fragment_applied_jobs_section_archived, container, false);
         rvArchived = view.findViewById(R.id.rvArchived);
         noJobs = view.findViewById(R.id.noJobs);
+        rvArchived.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         jobViewModel.fetchArchivedJobs(SessionManager.getInstance(requireContext()).getUserId(), requireContext());
         jobViewModel.getArchivedJobs().observe(getViewLifecycleOwner(), this::UiHandler);
@@ -57,46 +59,12 @@ public class SectionArchived extends Fragment {
         }
     }
     private void showContent(List<JobFetchResponse> archivedJobs) {
-        adapter = new GenericRecyclerAdapter<>(
+        UiHelpers.jobCardAdapter(
+                rvArchived,
                 archivedJobs,
-                R.layout.item_job_card,
-                (itemView, item, position) -> {
-
-                    TextView tvTitle = itemView.findViewById(R.id.tvJobTitle);
-                    TextView tvLocation = itemView.findViewById(R.id.tvLocation);
-                    TextView tvCompany = itemView.findViewById(R.id.tvCompany);
-                    TextView tvSalary = itemView.findViewById(R.id.tvSalary);
-                    TextView tvJobType = itemView.findViewById(R.id.tvJobType);
-                    TextView tvExperienceLevel = itemView.findViewById(R.id.tvExperienceLevel);
-                    TextView tvShift = itemView.findViewById(R.id.tvShift);
-                    TextView tvPayTag = itemView.findViewById(R.id.tvPayTag);
-
-                    tvTitle.setText(item.getJobTitle());
-                    tvLocation.setText(item.getLocation());
-                    tvCompany.setText(item.getCompany().getDisplayName());
-                    tvSalary.setText(
-                            String.format("₱%,.2f – ₱%,.2f",
-                                    item.getMinSalary(),
-                                    item.getMaxSalary())
-                    );
-                    tvJobType.setText(item.getJobType().toString());
-                    tvExperienceLevel.setText(item.getExperienceLevel().toString());
-                    tvShift.setText(item.getRemoteOption().toString());
-                    tvPayTag.setText("✓ 13th Month Pay");
-                });
-        adapter.setOnItemClickListener((job, position) -> {
-            JobDesc fragment = new JobDesc();
-            Bundle bundle = new Bundle();
-            bundle.putString("jobId", String.valueOf(job.getId()));
-            bundle.putString("Department", job.getDepartment());
-            fragment.setArguments(bundle);
-            UiHelpers.switchFragment(
-                    requireActivity().getSupportFragmentManager(),
-                    fragment
-            );
-        });
-        rvArchived.setAdapter(adapter);
-        ;
+                getChildFragmentManager(),
+                requireContext()
+        );
     }
     private void showEmpty() {
         rvArchived.setVisibility(View.GONE);

@@ -164,7 +164,6 @@ public class JobService {
     /* =========================================================
        Fetch archived job
        ========================================================= */
-
     public void fetchArchivedJob(int jobId, JobServiceCallback callback) {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
@@ -326,11 +325,73 @@ public class JobService {
             }
         });
     }
+    /* =========================================================
+       Get save job id
+       ========================================================= */
+    public void fetchSavedJobId(int userId, JobIdServiceCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection.");
+            return;
+        }
+        Call<ApiResponse<List<Integer>>> call = jobsApi.fetchSavedJobsId(userId);
 
+        call.enqueue(new Callback<ApiResponse<List<Integer>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Integer>>> call, Response<ApiResponse<List<Integer>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<List<Integer>> apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.onResponse(apiResponse.getData());
+                    } else {
+                        RetrofitErrorHandler.handleError(response, null, callback::onError);
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Integer>>> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+    /* =========================================================
+       Get archived job id
+       ========================================================= */
+    public void fetchArchivedJobId(int userId, JobIdServiceCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection.");
+            return;
+        }
+        Call<ApiResponse<List<Integer>>> call = jobsApi.fetchArchivedJobsId(userId);
+        call.enqueue(new Callback<ApiResponse<List<Integer>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Integer>>> call, Response<ApiResponse<List<Integer>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<List<Integer>> apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.onResponse(apiResponse.getData());
+                    } else {
+                        RetrofitErrorHandler.handleError(response, null, callback::onError);
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Integer>>> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
     /* =========================================================
        Callback
        ========================================================= */
-
+    public interface JobIdServiceCallback extends RetrofitErrorHandler.ApiErrorCallback{
+        void onResponse(List<Integer> jobIds);
+    }
     public interface JobServiceCallback extends RetrofitErrorHandler.ApiErrorCallback{
         void onResponse(List<JobFetchResponse> jobs);
     }

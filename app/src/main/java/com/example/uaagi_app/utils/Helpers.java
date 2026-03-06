@@ -141,4 +141,12 @@ public class Helpers {
         JobService service = new JobService(context);
         service.unarchiveJob(jobId, callback);
     }
+    public static void actionFetchSavedJobId(Context context, JobService.JobIdServiceCallback callback) {
+        JobService service = new JobService(context);
+        service.fetchSavedJobId(SessionManager.getInstance(context).getUserId(), callback);
+    }
+    public static void actionFetchArchivedJobId(Context context, JobService.JobIdServiceCallback callback) {
+        JobService service = new JobService(context);
+        service.fetchArchivedJobId(SessionManager.getInstance(context).getUserId(), callback);
+    }
 }

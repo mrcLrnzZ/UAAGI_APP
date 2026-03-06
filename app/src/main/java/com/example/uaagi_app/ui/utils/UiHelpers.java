@@ -156,6 +156,7 @@ public class UiHelpers {
     public static <T> void updateRemoveButtonVisibility(List<T> list, Button button, int minEntries) {
         button.setVisibility(list.size() > minEntries ? View.VISIBLE : View.GONE);
     }
+//    TODO: refactor joCardAdapte, make it simpler
     public static void jobCardAdapter(
             RecyclerView recyclerView,
             List<JobFetchResponse> jobs,
@@ -168,7 +169,8 @@ public class UiHelpers {
                         jobs,
                         R.layout.item_job_card,
                         (view, job, position) -> {
-
+                            final boolean[] isSaved = {false};
+                            final boolean[] isArchived = {false};
                             TextView tvTitle = view.findViewById(R.id.tvJobTitle);
                             TextView tvLocation = view.findViewById(R.id.tvLocation);
                             TextView tvCompany = view.findViewById(R.id.tvCompany);
@@ -196,14 +198,46 @@ public class UiHelpers {
                             tvShift.setText(job.getRemoteOption().toString());
                             tvPayTag.setText("✓ 13th Month Pay");
 
+                            Helpers.actionFetchArchivedJobId(context, new JobService.JobIdServiceCallback() {
+                                @Override
+                                public void onResponse(List<Integer> jobIds) {
+                                    if (jobIds != null) {
+                                        isArchived[0] = jobIds.contains(job.getId());
+                                        if (isArchived[0]) {
+                                            ivLike.setColorFilter(
+                                                    ContextCompat.getColor(context, R.color.holo_blue_light)
+                                            );
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onError(String errorMessage) {
+                                    showToast(errorMessage, context);
+                                }
+                            });
+                            Helpers.actionFetchSavedJobId(context, new JobService.JobIdServiceCallback() {
+                                @Override
+                                public void onResponse(List<Integer> jobIds) {
+                                    if (jobIds != null){
+                                        isSaved[0] = jobIds.contains(job.getId());
+                                        if(isSaved[0]) {
+                                            ivBookmark.setColorFilter(ContextCompat.getColor(context, R.color.holo_red_dark));
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onError(String errorMessage) {
+                                    showToast(errorMessage, context);
+                                }
+                            });
+
                         /* -------------------------
                            Bookmark (Save Job)
                            ------------------------- */
 
                             ivBookmark.setOnClickListener(v -> {
 
-                                if (ivBookmark.getColorFilter() != null) {
-
+                                if (isSaved[0]) {
                                     Helpers.actionUnsaveJob(context, job.getId(), new JobService.FeedbackCallback() {
                                         @Override
                                         public void feedback(String message) {
@@ -216,9 +250,11 @@ public class UiHelpers {
                                             showToast(errorMessage, context);
                                         }
                                     });
-
                                 } else {
-
+                                    if (isArchived[0]) {
+                                        showToast("Job is archived. Unarchive first.", context);
+                                        return;
+                                    }
                                     Helpers.actionSaveJob(context, job.getId(), new JobService.FeedbackCallback() {
                                         @Override
                                         public void feedback(String message) {
@@ -226,7 +262,7 @@ public class UiHelpers {
                                             ivBookmark.setColorFilter(
                                                     ContextCompat.getColor(context, R.color.holo_red_dark)
                                             );
-
+                                            isSaved[0] = true;
                                             showToast(message, context);
                                         }
 
@@ -244,19 +280,39 @@ public class UiHelpers {
                            ------------------------- */
 
                             ivLike.setOnClickListener(v -> {
+                                if(isArchived[0]) {
+                                   Helpers.actionUnarchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
+                                        @Override
+                                        public void feedback(String message) {
+                                            ivLike.setColorFilter(null);
+                                            showToast(message, context);
+                                            isArchived[0] = false;
+                                        }
 
-                                if (ivLike.getColorFilter() != null) {
-
-                                    ivLike.setColorFilter(null);
-                                    showToast("Unliked!", context);
+                                        @Override
+                                        public void onError(String errorMessage) {
+                                            showToast(errorMessage, context);
+                                        }
+                                    });
 
                                 } else {
+                                    if (isSaved[0]) {
+                                        showToast("Job is saved. Unsave first.", context);
+                                        return;
+                                    }
+                                    Helpers.actionArchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
+                                        @Override
+                                        public void feedback(String message) {
+                                            ivLike.setColorFilter(ContextCompat.getColor(context, R.color.holo_blue_light));
+                                            isArchived[0] = true;
+                                            showToast(message, context);
+                                        }
 
-                                    ivLike.setColorFilter(
-                                            ContextCompat.getColor(context, R.color.holo_blue_light)
-                                    );
-
-                                    showToast("Liked!", context);
+                                        @Override
+                                        public void onError(String errorMessage) {
+                                            showToast(errorMessage, context);
+                                        }
+                                    });
                                 }
                             });
 

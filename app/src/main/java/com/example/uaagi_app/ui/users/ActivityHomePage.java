@@ -75,7 +75,7 @@ public class ActivityHomePage extends AppCompatActivity {
         );
 
         if (savedInstanceState == null) {
-            switchToFragment(getSupportFragmentManager(), new Home(), "home");
+            switchToFragment(getSupportFragmentManager(), new Home());
         }
 
         initializeViews();
@@ -83,7 +83,7 @@ public class ActivityHomePage extends AppCompatActivity {
 
         tabHome.setOnClickListener(v -> {
             if (isClickable()) { // Check if safe to click
-                switchToFragment(getSupportFragmentManager(), new Home(), "home");
+                switchToFragment(getSupportFragmentManager(), new Home());
                 setSelectedTab("home");
                 logFragmentStack(getSupportFragmentManager());
             }
@@ -91,7 +91,7 @@ public class ActivityHomePage extends AppCompatActivity {
 
         tabApplied.setOnClickListener(v -> {
             if (isClickable()) {
-                switchToFragment(getSupportFragmentManager(), new AppliedJobs(), "applied");
+                switchToFragment(getSupportFragmentManager(), new AppliedJobs());
                 setSelectedTab("applied");
                 logFragmentStack(getSupportFragmentManager());
             }
@@ -99,7 +99,7 @@ public class ActivityHomePage extends AppCompatActivity {
 
         tabCareers.setOnClickListener(v -> {
             if (isClickable()) {
-                switchToFragment(getSupportFragmentManager(), new Careers(), "careers");
+                switchToFragment(getSupportFragmentManager(), new Careers());
                 setSelectedTab("careers");
                 logFragmentStack(getSupportFragmentManager());
             }
@@ -107,14 +107,14 @@ public class ActivityHomePage extends AppCompatActivity {
 
         tabProfile.setOnClickListener(v -> {
             if (isClickable()) {
-                switchToFragment(getSupportFragmentManager(), new Profile(), "profile");
+                switchToFragment(getSupportFragmentManager(), new Profile());
                 setSelectedTab("profile");
                 logFragmentStack(getSupportFragmentManager());
             }
         });
 
         notifIcon.setOnClickListener(v -> {
-            switchToFragment(getSupportFragmentManager(), new Notification(), "notification");
+            switchToFragment(getSupportFragmentManager(), new Notification());
             logFragmentStack(getSupportFragmentManager());
         });
         logFragmentStack(getSupportFragmentManager());
