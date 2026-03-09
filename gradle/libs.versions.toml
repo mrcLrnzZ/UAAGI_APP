@@ -18,6 +18,7 @@ retrofit = "3.0.0"
 volley = "1.2.1"
 lottie = "6.7.1"
 glide = "5.0.5"
+playServicesDrive = "17.0.0"
 
 [libraries]
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -39,6 +40,7 @@ recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "r
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+play-services-drive = { group = "com.google.android.gms", name = "play-services-drive", version.ref = "playServicesDrive" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

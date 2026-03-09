@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id ("com.google.gms.google-services")
 }
 
 android {
@@ -47,7 +48,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.glide)
     implementation(libs.pusher.java.client)
-
+    implementation("com.google.firebase:firebase-messaging:25.0.1")
+    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
