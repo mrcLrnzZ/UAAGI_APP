@@ -4,8 +4,23 @@ public class Certificate {
     private String name;
     private String organization;
     private String date;
-    private String expiry_date;
+    private String expiryDate;
     private String description;
+
+    public Certificate(String name, String organization, String date, String expiryDate, String description) {
+        this.name = name != null ? name : "";
+        this.organization = organization != null ? organization : "";
+        this.date = date != null ? date : "";
+        this.expiryDate = expiryDate != null ? expiryDate : "";
+        this.description = description != null ? description : "";
+    }
+    public Certificate() {
+        this.name = "";
+        this.organization = "";
+        this.date = "";
+        this.expiryDate = "";
+        this.description = "";
+    }
 
     public String getName() {
         return name;
@@ -31,12 +46,12 @@ public class Certificate {
         this.date = date;
     }
 
-    public String getExpiry_date() {
-        return expiry_date;
+    public String getExpiryDate() {
+        return expiryDate;
     }
 
-    public void setExpiry_date(String expiry_date) {
-        this.expiry_date = expiry_date;
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public String getDescription() {

@@ -4,6 +4,15 @@ public class GovId {
     private String type;
     private String number;
 
+    public GovId(String type, String number) {
+        this.type = type != null ? type : "";
+        this.number = number != null ? number : "";
+    }
+    public GovId() {
+        this.type = "";
+        this.number = "";
+    }
+
     public String getType() {
         return type;
     }

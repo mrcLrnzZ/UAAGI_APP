@@ -7,6 +7,21 @@ public class Seminar {
     private String date;
     private String description;
 
+    public Seminar(String type, String title, String organizer, String date, String description) {
+        this.type = type != null ? type : "";
+        this.title = title != null ? title : "";
+        this.organizer = organizer != null ? organizer : "";
+        this.date = date != null ? date : "";
+        this.description = description != null ? description : "";
+    }
+    public Seminar() {
+        this.type = "";
+        this.title = "";
+        this.organizer = "";
+        this.date = "";
+        this.description = "";
+    }
+
     public String getType() {
         return type;
     }

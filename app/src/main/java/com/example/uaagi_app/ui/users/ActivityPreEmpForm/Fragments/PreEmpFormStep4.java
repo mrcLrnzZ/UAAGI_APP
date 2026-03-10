@@ -2,30 +2,48 @@ package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.model.PreEmploymentForm.Certificate;
+import com.example.uaagi_app.data.model.PreEmploymentForm.Qualification;
+import com.example.uaagi_app.data.model.PreEmploymentForm.Seminar;
+import com.example.uaagi_app.data.model.PreEmploymentForm.ProfessionalSkills;
+import com.example.uaagi_app.data.viewmodel.PreEmpFormViewModel;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.EntryHandler;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.google.android.material.textfield.TextInputEditText;
 
-public class PreEmpFormStep4 extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PreEmpFormStep4 extends BaseFormStepFragment {
     private Button btnPrevious, btnNext;
-    private LinearLayout professionalSkillsContainer;
-    private LinearLayout certificationContainer;
-    private LinearLayout qualificationContainer;
-    private LinearLayout seminarsTrainingContainer;
-
-    private Button btnAddProfessionalSkill;
-    private Button btnAddCertification;
-    private Button btnAddQualification;
-    private Button btnAddSeminarTraining;
-
+    private RecyclerView professionalSkillsContainer;
+    private RecyclerView certificationContainer;
+    private RecyclerView qualificationContainer;
+    private RecyclerView seminarsContainer;
+    private final List<ProfessionalSkills> professionalSkillList = new ArrayList<>();
+    private final List<Certificate> certificationList = new ArrayList<>();
+    private final List<Qualification> qualificationList = new ArrayList<>();
+    private final List<Seminar> seminarList = new ArrayList<>();
+    private GenericRecyclerAdapter<ProfessionalSkills> professionalSkillsAdapter;
+    private GenericRecyclerAdapter<Certificate> certificateAdapter;
+    private GenericRecyclerAdapter<Qualification> qualificationAdapter;
+    private GenericRecyclerAdapter<Seminar> seminarAdapter;
+    private PreEmpFormViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,40 +53,348 @@ public class PreEmpFormStep4 extends Fragment {
 
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
-        professionalSkillsContainer = view.findViewById(R.id.professionalEntryContainer);
+        professionalSkillsContainer = view.findViewById(R.id.ProfessionalSkillEntryContainer);
         certificationContainer = view.findViewById(R.id.certificationsContainer);
         qualificationContainer = view.findViewById(R.id.qualificationContainer);
-        seminarsTrainingContainer = view.findViewById(R.id.seminarContainer);
+        seminarsContainer = view.findViewById(R.id.seminarContainer);
 
-        btnAddProfessionalSkill = view.findViewById(R.id.btnAddWorkExperience);
-        btnAddCertification = view.findViewById(R.id.btnAddCert);
-        btnAddQualification = view.findViewById(R.id.btnAddQual);
-        btnAddSeminarTraining = view.findViewById(R.id.btnAddSeminar);
+        viewModel = new ViewModelProvider(requireActivity()).get(PreEmpFormViewModel.class);
 
-        btnAddProfessionalSkill.setOnClickListener(v ->
-                UiHelpers.addEntry(R.layout.item_professional_skill_entry, professionalSkillsContainer, getContext())
-        );
+        professionalSkillList.add(new ProfessionalSkills());
+        certificationList.add(new Certificate());
+        qualificationList.add(new Qualification());
+        seminarList.add(new Seminar());
 
-        btnAddCertification.setOnClickListener(v ->
-                UiHelpers.addEntry(R.layout.item_certification_entry, certificationContainer, getContext())
-        );
+        Button btnAddProfessionalSkill = view.findViewById(R.id.btnAddWorkExperience);
+        Button btnAddCertification = view.findViewById(R.id.btnAddCert);
+        Button btnAddQualification = view.findViewById(R.id.btnAddQual);
+        Button btnAddSeminar = view.findViewById(R.id.btnAddSeminar);
 
-        btnAddQualification.setOnClickListener(v ->
-                UiHelpers.addEntry(R.layout.item_qualification_entry, qualificationContainer, getContext())
-        );
+        EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), ProfessionalSkills::new, 1);
+        EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), Certificate::new, 1);
+        EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), Qualification::new,1);
+        EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), Seminar::new,1);
 
-        btnAddSeminarTraining.setOnClickListener(v ->
-                UiHelpers.addEntry(R.layout.item_seminar_training_entry, seminarsTrainingContainer, getContext())
-        );
+        professionalSkillsAdapter = createProfessionalSkillsAdapter();
+        certificateAdapter = createCertificateAdapter();
+        qualificationAdapter = createQualificationAdapter();
+        seminarAdapter = createSeminarAdapter();
+
+        professionalSkillsContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
+        certificationContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
+        qualificationContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
+        seminarsContainer.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        professionalSkillsContainer.setAdapter(professionalSkillsAdapter);
+        certificationContainer.setAdapter(certificateAdapter);
+        qualificationContainer.setAdapter(qualificationAdapter);
+        seminarsContainer.setAdapter(seminarAdapter);
+
+        btnAddProfessionalSkill.setOnClickListener(v -> {
+            professionalSkillsAdapter.addItem(new ProfessionalSkills());
+            professionalSkillsAdapter.notifyDataSetChanged();
+        });
+
+        btnAddCertification.setOnClickListener(v -> {
+            certificateAdapter.addItem(new Certificate());
+            certificateAdapter.notifyDataSetChanged();
+        });
+
+        btnAddQualification.setOnClickListener(v -> {
+            qualificationAdapter.addItem(new Qualification());
+            qualificationAdapter.notifyDataSetChanged();
+        });
+
+        btnAddSeminar.setOnClickListener(v -> {
+            seminarAdapter.addItem(new Seminar());
+            seminarAdapter.notifyDataSetChanged();
+        });
 
         btnPrevious.setOnClickListener(v -> {
-            ((PreEmpForm) requireActivity()).previousStep(new PreEmpFormStep3());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).previousStep();
         });
 
         btnNext.setOnClickListener(v -> {
-            ((PreEmpForm) requireActivity()).nextStep(new PreEmpFormStep5());
+            saveFormData();
+            ((PreEmpForm) requireActivity()).nextStep();
         });
 
         return view;
     }
+    private GenericRecyclerAdapter<Seminar> createSeminarAdapter() {
+        return new GenericRecyclerAdapter<>(
+                seminarList,
+                R.layout.item_seminar_training_entry,
+                (view, seminar, position) -> {
+
+                    AutoCompleteTextView seminarType = view.findViewById(R.id.seminarTypeInput);
+                    TextInputEditText seminarTitle = view.findViewById(R.id.seminarTitleInput);
+                    TextInputEditText seminarDesc = view.findViewById(R.id.seminarDescriptionInput);
+                    TextInputEditText seminarOrganizer = view.findViewById(R.id.organizerInput);
+                    TextInputEditText seminarDate = view.findViewById(R.id.dateAttendedInput);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveSemTrain);
+
+                    seminarTitle.setText(seminar.getTitle() != null ? seminar.getTitle() : "");
+                    seminarDesc.setText(seminar.getDescription() != null ? seminar.getDescription() : "");
+                    seminarOrganizer.setText(seminar.getOrganizer() != null ? seminar.getOrganizer() : "");
+                    seminarDate.setText(seminar.getDate() != null ? seminar.getDate() : "");
+                    seminarType.setText(seminar.getType() != null ? seminar.getType() : "", false);
+
+                    if (seminarTitle.getTag() instanceof SimpleTextWatcher)
+                        seminarTitle.removeTextChangedListener((SimpleTextWatcher) seminarTitle.getTag());
+
+                    if (seminarDesc.getTag() instanceof SimpleTextWatcher)
+                        seminarDesc.removeTextChangedListener((SimpleTextWatcher) seminarDesc.getTag());
+
+                    if (seminarOrganizer.getTag() instanceof SimpleTextWatcher)
+                        seminarOrganizer.removeTextChangedListener((SimpleTextWatcher) seminarOrganizer.getTag());
+
+                    if (seminarDate.getTag() instanceof SimpleTextWatcher)
+                        seminarDate.removeTextChangedListener((SimpleTextWatcher) seminarDate.getTag());
+
+                    if (seminarType.getTag() instanceof SimpleTextWatcher)
+                        seminarType.removeTextChangedListener((SimpleTextWatcher) seminarType.getTag());
+
+                    SimpleTextWatcher titleWatcher = new SimpleTextWatcher(seminar::setTitle);
+                    SimpleTextWatcher descWatcher = new SimpleTextWatcher(seminar::setDescription);
+                    SimpleTextWatcher organizerWatcher = new SimpleTextWatcher(seminar::setOrganizer);
+                    SimpleTextWatcher dateWatcher = new SimpleTextWatcher(seminar::setDate);
+                    SimpleTextWatcher typeWatcher = new SimpleTextWatcher(seminar::setType);
+
+                    seminarTitle.addTextChangedListener(titleWatcher);
+                    seminarDesc.addTextChangedListener(descWatcher);
+                    seminarOrganizer.addTextChangedListener(organizerWatcher);
+                    seminarDate.addTextChangedListener(dateWatcher);
+                    seminarType.addTextChangedListener(typeWatcher);
+
+                    seminarTitle.setTag(titleWatcher);
+                    seminarDesc.setTag(descWatcher);
+                    seminarOrganizer.setTag(organizerWatcher);
+                    seminarDate.setTag(dateWatcher);
+                    seminarType.setTag(typeWatcher);
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (seminarList.size() > 1) {
+                            seminarAdapter.removeItem(position);
+                            seminarAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            seminarList.size() > 1 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
+    }
+    private GenericRecyclerAdapter<Qualification> createQualificationAdapter() {
+        return new GenericRecyclerAdapter<>(
+                qualificationList,
+                R.layout.item_qualification_entry,
+                (view, qualification, position) -> {
+
+                    AutoCompleteTextView qualificationType = view.findViewById(R.id.qualificationTypeInput);
+                    TextInputEditText qualificationTitle = view.findViewById(R.id.qualificationTitleInput);
+                    TextInputEditText qualificationDesc = view.findViewById(R.id.qualificationDescriptionInput);
+                    TextInputEditText issuingAuthority = view.findViewById(R.id.issuingAuthorityInput);
+                    TextInputEditText dateReceived = view.findViewById(R.id.dateReceivedInput);
+                    Button btnRemove = view.findViewById(R.id.btnQualificationEntry);
+
+                    qualificationTitle.setText(qualification.getTitle() != null ? qualification.getTitle() : "");
+                    qualificationDesc.setText(qualification.getDescription() != null ? qualification.getDescription() : "");
+                    issuingAuthority.setText(qualification.getAuthority() != null ? qualification.getAuthority() : "");
+                    dateReceived.setText(qualification.getDate() != null ? qualification.getDate() : "");
+                    qualificationType.setText(qualification.getType() != null ? qualification.getType() : "", false);
+
+                    if (qualificationTitle.getTag() instanceof SimpleTextWatcher)
+                        qualificationTitle.removeTextChangedListener((SimpleTextWatcher) qualificationTitle.getTag());
+
+                    if (qualificationDesc.getTag() instanceof SimpleTextWatcher)
+                        qualificationDesc.removeTextChangedListener((SimpleTextWatcher) qualificationDesc.getTag());
+
+                    if (issuingAuthority.getTag() instanceof SimpleTextWatcher)
+                        issuingAuthority.removeTextChangedListener((SimpleTextWatcher) issuingAuthority.getTag());
+
+                    if (dateReceived.getTag() instanceof SimpleTextWatcher)
+                        dateReceived.removeTextChangedListener((SimpleTextWatcher) dateReceived.getTag());
+
+                    if (qualificationType.getTag() instanceof SimpleTextWatcher)
+                        qualificationType.removeTextChangedListener((SimpleTextWatcher) qualificationType.getTag());
+
+                    SimpleTextWatcher titleWatcher = new SimpleTextWatcher(qualification::setTitle);
+                    SimpleTextWatcher descWatcher = new SimpleTextWatcher(qualification::setDescription);
+                    SimpleTextWatcher authorityWatcher = new SimpleTextWatcher(qualification::setAuthority);
+                    SimpleTextWatcher dateWatcher = new SimpleTextWatcher(qualification::setDate);
+                    SimpleTextWatcher typeWatcher = new SimpleTextWatcher(qualification::setType);
+
+                    qualificationTitle.addTextChangedListener(titleWatcher);
+                    qualificationDesc.addTextChangedListener(descWatcher);
+                    issuingAuthority.addTextChangedListener(authorityWatcher);
+                    dateReceived.addTextChangedListener(dateWatcher);
+                    qualificationType.addTextChangedListener(typeWatcher);
+
+                    qualificationTitle.setTag(titleWatcher);
+                    qualificationDesc.setTag(descWatcher);
+                    issuingAuthority.setTag(authorityWatcher);
+                    dateReceived.setTag(dateWatcher);
+                    qualificationType.setTag(typeWatcher);
+
+                    String[] types = {"Professional License", "Award/Recognition", "Professional Membership","Achievement","Other"};
+                    UiHelpers.dropDownMaker(types, qualificationType, view.getContext());
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (qualificationList.size() > 1) {
+                            qualificationAdapter.removeItem(position);
+                            qualificationAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            qualificationList.size() > 1 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
+    }
+    private GenericRecyclerAdapter<Certificate> createCertificateAdapter() {
+        return new GenericRecyclerAdapter<>(
+                certificationList,
+                R.layout.item_certification_entry,
+                (view, cert, position) -> {
+
+                    TextInputEditText etName = view.findViewById(R.id.etCertificationName);
+                    TextInputEditText etOrg = view.findViewById(R.id.etIssuingOrg);
+                    TextInputEditText etDateObtained = view.findViewById(R.id.etDateObtained);
+                    TextInputEditText etExpiryDate = view.findViewById(R.id.etExpiryDate);
+                    TextInputEditText etDescription = view.findViewById(R.id.etDescription);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveCert);
+
+                    etName.setText(cert.getName() != null ? cert.getName() : "");
+                    etOrg.setText(cert.getOrganization() != null ? cert.getOrganization() : "");
+                    etDateObtained.setText(cert.getDate() != null ? cert.getDate() : "");
+                    etExpiryDate.setText(cert.getExpiryDate() != null ? cert.getExpiryDate() : "");
+                    etDescription.setText(cert.getDescription() != null ? cert.getDescription() : "");
+
+                    if (etName.getTag() instanceof SimpleTextWatcher)
+                        etName.removeTextChangedListener((SimpleTextWatcher) etName.getTag());
+
+                    if (etOrg.getTag() instanceof SimpleTextWatcher)
+                        etOrg.removeTextChangedListener((SimpleTextWatcher) etOrg.getTag());
+
+                    if (etDateObtained.getTag() instanceof SimpleTextWatcher)
+                        etDateObtained.removeTextChangedListener((SimpleTextWatcher) etDateObtained.getTag());
+
+                    if (etExpiryDate.getTag() instanceof SimpleTextWatcher)
+                        etExpiryDate.removeTextChangedListener((SimpleTextWatcher) etExpiryDate.getTag());
+
+                    if (etDescription.getTag() instanceof SimpleTextWatcher)
+                        etDescription.removeTextChangedListener((SimpleTextWatcher) etDescription.getTag());
+
+                    SimpleTextWatcher companyWatcher = new SimpleTextWatcher(cert::setName);
+                    SimpleTextWatcher positionWatcher = new SimpleTextWatcher(cert::setOrganization);
+                    SimpleTextWatcher startWatcher = new SimpleTextWatcher(cert::setDate);
+                    SimpleTextWatcher endWatcher = new SimpleTextWatcher(cert::setExpiryDate);
+                    SimpleTextWatcher descWatcher = new SimpleTextWatcher(cert::setDescription);
+
+                    etName.addTextChangedListener(companyWatcher);
+                    etOrg.addTextChangedListener(positionWatcher);
+                    etDateObtained.addTextChangedListener(startWatcher);
+                    etExpiryDate.addTextChangedListener(endWatcher);
+                    etDescription.addTextChangedListener(descWatcher);
+
+                    etName.setTag(companyWatcher);
+                    etOrg.setTag(positionWatcher);
+                    etDateObtained.setTag(startWatcher);
+                    etExpiryDate.setTag(endWatcher);
+                    etDescription.setTag(descWatcher);
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (certificationList.size() > 1) {
+                            certificateAdapter.removeItem(position);
+                            certificateAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            certificationList.size() > 1 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
+    }
+    private GenericRecyclerAdapter<ProfessionalSkills> createProfessionalSkillsAdapter(){
+        return new GenericRecyclerAdapter<>(
+                professionalSkillList,
+                R.layout.item_professional_skill_entry,
+                (view, skill, position) -> {
+                    AutoCompleteTextView skillCategory = view.findViewById(R.id.categoryInput);
+                    AutoCompleteTextView skillLevel = view.findViewById(R.id.levelInput);
+                    TextView skillDesc = view.findViewById(R.id.descriptionInput);
+                    Button btnRemove = view.findViewById(R.id.btnRemoveProfSkills);
+
+                    skillCategory.setText(skill.getCategory() != null ? skill.getCategory() : "");
+                    skillLevel.setText(skill.getLevel() != null ? skill.getLevel() : "");
+                    skillDesc.setText(skill.getDescription() != null ? skill.getDescription() : "");
+
+                    if (skillCategory.getTag() instanceof SimpleTextWatcher)
+                        skillCategory.removeTextChangedListener((SimpleTextWatcher) skillCategory.getTag());
+
+                    if (skillLevel.getTag() instanceof SimpleTextWatcher)
+                        skillLevel.removeTextChangedListener((SimpleTextWatcher) skillLevel.getTag());
+
+                    if (skillDesc.getTag() instanceof SimpleTextWatcher)
+                        skillDesc.removeTextChangedListener((SimpleTextWatcher) skillDesc.getTag());
+
+                    SimpleTextWatcher skillCategoryWatcher = new SimpleTextWatcher(skill::setCategory);
+                    SimpleTextWatcher skillLevelWatcher = new SimpleTextWatcher(skill::setLevel);
+                    SimpleTextWatcher skillDescWatcher = new SimpleTextWatcher(skill::setDescription);
+
+                    skillCategory.addTextChangedListener(skillCategoryWatcher);
+                    skillLevel.addTextChangedListener(skillLevelWatcher);
+                    skillDesc.addTextChangedListener(skillDescWatcher);
+
+                    skillCategory.setTag(skillCategoryWatcher);
+                    skillLevel.setTag(skillLevelWatcher);
+                    skillDesc.setTag(skillDescWatcher);
+
+                    btnRemove.setOnClickListener(v -> {
+                        if (professionalSkillList.size() > 1) {
+                            professionalSkillsAdapter.removeItem(position);
+                            professionalSkillsAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    btnRemove.setVisibility(
+                            professionalSkillList.size() > 1 ? View.VISIBLE : View.GONE
+                    );
+                }
+        );
+    }
+    @Override
+    public void saveFormData() {
+        EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(professionalSkillList));
+        EntryHandler.saveData(viewModel, form -> form.setCertificates(certificationList));
+        EntryHandler.saveData(viewModel, form -> form.setQualifications(qualificationList));
+        EntryHandler.saveData(viewModel, form -> form.setSeminars(seminarList));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EntryHandler.loadData(professionalSkillList, viewModel.getValue().getProfessionalSkills(), ProfessionalSkills::new, 1);
+        EntryHandler.loadData(certificationList, viewModel.getValue().getCertificates(), Certificate::new, 1);
+        EntryHandler.loadData(qualificationList, viewModel.getValue().getQualifications(), Qualification::new, 1);
+        EntryHandler.loadData(seminarList, viewModel.getValue().getSeminars(), Seminar::new, 1);
+        seminarAdapter.notifyDataSetChanged();
+        certificateAdapter.notifyDataSetChanged();
+        seminarAdapter.notifyDataSetChanged();
+        professionalSkillsAdapter.notifyDataSetChanged();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EntryHandler.saveData(viewModel, form -> form.setProfessionalSkills(new ArrayList<>(professionalSkillList)));
+        EntryHandler.saveData(viewModel, form -> form.setCertificates(new ArrayList<>(certificationList)));
+        EntryHandler.saveData(viewModel, form -> form.setQualifications(new ArrayList<>(qualificationList)));
+        EntryHandler.saveData(viewModel, form -> form.setSeminars(new ArrayList<>(seminarList)));
+    }
+
 }

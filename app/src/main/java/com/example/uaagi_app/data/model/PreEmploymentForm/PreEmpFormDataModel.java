@@ -1,31 +1,18 @@
 package com.example.uaagi_app.data.model.PreEmploymentForm;
 
 import java.util.List;
-
-//HOW TO USE
-//Education edu = new Education();
-//edu.setLevel("College");
-//edu.setSchool("Ateneo");
-//edu.setGradYear("2024");
-//
-//        List<Education> list = new ArrayList<>();
-//list.add(edu);
-//
-//        PreEmpFormRequest request = new PreEmpFormRequest();
-//request.setEducations(list);
-//request.setUserInfo(userInfo);
 public class PreEmpFormDataModel {
 
     private UserInfo userInfo;
     private List<Education> educations;
-    private List<WorkExperience> workExp;
-    private List<Skill> skills;
+    private List<WorkExperience> workExperiences;
+    private List<ProfessionalSkills> professionalSkills;
     private List<Certificate> certificates;
     private List<Qualification> qualifications;
     private List<Seminar> seminars;
     private List<GovId> govIds;
     private List<ContactReference> contactReferences;
-    private EmergencyContact emergency;
+    private EmergencyContact emergencyContact;
     private OfficeSkills officeSkills;
 
     public UserInfo getUserInfo() {
@@ -44,20 +31,20 @@ public class PreEmpFormDataModel {
         this.educations = educations;
     }
 
-    public List<WorkExperience> getWorkExp() {
-        return workExp;
+    public List<WorkExperience> getWorkExperiences() {
+        return workExperiences;
     }
 
-    public void setWorkExp(List<WorkExperience> workExp) {
-        this.workExp = workExp;
+    public void setWorkExperiences(List<WorkExperience> workExperiences) {
+        this.workExperiences = workExperiences;
     }
 
-    public List<Skill> getSkills() {
-        return skills;
+    public List<ProfessionalSkills> getProfessionalSkills() {
+        return professionalSkills;
     }
 
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
+    public void setProfessionalSkills(List<ProfessionalSkills> professionalSkills) {
+        this.professionalSkills = professionalSkills;
     }
 
     public List<Certificate> getCertificates() {
@@ -100,12 +87,12 @@ public class PreEmpFormDataModel {
         this.contactReferences = contactReferences;
     }
 
-    public EmergencyContact getEmergency() {
-        return emergency;
+    public EmergencyContact getEmergencyContact() {
+        return emergencyContact;
     }
 
-    public void setEmergency(EmergencyContact emergency) {
-        this.emergency = emergency;
+    public void setEmergencyContact(EmergencyContact emergencyContact) {
+        this.emergencyContact = emergencyContact;
     }
 
     public OfficeSkills getOfficeSkills() {

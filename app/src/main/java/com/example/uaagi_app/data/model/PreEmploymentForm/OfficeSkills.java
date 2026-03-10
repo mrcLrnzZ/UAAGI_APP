@@ -6,6 +6,19 @@ public class OfficeSkills {
     private String msppt;
     private String msoutlook;
 
+    public OfficeSkills(String msword, String msexcel, String msppt, String msoutlook) {
+        this.msword = msword != null ? msword : "";
+        this.msexcel = msexcel != null ? msexcel : "";
+        this.msppt = msppt != null ? msppt : "";
+        this.msoutlook = msoutlook != null ? msoutlook : "";
+    }
+    public OfficeSkills() {
+        this.msword = "";
+        this.msexcel = "";
+        this.msppt = "";
+        this.msoutlook = "";
+    }
+
     public String getMsword() {
         return msword;
     }

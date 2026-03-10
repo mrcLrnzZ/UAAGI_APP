@@ -10,14 +10,41 @@
     android:background="@color/White"
     android:layout_marginBottom="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Professional Skills"
-        android:textSize="15sp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="#1A1A1A"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+
+        <TextView
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Professional Skills"
+            android:textColor="#1A1A1A"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btnRemoveProfSkills"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="#FE0000"
+            android:elevation="0dp"
+            android:fontFamily="sans-serif-medium"
+            android:padding="0dp"
+            android:layout_marginStart="5dp"
+            android:text="-"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:cornerRadius="10dp" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,11 +55,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/categoryLayout"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
             android:hint="Category *"
+            app:layout_constraintWidth_percent="0.5"
             app:hintTextColor="#757575"
             app:boxStrokeColor="#004B87"
             app:boxStrokeWidth="2dp"
@@ -43,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
+                android:layout_marginEnd="3sp"
                 android:textColor="#1A1A1A"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
@@ -51,10 +79,9 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/levelLayout"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
             android:hint="Level *"
             app:hintTextColor="#757575"
             app:boxStrokeColor="#004B87"
@@ -66,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
+                android:layout_marginStart="3sp"
                 android:textColor="#1A1A1A"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"

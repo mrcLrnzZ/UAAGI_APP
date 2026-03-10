@@ -34,12 +34,19 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
-    implementation("com.android.volley:volley:1.2.1")
-    implementation("com.airbnb.android:lottie:3.4.4")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation(libs.volley)
+    implementation(libs.lottie)
+    implementation(libs.cardview)
+    implementation(libs.recyclerview)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.glide)
+    implementation(libs.pusher.java.client)
 
     implementation(libs.appcompat)
     implementation(libs.material)

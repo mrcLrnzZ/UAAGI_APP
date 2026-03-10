@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:id="@+id/bottom_navigation"
@@ -12,12 +13,13 @@
         android:background="@drawable/bottom_nav_background"
         android:elevation="8dp"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/tab_home"
@@ -45,10 +47,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Home"
                 android:textColor="#FFFF"
-                android:textSize="11sp"
-                android:fontFamily="sans-serif-medium" />
+                android:textSize="11sp" />
 
             <View
                 android:id="@+id/indicator_home"
@@ -88,7 +90,6 @@
                 android:text="Applied Jobs"
                 android:textColor="#99FFFFFF"
                 android:textSize="11sp" />
-
             <View
                 android:id="@+id/indicator_applied"
                 android:layout_width="32dp"
@@ -96,6 +97,7 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/nav_indicator"
                 android:visibility="gone" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -175,5 +177,6 @@
                 android:background="@drawable/nav_indicator"
                 android:visibility="gone" />
         </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

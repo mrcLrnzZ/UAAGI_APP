@@ -1,66 +1,158 @@
 package com.example.uaagi_app.ui.users.FragmentsHomePage;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionApplied;
+import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionArchived;
+import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionInterview;
+import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionSaved;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AppliedJobs#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class AppliedJobs extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Views
+    private LinearLayout tabSaved, tabApplied, tabInterviews, tabArchived;
+    private TextView tvSaved, tvApplied, tvInterviews, tvArchived;
+    private TextView tvSavedCount, tvAppliedCount, tvInterviewsCount;
+    private List<JobFetchResponse> savedJobs = new ArrayList<>();
+    private List<JobFetchResponse> archivedJobs = new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // Current selected tab
+    private String currentTab = "applied";
 
     public AppliedJobs() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AppliedJobsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AppliedJobs newInstance(String param1, String param2) {
-        AppliedJobs fragment = new AppliedJobs();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static AppliedJobs newInstance() {
+        return new AppliedJobs();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigate_applied_jobs, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_navigate_applied_jobs, container, false);
+
+        // Initialize views
+        initializeViews(view);
+
+        // Setup tabs
+        setupTabs();
+        //logFragmentStack(getChildFragmentManager());
+        return view;
     }
+    private void loadInterviewJobs() {
+        Toast.makeText(getContext(), "Interview jobs", Toast.LENGTH_SHORT).show();
+    }
+    private void loadAppliedJobs() {
+        Toast.makeText(getContext(), "Applied jobs", Toast.LENGTH_SHORT).show();
+    }
+    private void resetTabStyles(LinearLayout tab, TextView textView, TextView countView) {
+        tab.setBackgroundResource(R.drawable.tab_unselected_background);
+        textView.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        if (countView != null) {
+            countView.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        }
+    }
+    private void highlightTab(LinearLayout tab, TextView textView, TextView countView) {
+        tab.setBackgroundResource(R.drawable.tab_selected_background);
+        textView.setTextColor(getResources().getColor(android.R.color.white));
+        if (countView != null) {
+            countView.setTextColor(getResources().getColor(android.R.color.white));
+            countView.setBackgroundResource(R.drawable.count_badge_background);
+        }
+    }
+    private void initializeViews(View view) {
+        // Tabs
+        tabSaved = view.findViewById(R.id.tabSaved);
+        tabApplied = view.findViewById(R.id.tabApplied);
+        tabInterviews = view.findViewById(R.id.tabInterviews);
+        tabArchived = view.findViewById(R.id.tabArchived);
+
+        // Tab TextViews
+        tvSaved = view.findViewById(R.id.tvSaved);
+        tvApplied = view.findViewById(R.id.tvApplied);
+        tvInterviews = view.findViewById(R.id.tvInterviews);
+        tvArchived = view.findViewById(R.id.tvArchived);
+
+        // Tab Counts
+        tvSavedCount = view.findViewById(R.id.tvSavedCount);
+        tvAppliedCount = view.findViewById(R.id.tvAppliedCount);
+        tvInterviewsCount = view.findViewById(R.id.tvInterviewsCount);
+
+    }
+    private void setupTabs() {
+        tabSaved.setOnClickListener(v -> selectTab("saved"));
+        tabApplied.setOnClickListener(v -> selectTab("applied"));
+        tabInterviews.setOnClickListener(v -> selectTab("interviews"));
+        tabArchived.setOnClickListener(v -> selectTab("archived"));
+
+        // Set Applied as default selected
+        selectTab("applied");
+    }
+    private void selectTab(String tab) {
+        currentTab = tab;
+
+        // Reset all tabs to unselected state
+        resetTabStyles(tabSaved, tvSaved, tvSavedCount);
+        resetTabStyles(tabApplied, tvApplied, tvAppliedCount);
+        resetTabStyles(tabInterviews, tvInterviews, tvInterviewsCount);
+        resetTabStyles(tabArchived, tvArchived, null);
+
+        // Highlight selected tab
+        switch (tab) {
+            case "saved":
+                highlightTab(tabSaved, tvSaved, tvSavedCount);
+                loadFragment(new SectionSaved(), "saved");
+                break;
+            case "applied":
+                highlightTab(tabApplied, tvApplied, tvAppliedCount);
+                loadFragment(new SectionApplied(), "applied");
+                loadAppliedJobs();
+                break;
+            case "interviews":
+                highlightTab(tabInterviews, tvInterviews, tvInterviewsCount);
+                loadFragment(new SectionInterview(), "interviews");
+                loadInterviewJobs();
+                break;
+            case "archived":
+                highlightTab(tabArchived, tvArchived, null);
+                loadFragment(new SectionArchived(), "archived");
+                break;
+        }
+    }
+    private void loadFragment(Fragment fragment, String tag) {
+
+        FragmentManager fm = getChildFragmentManager();
+        Fragment existingFragment = fm.findFragmentByTag(tag);
+
+        if (existingFragment != null) {
+            return;
+        }
+
+        fm.beginTransaction()
+                .replace(R.id.fragmentContainer, fragment, tag)
+                .commit();
+    }
+
 }

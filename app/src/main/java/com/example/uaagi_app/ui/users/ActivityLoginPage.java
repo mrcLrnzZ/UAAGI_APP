@@ -24,20 +24,19 @@ import android.text.style.ForegroundColorSpan;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.uaagi_app.network.api.LoginOtpService;
-import com.example.uaagi_app.network.api.LoginAuthService;
+import com.example.uaagi_app.network.Services.LoginOtpService;
+import com.example.uaagi_app.network.Services.LoginAuthService;
 import com.example.uaagi_app.R;
-import com.example.uaagi_app.network.dto.LoginResponse;
+import com.example.uaagi_app.network.dto.LoginFetchResponse;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.InputValidator;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
+import com.example.uaagi_app.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ActivityLoginPage extends AppCompatActivity {
 
@@ -225,93 +224,49 @@ public class ActivityLoginPage extends AppCompatActivity {
         verifyLoginFromServer(otp, email);
     }
     private void verifyLoginFromServer(String otp, String email) {
-
-        LoginAuthService loginAuthService = new LoginAuthService(this);
-
-        Log.d(TAG, "verifyLoginFromServer() called");
-        Log.d(TAG, "Sending OTP: " + otp + ", Email: " + email);
-
-        loginAuthService.verifyLogin(otp, email, new LoginAuthService.verifyLoginCallback() {
-
+        LoginAuthService authService = new LoginAuthService(this);
+        authService.verifyLogin(email, otp, new LoginAuthService.VerifyLoginCallback() {
             @Override
-            public void onResponse(LoginResponse response) {
-
-                Log.d(TAG, "Server response received");
-                Log.d(TAG, "Success: " + response.success);
-                Log.d(TAG, "Message: " + response.message);
-                Log.d(TAG, "Form Exist: " + response.formExist);
-
-                if (response.success) {
-                    Helpers.hideOtpError(otpErrorText);
-                    Helpers.resetOtpFieldsColor(otpInputs);
-                    UiHelpers.showToast(response.message, ActivityLoginPage.this);
-
-                    Helpers.saveLoginState(ActivityLoginPage.this);
-                    Helpers.saveUserId(ActivityLoginPage.this, response.userId);
-                    startActivity(new Intent(ActivityLoginPage.this, ActivityHomePage.class));
-                    finish();
-
+            public void onResponse(LoginFetchResponse response) {
+                Intent intent;
+                SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
+                SessionManager.getInstance(ActivityLoginPage.this).saveUserId(response.userId);
+                SessionManager.getInstance(ActivityLoginPage.this).saveUserEmail(email);
+                SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(response.formExist);
+                Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
+                UiHelpers.showToast("Login successful", ActivityLoginPage.this);
+                if (response.formExist) {
+                    intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
                 } else {
-                    Helpers.showOtpError(otpErrorText, response.message);
-                    Helpers.showOtpFieldError(ActivityLoginPage.this, otpInputs);
-
-                    new android.os.Handler().postDelayed(() -> {
-                        Helpers.clearOtp(otpInputs);
-                        Helpers.resetOtpFieldsColor(otpInputs);
-                    }, 1500);
+                    intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
                 }
+                startActivity(intent);
+                finish();
             }
 
             @Override
             public void onError(String errorMessage) {
-                Log.e(TAG, "verifyLogin error: " + errorMessage);
-
-                Helpers.showOtpError(otpErrorText, errorMessage);
-                Helpers.showOtpFieldError(ActivityLoginPage.this, otpInputs);
-
-                new android.os.Handler().postDelayed(() -> {
-                    Helpers.clearOtp(otpInputs);
-                    Helpers.resetOtpFieldsColor(otpInputs);
-                }, 1500);
+                Log.e(TAG, "Error: " + errorMessage);
+                if (!errorMessage.contains("Invalid OTP")) {
+                    Helpers.showOtpError(otpErrorText, "Failed to verify OTP");
+                } else {
+                    Helpers.showOtpError(otpErrorText, "Incorrect OTP");
+                }
             }
         });
     }
     private void requestOtpFromServer(String email) {
         try {
-            Log.d(TAG, "requestOtpFromServer() called");
-            Log.d(TAG, "Requesting OTP for email: " + email);
-
-            LoginOtpService loginOtpService = new LoginOtpService(this);
-            loginOtpService.requestLoginOtp(email, new LoginOtpService.LoginCallback() {
+            LoginOtpService service = new LoginOtpService(this);
+            service.requestOtp(email, new LoginOtpService.LoginCallback() {
                 @Override
-                public void onResponse(boolean success, JSONObject response) {
-                    Log.d(TAG, "OTP response received");
-                    Log.d(TAG, "Success: " + success);
-                    Log.d(TAG, "Raw response: " + response.toString());
-
-                    try {
-                        String message = response.getString("message");
-                        Log.d(TAG, "Server message: " + message);
-
-                        UiHelpers.showToast(message, ActivityLoginPage.this);
-
-                        if (success) {
-                            Log.d(TAG, "OTP request successful, showing OTP section");
-                            showOtpSection();
-                        } else {
-                            Log.d(TAG, "OTP request failed");
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e(TAG, "JSON parsing error", e);
-                        UiHelpers.showToast("Invalid server response", ActivityLoginPage.this);
-                    }
+                public void onResponse(String message) {
+                    Log.d(TAG, "Response: " + message);
+                    showOtpSection();
                 }
-
                 @Override
                 public void onError(String errorMessage) {
-                    Log.e(TAG, "OTP request error: " + errorMessage);
-                    UiHelpers.showToast(errorMessage, ActivityLoginPage.this);
+                    Log.e(TAG, "Error: " + errorMessage);
                 }
             });
 

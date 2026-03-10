@@ -20,8 +20,45 @@ public class UserInfo {
     private String currentAddress;
     private String permanentAddress;
 
-    public String getUserId() {
-        return userId;
+    public UserInfo(String userId, String email, String firstName, String middleName, String lastName, String dob, String age, String gender, String religion, String civilStatus, String nationality, String height, String weight, String bloodType, String cellNo, String telNo, String currentAddress, String permanentAddress) {
+        this.userId = userId != null ? userId : "";
+        this.email = email != null ? email : "";
+        this.firstName = firstName != null ? firstName : "";
+        this.middleName = middleName != null ? middleName : "";
+        this.lastName = lastName != null ? lastName : "";
+        this.dob = dob != null ? dob : "";
+        this.age = age != null ? age : "";
+        this.gender = gender != null ? gender : "";
+        this.religion = religion != null ? religion : "";
+        this.civilStatus = civilStatus != null ? civilStatus : "";
+        this.nationality = nationality != null ? nationality : "";
+        this.height = height != null ? height : "";
+        this.weight = weight != null ? weight : "";
+        this.bloodType = bloodType != null ? bloodType : "";
+        this.cellNo = cellNo != null ? cellNo : "";
+        this.telNo = telNo != null ? telNo : "";
+        this.currentAddress = currentAddress != null ? currentAddress : "";
+        this.permanentAddress = permanentAddress != null ? permanentAddress : "";;
+    }
+    public UserInfo() {
+        this.userId = "";
+        this.email = "";
+        this.firstName = "";
+        this.middleName = "";
+        this.lastName = "";
+        this.dob = "";
+        this.age = "";
+        this.gender = "";
+        this.religion = "";
+        this.civilStatus = "";
+        this.nationality = "";
+        this.height = "";
+        this.weight = "";
+        this.bloodType = "";
+        this.cellNo = "";
+        this.telNo = "";
+        this.currentAddress = "";
+        this.permanentAddress = "";
     }
 
     public void setUserId(String userId) {

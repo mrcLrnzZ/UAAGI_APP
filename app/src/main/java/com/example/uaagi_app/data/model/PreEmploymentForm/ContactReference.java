@@ -6,6 +6,20 @@ public class ContactReference {
     private String company;
     private String phone;
 
+    public ContactReference(String name, String occupation, String company, String phone) {
+        this.name = name;
+        this.occupation = occupation;
+        this.company = company;
+        this.phone = phone;
+    }
+
+    public ContactReference() {
+        this.name = name != null ? name : "";
+        this.occupation = occupation != null ? occupation : "";
+        this.company = company != null ? company : "";
+        this.phone = phone != null ? phone : "";
+    }
+
     public String getName() {
         return name;
     }

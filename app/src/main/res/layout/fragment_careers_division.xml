@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/WhiteSmoke"
+    tools:context=".ui.users.FragmentsCareers.JobsOption">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Search Bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/search_bar_background"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:elevation="2dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/vectorsearch" />
+
+                    <EditText
+                        android:id="@+id/search_division"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:background="@android:color/transparent"
+                        android:hint="Search Division"
+                        android:textColorHint="#999999"
+                        android:textSize="14sp" />
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Featured Jobs Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Innovate with us - Foton Philippines"
+                    android:textColor="#0D2742"
+                    android:textSize="22sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Build your career with Foton Philippines."
+                    android:textColor="#666666"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="5dp"/>
+                <FrameLayout
+                    android:id="@+id/loading_container"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
+
+                <FrameLayout
+                    android:id="@+id/error_container"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/division_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

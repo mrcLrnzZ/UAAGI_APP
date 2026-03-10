@@ -1,66 +1,175 @@
-package com.example.uaagi_app.ui.users.FragmentsHomePage;
+    package com.example.uaagi_app.ui.users.FragmentsHomePage;
 
-import android.os.Bundle;
+    import static com.example.uaagi_app.network.RetrofitClient.IMAGE_BASE_URL;
 
-import androidx.fragment.app.Fragment;
+    import android.app.Dialog;
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.util.Log;
+    import android.view.Gravity;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.view.Window;
+    import android.widget.Button;
+    import android.widget.ImageButton;
+    import android.widget.ImageView;
+    import android.widget.ProgressBar;
+    import android.widget.TextView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+    import androidx.activity.result.ActivityResultLauncher;
+    import androidx.activity.result.contract.ActivityResultContracts;
+    import androidx.annotation.NonNull;
+    import androidx.annotation.Nullable;
+    import androidx.fragment.app.Fragment;
+    import androidx.lifecycle.ViewModelProvider;
 
-import com.example.uaagi_app.R;
+    import com.bumptech.glide.Glide;
+    import com.bumptech.glide.load.engine.DiskCacheStrategy;
+    import com.example.uaagi_app.R;
+    import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
+    import com.example.uaagi_app.network.Services.UploadImageService;
+    import com.example.uaagi_app.ui.users.ActivityLoginPage;
+    import com.example.uaagi_app.ui.users.FragmentsProfile.ChildProfile;
+    import com.example.uaagi_app.utils.SessionManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Profile#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Profile extends Fragment {
+    public class Profile extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+        private ProfileViewModel viewModel;
+        private static final String TAG = "Profile";
+        private TextView fullNameTv;
+        private ProgressBar progressBar;
+        private ImageView profilePhoto, btnLogout;
+        private ActivityResultLauncher<String> imagePickerLauncher;
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater,
+                                 ViewGroup container,
+                                 Bundle savedInstanceState) {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+            View view = inflater.inflate(R.layout.fragment_navigate_profile, container, false);
+            imagePickerLauncher = registerForActivityResult(
+                    new ActivityResultContracts.GetContent(),
+                    uri -> {
+                        if (uri != null) {
+                            UploadImageService.getInstance().uploadImage(uri, requireContext(), profilePhoto);
+                        }
+                    });
+            fullNameTv = view.findViewById(R.id.FullName);
+            progressBar = view.findViewById(R.id.profileProgressBar);
+            profilePhoto = view.findViewById(R.id.ProfilePhoto);
+            btnLogout = view.findViewById(R.id.logout);
 
-    public Profile() {
-        // Required empty public constructor
-    }
+            viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+            viewModel.fetchContent(requireContext());
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Profile newInstance(String param1, String param2) {
-        Profile fragment = new Profile();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            return view;
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_navigate_profile, container, false);
+        @Override
+        public void onViewCreated(@NonNull View view,
+                                  @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            int userId = SessionManager.getInstance(requireContext()).getUserId();
+            String imageUrl = IMAGE_BASE_URL + "user_" + userId + ".jpg?ts=" + System.currentTimeMillis();
+
+
+            Glide.with(requireContext())
+                    .load(imageUrl)
+                    .circleCrop()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(profilePhoto);
+
+            profilePhoto.setOnClickListener(v -> {
+                imagePickerLauncher.launch("image/*");
+            });
+
+            ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
+                    new ActivityResultContracts.GetContent(),
+                    uri -> {
+                        if (uri != null) {
+                            UploadImageService.getInstance().uploadImage(uri, requireContext(), profilePhoto);
+                        }
+                    }
+            );
+
+            viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
+                progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+                fullNameTv.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            });
+
+            viewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
+                if (data != null && data.getUserInfo() != null) {
+                    Log.d(TAG, "onViewCreated: "+ data.getEducation());
+                    String fullName =
+                            data.getUserInfo().getFirstName() + " " +
+                                    data.getUserInfo().getMiddleName() + " " +
+                                    data.getUserInfo().getLastName();
+
+                    fullNameTv.setText(fullName);
+                }
+            });
+
+            btnLogout.setOnClickListener(v -> {
+                Dialog dialog = new Dialog(requireContext());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.item_profile_logout);
+
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setLayout(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    );
+                    dialog.getWindow().setGravity(Gravity.CENTER);
+                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                }
+
+                ImageView btnClose = dialog.findViewById(R.id.btnClose);
+                Button btnCancel = dialog.findViewById(R.id.btnCancel);
+                Button btnSignOut = dialog.findViewById(R.id.btnSignOut);
+
+                btnClose.setOnClickListener(e -> dialog.dismiss());
+                btnCancel.setOnClickListener(e -> dialog.dismiss());
+
+                btnSignOut.setOnClickListener(e -> {
+
+                    SessionManager.getInstance(requireContext()).logout();
+
+                    requireActivity()
+                            .getSupportFragmentManager()
+                            .popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                    Intent intent = new Intent(requireContext(), ActivityLoginPage.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+
+                    requireActivity().finish();
+
+                    dialog.dismiss();
+                });
+
+                dialog.show();
+            });
+
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.profileOptionsContainer, new ChildProfile())
+                    .commit();
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            requireActivity().findViewById(R.id.top_bar)
+                    .setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            requireActivity().findViewById(R.id.top_bar)
+                    .setVisibility(View.VISIBLE);
+        }
+
+
     }
-}
