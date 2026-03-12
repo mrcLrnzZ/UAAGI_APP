@@ -153,6 +153,7 @@
 
             getChildFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up, 0)
                     .replace(R.id.profileOptionsContainer, new ChildProfile())
                     .commit();
         }
