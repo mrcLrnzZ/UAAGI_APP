@@ -5,13 +5,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- Work Experience 1 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvWorkPosition"
+            android:id="@+id/tvWorkPosition1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
@@ -20,12 +21,12 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvWorkPositionValue"
+            android:id="@+id/tvWorkPositionValue1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
-            android:text="Bagong Barrio Elementary School"
+            android:text="IT Support Assistant"
             android:textColor="#213448"
             android:textSize="14sp" />
 
@@ -37,7 +38,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvCompany"
+            android:id="@+id/tvCompany1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
@@ -46,11 +47,12 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvCompanyValue"
+            android:id="@+id/tvCompanyValue1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Bagong Barrio Elementary School"
+            android:text="TechNova Solutions Inc."
             android:textColor="#213448"
             android:textSize="14sp" />
 
@@ -62,7 +64,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvWorkAchieveLabel"
+            android:id="@+id/tvWorkAchieveLabel1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
@@ -71,11 +73,95 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvWorkAchievement"
+            android:id="@+id/tvWorkAchievement1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Top 9"
+            android:text="Improved ticket resolution time by 30%"
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E7EB"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Work Experience 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvWorkPosition2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Job Position: "
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvWorkPositionValue2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Software Developer Intern"
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvCompany2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Company: "
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvCompanyValue2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="CodeWorks Labs"
+            android:layout_marginStart="20dp"
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvWorkAchieveLabel2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:text="Achievement: "
+            android:textColor="#213448"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvWorkAchievement2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Developed an internal tool that saved 10 hours/week"
             android:textColor="#213448"
             android:textSize="14sp" />
 

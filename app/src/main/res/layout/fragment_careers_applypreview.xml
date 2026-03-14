@@ -323,6 +323,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
                                 android:text="Education"
+                                android:layout_marginBottom="8dp"
                                 android:textColor="#213448"
                                 android:textSize="16sp" />
 
@@ -349,6 +350,7 @@
                                 android:fontFamily="sans-serif-black"
                                 android:text="Work Experience"
                                 android:textColor="#213448"
+                                android:layout_marginBottom="8dp"
                                 android:textSize="16sp" />
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -415,7 +417,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="20dp"
                         android:orientation="horizontal">
 
                         <Button
