@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Reusable layout for a single education entry.
-    Bind data from the fragment/activity using view IDs after <include>.
 
-    IDs exposed:
-      tvEducationLevel   - e.g. "Primary School:", "Secondary School (Lower):"
-      tvEducationSchool  - school name
-      tvEducationYear    - year graduated
-      tvEducationAchieve - achievement / honor
--->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -37,7 +28,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="Bagong Barrio Elementary School"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -62,7 +53,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="2017"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -86,9 +77,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Top 9"
+            android:layout_marginStart="14dp"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E7EB"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp" />
 </LinearLayout>

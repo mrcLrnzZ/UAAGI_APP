@@ -26,7 +26,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="Seminar"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -50,7 +50,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="Basic Programming and Problem-Solving Workshop"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -74,7 +74,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="University IT Department"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -98,8 +98,11 @@
             android:fontFamily="sans-serif-medium"
             android:text="November 30, 2023"
             android:textColor="#213448"
-            android:textSize="14sp" />
+            android:layout_marginStart="34dp"
+            android:textSize="12sp" />
 
     </LinearLayout>
+
+
 
 </LinearLayout>

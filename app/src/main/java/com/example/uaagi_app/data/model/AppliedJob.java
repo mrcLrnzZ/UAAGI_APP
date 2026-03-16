@@ -10,6 +10,8 @@ public class AppliedJob {
     private String employerResponseTime;
     private boolean responseUnlikely;
     private String status; // "applied", "interviewing", "offer_received", "hired", "not_selected", "no_longer_interested"
+    private String interviewDate;
+    private String interviewTime;
 
     public AppliedJob() {
     }
@@ -26,6 +28,22 @@ public class AppliedJob {
         this.employerResponseTime = employerResponseTime;
         this.responseUnlikely = responseUnlikely;
         this.status = status;
+    }
+
+    public AppliedJob(String jobId, String jobTitle, String companyName, String location,
+                      String appliedDate, String appliedPlatform, String employerResponseTime,
+                      boolean responseUnlikely, String status, String interviewDate, String interviewTime) {
+        this.jobId = jobId;
+        this.jobTitle = jobTitle;
+        this.companyName = companyName;
+        this.location = location;
+        this.appliedDate = appliedDate;
+        this.appliedPlatform = appliedPlatform;
+        this.employerResponseTime = employerResponseTime;
+        this.responseUnlikely = responseUnlikely;
+        this.status = status;
+        this.interviewDate = interviewDate;
+        this.interviewTime = interviewTime;
     }
 
     // Getters and Setters
@@ -99,5 +117,21 @@ public class AppliedJob {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getInterviewDate() {
+        return interviewDate;
+    }
+
+    public void setInterviewDate(String interviewDate) {
+        this.interviewDate = interviewDate;
+    }
+
+    public String getInterviewTime() {
+        return interviewTime;
+    }
+
+    public void setInterviewTime(String interviewTime) {
+        this.interviewTime = interviewTime;
     }
 }

@@ -1,5 +1,4 @@
 package com.example.uaagi_app.ui.users.FragmentsAppliedJobs;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +17,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.AdapterCollection;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
@@ -67,18 +67,18 @@ public class SectionSaved extends Fragment {
         }
     }
     private void showContent(List<JobFetchResponse> savedJobs) {
-
         noJobs.setVisibility(View.GONE);
         loadingContainer.setVisibility(View.GONE);
         errorContainer.setVisibility(View.GONE);
         rvSaved.setVisibility(View.VISIBLE);
 
-        UiHelpers.jobCardAdapter(
-                rvSaved,
+        // Replace UiHelpers.jobCardAdapter() with your new adapter
+        GenericRecyclerAdapter<JobFetchResponse> adapter = AdapterCollection.createSavedJobsAdapter(
                 savedJobs,
                 requireActivity().getSupportFragmentManager(),
                 requireContext()
         );
+        rvSaved.setAdapter(adapter);
     }
     private void showEmpty() {
         rvSaved.setVisibility(View.GONE);
@@ -114,5 +114,3 @@ public class SectionSaved extends Fragment {
         );
     }
 }
-
-

@@ -1,5 +1,8 @@
 package com.example.uaagi_app.ui.users.FragmentsAppliedJobs;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,13 +93,35 @@ public class SectionInterview extends Fragment {
                 });
 
         adapter.setOnItemClickListener((item, position) -> {
-            Toast.makeText(getContext(),
-                    "Clicked: " + item.getJobTitle(),
-                    Toast.LENGTH_SHORT).show();
+            showUpdateStatusDialog(item);
         });
 
         rvInterview.setAdapter(adapter);
     }
+
+    private void showUpdateStatusDialog(Applicant applicant) {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_update_status);
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
+        TextView tvInterviewDate = dialog.findViewById(R.id.interviewDate);
+        TextView tvInterviewTime = dialog.findViewById(R.id.interviewTime);
+
+        tvInterviewDate.setText(safeText(applicant.getInterviewDate()));
+        // Assuming time is part of applicant or can be extracted. If not, keeping placeholder or setting default.
+        // tvInterviewTime.setText(...);
+
+        ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
     private String safeText(String value) {
         return value != null && !value.isEmpty() ? value : "_";
     }

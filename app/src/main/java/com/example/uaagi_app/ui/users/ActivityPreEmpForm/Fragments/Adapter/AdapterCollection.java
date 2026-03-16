@@ -1,10 +1,16 @@
 package com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.*;
+import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.utils.Helpers;
 
 
@@ -31,6 +37,7 @@ public class AdapterCollection {
                 }
         );
     }
+
     public static GenericRecyclerAdapter<GovId> createGovIdAdapter(List<GovId> govIds) {
 
         return new GenericRecyclerAdapter<>(
@@ -46,6 +53,7 @@ public class AdapterCollection {
                 }
         );
     }
+
     public static GenericRecyclerAdapter<Seminar> createSeminarAdapter(List<Seminar> seminars) {
 
         return new GenericRecyclerAdapter<>(
@@ -68,6 +76,7 @@ public class AdapterCollection {
                 }
         );
     }
+
     public static GenericRecyclerAdapter<Qualification> createQualificationAdapter(List<Qualification> qualifications) {
 
         return new GenericRecyclerAdapter<>(
@@ -89,6 +98,7 @@ public class AdapterCollection {
                 }
         );
     }
+
     public static GenericRecyclerAdapter<Certificate> createCertificateAdapter(List<Certificate> certificates) {
 
         return new GenericRecyclerAdapter<>(
@@ -110,6 +120,7 @@ public class AdapterCollection {
                 }
         );
     }
+
     public static GenericRecyclerAdapter<ProfessionalSkills> createProfessionalSkillsAdapter(List<ProfessionalSkills> skills) {
 
         return new GenericRecyclerAdapter<>(
@@ -127,7 +138,8 @@ public class AdapterCollection {
                 }
         );
     }
-    public static GenericRecyclerAdapter<WorkExperience> createWorkExperienceAdapter(List<WorkExperience> workExperiences){
+
+    public static GenericRecyclerAdapter<WorkExperience> createWorkExperienceAdapter(List<WorkExperience> workExperiences) {
         return new GenericRecyclerAdapter<>(
                 workExperiences,
                 R.layout.item_work_experience_preview,
@@ -154,6 +166,7 @@ public class AdapterCollection {
                 }
         );
     }
+
     public static GenericRecyclerAdapter<Education> createEducationAdapter(List<Education> educations) {
 
         return new GenericRecyclerAdapter<>(
@@ -175,4 +188,32 @@ public class AdapterCollection {
                 }
         );
     }
+
+    public static GenericRecyclerAdapter<JobFetchResponse> createSavedJobsAdapter(List<JobFetchResponse> savedJobs, FragmentManager fragmentManager, Context context) {
+        return new GenericRecyclerAdapter<>(
+                savedJobs,
+                R.layout.item_saved_job,
+                (view, job, position) -> {
+                    TextView jobTitle = view.findViewById(R.id.tvJobTitle);
+                    TextView jobCompanyName = view.findViewById(R.id.tvCompanyName);
+                    TextView jobLocation = view.findViewById(R.id.tvLocation);
+
+                    jobTitle.setText(Helpers.safeText(job.getJobTitle()));
+                    jobCompanyName.setText(Helpers.safeText(job.getCompany().getName()));
+                    jobLocation.setText(Helpers.safeText(job.getLocation()));
+
+//                    view.setOnClickListener(v -> {
+//                        Fragment jobDesc = JobDesc.newInstance(job.getId());
+//                        fragmentManager.beginTransaction()
+//                                .replace(R.id.fragment_container, jobDesc)
+//                                .addToBackStack(null)
+//                                .commit();
+//                    });
+
+                }
+        );
+    }
+
 }
+
+

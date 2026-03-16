@@ -10,7 +10,7 @@
         android:id="@+id/cardDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="490dp"
+        android:layout_marginTop="550dp"
         app:cardBackgroundColor="@color/White"
         app:cardCornerRadius="24dp"
         app:cardElevation="12dp"

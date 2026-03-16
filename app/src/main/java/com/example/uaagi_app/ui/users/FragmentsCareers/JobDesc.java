@@ -30,7 +30,19 @@ public class JobDesc extends Fragment {
     private Company selectedCompany;
     private static final String TAG = "JobDescFragment";
 
-    public JobDesc(){
+    public static Fragment newInstance(int id) {
+        JobDesc fragment = new JobDesc();
+        Bundle args = new Bundle();
+        args.putInt("jobId", id);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            int jobId = getArguments().getInt("jobId");
+        }
     }
 
     @Override

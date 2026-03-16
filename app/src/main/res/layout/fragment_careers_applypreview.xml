@@ -25,7 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -191,7 +191,7 @@
                                 android:fontFamily="sans-serif-black"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="16sp" />
+                                android:textSize="12sp" />
 
                             <!-- Email -->
                             <TextView
@@ -209,7 +209,7 @@
                                 android:fontFamily="sans-serif-black"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="16sp" />
+                                android:textSize="12sp" />
 
                             <!-- Cellphone -->
                             <TextView
@@ -227,7 +227,7 @@
                                 android:fontFamily="sans-serif-black"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="16sp" />
+                                android:textSize="12sp" />
 
                             <!-- Address -->
                             <TextView
@@ -245,7 +245,7 @@
                                 android:fontFamily="sans-serif-black"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="16sp" />
+                                android:textSize="12sp" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -257,7 +257,7 @@
                         android:fontFamily="sans-serif-black"
                         android:text="Pre-Employment Form"
                         android:textColor="#002F62"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
@@ -282,7 +282,7 @@
                                 android:fontFamily="sans-serif-black"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="18sp" />
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/summaryEmail"
@@ -291,7 +291,7 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/summaryPhone"
@@ -300,7 +300,7 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/summaryCurrAddr"
@@ -309,7 +309,7 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/placeholder"
                                 android:textColor="#213448"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -336,13 +336,6 @@
                                 tools:itemCount="3">
 
                             </androidx.recyclerview.widget.RecyclerView>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_marginBottom="16dp"
-                                android:layout_marginTop="16dp"
-                                android:background="#E5E7EB" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -417,7 +410,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="50dp"
                         android:orientation="horizontal">
 
                         <Button
