@@ -16,7 +16,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.uaagi_app.network.Services.NotificationService;
+import com.example.uaagi_app.utils.TimeAgo;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.activity.OnBackPressedCallback;
@@ -69,7 +72,6 @@ public class ActivityHomePage extends AppCompatActivity {
     long eventTime = System.currentTimeMillis();
     private ImageView notifIcon;
     private PusherManager pusherManager;
-
     private static final int ANIMATION_DURATION = 300;
 
     private String currentSelectedTab = "home";
@@ -94,22 +96,58 @@ public class ActivityHomePage extends AppCompatActivity {
                         101);
             }
         }
-        pusherManager = new PusherManager();
+        int userId = SessionManager.getInstance(this).getUserId();
+        NotificationService service = new NotificationService(this);
 
+        service.fetchUserNotifications(userId,
+                new NotificationService.NotificationCallback() {
+
+                    @Override
+                    public void onResponse() {
+                        // Pusher will deliver notifications
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+        pusherManager = new PusherManager();
         pusherManager.connect();
 
-        int userId = SessionManager.getInstance(this).getUserId();
-
-        pusherManager.subscribeToUserChannel(userId);
-        pusherManager.subscribeToPublicChannel((title, message) -> {
+        pusherManager.subscribeToUserChannel(userId, (title, message, createdAt) -> {
             runOnUiThread(() -> {
                 View notifDot = findViewById(R.id.notifDot);
                 notifDot.setVisibility(View.VISIBLE);
 
-                NotificationModel notif = new NotificationModel(title, message, Helpers.getTimeAgo(eventTime));
-                NotificationRepository.getInstance().addNotification(notif);
+                String timeAgo = TimeAgo.getTimeAgo(createdAt);
 
-                NotificationCenter.notify(title, message, Helpers.getTimeAgo(eventTime));
+                NotificationModel notif =
+                        new NotificationModel(title, message, timeAgo);
+
+                NotificationRepository
+                        .getInstance()
+                        .addNotification(notif);
+
+                NotificationCenter.notify(title, message, timeAgo);
+
+            });
+        });
+        pusherManager.subscribeToPublicChannel((title, message, createdAt) -> {
+            runOnUiThread(() -> {
+                View notifDot = findViewById(R.id.notifDot);
+                notifDot.setVisibility(View.VISIBLE);
+
+                String timeAgo = TimeAgo.getTimeAgo(createdAt);
+
+                NotificationModel notif =
+                        new NotificationModel(title, message, timeAgo);
+
+                NotificationRepository
+                        .getInstance()
+                        .addNotification(notif);
+
+                NotificationCenter.notify(title, message, timeAgo);
 
             });
 

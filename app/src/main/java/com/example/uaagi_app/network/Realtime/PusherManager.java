@@ -38,13 +38,13 @@ public class PusherManager {
 
         }
     }
-    public void subscribeToUserChannel(int userId) {
+    public void subscribeToUserChannel(int userId, NotificationListener listener) {
 
         String channelName = "user-" + userId;
 
         Channel channel = pusher.subscribe(channelName);
 
-        channel.bind("interview-event", event -> {
+        channel.bind("new-notification", event -> {
 
             try {
 
@@ -52,7 +52,9 @@ public class PusherManager {
 
                 String title = json.getString("title");
                 String message = json.getString("message");
+                String createdAt = json.getString("created_at");
 
+                listener.onNewNotification(title, message, createdAt);
                 Log.d("PUSHER", title + " " + message);
 
             } catch (Exception e) {
@@ -75,8 +77,9 @@ public class PusherManager {
 
                 String title = json.getString("title");
                 String message = json.getString("message");
+                String createdAt = json.getString("created_at");
 
-                listener.onNewNotification(title, message);
+                listener.onNewNotification(title, message, createdAt);
                 Log.d("PUSHER", "announcement: " + title);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,6 +88,6 @@ public class PusherManager {
         });
     }
     public interface NotificationListener {
-        void onNewNotification(String title, String message);
+        void onNewNotification(String title, String message, String createdAt);
     }
 }

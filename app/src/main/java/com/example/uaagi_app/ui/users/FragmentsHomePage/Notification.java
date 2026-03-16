@@ -1,8 +1,10 @@
 package com.example.uaagi_app.ui.users.FragmentsHomePage;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.repository.NotificationRepository;
 import com.example.uaagi_app.network.Realtime.NotificationCenter;
+import com.example.uaagi_app.network.Services.NotificationService;
 import com.example.uaagi_app.ui.NotificationAdapter;
+import com.example.uaagi_app.utils.SessionManager;
 
 public class Notification extends Fragment implements NotificationCenter.Listener {
 
@@ -30,10 +34,27 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
         View view = inflater.inflate(R.layout.activity_notification, container, false);
 
+        int userId = SessionManager.getInstance(getContext()).getUserId();
+        Log.d("USERID", String.valueOf(userId));
         notificationRepository = NotificationRepository.getInstance();
 
         recyclerView = view.findViewById(R.id.rvNotification);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        NotificationService service = new NotificationService(getContext());
+
+        service.updateUserNotification(userId,
+                new NotificationService.NotificationCallback() {
+                    @Override
+                    public void onResponse() {
+
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
         adapter = new NotificationAdapter(notificationRepository.getNotifications());

@@ -48,8 +48,11 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.glide)
     implementation(libs.pusher.java.client)
-    implementation("com.google.firebase:firebase-messaging:25.0.1")
-    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
+    implementation(libs.firebase.messaging)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.play.services.auth)
+    implementation (libs.lifecycle.livedata.ktx)
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
