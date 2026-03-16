@@ -33,16 +33,13 @@ public class JobDesc extends Fragment {
     public static Fragment newInstance(int id) {
         JobDesc fragment = new JobDesc();
         Bundle args = new Bundle();
-        args.putInt("jobId", id);
+        args.putString("jobId", String.valueOf(id));
         fragment.setArguments(args);
         return fragment;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            int jobId = getArguments().getInt("jobId");
-        }
     }
 
     @Override
@@ -62,7 +59,10 @@ public class JobDesc extends Fragment {
         btnBlock = view.findViewById(R.id.btnBlock);
 
         String jobId = getArgumentsFromBundle();
-        fetchJobDetails(jobId);
+        if (jobId != null) {
+            fetchJobDetails(jobId);
+        }
+
         btnApplyNow.setOnClickListener(v -> {
             ApplyOption fragment = new ApplyOption();
 
@@ -101,41 +101,52 @@ public class JobDesc extends Fragment {
             department = getArguments().getString("Department");
             String enumName = getArguments().getString("company_enum");
             if (enumName != null) {
-                selectedCompany = Company.valueOf(enumName);
+                try {
+                    selectedCompany = Company.valueOf(enumName);
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "Invalid company enum: " + enumName);
+                }
             }
             return getArguments().getString("jobId");
         }
         return null;
     }
     private void fetchJobDetails(String jobId) {
+        if (jobId == null || jobId.isEmpty()) return;
+        
         JobService service = new JobService(requireContext());
         Log.d(TAG, "fetchJobDetails: "+ jobId);
-        service.fetchJobById(Integer.parseInt(jobId), new JobService.JobServiceCallback() {
-            @Override
-            public void onResponse(List<JobFetchResponse> response) {
-                JobFetchResponse job = response.get(0);
-                jobTitle.setText(job.getJobTitle());
-                jobDesc.setText(job.getJobDescription());
-                jobCompany.setText(job.getCompany().getDisplayName());
-                jobLocation.setText(job.getLocation());
-                jobQualifications.setText(job.getPreferredQualifications());
-                jobBenefits.setText(job.getBenefits());
-                jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
-                jobDept.setText(job.getDepartment());
+        try {
+            int id = Integer.parseInt(jobId);
+            service.fetchJobById(id, new JobService.JobServiceCallback() {
+                @Override
+                public void onResponse(List<JobFetchResponse> response) {
+                    if (response == null || response.isEmpty()) return;
+                    JobFetchResponse job = response.get(0);
+                    jobTitle.setText(job.getJobTitle());
+                    jobDesc.setText(job.getJobDescription());
+                    jobCompany.setText(job.getCompany().getDisplayName());
+                    jobLocation.setText(job.getLocation());
+                    jobQualifications.setText(job.getPreferredQualifications());
+                    jobBenefits.setText(job.getBenefits());
+                    jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
+                    jobDept.setText(job.getDepartment());
 
-                btnBack.setOnClickListener(v ->
-                        UiHelpers.switchFragment(
-                                requireActivity().getSupportFragmentManager(),
-                                JobsOption.newInstance(job.getCompany(), job.getDepartment())
-                        )
-                );
-            }
+                    btnBack.setOnClickListener(v ->
+                            UiHelpers.switchFragment(
+                                    requireActivity().getSupportFragmentManager(),
+                                    JobsOption.newInstance(job.getCompany(), job.getDepartment())
+                            )
+                    );
+                }
 
-            @Override
-            public void onError(String errorMessage) {
-                Log.e(TAG, errorMessage);
-            }
-        });
+                @Override
+                public void onError(String errorMessage) {
+                    Log.e(TAG, errorMessage);
+                }
+            });
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Invalid job ID format: " + jobId);
+        }
     }
 }
-

@@ -167,6 +167,55 @@ public class UiHelpers {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
+    public static void archivedJobCardAdapter(
+            RecyclerView recyclerView,
+            List<JobFetchResponse> jobs,
+            FragmentManager fragmentManager,
+            Context context
+    ) {
+        GenericRecyclerAdapter<JobFetchResponse> adapter = new GenericRecyclerAdapter<>(
+                jobs,
+                R.layout.item_archieved_jobs,
+                (view, job, position) -> {
+                    TextView tvCompanyName = view.findViewById(R.id.tvCompanyName);
+                    TextView tvJobTitle = view.findViewById(R.id.tvJobTitle);
+                    ImageView ivLike = view.findViewById(R.id.ivLike);
+                    TextView tvLocation = view.findViewById(R.id.tvLocation);
+                    TextView tvAppliedDate = view.findViewById(R.id.tvAppliedDate);
+
+                    if (tvCompanyName != null) tvCompanyName.setText(job.getCompany().getDisplayName());
+                    if (tvJobTitle != null) tvJobTitle.setText(job.getJobTitle());
+                    if (tvLocation != null) tvLocation.setText(job.getLocation());
+                    if (tvAppliedDate != null) tvAppliedDate.setText("Applied on " + job.getCreatedAt());
+
+                    if (ivLike != null) {
+                        ivLike.setOnClickListener(v -> {
+                            Helpers.actionUnarchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
+                                @Override
+                                public void feedback(String message) {
+                                    showToast(message, context);
+                                    // Remove item from adapter
+                                    RecyclerView.Adapter<?> adapterObj = recyclerView.getAdapter();
+                                    if (adapterObj instanceof GenericRecyclerAdapter) {
+                                        ((GenericRecyclerAdapter<JobFetchResponse>) adapterObj).removeItem(job);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(String errorMessage) {
+                                    showToast(errorMessage, context);
+                                }
+                            });
+                        });
+                    }
+                }
+        );
+
+        setupJobCardClickListener(adapter, fragmentManager);
+        recyclerView.setAdapter(adapter);
+    }
+
     private static GenericRecyclerAdapter<JobFetchResponse> createJobCardAdapter(
             List<JobFetchResponse> jobs,
             Context context

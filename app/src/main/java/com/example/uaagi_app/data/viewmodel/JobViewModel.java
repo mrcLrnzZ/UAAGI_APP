@@ -18,16 +18,19 @@ public class JobViewModel extends ViewModel {
     private final MutableLiveData<JobFetchResponse> jobData = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-    private final MutableLiveData<List<JobFetchResponse>> Jobs = new MutableLiveData<>();
+    private final MutableLiveData<List<JobFetchResponse>> savedJobs = new MutableLiveData<>();
+    private final MutableLiveData<List<JobFetchResponse>> archivedJobs = new MutableLiveData<>();
+
     public LiveData<JobFetchResponse> getJobData() {
         return jobData;
     }
 
     public LiveData<List<JobFetchResponse>> getSavedJobs() {
-        return Jobs;
+        return savedJobs;
     }
+
     public LiveData<List<JobFetchResponse>> getArchivedJobs() {
-        return Jobs;
+        return archivedJobs;
     }
 
     public LiveData<String> getErrorMessage() {
@@ -73,13 +76,11 @@ public class JobViewModel extends ViewModel {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 isLoading.setValue(false);
-                if (response != null && !response.isEmpty()) {
-                    Log.d("JobViewModel", "Saved jobs fetched: " + response);
-                    Jobs.setValue(response != null ? response : new ArrayList<>());
-                    Log.d("JobViewModel", "Saved jobs after setValue: " + Jobs.getValue());
+                if (response != null) {
+                    savedJobs.setValue(response);
                 } else {
-                    Jobs.setValue(new ArrayList<>());
-                    errorMessage.setValue("No saved jobs found for the given user ID.");
+                    savedJobs.setValue(new ArrayList<>());
+                    errorMessage.setValue("No saved jobs found.");
                 }
             }
             @Override
@@ -97,11 +98,11 @@ public class JobViewModel extends ViewModel {
             @Override
             public void onResponse(List<JobFetchResponse> response) {
                 isLoading.setValue(false);
-                if (response != null && !response.isEmpty()) {
-                    Jobs.setValue(response != null ? response : new ArrayList<>());
+                if (response != null) {
+                    archivedJobs.setValue(response);
                 } else {
-                    Jobs.setValue(new ArrayList<>());
-                    errorMessage.setValue("No archived jobs found for the given user ID.");
+                    archivedJobs.setValue(new ArrayList<>());
+                    errorMessage.setValue("No archived jobs found.");
                 }
             }
             @Override
@@ -112,5 +113,3 @@ public class JobViewModel extends ViewModel {
         });
     }
 }
-
-

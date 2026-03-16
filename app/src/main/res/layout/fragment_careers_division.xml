@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Innovate with us - Foton Philippines"
-                    android:textColor="#0D2742"
+                    android:textColor="#1A1A1A"
                     android:textSize="22sp"
                     android:fontFamily="sans-serif-black"
                     android:layout_marginBottom="4dp"

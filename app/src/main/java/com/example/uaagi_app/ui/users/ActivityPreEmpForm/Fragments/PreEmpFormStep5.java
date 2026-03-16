@@ -16,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.ContactReference;
@@ -31,7 +32,9 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.InputValidator;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,7 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
     private TextInputEditText emergencyContactNameInput;
     private AutoCompleteTextView emergencyRelationshipInput;
     private TextInputEditText emergencyContactNumberInput;
+    private TextInputLayout emergencyContactNameLayout, emergencyRelationshipLayout, emergencyContactNumberLayout;
     private RadioGroup msWordRadioGroup;
     private RadioGroup msExcelRadioGroup;
     private RadioGroup msPowerPointRadioGroup;
@@ -70,6 +74,9 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
         emergencyContactNameInput = view.findViewById(R.id.emergencyContactNameInput);
         emergencyRelationshipInput = view.findViewById(R.id.emergencyRelationshipInput);
         emergencyContactNumberInput = view.findViewById(R.id.emergencyContactNumberInput);
+        emergencyContactNameLayout = view.findViewById(R.id.emergencyContactNameLayout);
+        emergencyRelationshipLayout = view.findViewById(R.id.emergencyRelationshipLayout);
+        emergencyContactNumberLayout = view.findViewById(R.id.emergencyContactNumberLayout);
 
         msWordRadioGroup = view.findViewById(R.id.msWordRadioGroup);
         msExcelRadioGroup = view.findViewById(R.id.msExcelRadioGroup);
@@ -78,13 +85,9 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
 
         setupRelationshipDropdown();
 
-        governmentIdList.add(new GovId());
-        contactReferenceList.add(new ContactReference());
-
         EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), GovId::new, 1);
         EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), ContactReference::new, 1);
         loadExistingData();
-
 
         governmentIdAdapter = createGovIdAdapter();
         contactReferenceAdapter = createReferenceAdapter();
@@ -97,14 +100,11 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
 
         btnAddGovernmentId.setOnClickListener(v ->{
             governmentIdAdapter.addItem(new GovId());
-            governmentIdAdapter.notifyDataSetChanged();
         });
 
         btnAddReference.setOnClickListener(v ->{
             contactReferenceAdapter.addItem(new ContactReference());
-            contactReferenceAdapter.notifyDataSetChanged();
         });
-
 
         btnPrevious.setOnClickListener(v -> {
             saveFormData();
@@ -112,18 +112,61 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
         });
 
         btnNext.setOnClickListener(v -> {
-            saveFormData();
-            ((PreEmpForm) requireActivity()).nextStep();
+            if (validateStep5()) {
+                saveFormData();
+                ((PreEmpForm) requireActivity()).nextStep();
+            }
         });
 
         return view;
     }
+
+    private boolean validateStep5() {
+        boolean isValid = true;
+
+        // Emergency contact validation
+        isValid &= InputValidator.isValid(emergencyContactNameInput.getText().toString(), emergencyContactNameLayout, "Name is required");
+        isValid &= InputValidator.isValid(emergencyRelationshipInput.getText().toString(), emergencyRelationshipLayout, "Relationship is required");
+        isValid &= InputValidator.isValid(emergencyContactNumberInput.getText().toString(), emergencyContactNumberLayout, "Contact number is required");
+
+        // Gov ID validation (if provided)
+        for (int i = 0; i < governmentIdList.size(); i++) {
+            GovId govId = governmentIdList.get(i);
+            View itemView = governmentIdContainer.getChildAt(i);
+            if (itemView != null && (InputValidator.isNotEmpty(govId.getType()) || InputValidator.isNotEmpty(govId.getNumber()))) {
+                TextInputLayout typeLayout = itemView.findViewById(R.id.idTypeLayout);
+                TextInputLayout numberLayout = itemView.findViewById(R.id.idNumberLayout);
+                isValid &= InputValidator.isValid(govId.getType(), typeLayout, "ID type is required");
+                isValid &= InputValidator.isValid(govId.getNumber(), numberLayout, "ID number is required");
+            }
+        }
+
+        // References validation (minimum 1 required for most companies)
+        for (int i = 0; i < contactReferenceList.size(); i++) {
+            ContactReference ref = contactReferenceList.get(i);
+            View itemView = referenceContainer.getChildAt(i);
+            if (itemView != null) {
+                TextInputLayout nameLayout = itemView.findViewById(R.id.til_contact_ref);
+                TextInputLayout occupationLayout = itemView.findViewById(R.id.til_occupation);
+                TextInputLayout contactLayout = itemView.findViewById(R.id.til_contact_no);
+                
+                isValid &= InputValidator.isValid(ref.getName(), nameLayout, "Name is required");
+                isValid &= InputValidator.isValid(ref.getOccupation(), occupationLayout, "Occupation is required");
+                isValid &= InputValidator.isValid(ref.getPhone(), contactLayout, "Contact is required");
+            }
+        }
+
+        if (!isValid) {
+            Toast.makeText(requireContext(), "Please complete all required fields", Toast.LENGTH_SHORT).show();
+        }
+        return isValid;
+    }
+
     private GenericRecyclerAdapter<GovId> createGovIdAdapter() {
         return new GenericRecyclerAdapter<>(
                 governmentIdList,
                 R.layout.item_government_id_entry,
                 (view, govId, position) -> {
-
                     AutoCompleteTextView idType = view.findViewById(R.id.idTypeInput);
                     TextInputEditText idNumber = view.findViewById(R.id.idNumberInput);
                     Button btnRemove = view.findViewById(R.id.btnRemoveGovID);
@@ -142,10 +185,7 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
                             governmentIdAdapter.removeItem(position);
                         }
                     });
-
-                    btnRemove.setVisibility(
-                            governmentIdList.size() > 1 ? View.VISIBLE : View.GONE
-                    );
+                    btnRemove.setVisibility(governmentIdList.size() > 1 ? View.VISIBLE : View.GONE);
                 }
         );
     }
@@ -154,7 +194,6 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
                 contactReferenceList,
                 R.layout.item_reference_entry,
                 (view, ref, position) -> {
-
                     TextInputEditText name = view.findViewById(R.id.tiet_contact_ref);
                     TextInputEditText occupation = view.findViewById(R.id.tiet_occupation);
                     TextInputEditText company = view.findViewById(R.id.tiet_company);
@@ -176,18 +215,12 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
                             contactReferenceAdapter.removeItem(position);
                         }
                     });
-
-                    btnRemove.setVisibility(
-                            contactReferenceList.size() > 1 ? View.VISIBLE : View.GONE
-                    );
+                    btnRemove.setVisibility(contactReferenceList.size() > 1 ? View.VISIBLE : View.GONE);
                 }
         );
     }
     private void setupRelationshipDropdown() {
-        String[] relationships = new String[]{
-                "Spouse", "Parent", "Sibling", "Child", "Friend",
-                "Relative", "Colleague", "Neighbor", "Other"
-        };
+        String[] relationships = new String[]{"Spouse", "Parent", "Sibling", "Child", "Friend", "Relative", "Colleague", "Neighbor", "Other"};
         UiHelpers.dropDownMaker(relationships, emergencyRelationshipInput, requireContext());
     }
 
@@ -195,7 +228,7 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
         EmergencyContact emergencyContact = viewModel.getValue().getEmergencyContact();
         if (emergencyContact != null) {
             emergencyContactNameInput.setText(emergencyContact.getName());
-            emergencyRelationshipInput.setText(emergencyContact.getRelationship());
+            emergencyRelationshipInput.setText(emergencyContact.getRelationship(), false);
             emergencyContactNumberInput.setText(emergencyContact.getContact());
         }
 
@@ -233,36 +266,24 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
     }
 
     private int getRadioButtonIdForLevel(String level, int beginnerId, int intermediateId, int advancedId) {
-        if (level.equalsIgnoreCase("Beginner")) {
-            return beginnerId;
-        } else if (level.equalsIgnoreCase("Intermediate")) {
-            return intermediateId;
-        } else if (level.equalsIgnoreCase("Advanced")) {
-            return advancedId;
-        }
+        if (level.equalsIgnoreCase("Beginner")) return beginnerId;
+        else if (level.equalsIgnoreCase("Intermediate")) return intermediateId;
+        else if (level.equalsIgnoreCase("Advanced")) return advancedId;
         return -1;
     }
 
     private String getSelectedRadioButtonText(RadioGroup radioGroup, int beginnerId, int intermediateId, int advancedId) {
         int selectedId = radioGroup.getCheckedRadioButtonId();
-        if (selectedId == -1) {
-            return "";
-        }
-
-        if (selectedId == beginnerId) {
-            return "beginner";
-        } else if (selectedId == intermediateId) {
-            return "intermediate";
-        } else if (selectedId == advancedId) {
-            return "advanced";
-        }
+        if (selectedId == -1) return "";
+        if (selectedId == beginnerId) return "beginner";
+        else if (selectedId == intermediateId) return "intermediate";
+        else if (selectedId == advancedId) return "advanced";
         return "";
     }
 
     @Override
     public void saveFormData() {
         EntryHandler.saveData(viewModel, form -> form.setGovIds(governmentIdList));
-
         EntryHandler.saveData(viewModel, form -> form.setContactReferences(contactReferenceList));
 
         EmergencyContact emergencyContact = new EmergencyContact();
@@ -282,25 +303,10 @@ public class PreEmpFormStep5 extends BaseFormStepFragment {
     @Override
     public void onResume() {
         super.onResume();
-        governmentIdList.clear();
-        contactReferenceList.clear();
-
         EntryHandler.loadData(governmentIdList, viewModel.getValue().getGovIds(), GovId::new, 1);
         EntryHandler.loadData(contactReferenceList, viewModel.getValue().getContactReferences(), ContactReference::new, 1);
-
         loadExistingData();
-
-        if (governmentIdContainer.getAdapter() != null) {
-            governmentIdContainer.getAdapter().notifyDataSetChanged();
-        }
-        if (referenceContainer.getAdapter() != null) {
-            referenceContainer.getAdapter().notifyDataSetChanged();
-        }
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EntryHandler.saveData(viewModel, form -> form.setGovIds(new ArrayList<>(governmentIdList)));
-        EntryHandler.saveData(viewModel, form -> form.setContactReferences(new ArrayList<>(contactReferenceList)));
+        governmentIdAdapter.updateList(governmentIdList);
+        contactReferenceAdapter.updateList(contactReferenceList);
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,7 +23,9 @@ import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.EntryHandler.
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.PreEmpForm;
 import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.InputValidator;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +41,6 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_preemp_step_2, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(PreEmpFormViewModel.class);
 
@@ -50,19 +52,6 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
         EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), Education::new, 3);
         educationRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        educationRecyclerView = view.findViewById(R.id.educationEntriesContainer);
-
-        EntryHandler.loadData(
-                educationList,
-                viewModel.getValue().getEducations(),
-                Education::new,
-                3
-        );
-
-        educationRecyclerView.setLayoutManager(
-                new LinearLayoutManager(requireContext())
-        );
-
         adapter = createEducationAdapter();
         educationRecyclerView.setAdapter(adapter);
 
@@ -72,25 +61,49 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
         });
 
         btnNext.setOnClickListener(v -> {
-            saveFormData();
-            ((PreEmpForm) requireActivity()).nextStep();
+            if (validateStep2()) {
+                saveFormData();
+                ((PreEmpForm) requireActivity()).nextStep();
+            }
         });
 
         btnAddEducation.setOnClickListener(v -> {
             if (educationList.size() < 10) {
                 adapter.addItem(new Education());
-                adapter.notifyDataSetChanged();
             }
         });
 
         return view;
     }
+
+    private boolean validateStep2() {
+        boolean allValid = true;
+        for (int i = 0; i < educationList.size(); i++) {
+            Education edu = educationList.get(i);
+            View itemView = educationRecyclerView.getChildAt(i);
+            if (itemView != null) {
+                TextInputLayout schoolNameLayout = itemView.findViewById(R.id.schoolNameLayout);
+                TextInputLayout educationLevelLayout = itemView.findViewById(R.id.educationLevelLayout);
+                TextInputLayout statusLayout = itemView.findViewById(R.id.statusLayout);
+                TextInputLayout yearGraduatedLayout = itemView.findViewById(R.id.yearGraduatedLayout);
+
+                allValid &= InputValidator.isValid(edu.getSchool(), schoolNameLayout, "School name is required");
+                allValid &= InputValidator.isValid(edu.getLevel(), educationLevelLayout, "Education level is required");
+                allValid &= InputValidator.isValid(edu.getStatus(), statusLayout, "Status is required");
+                allValid &= InputValidator.isValid(edu.getGradYear(), yearGraduatedLayout, "Year is required");
+            }
+        }
+        if (!allValid) {
+            Toast.makeText(requireContext(), "Please complete all education entries", Toast.LENGTH_SHORT).show();
+        }
+        return allValid;
+    }
+
     private GenericRecyclerAdapter<Education> createEducationAdapter(){
         return new GenericRecyclerAdapter<>(
                 educationList,
                 R.layout.item_education_entry,
                 (view, edu, position) -> {
-
                     TextInputEditText schoolName = view.findViewById(R.id.schoolNameInput);
                     TextInputEditText courseAchievement = view.findViewById(R.id.courseAchievementsInput);
                     TextInputEditText yearGrad = view.findViewById(R.id.yearGraduatedInput);
@@ -104,106 +117,36 @@ public class PreEmpFormStep2 extends BaseFormStepFragment {
                     eduLevel.setText(edu.getLevel() != null ? edu.getLevel() : "", false);
                     status.setText(edu.getStatus() != null ? edu.getStatus() : "", false);
 
-                    if (schoolName.getTag() instanceof SimpleTextWatcher)
-                        schoolName.removeTextChangedListener((SimpleTextWatcher) schoolName.getTag());
+                    SimpleTextWatcher.bindTextWatcher(schoolName, new SimpleTextWatcher(edu::setSchool));
+                    SimpleTextWatcher.bindTextWatcher(courseAchievement, new SimpleTextWatcher(edu::setAchievement));
+                    SimpleTextWatcher.bindTextWatcher(yearGrad, new SimpleTextWatcher(edu::setGradYear));
+                    SimpleTextWatcher.bindTextWatcher(eduLevel, new SimpleTextWatcher(edu::setLevel));
+                    SimpleTextWatcher.bindTextWatcher(status, new SimpleTextWatcher(edu::setStatus));
 
-                    if (courseAchievement.getTag() instanceof SimpleTextWatcher)
-                        courseAchievement.removeTextChangedListener((SimpleTextWatcher) courseAchievement.getTag());
-
-                    if (yearGrad.getTag() instanceof SimpleTextWatcher)
-                        yearGrad.removeTextChangedListener((SimpleTextWatcher) yearGrad.getTag());
-
-                    if (eduLevel.getTag() instanceof SimpleTextWatcher)
-                        eduLevel.removeTextChangedListener((SimpleTextWatcher) eduLevel.getTag());
-
-                    if (status.getTag() instanceof SimpleTextWatcher)
-                        status.removeTextChangedListener((SimpleTextWatcher) status.getTag());
-
-                    SimpleTextWatcher schoolNameWatcher = new SimpleTextWatcher(edu::setSchool);
-                    SimpleTextWatcher courseAchievementWatcher = new SimpleTextWatcher(edu::setAchievement);
-                    SimpleTextWatcher yearGradWatcher = new SimpleTextWatcher(edu::setGradYear);
-                    SimpleTextWatcher statusWatcher = new SimpleTextWatcher(edu::setStatus);
-
-                    schoolName.addTextChangedListener(schoolNameWatcher);
-                    courseAchievement.addTextChangedListener(courseAchievementWatcher);
-                    yearGrad.addTextChangedListener(yearGradWatcher);
-                    status.addTextChangedListener(statusWatcher);
-
-                    schoolName.setTag(schoolNameWatcher);
-                    courseAchievement.setTag(courseAchievementWatcher);
-                    yearGrad.setTag(yearGradWatcher);
-                    status.setTag(statusWatcher);
-
-                    String[] levels = {
-                            "Primary Education",
-                            "Secondary Education",
-                            "Secondary Education (Lower)",
-                            "Tertiary Education",
-                            "Vocational/Technical",
-                            "Master's Degree",
-                            "Doctoral Degree",
-                            "Post-Graduate Degree",
-                            "Associate Degree",
-                            "Other"
-                    };
-
+                    String[] levels = {"Primary Education", "Secondary Education", "Secondary Education (Lower)", "Tertiary Education", "Vocational/Technical", "Master's Degree", "Doctoral Degree", "Post-Graduate Degree", "Associate Degree", "Other"};
                     UiHelpers.dropDownMaker(levels, eduLevel, view.getContext());
 
                     String[] statuses = {"Graduated", "Undergraduate"};
                     UiHelpers.dropDownMaker(statuses, status, view.getContext());
 
                     btnRemove.setOnClickListener(v -> {
-                        if (educationList.size() > 3) {
+                        if (educationList.size() > 1) {
                             adapter.removeItem(position);
-                            adapter.notifyDataSetChanged();
                         }
                     });
-
-                    btnRemove.setVisibility(
-                            educationList.size() > 3 ? View.VISIBLE : View.GONE
-                    );
+                    btnRemove.setVisibility(educationList.size() > 1 ? View.VISIBLE : View.GONE);
                 }
         );
     }
     @Override
     public void saveFormData() {
         EntryHandler.saveData(viewModel, form -> form.setEducations(educationList));
-        Log.d(TAG, "saveFormDataStep2: "+viewModel.getValue().getEducations().toString());
-        Log.d(TAG, "saveFormData: "+ educationList.toString());
-    }
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        Log.d(TAG, "onAttach");
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-    }
     @Override
     public void onResume() {
         super.onResume();
-        if (viewModel.getValue().getEducations() == null ||
-                viewModel.getValue().getEducations().isEmpty()) {
-
-            EntryHandler.loadData(educationList, null, Education::new, 3);
-        } else {
-            EntryHandler.loadData(
-                    educationList,
-                    viewModel.getValue().getEducations(),
-                    Education::new,
-                    3
-            );
-        }
+        EntryHandler.loadData(educationList, viewModel.getValue().getEducations(), Education::new, 3);
         adapter.updateList(educationList);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EntryHandler.saveData(viewModel, form -> form.setEducations(new ArrayList<>(educationList)));
-        Log.d(TAG, "onDestroyView");
     }
 }

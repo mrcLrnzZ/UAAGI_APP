@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="10dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground">
+    app:cardBackgroundColor="@color/White">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +18,18 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Job Title -->
+        <TextView
+            android:id="@+id/tvCompanyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tiger Global Business Services Inc."
+            android:textSize="11sp"
+            android:textColor="@color/LightBlue"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:textAllCaps="true"
+            android:layout_marginBottom="6dp" />
+
         <TextView
             android:id="@+id/tvJobTitle"
             android:layout_width="wrap_content"
@@ -27,19 +39,8 @@
             android:textStyle="bold"
             android:textColor="@color/DarkBlue"
             android:fontFamily="sans-serif-medium"
-            android:lineSpacingExtra="2dp" />
-
-        <TextView
-            android:id="@+id/tvCompanyName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiger Global Business Services Inc."
-            android:textSize="13sp"
-            android:textColor="@color/gray_600"
-            android:fontFamily="sans-serif"
-            android:layout_marginTop="2dp"
             android:layout_marginBottom="10dp"
-            />
+            android:lineSpacingExtra="2dp" />
 
 
             <View

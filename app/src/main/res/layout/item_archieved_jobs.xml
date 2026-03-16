@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
+    android:layout_marginStart="18dp"
+    android:layout_marginEnd="18dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
@@ -67,11 +67,11 @@
                             android:lineSpacingExtra="2dp" />
 
                         <ImageView
-                            android:id="@+id/ivBookmark"
+                            android:id="@+id/ivLike"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:tint="@color/DarkBlue"
-                            android:src="@drawable/baseline_bookmark_24"
+                            android:src="@drawable/unlike"
                             android:layout_marginStart="8dp" />
 
                     </LinearLayout>
@@ -203,17 +203,6 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnViewJobDetails"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:text="View Job Details"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:textColor="@color/White"
-                android:textAllCaps="false"
-                android:fontFamily="sans-serif-medium"
-                android:background="@drawable/update_status_button_background" />
         </LinearLayout>
 
     </LinearLayout>
