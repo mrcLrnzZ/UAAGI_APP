@@ -42,17 +42,17 @@ public class Careers extends Fragment {
     }
     private void initializeViews(View view) {
         fotonBrandCard = view.findViewById(R.id.fotonBrandCard);
-        baicBrandCard = view.findViewById(R.id.baicBrandCard);
-        lynkcoBrandCard = view.findViewById(R.id.lynkcoBrandCard);
-        muttBrandCard = view.findViewById(R.id.muttBrandCard);
-        cheryBrandCard = view.findViewById(R.id.cheryBrandCard);
+//        baicBrandCard = view.findViewById(R.id.baicBrandCard);
+//        lynkcoBrandCard = view.findViewById(R.id.lynkcoBrandCard);
+//        muttBrandCard = view.findViewById(R.id.muttBrandCard);
+//        cheryBrandCard = view.findViewById(R.id.cheryBrandCard);
     }
     private void setupListeners() {
         fotonBrandCard.setOnClickListener(v -> openCareers(Company.FOTON_PHILIPPINES));
-        baicBrandCard.setOnClickListener(v -> openCareers(Company.BAIC_PHILIPPINES));
-        lynkcoBrandCard.setOnClickListener(v -> openCareers(Company.LYNK_AND_CO_PHILIPPINES));
-        muttBrandCard.setOnClickListener(v -> openCareers(Company.MUTT_MOTORCYCLE_PHILIPPINES));
-        cheryBrandCard.setOnClickListener(v -> openCareers(Company.CHERY_AUTO_PHILIPPINES));
+//        baicBrandCard.setOnClickListener(v -> openCareers(Company.BAIC_PHILIPPINES));
+//        lynkcoBrandCard.setOnClickListener(v -> openCareers(Company.LYNK_AND_CO_PHILIPPINES));
+//        muttBrandCard.setOnClickListener(v -> openCareers(Company.MUTT_MOTORCYCLE_PHILIPPINES));
+//        cheryBrandCard.setOnClickListener(v -> openCareers(Company.CHERY_AUTO_PHILIPPINES));
     }
 
     private void openCareers(Company company) {

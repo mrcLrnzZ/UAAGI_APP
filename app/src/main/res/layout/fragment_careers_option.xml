@@ -149,7 +149,7 @@
                                 <ImageView
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
-                                    android:src="@drawable/arrowright"
+                                    android:src="@drawable/profile_arrowright"
                                     android:tint="#528ff8"
                                     android:layout_marginEnd="4dp" />
                             </LinearLayout>
@@ -255,10 +255,10 @@
 
                                 <ImageView
                                     android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:src="@drawable/arrowright"
-                                    android:tint="@color/DarkBlue"
-                                    android:layout_marginEnd="4dp" />
+                                    android:layout_height="16dp"
+                                    android:layout_marginEnd="4dp"
+                                    android:src="@drawable/profile_arrowright"
+                                    android:tint="@color/DarkBlue" />
                             </LinearLayout>
 
                         </LinearLayout>

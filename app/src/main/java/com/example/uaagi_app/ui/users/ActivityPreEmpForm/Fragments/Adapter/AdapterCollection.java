@@ -208,7 +208,7 @@ public class AdapterCollection {
                     Button btnViewJobDetails = view.findViewById(R.id.btnViewJobDetails);
 
                     if (jobTitle != null) jobTitle.setText(Helpers.safeText(job.getJobTitle()));
-                    if (jobCompanyName != null) jobCompanyName.setText(Helpers.safeText(job.getCompany() != null ? job.getCompany().getName() : ""));
+                    if (jobCompanyName != null) jobCompanyName.setText(Helpers.safeText(job.getCompany() != null ? job.getCompany().getDisplayName() : ""));
                     if (jobLocation != null) jobLocation.setText(Helpers.safeText(job.getLocation()));
                     if (tvAppliedDate != null) tvAppliedDate.setText("Posted on " + job.getCreatedAt());
 

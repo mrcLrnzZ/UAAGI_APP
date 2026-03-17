@@ -72,7 +72,6 @@ public class SectionSaved extends Fragment {
         errorContainer.setVisibility(View.GONE);
         rvSaved.setVisibility(View.VISIBLE);
 
-        // Replace UiHelpers.jobCardAdapter() with your new adapter
         GenericRecyclerAdapter<JobFetchResponse> adapter = AdapterCollection.createSavedJobsAdapter(
                 savedJobs,
                 requireActivity().getSupportFragmentManager(),

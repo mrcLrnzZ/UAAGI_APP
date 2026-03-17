@@ -91,7 +91,7 @@
                             <ImageView
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
-                                android:src="@drawable/arrowright"
+                                android:src="@drawable/profile_arrowright"
                                 app:tint="#528ff8" />
                         </LinearLayout>
                     </LinearLayout>
@@ -149,7 +149,7 @@
                             <ImageView
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
-                                android:src="@drawable/arrowright"
+                                android:src="@drawable/profile_arrowright"
                                 app:tint="@color/DarkBlue" />
                         </LinearLayout>
                     </LinearLayout>

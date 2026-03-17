@@ -29,7 +29,4 @@ public enum Company {
         return null;
     }
 
-    public String getName() {
-        return displayName;
-    }
 }

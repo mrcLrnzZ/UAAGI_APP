@@ -42,7 +42,7 @@ public class DivisionOption extends Fragment {
     public static DivisionOption newInstance(Company company) {
         DivisionOption fragment = new DivisionOption();
         Bundle args = new Bundle();
-        args.putString(ARG_COMPANY, company.name());
+        args.putString(ARG_COMPANY, company.getDisplayName());
         fragment.setArguments(args);
         return fragment;
     }
@@ -157,7 +157,7 @@ public class DivisionOption extends Fragment {
         setupUiStates(view);
         divisionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         if (getArguments() != null) {
-            Company selectedCompany = Company.valueOf(getArguments().getString(ARG_COMPANY));
+            Company selectedCompany = Company.fromString(getArguments().getString(ARG_COMPANY));
             brandName = selectedCompany.getDisplayName();
         }
         fetchJobs();
