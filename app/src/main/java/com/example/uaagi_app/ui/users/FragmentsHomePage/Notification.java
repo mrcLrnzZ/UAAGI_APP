@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
     private RecyclerView recyclerView;
     private NotificationAdapter adapter;
+    private TextView cardSubtitle;
     private NotificationRepository notificationRepository;
 
 
@@ -39,6 +41,7 @@ public class Notification extends Fragment implements NotificationCenter.Listene
         notificationRepository = NotificationRepository.getInstance();
 
         recyclerView = view.findViewById(R.id.rvNotification);
+        cardSubtitle = view.findViewById(R.id.cardSubtitle);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         NotificationService service = new NotificationService(getContext());
@@ -59,8 +62,15 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
         adapter = new NotificationAdapter(notificationRepository.getNotifications());
 
-        recyclerView.setAdapter(adapter);
+        int notifCount = notificationRepository.getNotifications().size();
 
+        cardSubtitle.setText(
+                notifCount == 0 ? "0 alerts" :
+                        notifCount == 1 ? "1 new alert" :
+                                notifCount + " new alerts"
+        );
+
+        recyclerView.setAdapter(adapter);
         return view;
     }
     @Override
