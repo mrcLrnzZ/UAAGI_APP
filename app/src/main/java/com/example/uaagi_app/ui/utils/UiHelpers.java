@@ -162,6 +162,7 @@ public class UiHelpers {
             FragmentManager fragmentManager,
             Context context
     ) {
+        boolean isIntern;
         GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(jobs, context);
         setupJobCardClickListener(adapter, fragmentManager);
         recyclerView.setAdapter(adapter);
@@ -188,7 +189,6 @@ public class UiHelpers {
                     if (tvJobTitle != null) tvJobTitle.setText(job.getJobTitle());
                     if (tvLocation != null) tvLocation.setText(job.getLocation());
                     if (tvAppliedDate != null) tvAppliedDate.setText("Applied on " + job.getCreatedAt());
-
                     if (ivLike != null) {
                         ivLike.setOnClickListener(v -> {
                             Helpers.actionUnarchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
@@ -413,13 +413,13 @@ public class UiHelpers {
             FragmentManager fragmentManager
     ) {
         adapter.setOnItemClickListener((job, position) -> {
-
+            boolean isIntern = false;
             JobDesc fragment = new JobDesc();
-
+            if (Objects.equals(job.getJobType().getDisplayName(), "Internship")) { isIntern = true; }
             Bundle bundle = new Bundle();
             bundle.putString("jobId", String.valueOf(job.getId()));
             bundle.putString("Department", job.getDepartment());
-
+            bundle.putBoolean("isIntern", isIntern);
             fragment.setArguments(bundle);
 
             UiHelpers.switchFragment(fragmentManager, fragment);
