@@ -62,16 +62,40 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
         adapter = new NotificationAdapter(notificationRepository.getNotifications());
 
-        int notifCount = notificationRepository.getNotifications().size();
+        adapter = new NotificationAdapter(notificationRepository.getNotifications());
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                updateNotifCount();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                updateNotifCount();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                updateNotifCount();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+
+        updateNotifCount();
+
+        recyclerView.setAdapter(adapter);
+        return view;
+    }
+    private void updateNotifCount() {
+        int notifCount = adapter.getItemCount();
 
         cardSubtitle.setText(
                 notifCount == 0 ? "0 alerts" :
                         notifCount == 1 ? "1 new alert" :
                                 notifCount + " new alerts"
         );
-
-        recyclerView.setAdapter(adapter);
-        return view;
     }
     @Override
     public void onNotification(String title, String message, String timeAgo) {
