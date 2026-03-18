@@ -224,6 +224,30 @@ public class JobDesc extends Fragment {
             btnBlock.setColorFilter(null);
         }
     }
+    private void initializeStatesOfIcon(int jobId){
+        Helpers.actionFetchSavedJobId(requireContext(), new JobService.JobIdServiceCallback() {
+            @Override
+            public void onResponse(List<Integer> jobIds) {
+                 isSaved = jobIds.contains(jobId);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+        Helpers.actionFetchArchivedJobId(requireContext(), new JobService.JobIdServiceCallback() {
+            @Override
+            public void onResponse(List<Integer> jobIds) {
+                 isArchived = jobIds.contains(jobId);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
 
     private String getArgumentsFromBundle(){
         if (getArguments() != null) {
@@ -267,7 +291,7 @@ public class JobDesc extends Fragment {
                     jobBenefits.setText(job.getBenefits());
                     jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                     jobDept.setText(job.getDepartment());
-
+                    initializeStatesOfIcon(job.getId());
                     btnBack.setOnClickListener(v ->
                             UiHelpers.switchFragment(
                                     requireActivity().getSupportFragmentManager(),
