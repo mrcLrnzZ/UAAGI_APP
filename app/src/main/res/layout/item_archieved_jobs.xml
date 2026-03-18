@@ -22,7 +22,6 @@
             android:orientation="vertical"
             android:padding="14dp">
 
-            <!-- Top Row: Title + Button -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +46,7 @@
                         android:textAllCaps="true"
                         android:layout_marginBottom="6dp" />
 
-                    <!-- Job title + bookmark icon side by side -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -108,39 +107,7 @@
                     android:layout_centerVertical="true" />
             </RelativeLayout>
 
-            <!-- Response Warning Badge -->
-            <LinearLayout
-                android:id="@+id/layoutResponseWarning"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/warning_badge_background"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp">
 
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:src="@drawable/ic_info"
-                    app:tint="@color/holo_red_dark"
-                    android:layout_marginEnd="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Response seems unlikely"
-                    android:textSize="11sp"
-                    android:textColor="@color/holo_red_dark"
-                    android:fontFamily="sans-serif-medium" />
-            </LinearLayout>
-
-            <!-- Divider -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -153,7 +120,7 @@
                 android:background="@color/LightBlue"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Location -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,7 +145,6 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
-            <!-- Applied Date -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
