@@ -19,6 +19,7 @@ import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 
 import java.util.List;
 
@@ -84,25 +85,65 @@ public class JobDesc extends Fragment {
         });
         btnBookmark.setOnClickListener(v -> {
             if (btnBookmark.getColorFilter() != null) {
-                btnBookmark.setColorFilter(null);
-                UiHelpers.showToast("Unbookmarked!", requireContext());
-                return;
+                Helpers.actionUnsaveJob(requireContext(), Integer.parseInt(jobId), new JobService.FeedbackCallback() {
+                    @Override
+                    public void feedback(String message) {
+                        btnBookmark.setColorFilter(null);
+                        UiHelpers.showToast("Unbookmarked!", requireContext());
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        UiHelpers.showToast("Bookmarked!", requireContext());
+                    }
+                });
             }
-            btnBookmark.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.holo_blue_light)
-            );
-            UiHelpers.showToast("Bookmarked!", requireContext());
+
+            Helpers.actionSaveJob(requireContext(), Integer.parseInt(jobId), new JobService.FeedbackCallback() {
+                @Override
+                public void feedback(String message) {
+                    btnBookmark.setColorFilter(
+                            ContextCompat.getColor(requireContext(), R.color.holo_blue_light)
+                    );
+                    UiHelpers.showToast("Bookmarked!", requireContext());
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    UiHelpers.showToast("Something Went Wrong", requireContext());
+                }
+            });
         });
         btnBlock.setOnClickListener(v -> {
             if (btnBlock.getColorFilter() != null) {
-                btnBlock.setColorFilter(null);
-                UiHelpers.showToast("Unblocked!", requireContext());
-                return;
+                Helpers.actionUnarchiveJob(requireContext(), Integer.parseInt(jobId), new JobService.FeedbackCallback() {
+                    @Override
+                    public void feedback(String message) {
+                        btnBlock.setColorFilter(null);
+                        UiHelpers.showToast("Unblocked!", requireContext());
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        UiHelpers.showToast("Something Went Wrong", requireContext());
+                    }
+                });
             }
-            btnBlock.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.holo_red_dark)
-            );
-            UiHelpers.showToast("Blocked!", requireContext());
+
+            Helpers.actionArchiveJob(requireContext(), Integer.parseInt(jobId), new JobService.FeedbackCallback() {
+                @Override
+                public void feedback(String message) {
+                    btnBlock.setColorFilter(
+                            ContextCompat.getColor(requireContext(), R.color.holo_red_dark)
+                    );
+                    UiHelpers.showToast("Blocked!", requireContext());
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    UiHelpers.showToast("Something Went Wrong", requireContext());
+                }
+            });
         });
         Log.d(TAG, "Job department: " + department);
         return view;
