@@ -143,7 +143,6 @@ public class ActivityLoginPage extends AppCompatActivity {
 
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Confirm using your fingerprint")
-                .setSubtitle("Log in using your biometric credential")
                 .setNegativeButtonText("Use Gmail OTP")
                 .setConfirmationRequired(false) // Show immediately
                 .build();
