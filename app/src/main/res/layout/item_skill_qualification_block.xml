@@ -4,44 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="8dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
-            android:text="Skill: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvSkillType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Technical"
-            android:textColor="#213448"
-            android:textSize="14sp" />
+            android:text="Skill: "
+            android:textColor="@color/LightGray"
+            android:textSize="11sp"/>
 
+        <TextView
+            android:id="@+id/tvSkillType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Technical"
+            android:textColor="@color/DarkBlue"
+            android:textSize="11sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-medium"
             android:text="Description: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textColor="@color/LightGray"
+            android:textSize="11sp"/>
 
         <TextView
             android:id="@+id/tvSkillDescription"
@@ -50,35 +55,37 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:text="Proficient in basic web development technologies"
-            android:textColor="#213448"
-            android:layout_marginStart="8dp"
-            android:textSize="14sp" />
-
+            android:textColor="@color/DarkBlue"
+            android:textSize="11sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-medium"
             android:text="Qualification: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textColor="@color/LightGray"
+            android:textSize="11sp"/>
 
         <TextView
             android:id="@+id/tvQualification"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
-            android:text="Bachelor of Science in Computer Science (Undergraduate)"
-            android:textColor="#213448"
-            android:textSize="14sp" />
-
+            android:text="Bachelor of Science in Computer Science"
+            android:textColor="@color/DarkBlue"
+            android:textSize="11sp"/>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/LightGray"
+        android:layout_marginTop="12dp"/>
 </LinearLayout>

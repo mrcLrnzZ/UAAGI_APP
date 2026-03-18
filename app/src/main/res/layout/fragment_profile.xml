@@ -43,7 +43,6 @@
                     android:layout_width="34dp"
                     android:layout_height="34dp"
                     android:gravity="center"
-                    android:background="@color/PaleBlue"
                     android:layout_marginEnd="12dp">
 
                     <ImageView
@@ -82,7 +81,6 @@
                     android:layout_width="34dp"
                     android:layout_height="34dp"
                     android:gravity="center"
-                    android:background="@color/PaleBlue"
                     android:layout_marginEnd="12dp">
 
                     <ImageView
@@ -121,7 +119,6 @@
                     android:layout_width="34dp"
                     android:layout_height="34dp"
                     android:gravity="center"
-                    android:background="@color/PaleBlue"
                     android:layout_marginEnd="12dp">
 
                     <ImageView
@@ -180,7 +177,6 @@
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:gravity="center"
-                        android:background="@color/PaleBlue"
                         android:layout_marginEnd="14dp">
 
                         <ImageView
@@ -268,7 +264,6 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:gravity="center"
-                    android:background="@color/PaleBlue"
                     android:id="@+id/personalInfoIcon"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -337,7 +332,6 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:gravity="center"
-                    android:background="@color/PaleBlue"
                     android:id="@+id/profBgIcon"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -346,7 +340,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/profile_documents"
+                        android:src="@drawable/briefcase"
                         app:tint="@color/Deepwater"/>
                 </LinearLayout>
 

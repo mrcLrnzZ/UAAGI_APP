@@ -4,269 +4,313 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@color/White">
 
-    <View
-        android:layout_width="450dp"
-        android:layout_height="400dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-70dp"
-        android:layout_marginEnd="-250dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/circle_background" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="150dp"
-        android:orientation="vertical"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <FrameLayout
-            android:id="@+id/loading_container"
-            android:visibility="gone"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
-        <FrameLayout
-            android:id="@+id/error_container"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+            android:orientation="vertical"
+            android:background="@color/White">
 
-            <!-- Job Apply Option-->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/apply_option_container"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="3dp">
+                android:orientation="vertical"
+                android:background="@color/White"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <ImageButton
+                        android:id="@+id/btnBackToDesc"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@color/White"
+                        android:src="@drawable/baseline_arrow_back_24"
+                        android:padding="9dp"
+                        android:scaleType="centerInside"
+                        app:tint="@color/DarkBlue"/>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Step 1 of 2"
+                            android:textColor="@color/LightGray"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.14"
+                            android:fontFamily="sans-serif-medium"
+                            android:layout_marginBottom="5dp"/>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <ImageButton
-                                android:id="@+id/btnBackToDesc"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:backgroundTint="#F5F7FA"
-                                android:src="@drawable/baseline_arrow_back_24" />
+                            <View
+                                android:layout_width="28dp"
+                                android:layout_height="3dp"
+                                android:background="@color/LightBlue"
+                                android:layout_marginEnd="24dp"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="230dp"
-                                android:text="Step 1 of 2"
-                                android:textColor="#666666" />
 
                         </LinearLayout>
-
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@drawable/logofront"
+                        android:scaleType="fitCenter"
+                        android:layout_marginEnd="12dp"/>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/logo"
-                            android:layout_width="65dp"
-                            android:layout_height="65dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/logofront"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-
-                            app:layout_constraintVertical_bias="0.191" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="4dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/jobTitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-black"
-                                android:text="Junior Web Developer"
-                                android:textColor="#002F62"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/jobCompany_jobLocation"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Foton Philippines • Quezon City"
-                                android:textColor="#666666"
-                                android:textSize="14sp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="5dp"
-                            android:text="Choose how to apply"
-                            android:textColor="#002F62"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <RadioGroup
-                        android:id="@+id/radioGroupOptions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:id="@+id/option1"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/jobTitle"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/border"
-                            android:layout_marginBottom="12dp"
-                            android:orientation="horizontal"
-                            android:padding="5dp">
+                            android:fontFamily="sans-serif-black"
+                            android:text="Junior Web Developer"
+                            android:textColor="@color/DarkBlue"
+                            android:textSize="17sp"
+                            android:layout_marginBottom="2dp"/>
 
-                            <RadioButton
-                                android:id="@+id/radioPreEmployment"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginStart="7dp"
-                                android:layout_marginTop="5dp" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:padding="10dp">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Use Pre-Employment Form"
-                                    android:textColor="#002F62"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="5dp"
-                                    android:background="#E6EBF1"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:paddingLeft="5dp"
-                                    android:paddingTop="2dp"
-                                    android:paddingRight="5dp"
-                                    android:paddingBottom="2dp"
-                                    android:text="Recommended"
-                                    android:textColor="#2C4E80"
-                                    android:textSize="10sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:text="We'll use the information you already submitted in your pre-employment form."
-                                    android:textColor="#666666"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/option2"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/jobCompany_jobLocation"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="12dp"
-                            android:background="@drawable/border"
-                            android:orientation="horizontal"
-                            android:padding="5dp">
-
-                            <RadioButton
-                                android:id="@+id/radioUploadResume"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginStart="7dp"
-                                android:layout_marginTop="5dp" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:padding="10dp">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif-medium"
-                                    android:text="Upload a Resume"
-                                    android:textColor="#002F62"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:text="Accepted file types: PDF (only)"
-                                    android:textColor="#666666"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </RadioGroup>
-                    <Button
-                        android:id="@+id/btnContinuePreEmployment"
-                        android:layout_marginStart="100dp"
-                        android:textColor="@color/White"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/job_desc_button"
-                        android:text="Continue with Pre-Employment"
-                        android:textSize="12dp" />
-
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Foton Philippines · Quezon City"
+                            android:textColor="@color/Gray"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/LightGray"
+                    android:layout_marginBottom="14dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose how to apply"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="32dp">
+
+                <FrameLayout
+                    android:id="@+id/loading_container"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
+
+                <FrameLayout
+                    android:id="@+id/error_container"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/apply_option_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/White"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/LightGray"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupOptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/option1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/border"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal"
+                                android:gravity="top"
+                                android:padding="14dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioPreEmployment"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:layout_marginTop="2dp"
+                                    android:buttonTint="@color/LightBlue"/>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginBottom="5dp">
+
+                                        <TextView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:fontFamily="sans-serif-black"
+                                            android:text="Use Pre-Employment Form"
+                                            android:textColor="@color/DarkBlue"
+                                            android:textSize="13sp"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@color/PaleBlue"
+                                            android:fontFamily="sans-serif-medium"
+                                            android:paddingStart="8dp"
+                                            android:paddingEnd="8dp"
+                                            android:paddingTop="2dp"
+                                            android:paddingBottom="2dp"
+                                            android:text="Recommended"
+                                            android:textColor="@color/Deepwater"
+                                            android:textSize="9sp"/>
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="We'll use the information you already submitted in your pre-employment form."
+                                        android:textColor="@color/Gray"
+                                        android:textSize="12sp"
+                                        android:lineSpacingExtra="3dp"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/option2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="16dp"
+                                android:background="@drawable/border"
+                                android:orientation="horizontal"
+                                android:gravity="top"
+                                android:padding="14dp">
+
+                                <RadioButton
+                                    android:id="@+id/radioUploadResume"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:layout_marginTop="2dp"
+                                    android:buttonTint="@color/LightBlue"/>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif-black"
+                                        android:text="Upload a Resume"
+                                        android:textColor="@color/DarkBlue"
+                                        android:textSize="13sp"
+                                        android:layout_marginBottom="5dp"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Accepted file types: PDF (only)"
+                                        android:textColor="@color/Gray"
+                                        android:textSize="12sp"
+                                        android:lineSpacingExtra="3dp"/>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </RadioGroup>
+
+                        <Button
+                            android:id="@+id/btnContinuePreEmployment"
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            android:background="@drawable/job_desc_button"
+                            android:text="Continue with Pre-Employment"
+                            android:textColor="@color/White"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-black"
+                            android:letterSpacing="0.02"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
