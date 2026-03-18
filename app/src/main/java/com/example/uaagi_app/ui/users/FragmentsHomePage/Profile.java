@@ -118,7 +118,7 @@
                 if (dialog.getWindow() != null) {
                     dialog.getWindow().setLayout(
                             ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
+                            ViewGroup.LayoutParams.MATCH_PARENT
                     );
                     dialog.getWindow().setGravity(Gravity.CENTER);
                     dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -153,6 +153,7 @@
 
             getChildFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up, 0)
                     .replace(R.id.profileOptionsContainer, new ChildProfile())
                     .commit();
         }

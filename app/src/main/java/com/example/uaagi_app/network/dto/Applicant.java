@@ -76,7 +76,7 @@ public class Applicant {
         this.interviewEnd = builder.interviewEnd;
     }
 
-    public int getApplicantionId() {
+    public int getApplicationId() {
         return applicantionId;
     }
 

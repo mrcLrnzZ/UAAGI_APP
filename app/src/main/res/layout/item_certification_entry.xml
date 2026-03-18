@@ -46,6 +46,7 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/certificationNameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Certification Name"
@@ -60,6 +61,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/issuingOrgLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Issuing Organization"
@@ -81,6 +83,7 @@
         android:weightSum="2">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dateObtainedLayout"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -98,6 +101,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/expiryDateLayout"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -116,6 +120,7 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
@@ -131,4 +136,3 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
-

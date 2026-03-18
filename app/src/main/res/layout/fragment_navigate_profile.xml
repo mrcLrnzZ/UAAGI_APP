@@ -95,13 +95,6 @@
                     android:paddingEnd="20dp"
                     >
 
-                    <ProgressBar
-                        android:id="@+id/profileProgressBar"
-                        style="?android:attr/progressBarStyleLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/FullName"
                         android:layout_width="match_parent"
@@ -121,6 +114,14 @@
                         android:text="Software Engineer"
                         android:textColor="#666666"
                         android:textSize="14sp" />
+
+                    <ProgressBar
+                        android:id="@+id/profileProgressBar"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

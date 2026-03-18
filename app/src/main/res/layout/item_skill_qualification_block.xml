@@ -51,6 +51,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="Proficient in basic web development technologies"
             android:textColor="#213448"
+            android:layout_marginStart="8dp"
             android:textSize="14sp" />
 
     </LinearLayout>

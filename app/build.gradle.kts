@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id ("com.google.gms.google-services")
 }
 
 android {
@@ -47,6 +48,10 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.glide)
     implementation(libs.pusher.java.client)
+    implementation(libs.firebase.messaging)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.play.services.auth)
+    implementation (libs.lifecycle.livedata.ktx)
 
     implementation(libs.appcompat)
     implementation(libs.material)

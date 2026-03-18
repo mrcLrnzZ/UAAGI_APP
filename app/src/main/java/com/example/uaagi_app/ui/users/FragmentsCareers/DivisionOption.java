@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,10 @@ import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class DivisionOption extends Fragment {
     private RecyclerView divisionRecyclerView;
@@ -36,13 +37,16 @@ public class DivisionOption extends Fragment {
     private EditText searchEditText;
     private List<JobFetchResponse> allJobs;
     private static final String ARG_COMPANY = "company";
+    private static final String ARG_IS_INTERN = "isIntern";
+    private boolean isIntern;
     public DivisionOption() {
     }
 
-    public static DivisionOption newInstance(Company company) {
+    public static DivisionOption newInstance(Company company, boolean isIntern) {
         DivisionOption fragment = new DivisionOption();
         Bundle args = new Bundle();
-        args.putString(ARG_COMPANY, company.name());
+        args.putString(ARG_COMPANY, company.getDisplayName());
+        args.putBoolean(ARG_IS_INTERN, isIntern);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +60,7 @@ public class DivisionOption extends Fragment {
 
     private void setupSearchFunctionality() {
         SimpleTextWatcher.bindTextWatcher(searchEditText,
-                new SimpleTextWatcher(query -> filterDepartments(query))
+                new SimpleTextWatcher(this::filterDepartments)
         );
     }
 
@@ -119,10 +123,26 @@ public class DivisionOption extends Fragment {
         loadingContainer.setVisibility(View.GONE);
         errorContainer.setVisibility(View.GONE);
         divisionRecyclerView.setVisibility(View.VISIBLE);
+
         List<JobFetchResponse> filteredJobs = new ArrayList<>();
+        Set<String> addedDivisions = new HashSet<>();
+
         for (JobFetchResponse job : jobs) {
-            if (job.getCompany() != null && (brandName == null || brandName.equals(job.getCompany().getDisplayName()))) {
-                filteredJobs.add(job);
+            if (job.getCompany() != null &&
+                    (brandName == null || brandName.equals(job.getCompany().getDisplayName()))) {
+
+                String division = job.getDepartment();
+                if (isIntern) {
+                    if (division != null && !addedDivisions.contains(division) && Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
+                        addedDivisions.add(division);
+                        filteredJobs.add(job);
+                    }
+                }else {
+                    if (division != null && !addedDivisions.contains(division) && Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
+                        addedDivisions.add(division);
+                        filteredJobs.add(job);
+                    }
+                }
             }
         }
 
@@ -136,7 +156,11 @@ public class DivisionOption extends Fragment {
                     tvDivision.setText(job.getDepartment());
 
                     itemView.setOnClickListener(v -> {
-                        JobsOption fragment = JobsOption.newInstance(job.getCompany(), job.getDepartment());
+                        JobsOption fragment = JobsOption.newInstance(
+                                job.getCompany(),
+                                job.getDepartment(),
+                                isIntern
+                        );
                         UiHelpers.switchFragment(getParentFragmentManager(), fragment);
                     });
                 }
@@ -157,7 +181,8 @@ public class DivisionOption extends Fragment {
         setupUiStates(view);
         divisionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         if (getArguments() != null) {
-            Company selectedCompany = Company.valueOf(getArguments().getString(ARG_COMPANY));
+            Company selectedCompany = Company.fromString(getArguments().getString(ARG_COMPANY));
+            isIntern = getArguments().getBoolean(ARG_IS_INTERN);
             brandName = selectedCompany.getDisplayName();
         }
         fetchJobs();

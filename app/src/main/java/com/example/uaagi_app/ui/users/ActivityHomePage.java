@@ -2,10 +2,13 @@ package com.example.uaagi_app.ui.users;
 
 import static com.example.uaagi_app.ui.utils.UiHelpers.switchToFragment;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +16,17 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.uaagi_app.network.Services.NotificationService;
+import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
+import com.example.uaagi_app.utils.TimeAgo;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -25,12 +36,9 @@ import com.example.uaagi_app.data.repository.NotificationRepository;
 import com.example.uaagi_app.network.Realtime.NotificationCenter;
 import com.example.uaagi_app.network.Realtime.PusherManager;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.AppliedJobs;
-import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
-import com.example.uaagi_app.ui.utils.UiHelpers;
-import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -63,7 +71,6 @@ public class ActivityHomePage extends AppCompatActivity {
     long eventTime = System.currentTimeMillis();
     private ImageView notifIcon;
     private PusherManager pusherManager;
-
     private static final int ANIMATION_DURATION = 300;
 
     private String currentSelectedTab = "home";
@@ -72,31 +79,86 @@ public class ActivityHomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        getSupportFragmentManager().registerFragmentLifecycleCallbacks(
-                new FragmentManager.FragmentLifecycleCallbacks() {
-                    @Override
-                    public void onFragmentResumed(FragmentManager fm, Fragment f) {
-                        Log.d("FRAGMENT_DEBUG", "Resumed: " + f.getClass().getSimpleName());
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all_users")
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM", "Subscribed to all_users topic");
                     }
-                }, true
-        );
+                });
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        101);
+            }
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        100
+                );
+                return;
+            }
+        }
+        int userId = SessionManager.getInstance(this).getUserId();
+        NotificationService service = new NotificationService(this);
+
+        service.fetchUserNotifications(userId,
+                new NotificationService.NotificationCallback() {
+
+                    @Override
+                    public void onResponse() {
+                        // Pusher will deliver notifications
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
         pusherManager = new PusherManager();
-
         pusherManager.connect();
 
-        int userId = SessionManager.getInstance(this).getUserId();
-
-        pusherManager.subscribeToUserChannel(userId);
-        pusherManager.subscribeToPublicChannel((title, message) -> {
+        pusherManager.subscribeToUserChannel(userId, (title, message, createdAt) -> {
             runOnUiThread(() -> {
                 View notifDot = findViewById(R.id.notifDot);
                 notifDot.setVisibility(View.VISIBLE);
 
-                NotificationModel notif = new NotificationModel(title, message, Helpers.getTimeAgo(eventTime));
-                NotificationRepository.getInstance().addNotification(notif);
+                String timeAgo = TimeAgo.getTimeAgo(createdAt);
 
-                NotificationCenter.notify(title, message, Helpers.getTimeAgo(eventTime));
+                NotificationModel notif =
+                        new NotificationModel(title, message, timeAgo);
+
+                NotificationRepository
+                        .getInstance()
+                        .addNotification(notif);
+
+                NotificationCenter.notify(title, message, timeAgo);
+
+            });
+        });
+        pusherManager.subscribeToPublicChannel((title, message, createdAt) -> {
+            runOnUiThread(() -> {
+                View notifDot = findViewById(R.id.notifDot);
+                notifDot.setVisibility(View.VISIBLE);
+
+                String timeAgo = TimeAgo.getTimeAgo(createdAt);
+
+                NotificationModel notif =
+                        new NotificationModel(title, message, timeAgo);
+
+                NotificationRepository
+                        .getInstance()
+                        .addNotification(notif);
+
+                NotificationCenter.notify(title, message, timeAgo);
 
             });
 

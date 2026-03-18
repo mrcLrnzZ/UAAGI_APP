@@ -11,14 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
-import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.ui.users.FragmentNoJobs;
-import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.SessionManager;
 
@@ -26,13 +23,13 @@ import java.util.List;
 
 public class SectionArchived extends Fragment {
 
-    private List<JobFetchResponse> archivedJobs;
     private RecyclerView rvArchived;
-    private GenericRecyclerAdapter<JobFetchResponse> adapter;
     private FrameLayout noJobs;
     private JobViewModel jobViewModel;
+
     public SectionArchived() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,21 +48,26 @@ public class SectionArchived extends Fragment {
         jobViewModel.getArchivedJobs().observe(getViewLifecycleOwner(), this::UiHandler);
         return view;
     }
+
     private void UiHandler(List<JobFetchResponse> archivedJobs) {
-        if (archivedJobs.isEmpty()) {
+        if (archivedJobs == null || archivedJobs.isEmpty()) {
             showEmpty();
         } else {
             showContent(archivedJobs);
         }
     }
+
     private void showContent(List<JobFetchResponse> archivedJobs) {
-        UiHelpers.jobCardAdapter(
+        rvArchived.setVisibility(View.VISIBLE);
+        noJobs.setVisibility(View.GONE);
+        UiHelpers.archivedJobCardAdapter(
                 rvArchived,
                 archivedJobs,
                 getChildFragmentManager(),
                 requireContext()
         );
     }
+
     private void showEmpty() {
         rvArchived.setVisibility(View.GONE);
         noJobs.setVisibility(View.VISIBLE);
@@ -76,5 +78,3 @@ public class SectionArchived extends Fragment {
         );
     }
 }
-
-

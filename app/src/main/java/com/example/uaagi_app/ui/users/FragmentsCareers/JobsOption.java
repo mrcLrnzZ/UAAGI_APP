@@ -24,10 +24,13 @@ import com.example.uaagi_app.network.dto.JobFetchResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JobsOption extends Fragment implements FragmentError.RetryListener {
     private static final String TAG = "JobsOptionFragment";
     public static final String ARG_COMPANY = "company";
+    private static final String ARG_IS_INTERN = "isIntern";
+    private boolean isIntern;
     private RecyclerView jobRecyclerView;
     private View loadingContainer;
     private String companyName, departmentName;
@@ -46,16 +49,18 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
             Company selectedCompany = Company.valueOf(getArguments().getString(ARG_COMPANY));
             companyName = selectedCompany.getDisplayName();
             departmentName = getArguments().getString("Department");
+            isIntern = getArguments().getBoolean(ARG_IS_INTERN);
         }
         setupUiStates(view);
         jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         fetchJobs();
         return view;
     }
-    public static JobsOption newInstance(Company company, String department) {
+    public static JobsOption newInstance(Company company, String department, boolean isIntern) {
         JobsOption fragment = new JobsOption();
         Bundle args = new Bundle();
         args.putString(ARG_COMPANY, company.name());
+        args.putBoolean(ARG_IS_INTERN, isIntern);
         args.putString("Department", department);
         fragment.setArguments(args);
         return fragment;
@@ -111,9 +116,19 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         Log.d(TAG, "Department Name: " + departmentName);
         Log.d(TAG, "Jobs: " + jobs.toString());
         for (JobFetchResponse job : jobs) {
+            if (isIntern) {
+                if (job.getCompany() != null &&
+                        companyName.equals(job.getCompany().getDisplayName()) &&
+                        departmentName.equals(job.getDepartment()) &&
+                        Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
+
+                    filteredJobs.add(job);
+                }
+            }else
             if (job.getCompany() != null &&
                     companyName.equals(job.getCompany().getDisplayName()) &&
-                    departmentName.equals(job.getDepartment())) {
+                    departmentName.equals(job.getDepartment()) &&
+                    !Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
 
                 filteredJobs.add(job);
             }

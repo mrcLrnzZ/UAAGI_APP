@@ -5,714 +5,308 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/WhiteSmoke"
-    tools:context=".ui.users.FragmentsCareers.JobsOption">
-
+    android:background="#F4F6FB"
+    tools:context=".ui.users.FragmentsCareers.CompanyOptions">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="24dp">
+                android:orientation="vertical"
+                android:background="#0D2742"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="48dp"
+                android:paddingBottom="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CAREERS"
+                    android:textColor="#528ff8"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.14"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Explore Opportunities"
+                    android:textColor="#FFFFFF"
+                    android:textSize="23sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Opportunities available for interns and workers."
+                    android:textColor="#8AAAC8"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="3dp"/>
             </LinearLayout>
 
-            <!-- Featured Jobs Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="28dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Know Our Brands — Start the Journey"
-                    android:textColor="#0D2742"
-                    android:textSize="22sp"
-                    android:fontFamily="sans-serif-black"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginStart="5dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Be part of a team driving innovation in the automotive industry."
-                    android:textColor="#666666"
-                    android:textSize="13sp"
+                    android:text="BROWSE BY TYPE"
+                    android:textColor="#9AAAC2"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.14"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="2dp"/>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/InternShip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="14dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:strokeColor="#E8EDF5"
+                    app:strokeWidth="1dp">
 
                     <LinearLayout
+                        android:id="@+id/internCard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:minHeight="110dp">
 
                         <LinearLayout
-                            android:id="@+id/fotonBrandCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:padding="14dp">
+                            android:gravity="center"
+                            android:background="#EEF4FF"
+                            android:padding="16dp">
 
-                            <!-- Logo + Careers  -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
-
-                                <!-- Logo -->
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="56dp"
-                                    android:layout_height="56dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="@color/White"
-                                    app:cardElevation="2dp">
-
-                                    <ImageView
-                                        android:id="@+id/brandPicture"
-                                        android:layout_width="41dp"
-                                        android:layout_height="40dp"
-                                        android:layout_gravity="center"
-                                        android:scaleType="fitCenter"
-                                        android:src="@drawable/foton" />
-
-                                </androidx.cardview.widget.CardView>
-
-                                <!-- Careers Name + Tag -->
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/brandName"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="Foton Philippines Inc."
-                                        android:textColor="#002F62"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/brandSubDesc"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="Largest Commercial Vehicle in Asia"
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/education"
+                                app:tint="#528ff8"
+                                android:layout_marginBottom="8dp"/>
 
                             <TextView
-                                android:id="@+id/tvDescription"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Foton Motor Philippines, Inc. is a leading automotive manufacturer known for quality vehicles and a commitment to innovation."
-                                android:textColor="#4B5563"
-                                android:textSize="13sp"
-                                android:lineSpacingExtra="4dp"
-                                android:layout_marginBottom="14dp" />
+                                android:text="OJT"
+                                android:textColor="#528ff8"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.06"
+                                android:fontFamily="sans-serif-black"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/careerTypeIntern"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Internship"
+                                android:textColor="#0D2742"
+                                android:textSize="16sp"
+                                android:fontFamily="sans-serif-black"
+                                android:layout_marginBottom="4dp"/>
+
+                            <TextView
+                                android:id="@+id/internDesc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="OJT programs for students and fresh graduates."
+                                android:textColor="#8A9BB5"
+                                android:textSize="12sp"
+                                android:lineSpacingExtra="3dp"
+                                android:layout_marginBottom="14dp"/>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
+                                android:background="#EFF2F7"
+                                android:layout_marginBottom="11dp"/>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
 
-                                <ImageView
-                                    android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:src="@drawable/pin"
-                                    android:layout_marginEnd="4dp" />
-
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Quezon, Philippines"
-                                    android:textColor="#9CA3AF"
-                                    android:textSize="12sp" />
+                                    android:text="View Slots"
+                                    android:textColor="#528ff8"
+                                    android:textSize="12sp"
+                                    android:fontFamily="sans-serif-black"/>
 
-
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/profile_arrowright"
+                                    android:tint="#528ff8"
+                                    android:layout_marginEnd="4dp"/>
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/JobOpportunities"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="20dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:strokeColor="#E8EDF5"
+                    app:strokeWidth="1dp">
 
                     <LinearLayout
+                        android:id="@+id/jobCard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:minHeight="110dp">
 
                         <LinearLayout
-                            android:id="@+id/cheryBrandCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:padding="14dp">
+                            android:gravity="center"
+                            android:background="#E6EDF8"
+                            android:padding="16dp">
 
-                            <!-- Logo + Careers  -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
-
-                                <!-- Logo -->
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="56dp"
-                                    android:layout_height="56dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="@color/White"
-                                    app:cardElevation="2dp">
-
-                                    <ImageView
-                                        android:id="@+id/brandPictureCHERY"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/cherylogo"
-                                        android:scaleType="fitCenter" />
-
-                                </androidx.cardview.widget.CardView>
-
-                                <!-- Careers Name + Tag -->
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/brandNameCHERY"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="Chery Auto Philippines"
-                                        android:textColor="#002F62"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/brandSubDescCHERY"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="Largest Commercial Vehicle in Asia"
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/briefcase"
+                                app:tint="#002F62"
+                                android:layout_marginBottom="8dp"/>
 
                             <TextView
-                                android:id="@+id/tvDescriptionCHERY"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Chery Auto Philippines is a fast-growing automotive company bringing innovative and quality vehicles to the Philippine market."
-                                android:textColor="#4B5563"
-                                android:textSize="13sp"
-                                android:lineSpacingExtra="4dp"
-                                android:layout_marginBottom="14dp" />
+                                android:text="FULL-TIME"
+                                android:textColor="#002F62"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.04"
+                                android:fontFamily="sans-serif-black"/>
+                        </LinearLayout>
+
+                        <!-- Card content -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/careerTypeJob"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Job Openings"
+                                android:textColor="#0D2742"
+                                android:textSize="16sp"
+                                android:fontFamily="sans-serif-black"
+                                android:layout_marginBottom="4dp"/>
+
+                            <TextView
+                                android:id="@+id/jobDesc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Full-time and field work career opportunities."
+                                android:textColor="#8A9BB5"
+                                android:textSize="12sp"
+                                android:lineSpacingExtra="3dp"
+                                android:layout_marginBottom="14dp"/>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
+                                android:background="#EFF2F7"
+                                android:layout_marginBottom="11dp"/>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
 
-                                <ImageView
-                                    android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:src="@drawable/pin"
-                                    android:layout_marginEnd="4dp" />
-
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Quezon, Philippines"
-                                    android:textColor="#9CA3AF"
-                                    android:textSize="12sp" />
+                                    android:text="View Slots"
+                                    android:textColor="@color/DarkBlue"
+                                    android:textSize="12sp"
+                                    android:fontFamily="sans-serif-black"/>
 
-
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginEnd="4dp"
+                                    android:src="@drawable/profile_arrowright"
+                                    app:tint="@color/DarkBlue"/>
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
+
+                <!-- ── Info strip ── -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#EEF4FF"
+                    android:padding="14dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_info"
+                        app:tint="#528ff8"
+                        android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
-                        <LinearLayout
-                            android:id="@+id/baicBrandCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="14dp">
-
-                            <!-- Logo + Careers  -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
-
-                                <!-- Logo -->
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="56dp"
-                                    android:layout_height="56dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="@color/White"
-                                    app:cardElevation="2dp">
-
-                                    <ImageView
-                                        android:id="@+id/brandPictureBAIC"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/baiclogo"
-                                        android:scaleType="fitCenter" />
-
-                                </androidx.cardview.widget.CardView>
-
-                                <!-- Careers Name + Tag -->
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/brandNameBAIC"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="BAIC Philippines"
-                                        android:textColor="#002F62"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/brandSubDescBAIC"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="Largest Commercial Vehicle in Asia"
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-
-                            <TextView
-                                android:id="@+id/tvDescriptionBAIC"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="BAIC Philippines is a trusted automotive brand delivering value-driven vehicles to Filipino customers."
-                                android:textColor="#4B5563"
-                                android:textSize="13sp"
-                                android:lineSpacingExtra="4dp"
-                                android:layout_marginBottom="14dp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:src="@drawable/pin"
-                                    android:layout_marginEnd="4dp" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Quezon, Philippines"
-                                    android:textColor="#9CA3AF"
-                                    android:textSize="12sp" />
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
-                        <LinearLayout
-                            android:id="@+id/lynkcoBrandCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="14dp">
-
-                            <!-- Logo + Careers  -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
-
-                                <!-- Logo -->
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="56dp"
-                                    android:layout_height="56dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="@color/White"
-                                    app:cardElevation="2dp">
-
-                                    <ImageView
-                                        android:id="@+id/brandPictureLynkco"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/lynkco"
-                                        android:scaleType="fitCenter" />
-
-                                </androidx.cardview.widget.CardView>
-
-                                <!-- Careers Name + Tag -->
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/brandNameLynkco"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="Lynk and Co Philippines"
-                                        android:textColor="#002F62"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/brandSubDescLynkco"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="Largest Commercial Vehicle in Asia"
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-
-                            <TextView
-                                android:id="@+id/tvDescriptionLynkco"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Lynk and Co Philippines is a modern automotive brand redefining mobility."
-                                android:textColor="#4B5563"
-                                android:textSize="13sp"
-                                android:lineSpacingExtra="4dp"
-                                android:layout_marginBottom="14dp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:src="@drawable/pin"
-                                    android:layout_marginEnd="4dp" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Quezon, Philippines"
-                                    android:textColor="#9CA3AF"
-                                    android:textSize="12sp" />
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-<!--                        <View-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="5dp"-->
-<!--                            android:background="#002F62" />-->
-
-                        <LinearLayout
-                            android:id="@+id/muttBrandCard"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="14dp">
-
-                            <!-- Logo + Careers  -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
-
-                                <!-- Logo -->
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="56dp"
-                                    android:layout_height="56dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="@color/White"
-                                    app:cardElevation="2dp">
-
-                                    <ImageView
-                                        android:id="@+id/brandPictureMutt"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/muttlogo"
-                                        android:scaleType="fitCenter" />
-
-                                </androidx.cardview.widget.CardView>
-
-                                <!-- Careers Name + Tag -->
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/brandNameMUTT"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="Mutt Motorcycles Philippines"
-                                        android:textColor="#002F62"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/brandSubDescMUTT"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="Largest Commercial Vehicle in Asia"
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-
-                            <TextView
-                                android:id="@+id/tvDescriptionMUTT"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Mutt Motorcycle Philippines brings custom style and modern performance."
-                                android:textColor="#4B5563"
-                                android:textSize="13sp"
-                                android:lineSpacingExtra="4dp"
-                                android:layout_marginBottom="14dp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="14dp"
-                                    android:layout_height="14dp"
-                                    android:src="@drawable/pin"
-                                    android:layout_marginEnd="4dp" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Quezon, Philippines"
-                                    android:textColor="#9CA3AF"
-                                    android:textSize="12sp" />
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
+                        android:layout_weight="1"
+                        android:text="Tap a card to see available slots and requirements."
+                        android:textColor="#3A5A8A"
+                        android:textSize="12sp"/>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

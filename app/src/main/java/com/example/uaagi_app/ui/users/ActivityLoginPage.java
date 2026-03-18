@@ -21,6 +21,18 @@ import android.text.style.ClickableSpan;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 
+import com.example.uaagi_app.network.RetrofitClient;
+import com.example.uaagi_app.network.api.LoginApi;
+import com.example.uaagi_app.network.dto.ApiResponse;
+import com.example.uaagi_app.network.dto.GoogleAuthRequest;
+import com.example.uaagi_app.network.dto.LoginData;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -38,6 +50,10 @@ import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ActivityLoginPage extends AppCompatActivity {
 
     private static final String TAG = "LoginLifecycle";
@@ -51,10 +67,8 @@ public class ActivityLoginPage extends AppCompatActivity {
     private EditText[] otpInputs;
     private TextView otpErrorText;
     private TextView resendOtpText;
-
     private boolean isDebug = true;
-
-
+    private static final int RC_SIGN_IN = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +76,83 @@ public class ActivityLoginPage extends AppCompatActivity {
         Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_login_page);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id)) // Web Client ID
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        findViewById(R.id.btnGoogleSignIn).setOnClickListener(v -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
+
         initViews();
         setupStatusBar();
         setupAnimations();
         setupClickListeners();
         setupBackHandler();
         setupResendOtp();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            String name = account.getDisplayName();
+            String email = account.getEmail();
+            String idToken = account.getIdToken();
+
+            LoginApi loginApi = RetrofitClient.getInstance().create(LoginApi.class);
+
+            GoogleAuthRequest request = new GoogleAuthRequest(idToken);
+
+            Call<ApiResponse<LoginData>> call = loginApi.authGoogle(request);
+
+            call.enqueue(new Callback<ApiResponse<LoginData>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<LoginData>> call, Response<ApiResponse<LoginData>> response) {
+                    if(response.isSuccessful() && response.body() != null){
+                        ApiResponse<LoginData> apiResponse = response.body();
+                        if(apiResponse.isSuccess()) {
+                            LoginData data = apiResponse.getData();
+                            Intent intent;
+                            SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
+                            SessionManager.getInstance(ActivityLoginPage.this).saveUserId(data.getUserId());
+                            SessionManager.getInstance(ActivityLoginPage.this).saveUserEmail(email);
+                            SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(data.isFormExist());
+
+                            if (data.isFormExist()) {
+                                intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
+                            } else {
+                                intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
+                            }
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Log.e("GOOGLE_AUTH", "Login failed: " + apiResponse.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<LoginData>> call, Throwable t) {
+                    Log.e("GOOGLE_AUTH", "Network error", t);
+                }
+            });
+
+        } catch (ApiException e) {
+            Log.e("GOOGLE_SIGN_IN", "Sign in failed", e);
+        }
     }
     private void initViews() {
         loginCard = findViewById(R.id.loginCard);

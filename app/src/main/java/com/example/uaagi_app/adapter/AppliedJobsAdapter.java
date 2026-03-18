@@ -90,36 +90,36 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
         ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
 
         // Status options
-        LinearLayout statusInterviewing = dialog.findViewById(R.id.statusInterviewing);
-        LinearLayout statusOfferReceived = dialog.findViewById(R.id.statusOfferReceived);
-        LinearLayout statusHired = dialog.findViewById(R.id.statusHired);
-        LinearLayout statusNotSelected = dialog.findViewById(R.id.statusNotSelected);
-        LinearLayout statusNoLongerInterested = dialog.findViewById(R.id.statusNoLongerInterested);
-
-        statusInterviewing.setOnClickListener(v -> {
-            updateJobStatus(job, "interviewing", "Interviewing");
-            dialog.dismiss();
-        });
-
-        statusOfferReceived.setOnClickListener(v -> {
-            updateJobStatus(job, "offer_received", "Offer received");
-            dialog.dismiss();
-        });
-
-        statusHired.setOnClickListener(v -> {
-            updateJobStatus(job, "hired", "Hired");
-            dialog.dismiss();
-        });
-
-        statusNotSelected.setOnClickListener(v -> {
-            updateJobStatus(job, "not_selected", "Not selected by employer");
-            dialog.dismiss();
-        });
-
-        statusNoLongerInterested.setOnClickListener(v -> {
-            updateJobStatus(job, "no_longer_interested", "No longer interested");
-            dialog.dismiss();
-        });
+//        LinearLayout statusInterviewing = dialog.findViewById(R.id.statusInterviewing);
+//        LinearLayout statusOfferReceived = dialog.findViewById(R.id.statusOfferReceived);
+//        LinearLayout statusHired = dialog.findViewById(R.id.statusHired);
+//        LinearLayout statusNotSelected = dialog.findViewById(R.id.statusNotSelected);
+//        LinearLayout statusNoLongerInterested = dialog.findViewById(R.id.statusNoLongerInterested);
+//
+//        statusInterviewing.setOnClickListener(v -> {
+//            updateJobStatus(job, "interviewing", "Interviewing");
+//            dialog.dismiss();
+//        });
+//
+//        statusOfferReceived.setOnClickListener(v -> {
+//            updateJobStatus(job, "offer_received", "Offer received");
+//            dialog.dismiss();
+//        });
+//
+//        statusHired.setOnClickListener(v -> {
+//            updateJobStatus(job, "hired", "Hired");
+//            dialog.dismiss();
+//        });
+//
+//        statusNotSelected.setOnClickListener(v -> {
+//            updateJobStatus(job, "not_selected", "Not selected by employer");
+//            dialog.dismiss();
+//        });
+//
+//        statusNoLongerInterested.setOnClickListener(v -> {
+//            updateJobStatus(job, "no_longer_interested", "No longer interested");
+//            dialog.dismiss();
+//        });
 
         dialog.show();
     }

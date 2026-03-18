@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@color/White">
 
-    <!-- Header -->
-    <TextView
-        android:id="@+id/tvMyJobs"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Jobs"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:padding="16dp"
-        android:fontFamily="sans-serif-medium" />
+        android:orientation="vertical"
+        android:background="@color/White"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APPLIED"
+            android:textColor="@color/LightBlue"
+            android:textSize="10sp"
+            android:letterSpacing="0.14"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Jobs"
+            android:textColor="@color/DarkBlue"
+            android:textSize="23sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Track your applications"
+            android:textColor="@color/LightBlue"
+            android:textSize="13sp"
+            android:lineSpacingExtra="3dp"/>
+    </LinearLayout>
 
     <!-- Category Tabs Container -->
     <HorizontalScrollView
@@ -26,24 +51,24 @@
         android:scrollbars="none"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="12dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <!-- Saved Tab -->
             <LinearLayout
                 android:id="@+id/tabSaved"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:background="@drawable/tab_unselected_background"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:clickable="true"
@@ -54,8 +79,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Saved"
-                    android:textSize="15sp"
-                    android:textColor="#5F6368"
+                    android:textSize="14sp"
+                    android:textColor="#5F5E5A"
                     android:fontFamily="sans-serif-medium" />
 
                 <TextView
@@ -64,24 +89,24 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:text="0"
-                    android:textSize="12sp"
-                    android:textColor="#000000"
+                    android:textSize="11sp"
+                    android:textColor="#444441"
+                    android:background="@drawable/count_badge_background"
                     android:gravity="center"
-                    android:layout_marginStart="8dp"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:layout_marginStart="6dp"
                     android:fontFamily="sans-serif-medium" />
             </LinearLayout>
 
-            <!-- Applied Tab -->
             <LinearLayout
                 android:id="@+id/tabApplied"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:background="@drawable/tab_selected_background"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:clickable="true"
@@ -92,35 +117,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Applied"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textColor="#FFFFFF"
                     android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:id="@+id/tvAppliedCount"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:text="1"
-                    android:textSize="12sp"
-                    android:textColor="#000000"
-                    android:background="@drawable/count_badge_background"
+                    android:textSize="11sp"
+                    android:textColor="#1A1A1A"
+                    android:background="@drawable/circle_white"
                     android:gravity="center"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="6dp"
                     android:fontFamily="sans-serif-medium" />
             </LinearLayout>
 
-            <!-- Interviews Tab -->
             <LinearLayout
                 android:id="@+id/tabInterviews"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:background="@drawable/tab_unselected_background"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:clickable="true"
@@ -131,8 +153,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Interviews"
-                    android:textSize="15sp"
-                    android:textColor="#5F6368"
+                    android:textSize="14sp"
+                    android:textColor="#5F5E5A"
                     android:fontFamily="sans-serif-medium" />
 
                 <TextView
@@ -141,24 +163,24 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:text="0"
-                    android:textSize="12sp"
-                    android:textColor="#000000"
+                    android:textSize="11sp"
+                    android:textColor="#444441"
+                    android:background="@drawable/count_badge_background"
                     android:gravity="center"
-                    android:layout_marginStart="8dp"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:layout_marginStart="6dp"
                     android:fontFamily="sans-serif-medium" />
             </LinearLayout>
 
-            <!-- Archived Tab -->
             <LinearLayout
                 android:id="@+id/tabArchived"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:background="@drawable/tab_unselected_background"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
                 android:gravity="center"
                 android:clickable="true"
                 android:focusable="true">
@@ -168,24 +190,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Archived"
-                    android:textSize="15sp"
-                    android:textColor="#5F6368"
+                    android:textSize="14sp"
+                    android:textColor="#5F5E5A"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:id="@+id/tvArchivedCount"
+                    android:visibility="gone"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:text="0"
+                    android:textSize="11sp"
+                    android:textColor="#444441"
+                    android:background="@drawable/count_badge_background"
+                    android:gravity="center"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:layout_marginStart="6dp"
                     android:fontFamily="sans-serif-medium" />
             </LinearLayout>
 
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E0E0E0" />
-    <!-- Fragment Container -->
+        android:background="#E5E3DC" />
+
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="@color/White" />
 
 </LinearLayout>

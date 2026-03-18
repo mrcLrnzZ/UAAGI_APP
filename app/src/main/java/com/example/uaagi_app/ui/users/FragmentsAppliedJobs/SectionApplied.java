@@ -74,7 +74,7 @@ public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJob
 
             for (Applicant applicant : applicants) {
                 AppliedJob job = new AppliedJob(
-                        String.valueOf(applicant.getApplicantionId()),
+                        String.valueOf(applicant.getApplicationId()),
                         applicant.getJobTitle(),
                         applicant.getCompany(),
                         applicant.getLocation(),

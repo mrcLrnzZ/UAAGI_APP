@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uaagi_app.R;
@@ -34,11 +33,11 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
     private static final String TAG = "PreEmpStep1Lifecycle";
     // UI Components
     private TextInputLayout firstNameLayout, middleNameLayout, lastNameLayout;
-    private TextInputLayout dobLayout, ageLayout, genderLayout, religionLayout;
+    private TextInputLayout dobLayout, genderLayout, religionLayout;
     private TextInputLayout civilStatusLayout, nationalityLayout, heightLayout, weightLayout, bloodTypeLayout;
     private TextInputLayout phoneLayout, otherPhoneLayout, telephoneLayout;
     private TextInputLayout regionLayout, cityLayout, barangayLayout, streetLayout;
-    private TextInputLayout currentAddressLayout, permanentAddressLayout;
+    private TextInputLayout permanentAddressLayout;
 
     private TextInputEditText firstNameInput, middleNameInput, lastNameInput;
     private TextInputEditText dobInput, ageInput;
@@ -50,7 +49,7 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
     private AutoCompleteTextView nationalitySpinner, bloodTypeSpinner;
     private AutoCompleteTextView regionSpinner, citySpinner, barangaySpinner;
 
-    private Button btnPrevious, btnNext, btnSubmit;
+    private Button btnNext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,12 +61,9 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
         viewModel = new ViewModelProvider(requireActivity())
                 .get(PreEmpFormViewModel.class);
 
-        firstNameInput = view.findViewById(R.id.firstNameInput);
-        lastNameInput = view.findViewById(R.id.lastNameInput);
         initializeViews(view);
         hasTakenStep();
         setupSpinners();
-        //setupHintsWithAsterisk();
         setupListeners();
     }
     @Override
@@ -95,14 +91,43 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
             );
             form.setUserInfo(userIfo);
         });
-        String Email = SessionManager.getInstance(requireContext()).getUserEmail();
-        Log.d(TAG, "emailPreEmp: "+Email);
     }
 
     public void next() {
-        saveFormData();
-        ((PreEmpForm) requireActivity()).nextStep();
+        if (validateStep1()) {
+            saveFormData();
+            ((PreEmpForm) requireActivity()).nextStep();
+        }
     }
+
+    private boolean validateStep1() {
+        boolean isValid = true;
+
+        isValid &= InputValidator.isValid(firstNameInput.getText().toString(), firstNameLayout, "First name is required");
+        isValid &= InputValidator.isValid(lastNameInput.getText().toString(), lastNameLayout, "Last name is required");
+        isValid &= InputValidator.isValid(dobInput.getText().toString(), dobLayout, "Date of birth is required");
+        isValid &= InputValidator.isValid(genderSpinner.getText().toString(), genderLayout, "Gender is required");
+        isValid &= InputValidator.isValid(religionSpinner.getText().toString(), religionLayout, "Religion is required");
+        isValid &= InputValidator.isValid(civilStatusSpinner.getText().toString(), civilStatusLayout, "Civil status is required");
+        isValid &= InputValidator.isValid(nationalitySpinner.getText().toString(), nationalityLayout, "Nationality is required");
+        isValid &= InputValidator.isValid(heightInput.getText().toString(), heightLayout, "Height is required");
+        isValid &= InputValidator.isValid(weightInput.getText().toString(), weightLayout, "Weight is required");
+        isValid &= InputValidator.isValid(bloodTypeSpinner.getText().toString(), bloodTypeLayout, "Blood type is required");
+        
+        isValid &= InputValidator.isValid(phoneInput.getText().toString(), phoneLayout, "Cell number is required");
+        isValid &= InputValidator.isValid(regionSpinner.getText().toString(), regionLayout, "Region is required");
+        isValid &= InputValidator.isValid(citySpinner.getText().toString(), cityLayout, "City is required");
+        isValid &= InputValidator.isValid(barangaySpinner.getText().toString(), barangayLayout, "Barangay is required");
+        isValid &= InputValidator.isValid(streetInput.getText().toString(), streetLayout, "Street is required");
+        isValid &= InputValidator.isValid(permanentAddressInput.getText().toString(), permanentAddressLayout, "Permanent address is required");
+
+        if (!isValid) {
+            Toast.makeText(requireContext(), "Please fill all required fields correctly", Toast.LENGTH_SHORT).show();
+        }
+
+        return isValid;
+    }
+
     private void hasTakenStep(){
         UserInfo userInfo = viewModel.getValue().getUserInfo();
         if(userInfo != null && !userInfo.getFirstName().isEmpty()){
@@ -111,13 +136,13 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
             lastNameInput.setText(userInfo.getLastName());
             dobInput.setText(userInfo.getDob());
             ageInput.setText(userInfo.getAge());
-            genderSpinner.setText(userInfo.getGender());
-            religionSpinner.setText(userInfo.getReligion());
-            civilStatusSpinner.setText(userInfo.getCivilStatus());
-            nationalitySpinner.setText(userInfo.getNationality());
+            genderSpinner.setText(userInfo.getGender(), false);
+            religionSpinner.setText(userInfo.getReligion(), false);
+            civilStatusSpinner.setText(userInfo.getCivilStatus(), false);
+            nationalitySpinner.setText(userInfo.getNationality(), false);
             heightInput.setText(userInfo.getHeight());
             weightInput.setText(userInfo.getWeight());
-            bloodTypeSpinner.setText(userInfo.getBloodType());
+            bloodTypeSpinner.setText(userInfo.getBloodType(), false);
             phoneInput.setText(userInfo.getCellNo());
             otherPhoneInput.setText(userInfo.getTelNo());
             streetInput.setText(userInfo.getCurrentAddress());
@@ -127,12 +152,10 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
         }
     }
     private void initializeViews(View view) {
-        // Personal Information
         firstNameLayout = view.findViewById(R.id.firstNameLayout);
         middleNameLayout = view.findViewById(R.id.middleNameLayout);
         lastNameLayout = view.findViewById(R.id.lastNameLayout);
         dobLayout = view.findViewById(R.id.dobLayout);
-        ageLayout = view.findViewById(R.id.ageLayout);
         genderLayout = view.findViewById(R.id.genderLayout);
         religionLayout = view.findViewById(R.id.religionLayout);
         civilStatusLayout = view.findViewById(R.id.civilStatusLayout);
@@ -155,7 +178,6 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
         nationalitySpinner = view.findViewById(R.id.nationalitySpinner);
         bloodTypeSpinner = view.findViewById(R.id.bloodTypeSpinner);
 
-        // Contact Information
         phoneLayout = view.findViewById(R.id.phoneLayout);
         otherPhoneLayout = view.findViewById(R.id.otherPhoneLayout);
         telephoneLayout = view.findViewById(R.id.telephoneLayout);
@@ -163,7 +185,6 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
         cityLayout = view.findViewById(R.id.cityLayout);
         barangayLayout = view.findViewById(R.id.barangayLayout);
         streetLayout = view.findViewById(R.id.streetLayout);
-        currentAddressLayout = view.findViewById(R.id.currentAddressLayout);
         permanentAddressLayout = view.findViewById(R.id.permanentAddressLayout);
 
         phoneInput = view.findViewById(R.id.phoneInput);
@@ -177,83 +198,40 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
         citySpinner = view.findViewById(R.id.citySpinner);
         barangaySpinner = view.findViewById(R.id.barangaySpinner);
 
-        // Buttons
-        btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
-        btnSubmit = view.findViewById(R.id.btnSubmit);
     }
     private void setupSpinners() {
-        String[] genders = {
-                "Male", "Female", "Non-binary", "Other", "Prefer not to say"
-        };
+        String[] genders = {"Male", "Female", "Non-binary", "Other", "Prefer not to say"};
         UiHelpers.dropDownMaker(genders, genderSpinner, requireContext());
-        String[] religions = {
-                "Roman Catholic", "Christian", "Iglesia ni Cristo", "Evangelical",
-                "Jehovah's Witness", "Seventh-day Adventist", "Islam",
-                "Other", "Prefer not to say"
-        };
+        String[] religions = {"Roman Catholic", "Christian", "Iglesia ni Cristo", "Evangelical", "Jehovah's Witness", "Seventh-day Adventist", "Islam", "Other", "Prefer not to say"};
         UiHelpers.dropDownMaker(religions, religionSpinner, requireContext());
-        String[] civilStatus = {
-                "Single", "Married", "Widowed", "Separated", "Divorced"
-        };
+        String[] civilStatus = {"Single", "Married", "Widowed", "Separated", "Divorced"};
         UiHelpers.dropDownMaker(civilStatus, civilStatusSpinner, requireContext());
-        String[] nationalities = {
-                "Filipino", "American", "Chinese", "Japanese", "Korean",
-                "British", "Australian", "Canadian", "Other"
-        };
+        String[] nationalities = {"Filipino", "American", "Chinese", "Japanese", "Korean", "British", "Australian", "Canadian", "Other"};
         UiHelpers.dropDownMaker(nationalities, nationalitySpinner, requireContext());
-        String[] bloodTypes = {
-                "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
-        };
+        String[] bloodTypes = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
         UiHelpers.dropDownMaker(bloodTypes, bloodTypeSpinner, requireContext());
-        String[] regions = {
-                "NCR", "Region I", "Region II", "Region III", "Region IV-A",
-                "Region IV-B", "Region V", "Region VI", "Region VII", "Region VIII",
-                "Region IX", "Region X", "Region XI", "Region XII", "CAR", "BARMM"
-        };
+        String[] regions = {"NCR", "Region I", "Region II", "Region III", "Region IV-A", "Region IV-B", "Region V", "Region VI", "Region VII", "Region VIII", "Region IX", "Region X", "Region XI", "Region XII", "CAR", "BARMM"};
         UiHelpers.dropDownMaker(regions, regionSpinner, requireContext());
-        String[] cities = {
-                "Manila", "Quezon City", "Caloocan", "Makati",
-                "Pasig", "Taguig", "Mandaluyong",
-                "Marikina", "Parañaque", "Las Piñas"
-        };
+        String[] cities = {"Manila", "Quezon City", "Caloocan", "Makati", "Pasig", "Taguig", "Mandaluyong", "Marikina", "Parañaque", "Las Piñas"};
         UiHelpers.dropDownMaker(cities, citySpinner, requireContext());
-        String[] barangay = {
-                "Bagong Pag-asa", "Batasan Hills", "Commonwealth", "Diliman",
-                "Fairview", "Holy Spirit", "Novaliches", "Payatas",
-                "Project 6", "Tandang Sora"
-        };
-
+        String[] barangay = {"Bagong Pag-asa", "Batasan Hills", "Commonwealth", "Diliman", "Fairview", "Holy Spirit", "Novaliches", "Payatas", "Project 6", "Tandang Sora"};
         UiHelpers.dropDownMaker(barangay, barangaySpinner, requireContext());
-    }
-    private void setupHintsWithAsterisk()  {
-        UiHelpers.setRequiredHint(requireContext(), firstNameLayout, "First Name");
-        UiHelpers.setRequiredHint(requireContext(), middleNameLayout, "Middle Initial");
-        UiHelpers.setRequiredHint(requireContext(), lastNameLayout, "Last Name");
     }
     private void setupListeners() {
         dobInput.setOnClickListener(v -> showDatePicker());
-
         btnNext.setOnClickListener(v -> next());
 
-        regionSpinner.setOnItemClickListener((parent, view, position, id) ->
-                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
-        );
-        citySpinner.setOnItemClickListener((parent, view, position, id) ->
-                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
-        );
-        barangaySpinner.setOnItemClickListener((parent, view, position, id) ->
-                Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput)
-        );
+        regionSpinner.setOnItemClickListener((parent, view, position, id) -> Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput));
+        citySpinner.setOnItemClickListener((parent, view, position, id) -> Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput));
+        barangaySpinner.setOnItemClickListener((parent, view, position, id) -> Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput));
         streetInput.addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Helpers.generateCurrentAddress(streetInput, barangaySpinner, citySpinner, regionSpinner, currentAddressInput);
             }
-
             @Override
             public void afterTextChanged(android.text.Editable s) {}
         });
@@ -276,153 +254,10 @@ public class PreEmpFormStep1 extends BaseFormStepFragment {
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         datePickerDialog.show();
     }
-//    private boolean validateCurrentStep() {
-//        switch (currentStep) {
-//            case 1: // Personal Information
-//                return validatePersonalInfo();
-//            case 2: // Contact Information
-//                return validateContactInfo();
-//            default:
-//                return true;
-//        }
-//    }
-    private boolean validatePersonalInfo() {
-        boolean isValid = true;
-
-        isValid &= InputValidator.isValid(
-                firstNameInput.getText().toString(),
-                firstNameLayout,
-                "First name is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                middleNameInput.getText().toString(),
-                middleNameLayout,
-                "Middle initial is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                lastNameInput.getText().toString(),
-                lastNameLayout,
-                "Last name is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                dobInput.getText().toString(),
-                dobLayout,
-                "Date of birth is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                genderSpinner.getText().toString(),
-                genderLayout,
-                "Gender is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                civilStatusSpinner.getText().toString(),
-                civilStatusLayout,
-                "Civil status is required"
-        );
-
-        if (!isValid) {
-            Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show();
-        }
-
-        return isValid;
-    }
-    private boolean validateContactInfo() {
-        boolean isValid = true;
-
-        isValid &= InputValidator.isValid(
-                phoneInput.getText().toString(),
-                phoneLayout,
-                "Phone number is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                otherPhoneInput.getText().toString(),
-                otherPhoneLayout,
-                "Other contact is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                regionSpinner.getText().toString(),
-                regionLayout,
-                "Region is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                citySpinner.getText().toString(),
-                cityLayout,
-                "City/Municipality is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                barangaySpinner.getText().toString(),
-                barangayLayout,
-                "Barangay is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                streetInput.getText().toString(),
-                streetLayout,
-                "Street address is required"
-        );
-
-        isValid &= InputValidator.isValid(
-                permanentAddressInput.getText().toString(),
-                permanentAddressLayout,
-                "Permanent address is required"
-        );
-
-        if (!isValid) {
-            Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show();
-        }
-
-        return isValid;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        Log.d(TAG, "onAttach");
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume");
-        if(viewModel.getValue().getUserInfo() == null || viewModel.getValue().getUserInfo().getFirstName().isEmpty()){
-            Log.d(TAG, "onResume Data: Empty");
-        }else{
-            Log.d(TAG, "onResume Data: "+viewModel.getValue().getUserInfo().toString());
-        }
         hasTakenStep();
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.d(TAG, "onDestroyView");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
-    }
-
 }
