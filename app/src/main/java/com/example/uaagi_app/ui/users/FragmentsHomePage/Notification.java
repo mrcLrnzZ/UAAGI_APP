@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
     private RecyclerView recyclerView;
     private NotificationAdapter adapter;
+    private TextView cardSubtitle;
     private NotificationRepository notificationRepository;
 
 
@@ -39,6 +41,7 @@ public class Notification extends Fragment implements NotificationCenter.Listene
         notificationRepository = NotificationRepository.getInstance();
 
         recyclerView = view.findViewById(R.id.rvNotification);
+        cardSubtitle = view.findViewById(R.id.cardSubtitle);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         NotificationService service = new NotificationService(getContext());
@@ -59,9 +62,40 @@ public class Notification extends Fragment implements NotificationCenter.Listene
 
         adapter = new NotificationAdapter(notificationRepository.getNotifications());
 
+        adapter = new NotificationAdapter(notificationRepository.getNotifications());
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                updateNotifCount();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                updateNotifCount();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                updateNotifCount();
+            }
+        });
+
         recyclerView.setAdapter(adapter);
 
+        updateNotifCount();
+
+        recyclerView.setAdapter(adapter);
         return view;
+    }
+    private void updateNotifCount() {
+        int notifCount = adapter.getItemCount();
+
+        cardSubtitle.setText(
+                notifCount == 0 ? "0 alerts" :
+                        notifCount == 1 ? "1 new alert" :
+                                notifCount + " new alerts"
+        );
     }
     @Override
     public void onNotification(String title, String message, String timeAgo) {
