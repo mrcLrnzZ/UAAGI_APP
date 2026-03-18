@@ -20,6 +20,12 @@ import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import com.example.uaagi_app.network.RetrofitClient;
 import com.example.uaagi_app.network.api.LoginApi;
@@ -50,9 +56,14 @@ import com.google.android.material.button.MaterialButton;
 
 import androidx.activity.OnBackPressedCallback;
 
+import java.util.concurrent.Executor;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
+import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 
 public class ActivityLoginPage extends AppCompatActivity {
 
@@ -69,6 +80,10 @@ public class ActivityLoginPage extends AppCompatActivity {
     private TextView resendOtpText;
     private boolean isDebug = true;
     private static final int RC_SIGN_IN = 100;
+
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +109,75 @@ public class ActivityLoginPage extends AppCompatActivity {
         setupClickListeners();
         setupBackHandler();
         setupResendOtp();
+        setupBiometrics();
+
+        // Use post to ensure the activity is fully initialized before showing the biometric prompt
+        findViewById(android.R.id.content).post(this::checkExistingSessionForBiometric);
     }
+
+    private void setupBiometrics() {
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(ActivityLoginPage.this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Log.d(TAG, "Biometric error (" + errorCode + "): " + errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
+                UiHelpers.showToast("Authentication succeeded!", ActivityLoginPage.this);
+                navigateToHome();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Log.d(TAG, "Biometric authentication failed");
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Confirm using your fingerprint")
+                .setNegativeButtonText("Use Gmail OTP")
+                .setConfirmationRequired(false) // Show immediately
+                .build();
+    }
+
+    private void checkExistingSessionForBiometric() {
+        SessionManager sessionManager = SessionManager.getInstance(this);
+        Log.d(TAG, "Checking biometric availability. Email present: " + !sessionManager.getUserEmail().isEmpty());
+        
+        // We offer biometric if the user has a saved email (even if logged out)
+        if (!sessionManager.getUserEmail().isEmpty()) {
+            BiometricManager biometricManager = BiometricManager.from(this);
+            int canAuthenticate = biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
+            
+            if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS) {
+                Log.d(TAG, "Biometric available, showing prompt");
+                biometricPrompt.authenticate(promptInfo);
+            } else {
+                Log.d(TAG, "Biometric not available, error code: " + canAuthenticate);
+            }
+        }
+    }
+
+    private void navigateToHome() {
+        SessionManager sessionManager = SessionManager.getInstance(this);
+        Intent intent;
+        if (sessionManager.hasPreEmpResponse()) {
+            intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
+        } else {
+            intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
+        }
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -125,19 +208,13 @@ public class ActivityLoginPage extends AppCompatActivity {
                         ApiResponse<LoginData> apiResponse = response.body();
                         if(apiResponse.isSuccess()) {
                             LoginData data = apiResponse.getData();
-                            Intent intent;
-                            SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
-                            SessionManager.getInstance(ActivityLoginPage.this).saveUserId(data.getUserId());
-                            SessionManager.getInstance(ActivityLoginPage.this).saveUserEmail(email);
-                            SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(data.isFormExist());
+                            SessionManager sessionManager = SessionManager.getInstance(ActivityLoginPage.this);
+                            sessionManager.saveLoginState(true);
+                            sessionManager.saveUserId(data.getUserId());
+                            sessionManager.saveUserEmail(email);
+                            sessionManager.savePreEmpResponse(data.isFormExist());
 
-                            if (data.isFormExist()) {
-                                intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
-                            } else {
-                                intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
-                            }
-                            startActivity(intent);
-                            finish();
+                            navigateToHome();
                         } else {
                             Log.e("GOOGLE_AUTH", "Login failed: " + apiResponse.getMessage());
                         }
@@ -194,6 +271,12 @@ public class ActivityLoginPage extends AppCompatActivity {
         if (btnVerifyOTP != null) {
             btnVerifyOTP.setOnClickListener(v -> verifyOtp());
         }
+
+        // Long click to manually trigger biometric prompt if it was dismissed
+        loginBtn.setOnLongClickListener(v -> {
+            checkExistingSessionForBiometric();
+            return true;
+        });
     }
     private void setupResendOtp() {
         String fullText = "Didn't receive OTP? Resend OTP";
@@ -313,20 +396,15 @@ public class ActivityLoginPage extends AppCompatActivity {
         authService.verifyLogin(email, otp, new LoginAuthService.VerifyLoginCallback() {
             @Override
             public void onResponse(LoginFetchResponse response) {
-                Intent intent;
-                SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
-                SessionManager.getInstance(ActivityLoginPage.this).saveUserId(response.userId);
-                SessionManager.getInstance(ActivityLoginPage.this).saveUserEmail(email);
-                SessionManager.getInstance(ActivityLoginPage.this).savePreEmpResponse(response.formExist);
+                SessionManager sessionManager = SessionManager.getInstance(ActivityLoginPage.this);
+                sessionManager.saveLoginState(true);
+                sessionManager.saveUserId(response.userId);
+                sessionManager.saveUserEmail(email);
+                sessionManager.savePreEmpResponse(response.formExist);
                 Log.d(TAG, "Success: " + response.success + " UserId: " + response.userId);
                 UiHelpers.showToast("Login successful", ActivityLoginPage.this);
-                if (response.formExist) {
-                    intent = new Intent(ActivityLoginPage.this, ActivityHomePage.class);
-                } else {
-                    intent = new Intent(ActivityLoginPage.this, PreEmpForm.class);
-                }
-                startActivity(intent);
-                finish();
+                
+                navigateToHome();
             }
 
             @Override

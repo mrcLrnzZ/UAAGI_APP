@@ -4,78 +4,69 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="8dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <TextView
+        android:id="@+id/tvSeminarTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Basic Programming and Problem-Solving Workshop"
+        android:textColor="@color/DarkBlue"
+        android:textSize="13sp"
+        android:layout_marginBottom="4dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-medium"
             android:text="Type: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textColor="@color/LightGray"
+            android:textSize="11sp"/>
 
         <TextView
             android:id="@+id/tvSeminarType"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:text="Seminar"
-            android:textColor="#213448"
-            android:textSize="12sp" />
-
+            android:textColor="@color/DarkBlue"
+            android:textSize="11sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
-            android:text="Title: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvSeminarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Basic Programming and Problem-Solving Workshop"
-            android:textColor="#213448"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:text="Organizer: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textColor="@color/LightGray"
+            android:textSize="11sp"/>
 
         <TextView
             android:id="@+id/tvSeminarOrganizer"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:text="University IT Department"
-            android:textColor="#213448"
-            android:textSize="12sp" />
-
+            android:textColor="@color/DarkBlue"
+            android:textSize="11sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -86,23 +77,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-medium"
             android:text="Date: "
-            android:textColor="#213448"
-            android:textSize="14sp" />
+            android:textColor="@color/LightGray"
+            android:textSize="11sp"/>
 
         <TextView
             android:id="@+id/tvSeminarDate"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:text="November 30, 2023"
-            android:textColor="#213448"
-            android:layout_marginStart="34dp"
-            android:textSize="12sp" />
-
+            android:textColor="@color/DarkBlue"
+            android:textSize="11sp"/>
     </LinearLayout>
 
-
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/LightGray"
+        android:layout_marginTop="12dp"/>
 </LinearLayout>

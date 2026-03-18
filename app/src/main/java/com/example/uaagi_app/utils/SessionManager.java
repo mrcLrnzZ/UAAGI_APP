@@ -56,7 +56,18 @@ public class SessionManager {
         return prefs.getBoolean("preEmpResponse", false);
     }
 
+    public boolean hasPreEmpResponse() {
+        return getPreEmpResponse();
+    }
+
     public void logout() {
+        // We keep userEmail, userId, and preEmpResponse for biometric login fallback
+        prefs.edit()
+                .putBoolean("isLoggedIn", false)
+                .apply();
+    }
+    
+    public void clearAll() {
         prefs.edit().clear().apply();
     }
 }

@@ -13,7 +13,7 @@
         android:background="@color/White"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
-        android:paddingTop="20dp"
+        android:paddingTop="32dp"
         android:paddingBottom="20dp">
 
         <TextView
@@ -44,7 +44,7 @@
             android:lineSpacingExtra="3dp"/>
     </LinearLayout>
 
-    <!-- Category Tabs Container -->
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

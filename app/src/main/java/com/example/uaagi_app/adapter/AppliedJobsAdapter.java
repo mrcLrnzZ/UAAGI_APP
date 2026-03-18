@@ -51,24 +51,30 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
     public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
         AppliedJob job = jobList.get(position);
 
-        holder.tvJobTitle.setText(job.getJobTitle());
-        holder.tvCompanyName.setText(job.getCompanyName());
-        holder.tvLocation.setText(job.getLocation());
-        holder.tvAppliedDate.setText("Applied on " + job.getAppliedPlatform() + " on " + job.getAppliedDate());
-        holder.tvEmployerResponse.setText(job.getEmployerResponseTime());
+        if (holder.tvJobTitle != null) holder.tvJobTitle.setText(job.getJobTitle());
+        if (holder.tvCompanyName != null) holder.tvCompanyName.setText(job.getCompanyName());
+        if (holder.tvLocation != null) holder.tvLocation.setText(job.getLocation());
+        if (holder.tvAppliedDate != null) holder.tvAppliedDate.setText("Applied on " + job.getAppliedPlatform() + " on " + job.getAppliedDate());
+        if (holder.tvEmployerResponse != null) holder.tvEmployerResponse.setText(job.getEmployerResponseTime());
 
         // Show/hide warning badge
-        if (job.isResponseUnlikely()) {
-            holder.layoutResponseWarning.setVisibility(View.VISIBLE);
-        } else {
-            holder.layoutResponseWarning.setVisibility(View.GONE);
+        if (holder.layoutResponseWarning != null) {
+            if (job.isResponseUnlikely()) {
+                holder.layoutResponseWarning.setVisibility(View.VISIBLE);
+            } else {
+                holder.layoutResponseWarning.setVisibility(View.GONE);
+            }
         }
 
         // Update Status Button Click
-        holder.btnUpdateStatus.setOnClickListener(v -> showUpdateStatusDialog(job));
+        if (holder.btnUpdateStatus != null) {
+            holder.btnUpdateStatus.setOnClickListener(v -> showUpdateStatusDialog(job));
+        }
 
         // Menu Dots Click
-        holder.ivMenuDots.setOnClickListener(v -> showManageJobDialog(job));
+        if (holder.ivMenuDots != null) {
+            holder.ivMenuDots.setOnClickListener(v -> showManageJobDialog(job));
+        }
     }
 
     @Override
@@ -87,7 +93,9 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
 
         // Close button
         ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
-        ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
+        if (ivCloseDialog != null) {
+            ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
+        }
 
         // Status options
 //        LinearLayout statusInterviewing = dialog.findViewById(R.id.statusInterviewing);
@@ -135,35 +143,43 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
 
         // Close button
         ImageView ivCloseManageDialog = dialog.findViewById(R.id.ivCloseManageDialog);
-        ivCloseManageDialog.setOnClickListener(v -> dialog.dismiss());
+        if (ivCloseManageDialog != null) {
+            ivCloseManageDialog.setOnClickListener(v -> dialog.dismiss());
+        }
 
         // Management options
         LinearLayout optionViewDetails = dialog.findViewById(R.id.optionViewDetails);
         LinearLayout optionArchive = dialog.findViewById(R.id.optionArchive);
         LinearLayout optionWithdraw = dialog.findViewById(R.id.optionWithdraw);
 
-        optionViewDetails.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onViewDetails(job);
-            }
-            dialog.dismiss();
-        });
+        if (optionViewDetails != null) {
+            optionViewDetails.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onViewDetails(job);
+                }
+                dialog.dismiss();
+            });
+        }
 
-        optionArchive.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onJobArchived(job);
-                Toast.makeText(context, "Job archived", Toast.LENGTH_SHORT).show();
-            }
-            dialog.dismiss();
-        });
+        if (optionArchive != null) {
+            optionArchive.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onJobArchived(job);
+                    Toast.makeText(context, "Job archived", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            });
+        }
 
-        optionWithdraw.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onApplicationWithdrawn(job);
-                Toast.makeText(context, "Application withdrawn", Toast.LENGTH_SHORT).show();
-            }
-            dialog.dismiss();
-        });
+        if (optionWithdraw != null) {
+            optionWithdraw.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onApplicationWithdrawn(job);
+                    Toast.makeText(context, "Application withdrawn", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            });
+        }
 
         dialog.show();
     }

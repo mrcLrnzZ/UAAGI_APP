@@ -36,7 +36,7 @@ public class ApplyPreEmp extends Fragment {
     private GenericRecyclerAdapter<Education> adapterEducation;
     private GenericRecyclerAdapter<WorkExperience> adapterWorkExperience;
     private Button btnSubmitApplication;
-    private ImageButton btnBackToDesc;
+    private ImageButton btnBackToApplyOption;
     private JobViewModel jobViewModel;
     private ProfileViewModel profileViewModel;
 
@@ -217,12 +217,12 @@ public class ApplyPreEmp extends Fragment {
         rvAppliedJobs = view.findViewById(R.id.rvAppliedJobs);
 
         btnSubmitApplication = view.findViewById(R.id.btnSubmitApplication);
-        btnBackToDesc = view.findViewById(R.id.btnBackToDesc);
+        btnBackToApplyOption = view.findViewById(R.id.btnBackToApplyOption);
     }
 
     private void setupButtons() {
 
-        btnBackToDesc.setOnClickListener(v -> {
+        btnBackToApplyOption.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
                     .popBackStack();
