@@ -79,7 +79,7 @@
                     android:layout_marginStart="2dp"/>
 
                 <!-- ── FOTON CARD ── -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/fotonBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,8 +87,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/White"
-                    app:strokeColor="@color/LightGray"
-                    app:strokeWidth="1dp">
+                    app:strokeColor="#CBD8EC"
+                    app:strokeWidth="1.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                                     android:layout_width="52dp"
                                     android:layout_height="52dp"
                                     android:gravity="center"
-                                    android:background="@color/White"
+                                    android:background="@color/transparent"
                                     android:layout_marginEnd="12dp">
 
                                     <androidx.cardview.widget.CardView
@@ -197,10 +197,10 @@
                                 android:fontFamily="sans-serif-medium"/>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- ── CHERY CARD ── -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cheryBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -208,8 +208,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/White"
-                    app:strokeColor="@color/LightGray"
-                    app:strokeWidth="1dp">
+                    app:strokeColor="#CBD8EC"
+                    app:strokeWidth="1.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -233,7 +233,7 @@
                                     android:layout_width="52dp"
                                     android:layout_height="52dp"
                                     android:gravity="center"
-                                    android:background="@color/White"
+                                    android:background="@color/transparent"
                                     android:layout_marginEnd="12dp">
 
                                     <androidx.cardview.widget.CardView
@@ -318,10 +318,10 @@
                                 android:fontFamily="sans-serif-medium"/>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- ── BAIC CARD ── -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/baicBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -329,8 +329,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/White"
-                    app:strokeColor="@color/LightGray"
-                    app:strokeWidth="1dp">
+                    app:strokeColor="#CBD8EC"
+                    app:strokeWidth="1.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -354,7 +354,7 @@
                                     android:layout_width="52dp"
                                     android:layout_height="52dp"
                                     android:gravity="center"
-                                    android:background="@color/White"
+                                    android:background="@color/transparent"
                                     android:layout_marginEnd="12dp">
 
                                     <androidx.cardview.widget.CardView
@@ -439,10 +439,10 @@
                                 android:fontFamily="sans-serif-medium"/>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- ── LYNK & CO CARD ── -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/lynkcoBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -450,8 +450,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/White"
-                    app:strokeColor="@color/LightGray"
-                    app:strokeWidth="1dp">
+                    app:strokeColor="#CBD8EC"
+                    app:strokeWidth="1.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -475,7 +475,7 @@
                                     android:layout_width="52dp"
                                     android:layout_height="52dp"
                                     android:gravity="center"
-                                    android:background="@color/White"
+                                    android:background="@color/transparent"
                                     android:layout_marginEnd="12dp">
 
                                     <androidx.cardview.widget.CardView
@@ -560,10 +560,10 @@
                                 android:fontFamily="sans-serif-medium"/>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- ── MUTT CARD ── -->
-                <androidx.cardview.widget.CardView
+
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/muttBrandCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -571,8 +571,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/White"
-                    app:strokeColor="@color/LightGray"
-                    app:strokeWidth="1dp">
+                    app:strokeColor="#CBD8EC"
+                    app:strokeWidth="1.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -596,7 +596,7 @@
                                     android:layout_width="52dp"
                                     android:layout_height="52dp"
                                     android:gravity="center"
-                                    android:background="@color/White"
+                                    android:background="@color/transparent"
                                     android:layout_marginEnd="12dp">
 
                                     <androidx.cardview.widget.CardView
@@ -681,7 +681,7 @@
                                 android:fontFamily="sans-serif-medium"/>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
         </LinearLayout>

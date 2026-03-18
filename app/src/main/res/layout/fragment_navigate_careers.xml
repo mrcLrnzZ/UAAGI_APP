@@ -162,7 +162,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="View Slots"
+                                    android:text="View Openings"
                                     android:textColor="#528ff8"
                                     android:textSize="12sp"
                                     android:fontFamily="sans-serif-black"/>
@@ -265,7 +265,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="View Slots"
+                                    android:text="View Openings"
                                     android:textColor="@color/DarkBlue"
                                     android:textSize="12sp"
                                     android:fontFamily="sans-serif-black"/>

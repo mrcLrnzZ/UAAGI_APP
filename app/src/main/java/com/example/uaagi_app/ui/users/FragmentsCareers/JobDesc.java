@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 
 import java.util.List;
 
@@ -36,6 +38,10 @@ public class JobDesc extends Fragment {
     
     private ProgressBar progressBar;
     private ScrollView scrollView;
+    
+    private boolean isSaved = false;
+    private boolean isArchived = false;
+    private int jobIdInt = -1;
 
     public static Fragment newInstance(int id, boolean isInter) {
         JobDesc fragment = new JobDesc();
@@ -71,7 +77,13 @@ public class JobDesc extends Fragment {
 
         String jobId = getArgumentsFromBundle();
         if (jobId != null) {
-            fetchJobDetails(jobId);
+            try {
+                jobIdInt = Integer.parseInt(jobId);
+                fetchJobDetails(jobId);
+                checkJobStatus();
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid job ID: " + jobId);
+            }
         }
 
         btnApplyNow.setOnClickListener(v -> {
@@ -82,31 +94,137 @@ public class JobDesc extends Fragment {
             fragment.setArguments(bundle);
             UiHelpers.switchFragment(requireActivity().getSupportFragmentManager(), fragment);
         });
+        
         btnBookmark.setOnClickListener(v -> {
-            if (btnBookmark.getColorFilter() != null) {
-                btnBookmark.setColorFilter(null);
-                UiHelpers.showToast("Unbookmarked!", requireContext());
+            if (jobIdInt == -1) return;
+            if (isArchived) {
+                Toast.makeText(requireContext(), "Job is archived. Unarchive first.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            btnBookmark.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.holo_blue_light)
-            );
-            UiHelpers.showToast("Bookmarked!", requireContext());
+
+            if (isSaved) {
+                Helpers.actionUnsaveJob(requireContext(), jobIdInt, new JobService.FeedbackCallback() {
+                    @Override
+                    public void feedback(String message) {
+                        isSaved = false;
+                        updateStatusIcons();
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Helpers.actionSaveJob(requireContext(), jobIdInt, new JobService.FeedbackCallback() {
+                    @Override
+                    public void feedback(String message) {
+                        isSaved = true;
+                        updateStatusIcons();
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
+
         btnBlock.setOnClickListener(v -> {
-            if (btnBlock.getColorFilter() != null) {
-                btnBlock.setColorFilter(null);
-                UiHelpers.showToast("Unblocked!", requireContext());
+            if (jobIdInt == -1) return;
+            if (isSaved) {
+                Toast.makeText(requireContext(), "Job is saved. Unsave first.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            btnBlock.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.holo_red_dark)
-            );
-            UiHelpers.showToast("Blocked!", requireContext());
+
+            if (isArchived) {
+                Helpers.actionUnarchiveJob(requireContext(), jobIdInt, new JobService.FeedbackCallback() {
+                    @Override
+                    public void feedback(String message) {
+                        isArchived = false;
+                        updateStatusIcons();
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Helpers.actionArchiveJob(requireContext(), jobIdInt, new JobService.FeedbackCallback() {
+                    @Override
+                    public void feedback(String message) {
+                        isArchived = true;
+                        updateStatusIcons();
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
+        
         Log.d(TAG, "Job department: " + department);
         return view;
     }
+    
+    private void checkJobStatus() {
+        if (jobIdInt == -1) return;
+        
+        Helpers.actionFetchSavedJobId(requireContext(), new JobService.JobIdServiceCallback() {
+            @Override
+            public void onResponse(List<Integer> jobIds) {
+                if (jobIds != null && jobIds.contains(jobIdInt)) {
+                    isSaved = true;
+                    updateStatusIcons();
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.e(TAG, "Error fetching saved jobs: " + errorMessage);
+            }
+        });
+
+        Helpers.actionFetchArchivedJobId(requireContext(), new JobService.JobIdServiceCallback() {
+            @Override
+            public void onResponse(List<Integer> jobIds) {
+                if (jobIds != null && jobIds.contains(jobIdInt)) {
+                    isArchived = true;
+                    updateStatusIcons();
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.e(TAG, "Error fetching archived jobs: " + errorMessage);
+            }
+        });
+    }
+
+    private void updateStatusIcons() {
+        if (!isAdded()) return;
+
+        if (isSaved) {
+            btnBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
+        } else {
+            btnBookmark.setColorFilter(null);
+        }
+
+        if (isArchived) {
+            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_blue_light));
+        } else {
+            btnBlock.setColorFilter(null);
+        }
+    }
+
     private String getArgumentsFromBundle(){
         if (getArguments() != null) {
             isIntern = getArguments().getBoolean(ARG_IS_INTERN);

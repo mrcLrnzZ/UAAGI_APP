@@ -104,13 +104,13 @@
                         android:layout_width="46dp"
                         android:layout_height="46dp"
                         android:gravity="center"
-                        android:background="@color/PaleBlue"
+                        android:background="@color/transparent"
                         android:layout_marginEnd="14dp">
 
                         <ImageView
                             android:id="@+id/logo"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="46dp"
+                            android:layout_height="46dp"
                             android:src="@drawable/logofront"
                             android:scaleType="fitCenter"/>
                     </LinearLayout>

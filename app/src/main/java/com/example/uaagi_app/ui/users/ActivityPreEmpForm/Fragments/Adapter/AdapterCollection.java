@@ -198,7 +198,9 @@ public class AdapterCollection {
     }
 
     public static GenericRecyclerAdapter<JobFetchResponse> createSavedJobsAdapter(List<JobFetchResponse> savedJobs, FragmentManager fragmentManager, Context context) {
-        return new GenericRecyclerAdapter<>(
+        final GenericRecyclerAdapter<JobFetchResponse>[] adapterRef = new GenericRecyclerAdapter[1];
+        
+        adapterRef[0] = new GenericRecyclerAdapter<>(
                 savedJobs,
                 R.layout.item_saved_job,
                 (view, job, position) -> {
@@ -216,31 +218,20 @@ public class AdapterCollection {
 
                     if (ivBookmark != null) {
                         ivBookmark.setOnClickListener(v -> {
-                            RecyclerView rv = null;
-                            if (view.getParent() instanceof RecyclerView) {
-                                rv = (RecyclerView) view.getParent();
-                            } else if (view.getParent() != null && view.getParent().getParent() instanceof RecyclerView) {
-                                rv = (RecyclerView) view.getParent().getParent();
-                            }
-                            
-                            if (rv != null) {
-                                RecyclerView.Adapter<?> adapter = rv.getAdapter();
-                                if (adapter instanceof GenericRecyclerAdapter) {
-                                    Helpers.actionUnsaveJob(context, job.getId(), new JobService.FeedbackCallback() {
-                                        @Override
-                                        public void feedback(String message) {
-                                            ((GenericRecyclerAdapter<JobFetchResponse>) adapter).removeItem(job);
-                                        }
-
-                                        @Override
-                                        public void onError(String errorMessage) {
-                                            Toast.makeText(context, "Action failed", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-
+                            Helpers.actionUnsaveJob(context, job.getId(), new JobService.FeedbackCallback() {
+                                @Override
+                                public void feedback(String message) {
+                                    if (adapterRef[0] != null) {
+                                        adapterRef[0].removeItem(job);
+                                    }
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                                 }
-                            }
+
+                                @Override
+                                public void onError(String errorMessage) {
+                                    Toast.makeText(context, "Action failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         });
                     }
 
@@ -265,6 +256,7 @@ public class AdapterCollection {
 
                 }
         );
+        return adapterRef[0];
     }
 
 }

@@ -69,18 +69,6 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginStart="2dp"/>
 
-                <FrameLayout
-                    android:id="@+id/loading_container"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
-
-                <FrameLayout
-                    android:id="@+id/error_container"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/job_container"
@@ -91,6 +79,17 @@
                     android:visibility="gone"/>
 
             </LinearLayout>
+            <FrameLayout
+                android:id="@+id/loading_container"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+
+            <FrameLayout
+                android:id="@+id/error_container"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
         </LinearLayout>
 
 
