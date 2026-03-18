@@ -5,130 +5,151 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
+    android:background="#F4F6FB"
     tools:context=".ui.users.FragmentsHomePage.Careers">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/White"
-            >
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="25dp">
+                android:orientation="vertical"
+                android:background="#0D2742"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="48dp"
+                android:paddingBottom="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CAREERS"
+                    android:textColor="#528ff8"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.14"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Explore Opportunities"
+                    android:textColor="#FFFFFF"
+                    android:textSize="23sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Opportunities available for interns and workers."
+                    android:textColor="#8AAAC8"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="3dp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="@color/White"
-                android:padding="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="28dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Explore Opportunities"
-                    android:textColor="#0D2742"
-                    android:textSize="22sp"
-                    android:fontFamily="sans-serif-black"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginStart="5dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Opportunities available for interns and workers."
-                    android:textColor="#666666"
-                    android:textSize="13sp"
+                    android:text="BROWSE BY TYPE"
+                    android:textColor="#9AAAC2"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.14"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="2dp"/>
 
-                <!-- intern -->
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/fotonBrandCard"
+                    android:id="@+id/InternShip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="14dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="#528ff8" />
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:strokeColor="#E8EDF5"
+                    app:strokeWidth="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:minHeight="110dp">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:padding="18dp">
+                            android:gravity="center"
+                            android:background="#EEF4FF"
+                            android:padding="16dp">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/education"
+                                app:tint="#528ff8"
+                                android:layout_marginBottom="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
+                                android:text="OJT"
+                                android:textColor="#528ff8"
+                                android:textSize="10sp"
+                                android:letterSpacing="0.06"
+                                android:fontFamily="sans-serif-black"/>
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="16dp">
 
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                            <TextView
+                                android:id="@+id/careerTypeIntern"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Internship"
+                                android:textColor="#0D2742"
+                                android:textSize="16sp"
+                                android:fontFamily="sans-serif-black"
+                                android:layout_marginBottom="4dp"/>
 
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/careerTypeIntern"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="Internship"
-                                        android:textColor="#528ff8"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/internDesc"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="OJT programs for students and fresh graduates."
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-
+                            <TextView
+                                android:id="@+id/internDesc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="OJT programs for students and fresh graduates."
+                                android:textColor="#8A9BB5"
+                                android:textSize="12sp"
+                                android:lineSpacingExtra="3dp"
+                                android:layout_marginBottom="14dp"/>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
+                                android:background="#EFF2F7"
+                                android:layout_marginBottom="11dp"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -136,106 +157,102 @@
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
 
-
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:fontFamily="sans-serif-black"
                                     android:text="View Slots"
                                     android:textColor="#528ff8"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:fontFamily="sans-serif-black"/>
 
                                 <ImageView
                                     android:layout_width="14dp"
                                     android:layout_height="14dp"
                                     android:src="@drawable/profile_arrowright"
                                     android:tint="#528ff8"
-                                    android:layout_marginEnd="4dp" />
+                                    android:layout_marginEnd="4dp"/>
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Job Opportunity -->
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/fotonBrandCard"
+                    android:id="@+id/JobOpportunities"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="20dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="6dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="@color/DarkBlue" />
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:strokeColor="#E8EDF5"
+                    app:strokeWidth="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:minHeight="110dp">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:padding="18dp">
+                            android:gravity="center"
+                            android:background="#E6EDF8"
+                            android:padding="16dp">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/briefcase"
+                                app:tint="#002F62"
+                                android:layout_marginBottom="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:layout_marginBottom="12dp">
+                                android:text="FULL-TIME"
+                                android:textColor="#002F62"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.04"
+                                android:fontFamily="sans-serif-black"/>
+                        </LinearLayout>
 
+                        <!-- Card content -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="16dp">
 
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                            <TextView
+                                android:id="@+id/careerTypeJob"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Job Openings"
+                                android:textColor="#0D2742"
+                                android:textSize="16sp"
+                                android:fontFamily="sans-serif-black"
+                                android:layout_marginBottom="4dp"/>
 
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/careerTypeJob"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="sans-serif-black"
-                                        android:letterSpacing="0.02"
-                                        android:text="Job Openings"
-                                        android:textColor="#002F62"
-                                        android:textSize="17sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/jobDesc"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="2dp"
-                                        android:text="Full-time and field work career opportunities."
-                                        android:textColor="#6B7280"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
-
+                            <TextView
+                                android:id="@+id/jobDesc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Full-time and field work career opportunities."
+                                android:textColor="#8A9BB5"
+                                android:textSize="12sp"
+                                android:lineSpacingExtra="3dp"
+                                android:layout_marginBottom="14dp"/>
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#E5E7EB"
-                                android:layout_marginBottom="12dp" />
+                                android:background="#EFF2F7"
+                                android:layout_marginBottom="11dp"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -243,28 +260,51 @@
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical">
 
-
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="View Slots"
-                                    android:fontFamily="sans-serif-black"
                                     android:textColor="@color/DarkBlue"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:fontFamily="sans-serif-black"/>
 
                                 <ImageView
                                     android:layout_width="14dp"
                                     android:layout_height="16dp"
                                     android:layout_marginEnd="4dp"
                                     android:src="@drawable/profile_arrowright"
-                                    android:tint="@color/DarkBlue" />
+                                    app:tint="@color/DarkBlue"/>
                             </LinearLayout>
 
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- ── Info strip ── -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="#EEF4FF"
+                    android:padding="14dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_info"
+                        app:tint="#528ff8"
+                        android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tap a card to see available slots and requirements."
+                        android:textColor="#3A5A8A"
+                        android:textSize="12sp"/>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
