@@ -5,41 +5,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/WhiteSmoke"
+    android:background="@color/White"
     tools:context=".ui.users.FragmentsCareers.JobsOption">
-    
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/White">
 
-            <!-- Search Bar -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="24dp">
+                android:orientation="vertical"
+                android:background="@color/White"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="32dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FOTON PHILIPPINES"
+                    android:textColor="@color/LightBlue"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.14"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Innovate with us"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="22sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Build your career with Foton Philippines."
+                    android:textColor="@color/Gray"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="2dp"
+                    android:layout_marginBottom="18dp"/>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="46dp"
                     android:background="@drawable/search_bar_background"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:elevation="2dp">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_marginStart="16dp"
-                        android:src="@drawable/vectorsearch" />
+                        android:src="@drawable/vectorsearch"
+                        app:tint="@color/Gray"/>
 
                     <EditText
                         android:id="@+id/searchJob"
@@ -49,37 +82,32 @@
                         android:layout_marginStart="12dp"
                         android:background="@android:color/transparent"
                         android:hint="Search Job"
-                        android:textColorHint="#999999"
-                        android:textSize="14sp" />
-
+                        android:textColorHint="@color/LightGray"
+                        android:textColor="@color/DarkBlue"
+                        android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Featured Jobs Section -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Innovate with us - Foton Philippines"
-                    android:textColor="#0D2742"
-                    android:textSize="22sp"
-                    android:fontFamily="sans-serif-black"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginStart="5dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Build your career with Foton Philippines."
-                    android:textColor="#666666"
-                    android:textSize="13sp"
+                    android:text="OPEN POSITIONS"
+                    android:textColor="@color/Gray"
+                    android:textSize="10sp"
+                    android:letterSpacing="0.14"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="2dp"/>
 
                 <FrameLayout
                     android:id="@+id/loading_container"
@@ -99,11 +127,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:visibility="gone">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:visibility="gone"/>
 
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
