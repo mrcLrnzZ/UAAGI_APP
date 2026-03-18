@@ -27,6 +27,8 @@ public class JobDesc extends Fragment {
     View btnApplyNow, btnBack;
     TextView jobTitle, jobCompany, jobDesc, jobLocation, jobQualifications,
             jobBenefits, jobRemoteOption, jobDept;
+    private static final String ARG_IS_INTERN = "isIntern";
+    private boolean isIntern;
     String Title, Location, company, department;
     ImageButton btnBookmark, btnBlock;
     private Company selectedCompany;
@@ -35,10 +37,11 @@ public class JobDesc extends Fragment {
     private ProgressBar progressBar;
     private ScrollView scrollView;
 
-    public static Fragment newInstance(int id) {
+    public static Fragment newInstance(int id, boolean isInter) {
         JobDesc fragment = new JobDesc();
         Bundle args = new Bundle();
         args.putString("jobId", String.valueOf(id));
+        args.putBoolean(ARG_IS_INTERN, isInter);
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,6 +109,7 @@ public class JobDesc extends Fragment {
     }
     private String getArgumentsFromBundle(){
         if (getArguments() != null) {
+            isIntern = getArguments().getBoolean(ARG_IS_INTERN);
             department = getArguments().getString("Department");
             String enumName = getArguments().getString("company_enum");
             if (enumName != null) {
@@ -149,7 +153,7 @@ public class JobDesc extends Fragment {
                     btnBack.setOnClickListener(v ->
                             UiHelpers.switchFragment(
                                     requireActivity().getSupportFragmentManager(),
-                                    JobsOption.newInstance(job.getCompany(), job.getDepartment())
+                                    JobsOption.newInstance(job.getCompany(), job.getDepartment(), isIntern)
                             )
                     );
                 }

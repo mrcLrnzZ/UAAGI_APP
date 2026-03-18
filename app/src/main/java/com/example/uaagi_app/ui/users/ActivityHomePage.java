@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uaagi_app.network.Services.NotificationService;
+import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.utils.TimeAgo;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -35,11 +36,9 @@ import com.example.uaagi_app.data.repository.NotificationRepository;
 import com.example.uaagi_app.network.Realtime.NotificationCenter;
 import com.example.uaagi_app.network.Realtime.PusherManager;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.AppliedJobs;
-import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Home;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
-import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;

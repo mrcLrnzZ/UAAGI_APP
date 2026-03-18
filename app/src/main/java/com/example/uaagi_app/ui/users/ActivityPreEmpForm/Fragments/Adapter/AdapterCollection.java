@@ -21,6 +21,7 @@ import com.example.uaagi_app.utils.Helpers;
 
 
 import java.util.List;
+import java.util.Objects;
 
 public class AdapterCollection {
     public static GenericRecyclerAdapter<ContactReference> createCharacterReferenceAdapter(List<ContactReference> references) {
@@ -206,7 +207,7 @@ public class AdapterCollection {
                     ImageView ivBookmark = view.findViewById(R.id.ivBookmark);
                     TextView tvAppliedDate = view.findViewById(R.id.tvAppliedDate);
                     Button btnViewJobDetails = view.findViewById(R.id.btnViewJobDetails);
-
+                    boolean isIntern = Objects.equals(job.getJobType().getDisplayName(), "Internship");
                     if (jobTitle != null) jobTitle.setText(Helpers.safeText(job.getJobTitle()));
                     if (jobCompanyName != null) jobCompanyName.setText(Helpers.safeText(job.getCompany() != null ? job.getCompany().getDisplayName() : ""));
                     if (jobLocation != null) jobLocation.setText(Helpers.safeText(job.getLocation()));
@@ -233,7 +234,7 @@ public class AdapterCollection {
 
                     View.OnClickListener navigateToDetails = v -> {
                         try {
-                            Fragment jobDesc = JobDesc.newInstance(job.getId());
+                            Fragment jobDesc = JobDesc.newInstance(job.getId(), isIntern);
                             if (fragmentManager != null) {
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.fragment_container, jobDesc)

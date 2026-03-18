@@ -28,7 +28,7 @@
             android:orientation="vertical"
             android:padding="18dp">
 
-            <!-- Logo + Careers  -->
+            <!-- Logo + CompanyOptions  -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Careers Name + Tag -->
+                <!-- CompanyOptions Name + Tag -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
