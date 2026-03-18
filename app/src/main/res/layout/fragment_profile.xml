@@ -311,7 +311,7 @@
                     android:layout_height="14dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/arrowright"
+                    android:src="@drawable/profile_arrowright"
                     app:tint="@color/LightGray"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -380,7 +380,7 @@
                     android:layout_height="14dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/arrowright"
+                    android:src="@drawable/profile_arrowright"
                     app:tint="@color/LightGray"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
