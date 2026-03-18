@@ -115,6 +115,14 @@
                         android:textColor="#666666"
                         android:textSize="14sp" />
 
+                    <ProgressBar
+                        android:id="@+id/profileProgressBar"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <ImageView
@@ -133,13 +141,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/profile_icon" />
 
-                <ProgressBar
-                    android:id="@+id/profileProgressBar"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"/>
             </RelativeLayout>
 
             <FrameLayout
