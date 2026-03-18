@@ -63,7 +63,7 @@ public class SectionArchived extends Fragment {
         UiHelpers.archivedJobCardAdapter(
                 rvArchived,
                 archivedJobs,
-                getChildFragmentManager(),
+                requireActivity().getSupportFragmentManager(),
                 requireContext()
         );
     }

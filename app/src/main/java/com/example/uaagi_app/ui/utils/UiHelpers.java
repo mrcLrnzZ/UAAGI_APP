@@ -175,7 +175,6 @@ public class UiHelpers {
             FragmentManager fragmentManager,
             Context context
     ) {
-        boolean isIntern = false;
         GenericRecyclerAdapter<JobFetchResponse> adapter = new GenericRecyclerAdapter<>(
                 jobs,
                 R.layout.item_archieved_jobs,
