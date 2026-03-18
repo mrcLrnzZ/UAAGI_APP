@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -29,6 +31,9 @@ public class JobDesc extends Fragment {
     ImageButton btnBookmark, btnBlock;
     private Company selectedCompany;
     private static final String TAG = "JobDescFragment";
+    
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
 
     public static Fragment newInstance(int id) {
         JobDesc fragment = new JobDesc();
@@ -57,6 +62,9 @@ public class JobDesc extends Fragment {
         jobDept = view.findViewById(R.id.tvDivisionValue);
         btnBookmark = view.findViewById(R.id.btnBookmark);
         btnBlock = view.findViewById(R.id.btnBlock);
+        
+        progressBar = view.findViewById(R.id.progressBar);
+        scrollView = view.findViewById(R.id.scrollView);
 
         String jobId = getArgumentsFromBundle();
         if (jobId != null) {
@@ -114,6 +122,9 @@ public class JobDesc extends Fragment {
     private void fetchJobDetails(String jobId) {
         if (jobId == null || jobId.isEmpty()) return;
         
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+        if (scrollView != null) scrollView.setVisibility(View.GONE);
+        
         JobService service = new JobService(requireContext());
         Log.d(TAG, "fetchJobDetails: "+ jobId);
         try {
@@ -121,6 +132,9 @@ public class JobDesc extends Fragment {
             service.fetchJobById(id, new JobService.JobServiceCallback() {
                 @Override
                 public void onResponse(List<JobFetchResponse> response) {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    if (scrollView != null) scrollView.setVisibility(View.VISIBLE);
+                    
                     if (response == null || response.isEmpty()) return;
                     JobFetchResponse job = response.get(0);
                     jobTitle.setText(job.getJobTitle());
@@ -142,10 +156,13 @@ public class JobDesc extends Fragment {
 
                 @Override
                 public void onError(String errorMessage) {
+                    if (progressBar != null) progressBar.setVisibility(View.GONE);
+                    if (scrollView != null) scrollView.setVisibility(View.VISIBLE);
                     Log.e(TAG, errorMessage);
                 }
             });
         } catch (NumberFormatException e) {
+            if (progressBar != null) progressBar.setVisibility(View.GONE);
             Log.e(TAG, "Invalid job ID format: " + jobId);
         }
     }
