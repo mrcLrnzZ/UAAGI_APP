@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.*;
+import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
 import com.example.uaagi_app.utils.Helpers;
@@ -225,8 +226,19 @@ public class AdapterCollection {
                             if (rv != null) {
                                 RecyclerView.Adapter<?> adapter = rv.getAdapter();
                                 if (adapter instanceof GenericRecyclerAdapter) {
-                                    ((GenericRecyclerAdapter<JobFetchResponse>) adapter).removeItem(job);
-                                    Toast.makeText(context, "Job unsaved", Toast.LENGTH_SHORT).show();
+                                    Helpers.actionUnsaveJob(context, job.getId(), new JobService.FeedbackCallback() {
+                                        @Override
+                                        public void feedback(String message) {
+                                            ((GenericRecyclerAdapter<JobFetchResponse>) adapter).removeItem(job);
+                                        }
+
+                                        @Override
+                                        public void onError(String errorMessage) {
+                                            Toast.makeText(context, "Action failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+
                                 }
                             }
                         });
