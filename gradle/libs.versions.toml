@@ -13,6 +13,7 @@ lifecycleLivedataKtx = "2.10.0"
 material = "1.13.0"
 activity = "1.12.4"
 constraintlayout = "2.2.1"
+biometric = "1.2.0-alpha05"
 
 okhttp = "5.3.2"
 playServicesAuth = "21.5.1"
@@ -49,6 +50,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 play-services-drive = { group = "com.google.android.gms", name = "play-services-drive", version.ref = "playServicesDrive" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -52,6 +52,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.play.services.auth)
     implementation (libs.lifecycle.livedata.ktx)
+    implementation(libs.androidx.biometric)
 
     implementation(libs.appcompat)
     implementation(libs.material)
