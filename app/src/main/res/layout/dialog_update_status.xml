@@ -84,6 +84,7 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <ImageView
+                    android:id="@+id/ivStatusIcon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_check_circle"
@@ -127,202 +128,222 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_card_outlined"
                 app:layout_constraintTop_toBottomOf="@id/tvLabelDetails">
-
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
+                    android:id="@+id/infoBox"
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
                     <LinearLayout
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:gravity="center"
-                        android:background="@drawable/bg_icon_blue"
-                        android:layout_marginEnd="12dp">
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="#185FA5" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:gravity="center"
+                            android:background="@drawable/bg_icon_blue"
+                            android:layout_marginEnd="12dp">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_calendar"
+                                app:tint="#185FA5" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Date"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E" />
+                            <TextView
+                                android:id="@+id/interviewDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="March 15, 2026"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="#000000"
+                                android:fontFamily="sans-serif-medium" />
+                        </LinearLayout>
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#F0F0F0" />
+
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:gravity="center"
+                            android:background="@drawable/bg_icon_blue"
+                            android:layout_marginEnd="12dp">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/clock"
+                                app:tint="#185FA5" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Date"
-                            android:textSize="11sp"
-                            android:textColor="#9E9E9E" />
-                        <TextView
-                            android:id="@+id/interviewDate"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Time"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E" />
+                            <TextView
+                                android:id="@+id/interviewTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3:00 PM"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="#000000"
+                                android:fontFamily="sans-serif-medium" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#F0F0F0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:gravity="center"
+                            android:background="@drawable/bg_icon_blue"
+                            android:layout_marginEnd="12dp">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/mode"
+                                app:tint="#185FA5" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="March 15, 2026"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#000000"
-                            android:fontFamily="sans-serif-medium" />
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mode"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E" />
+                            <TextView
+                                android:id="@+id/tvModeInterview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="In-person interview"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="#000000"
+                                android:fontFamily="sans-serif-medium" />
+                            <TextView
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="UAAGI Balintawak"
+                                android:textSize="12sp"
+                                android:textColor="#757575" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#F0F0F0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:gravity="center"
+                            android:background="@drawable/bg_icon_blue"
+                            android:layout_marginEnd="12dp">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/pin"
+                                app:tint="#185FA5" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Location"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E" />
+                            <TextView
+                                android:id="@+id/tvPlaceOfInterview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Balintawak"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="#000000"
+                                android:fontFamily="sans-serif-medium" />
+                            <TextView
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quezon City, Philippines"
+                                android:textSize="12sp"
+                                android:textColor="#757575" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#F0F0F0" />
-
                 <LinearLayout
+                    android:id="@+id/infoRejectBox"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="#FDECEA"
+                    android:layout_marginTop="8dp"
+                    android:gravity="start">
 
-                    <LinearLayout
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:gravity="center"
-                        android:background="@drawable/bg_icon_blue"
-                        android:layout_marginEnd="12dp">
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/clock"
-                            app:tint="#185FA5" />
-                    </LinearLayout>
+                    <!-- You can dynamically add TextViews or other info here in code -->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Time"
-                            android:textSize="11sp"
-                            android:textColor="#9E9E9E" />
-                        <TextView
-                            android:id="@+id/interviewTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3:00 PM"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#000000"
-                            android:fontFamily="sans-serif-medium" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#F0F0F0" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <LinearLayout
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:gravity="center"
-                        android:background="@drawable/bg_icon_blue"
-                        android:layout_marginEnd="12dp">
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/mode"
-                            app:tint="#185FA5" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mode"
-                            android:textSize="11sp"
-                            android:textColor="#9E9E9E" />
-                        <TextView
-                            android:id="@+id/tvModeInterview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="In-person interview"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#000000"
-                            android:fontFamily="sans-serif-medium" />
-                        <TextView
-                            android:visibility="gone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UAAGI Balintawak"
-                            android:textSize="12sp"
-                            android:textColor="#757575" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#F0F0F0" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <LinearLayout
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:gravity="center"
-                        android:background="@drawable/bg_icon_blue"
-                        android:layout_marginEnd="12dp">
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/pin"
-                            app:tint="#185FA5" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Location"
-                            android:textSize="11sp"
-                            android:textColor="#9E9E9E" />
-                        <TextView
-                            android:id="@+id/tvPlaceOfInterview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Balintawak"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="#000000"
-                            android:fontFamily="sans-serif-medium" />
-                        <TextView
-                            android:visibility="gone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Quezon City, Philippines"
-                            android:textSize="12sp"
-                            android:textColor="#757575" />
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
