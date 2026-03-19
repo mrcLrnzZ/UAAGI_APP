@@ -18,10 +18,12 @@ import com.example.uaagi_app.adapter.AppliedJobsAdapter;
 import com.example.uaagi_app.data.model.AppliedJob;
 import com.example.uaagi_app.data.viewmodel.ApplicantViewModel;
 import com.example.uaagi_app.network.dto.Applicant;
+import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJobActionListener {
 
@@ -73,19 +75,22 @@ public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJob
             appliedJobsList.clear();
 
             for (Applicant applicant : applicants) {
-                AppliedJob job = new AppliedJob(
-                        String.valueOf(applicant.getApplicationId()),
-                        applicant.getJobTitle(),
-                        applicant.getCompany(),
-                        applicant.getLocation(),
-                        applicant.getSubmissionDate(),
-                        applicant.getApplyMethod(),
-                        "This employer typically responds within 1 day",
-                        true,
-                        applicant.getStatus()
-                );
 
-                appliedJobsList.add(job);
+                if (Objects.equals(applicant.getStatus(), "Applied")) {
+                    AppliedJob job = new AppliedJob(
+                            String.valueOf(applicant.getApplicationId()),
+                            applicant.getJobTitle(),
+                            applicant.getCompany(),
+                            applicant.getLocation(),
+                            Helpers.formatToOrdinalDate(applicant.getSubmissionDate()),
+                            applicant.getApplyMethod(),
+                            "This employer typically responds within 1 day",
+                            false,
+                            applicant.getStatus()
+                    );
+                    appliedJobsList.add(job);
+                }
+
             }
 
             adapter.notifyDataSetChanged();

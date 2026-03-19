@@ -286,15 +286,14 @@ public class ActivityHomePage extends AppCompatActivity {
     }
 
     private void animateToInactive(ImageView icon, TextView text, View indicator) {
-        animateColorFilter(icon, Color.WHITE, Color.parseColor("#99FFFFFF"));
+        animateColorFilter(icon, Color.WHITE, Color.parseColor("#666666")); // dark gray
 
-        animateTextColor(text, Color.WHITE, Color.parseColor("#99FFFFFF"));
+        animateTextColor(text, Color.WHITE, Color.parseColor("#666666"));
 
         text.setTypeface(null, Typeface.NORMAL);
 
         animateIndicatorOut(indicator);
     }
-
     private void animateColorFilter(ImageView imageView, int fromColor, int toColor) {
         ValueAnimator colorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
         colorAnimator.setDuration(ANIMATION_DURATION);

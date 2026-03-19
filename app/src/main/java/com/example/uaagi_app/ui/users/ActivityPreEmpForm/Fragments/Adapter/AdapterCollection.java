@@ -214,7 +214,7 @@ public class AdapterCollection {
                     if (jobTitle != null) jobTitle.setText(Helpers.safeText(job.getJobTitle()));
                     if (jobCompanyName != null) jobCompanyName.setText(Helpers.safeText(job.getCompany() != null ? job.getCompany().getDisplayName() : ""));
                     if (jobLocation != null) jobLocation.setText(Helpers.safeText(job.getLocation()));
-                    if (tvAppliedDate != null) tvAppliedDate.setText("Posted on " + job.getCreatedAt());
+                    if (tvAppliedDate != null) tvAppliedDate.setText("Posted on " + Helpers.formatToOrdinalDate(String.valueOf(job.getCreatedAt())));
 
                     if (ivBookmark != null) {
                         ivBookmark.setOnClickListener(v -> {

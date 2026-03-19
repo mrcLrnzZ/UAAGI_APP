@@ -287,7 +287,11 @@ public class JobDesc extends Fragment {
                     jobDesc.setText(job.getJobDescription());
                     jobCompany.setText(job.getCompany().getDisplayName());
                     jobLocation.setText(job.getLocation());
-                    jobQualifications.setText(job.getPreferredQualifications());
+                    jobQualifications.setText(
+                            job.getPreferredQualifications() != null
+                                    ? job.getPreferredQualifications()
+                                    : job.getRequirements()
+                    );
                     jobBenefits.setText(job.getBenefits());
                     jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                     jobDept.setText(job.getDepartment());

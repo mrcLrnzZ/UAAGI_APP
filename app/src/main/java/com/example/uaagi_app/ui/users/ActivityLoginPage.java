@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.view.KeyEvent;
 import android.text.TextWatcher;
@@ -36,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -71,6 +73,7 @@ public class ActivityLoginPage extends AppCompatActivity {
 
     // Views
     private CardView loginCard;
+    private ProgressBar progressLogin, progressGoogleLogin;
     private LinearLayout emailSection;
     private LinearLayout otpSection;
     private MaterialButton loginBtn, backBtn, btnVerifyOTP;
@@ -84,6 +87,7 @@ public class ActivityLoginPage extends AppCompatActivity {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
+    private SignInButton btnGoogleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +101,9 @@ public class ActivityLoginPage extends AppCompatActivity {
                 .build();
 
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        findViewById(R.id.btnGoogleSignIn).setOnClickListener(v -> {
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
+        btnGoogleSignIn.setOnClickListener(v -> {
+            showLoginLoading();
             Intent signInIntent = googleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
@@ -130,7 +135,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 SessionManager.getInstance(ActivityLoginPage.this).saveLoginState(true);
-                UiHelpers.showToast("Authentication succeeded!", ActivityLoginPage.this);
+                //UiHelpers.showToast("Authentication succeeded!", ActivityLoginPage.this);
                 navigateToHome();
             }
 
@@ -187,6 +192,23 @@ public class ActivityLoginPage extends AppCompatActivity {
             handleSignInResult(task);
         }
     }
+    private void showLoginLoading() {
+        loginBtn.setEnabled(false);
+        btnGoogleSignIn.setEnabled(false);
+        loginBtn.setVisibility(View.GONE);
+        btnGoogleSignIn.setVisibility(View.GONE);
+        progressLogin.setVisibility(View.VISIBLE);
+        progressGoogleLogin.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoginLoading() {
+        loginBtn.setEnabled(true);
+        btnGoogleSignIn.setEnabled(true);
+        loginBtn.setVisibility(View.VISIBLE);
+        btnGoogleSignIn.setVisibility(View.VISIBLE);
+        progressLogin.setVisibility(View.GONE);
+        progressGoogleLogin.setVisibility(View.GONE);
+    }
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -202,6 +224,7 @@ public class ActivityLoginPage extends AppCompatActivity {
             Call<ApiResponse<LoginData>> call = loginApi.authGoogle(request);
 
             call.enqueue(new Callback<ApiResponse<LoginData>>() {
+
                 @Override
                 public void onResponse(Call<ApiResponse<LoginData>> call, Response<ApiResponse<LoginData>> response) {
                     if(response.isSuccessful() && response.body() != null){
@@ -213,9 +236,10 @@ public class ActivityLoginPage extends AppCompatActivity {
                             sessionManager.saveUserId(data.getUserId());
                             sessionManager.saveUserEmail(email);
                             sessionManager.savePreEmpResponse(data.isFormExist());
-
+                            hideLoginLoading();
                             navigateToHome();
                         } else {
+                            hideLoginLoading();
                             Log.e("GOOGLE_AUTH", "Login failed: " + apiResponse.getMessage());
                         }
                     }
@@ -223,11 +247,13 @@ public class ActivityLoginPage extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ApiResponse<LoginData>> call, Throwable t) {
+                    hideLoginLoading();
                     Log.e("GOOGLE_AUTH", "Network error", t);
                 }
             });
 
         } catch (ApiException e) {
+            hideLoginLoading();
             Log.e("GOOGLE_SIGN_IN", "Sign in failed", e);
         }
     }
@@ -240,6 +266,8 @@ public class ActivityLoginPage extends AppCompatActivity {
         btnVerifyOTP = findViewById(R.id.btnVerifyOTP);
         otpErrorText = findViewById(R.id.otpErrorText);
         resendOtpText = findViewById(R.id.titemahabamasarapREAL);
+        progressLogin = findViewById(R.id.progressLogin);
+        progressGoogleLogin = findViewById(R.id.progressGoogleLogin);
 
         Email = findViewById(R.id.btnemail);
         EditText otpInput1 = findViewById(R.id.otpInput1);
@@ -424,12 +452,14 @@ public class ActivityLoginPage extends AppCompatActivity {
             service.requestOtp(email, new LoginOtpService.LoginCallback() {
                 @Override
                 public void onResponse(String message) {
-                    Log.d(TAG, "Response: " + message);
+                    hideLoginLoading();
                     showOtpSection();
                 }
+
                 @Override
                 public void onError(String errorMessage) {
-                    Log.e(TAG, "Error: " + errorMessage);
+                    hideLoginLoading();
+                    UiHelpers.showToast("Network error", ActivityLoginPage.this);
                 }
             });
 
@@ -500,10 +530,9 @@ public class ActivityLoginPage extends AppCompatActivity {
     }
     private void handleLoginButtonClick() {
         String emailInput = Email.getText().toString().trim();
-        if (!InputValidator.validateEmailInput(
-                findViewById(R.id.emailInputLayout),
-                emailInput
-        )) return;
+        if (!InputValidator.validateEmailInput(findViewById(R.id.emailInputLayout), emailInput)) return;
+
+        showLoginLoading();
         requestOtpFromServer(emailInput);
     }
     @Override protected void onStart() { super.onStart(); Log.d(TAG, "onStart"); }

@@ -17,14 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.ApplicantViewModel;
 import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
+import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -86,10 +87,10 @@ public class SectionInterview extends Fragment {
                     TextView tvInterviewDate = view.findViewById(R.id.tvInterviewDate);
                     TextView tvLocation = view.findViewById(R.id.tvLocation);
 
-                    tvJobTitle.setText(safeText(applicant.getJobTitle()));
-                    tvCompany.setText(safeText(applicant.getCompany()));
-                    tvInterviewDate.setText(safeText(applicant.getInterviewDate()));
-                    tvLocation.setText(safeText(applicant.getLocation()));
+                    tvJobTitle.setText(Helpers.safeText(applicant.getJobTitle()));
+                    tvCompany.setText(Helpers.safeText(applicant.getCompany()));
+                    tvInterviewDate.setText(Helpers.formatToOrdinalDate(Helpers.safeText(applicant.getInterviewDate())));
+                    tvLocation.setText(Helpers.safeText(applicant.getLocation()));
                 });
 
         adapter.setOnItemClickListener((item, position) -> {
@@ -112,8 +113,20 @@ public class SectionInterview extends Fragment {
         ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
         TextView tvInterviewDate = dialog.findViewById(R.id.interviewDate);
         TextView tvInterviewTime = dialog.findViewById(R.id.interviewTime);
+        TextView tvModeInterview = dialog.findViewById(R.id.tvModeInterview);
+        TextView tvPlaceOfInterview = dialog.findViewById(R.id.tvPlaceOfInterview);
+        TextView tvApplicationSatus = dialog.findViewById(R.id.tvApplicationStatus);
+        Button btnDecline = dialog.findViewById(R.id.btnDecline);
 
-        tvInterviewDate.setText(safeText(applicant.getInterviewDate()));
+        tvInterviewDate.setText(
+                Helpers.formatToOrdinalDate(Helpers.safeText(applicant.getInterviewDate()))
+        );
+        tvInterviewTime.setText(
+                Helpers.formatTime(Helpers.safeText(applicant.getInterviewStart()))
+        );
+        tvModeInterview.setText(Helpers.safeText(applicant.getInterviewType()));
+        tvPlaceOfInterview.setText(Helpers.safeText(applicant.getLocation()));
+        tvApplicationSatus.setText(Helpers.capitalize(Helpers.safeText(applicant.getStatus())));
         // Assuming time is part of applicant or can be extracted. If not, keeping placeholder or setting default.
         // tvInterviewTime.setText(...);
 
@@ -122,7 +135,4 @@ public class SectionInterview extends Fragment {
         dialog.show();
     }
 
-    private String safeText(String value) {
-        return value != null && !value.isEmpty() ? value : "_";
-    }
 }

@@ -188,7 +188,7 @@ public class UiHelpers {
                     if (tvCompanyName != null) tvCompanyName.setText(job.getCompany().getDisplayName());
                     if (tvJobTitle != null) tvJobTitle.setText(job.getJobTitle());
                     if (tvLocation != null) tvLocation.setText(job.getLocation());
-                    if (tvAppliedDate != null) tvAppliedDate.setText("Applied on " + job.getCreatedAt());
+                    if (tvAppliedDate != null) tvAppliedDate.setText("Applied on " + Helpers.formatToOrdinalDate(String.valueOf(job.getCreatedAt())));
                     if (ivLike != null) {
                         ivLike.setOnClickListener(v -> {
                             Helpers.actionUnarchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
@@ -240,11 +240,11 @@ public class UiHelpers {
         viewHolder.tvLocation.setText(job.getLocation());
         viewHolder.tvCompany.setText(job.getCompany().getDisplayName());
         viewHolder.tvSalary.setText(
-                String.format("₱%,.2f – ₱%,.2f", job.getMinSalary(), job.getMaxSalary())
+                String.format("₱%,.0f – ₱%,.0f", job.getMinSalary(), job.getMaxSalary())
         );
-        viewHolder.tvJobType.setText(job.getJobType().toString());
-        viewHolder.tvExperienceLevel.setText(job.getExperienceLevel().toString());
-        viewHolder.tvShift.setText(job.getRemoteOption().toString());
+        viewHolder.tvJobType.setText(job.getJobType().getDisplayName());
+        viewHolder.tvExperienceLevel.setText(job.getExperienceLevel().getDisplayName());
+        viewHolder.tvShift.setText(job.getRemoteOption().getDisplayName());
         viewHolder.tvPayTag.setText("✓ 13th Month Pay");
     }
     private static void initializeJobState(

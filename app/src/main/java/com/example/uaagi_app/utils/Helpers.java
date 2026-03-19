@@ -18,6 +18,10 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.Services.JobService;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -171,5 +175,68 @@ public class Helpers {
     public static void actionFetchArchivedJobId(Context context, JobService.JobIdServiceCallback callback) {
         JobService service = new JobService(context);
         service.fetchArchivedJobId(SessionManager.getInstance(context).getUserId(), callback);
+    }
+
+    public static String capitalize(String text) {
+        if (text == null || text.isEmpty()) return text;
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
+
+    public static String formatToOrdinalDate(String input) {
+        if (input == null || input.isEmpty()) return "";
+
+        try {
+            LocalDate date;
+
+            if (input.contains("T")) {
+                // ISO format: 2026-03-19T18:00:00
+                date = LocalDateTime.parse(input).toLocalDate();
+
+            } else if (input.contains(" ")) {
+                // Format: 2026-03-19 18:00:00
+                DateTimeFormatter formatter =
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                date = LocalDateTime.parse(input, formatter).toLocalDate();
+
+            } else {
+                // Format: 2026-03-19
+                date = LocalDate.parse(input);
+            }
+
+            int day = date.getDayOfMonth();
+            String suffix;
+
+            if (day >= 11 && day <= 13) {
+                suffix = "th";
+            } else {
+                switch (day % 10) {
+                    case 1: suffix = "st"; break;
+                    case 2: suffix = "nd"; break;
+                    case 3: suffix = "rd"; break;
+                    default: suffix = "th";
+                }
+            }
+
+            DateTimeFormatter outputFormatter =
+                    DateTimeFormatter.ofPattern("MMMM d");
+
+            return date.format(outputFormatter) + suffix + ", " + date.getYear();
+
+        } catch (Exception e) {
+            return input; // fallback if parsing fails
+        }
+    }
+
+    public static String formatTime(String timeStr) {
+        if (timeStr == null || timeStr.isEmpty()) return "";
+
+        try {
+            LocalTime time = LocalTime.parse(timeStr); // parses 18:00:00
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
+            return time.format(formatter); // 6:00 PM
+
+        } catch (Exception e) {
+            return timeStr;
+        }
     }
 }
