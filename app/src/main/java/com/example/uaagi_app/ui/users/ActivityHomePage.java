@@ -1,6 +1,5 @@
 package com.example.uaagi_app.ui.users;
 
-import static com.example.uaagi_app.ui.utils.UiHelpers.switchToFragment;
 
 import android.Manifest;
 import android.animation.ArgbEvaluator;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.uaagi_app.network.Services.NotificationService;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Careers;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.TimeAgo;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -80,13 +80,57 @@ public class ActivityHomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("all_users")
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Log.d("FCM", "Subscribed to all_users topic");
-                    }
-                });
+        checkAndRequestPermissions();
+        initializeNotificationSystem();
 
+        if (savedInstanceState == null) {
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new Home(), "home");
+        }
+
+        initializeViews();
+        setupBackHandler();
+
+        tabHome.setOnClickListener(v -> {
+            if (isClickable()) { // Check if safe to click
+                UiHelpers.switchToFragment(getSupportFragmentManager(), new Home(), "home");
+                setSelectedTab("home");
+                logFragmentStack(getSupportFragmentManager());
+            }
+        });
+
+        tabApplied.setOnClickListener(v -> {
+            if (isClickable()) {
+                UiHelpers.switchToFragment(getSupportFragmentManager(), new AppliedJobs(), "applied");
+                setSelectedTab("applied");
+                logFragmentStack(getSupportFragmentManager());
+            }
+        });
+
+        tabCareers.setOnClickListener(v -> {
+            if (isClickable()) {
+                UiHelpers.switchToFragment(getSupportFragmentManager(), new Careers(), "careers");
+                setSelectedTab("careers");
+                logFragmentStack(getSupportFragmentManager());
+            }
+        });
+
+        tabProfile.setOnClickListener(v -> {
+            if (isClickable()) {
+                UiHelpers.switchToFragment(getSupportFragmentManager(), new Profile(), "profile");
+                setSelectedTab("profile");
+                logFragmentStack(getSupportFragmentManager());
+            }
+        });
+
+        notifIcon.setOnClickListener(v -> {
+            View notifDot = findViewById(R.id.notifDot);
+            notifDot.setVisibility(View.GONE);
+            UiHelpers.switchToFragment(getSupportFragmentManager(), new Notification());
+        });
+        logFragmentStack(getSupportFragmentManager());
+    }
+
+    private void checkAndRequestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -100,19 +144,27 @@ public class ActivityHomePage extends AppCompatActivity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(
+                ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         100
                 );
-                return;
             }
         }
+    }
+
+    private void initializeNotificationSystem() {
+        FirebaseMessaging.getInstance().subscribeToTopic("all_users")
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM", "Subscribed to all_users topic");
+                    }
+                });
+
         int userId = SessionManager.getInstance(this).getUserId();
         NotificationService service = new NotificationService(this);
 
         service.fetchUserNotifications(userId,
                 new NotificationService.NotificationCallback() {
-
                     @Override
                     public void onResponse() {
                         // Pusher will deliver notifications
@@ -123,91 +175,30 @@ public class ActivityHomePage extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 });
+
         pusherManager = new PusherManager();
         pusherManager.connect();
 
         pusherManager.subscribeToUserChannel(userId, (title, message, createdAt) -> {
-            runOnUiThread(() -> {
-                View notifDot = findViewById(R.id.notifDot);
-                notifDot.setVisibility(View.VISIBLE);
-
-                String timeAgo = TimeAgo.getTimeAgo(createdAt);
-
-                NotificationModel notif =
-                        new NotificationModel(title, message, timeAgo);
-
-                NotificationRepository
-                        .getInstance()
-                        .addNotification(notif);
-
-                NotificationCenter.notify(title, message, timeAgo);
-
-            });
+            runOnUiThread(() -> handleRealtimeNotification(title, message, createdAt));
         });
+
         pusherManager.subscribeToPublicChannel((title, message, createdAt) -> {
-            runOnUiThread(() -> {
-                View notifDot = findViewById(R.id.notifDot);
-                notifDot.setVisibility(View.VISIBLE);
-
-                String timeAgo = TimeAgo.getTimeAgo(createdAt);
-
-                NotificationModel notif =
-                        new NotificationModel(title, message, timeAgo);
-
-                NotificationRepository
-                        .getInstance()
-                        .addNotification(notif);
-
-                NotificationCenter.notify(title, message, timeAgo);
-
-            });
-
+            runOnUiThread(() -> handleRealtimeNotification(title, message, createdAt));
         });
-        if (savedInstanceState == null) {
-            switchToFragment(getSupportFragmentManager(), new Home());
+    }
+
+    private void handleRealtimeNotification(String title, String message, String createdAt) {
+        View notifDot = findViewById(R.id.notifDot);
+        if (notifDot != null) {
+            notifDot.setVisibility(View.VISIBLE);
         }
 
-        initializeViews();
-       //setupBackHandler();
+        String timeAgo = TimeAgo.getTimeAgo(createdAt);
+        NotificationModel notif = new NotificationModel(title, message, timeAgo);
 
-        tabHome.setOnClickListener(v -> {
-            if (isClickable()) { // Check if safe to click
-                switchToFragment(getSupportFragmentManager(), new Home());
-                setSelectedTab("home");
-                logFragmentStack(getSupportFragmentManager());
-            }
-        });
-
-        tabApplied.setOnClickListener(v -> {
-            if (isClickable()) {
-                switchToFragment(getSupportFragmentManager(), new AppliedJobs());
-                setSelectedTab("applied");
-                logFragmentStack(getSupportFragmentManager());
-            }
-        });
-
-        tabCareers.setOnClickListener(v -> {
-            if (isClickable()) {
-                switchToFragment(getSupportFragmentManager(), new Careers());
-                setSelectedTab("careers");
-                logFragmentStack(getSupportFragmentManager());
-            }
-        });
-
-        tabProfile.setOnClickListener(v -> {
-            if (isClickable()) {
-                switchToFragment(getSupportFragmentManager(), new Profile());
-                setSelectedTab("profile");
-                logFragmentStack(getSupportFragmentManager());
-            }
-        });
-
-        notifIcon.setOnClickListener(v -> {
-            View notifDot = findViewById(R.id.notifDot);
-            notifDot.setVisibility(View.GONE);
-            switchToFragment(getSupportFragmentManager(), new Notification());
-        });
-        logFragmentStack(getSupportFragmentManager());
+        NotificationRepository.getInstance().addNotification(notif);
+        NotificationCenter.notify(title, message, timeAgo);
     }
 
     private boolean isClickable() {
@@ -357,20 +348,22 @@ public class ActivityHomePage extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                List<String> backStackEntries = new ArrayList<>();
-                for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
-                    backStackEntries.add(getSupportFragmentManager().getBackStackEntryAt(i).getName());
+                FragmentManager fm = getSupportFragmentManager();
+
+                logFragmentStack(fm);
+
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
                 }
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.popBackStack(currentSelectedTab, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                currentSelectedTab = backStackEntries.isEmpty() ? "home" : backStackEntries.get(backStackEntries.size() - 1);
-                Log.d("BACKSTACK", "Backstack: " + backStackEntries);
-                setSelectedTab(currentSelectedTab);
             }
         };
 
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
     private void logFragmentStack(FragmentManager fragmentManager) {
 
         List<Fragment> fragments = fragmentManager.getFragments();
@@ -399,6 +392,8 @@ public class ActivityHomePage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        pusherManager.disconnect();
+        if (pusherManager != null) {
+            pusherManager.disconnect();
+        }
     }
 }
