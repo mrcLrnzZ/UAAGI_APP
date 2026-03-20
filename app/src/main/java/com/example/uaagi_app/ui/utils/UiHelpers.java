@@ -162,7 +162,6 @@ public class UiHelpers {
             FragmentManager fragmentManager,
             Context context
     ) {
-        boolean isIntern;
         List<JobFetchResponse> filteredJobs = new ArrayList<>();
 
         for (JobFetchResponse job : jobs) {
@@ -171,7 +170,7 @@ public class UiHelpers {
             }
         }
 
-        GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(filteredJobs, context);
+        GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(filteredJobs, context, recyclerView);
         setupJobCardClickListener(adapter, fragmentManager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -226,7 +225,8 @@ public class UiHelpers {
 
     private static GenericRecyclerAdapter<JobFetchResponse> createJobCardAdapter(
             List<JobFetchResponse> jobs,
-            Context context
+            Context context,
+            RecyclerView recyclerView
     ) {
         return new GenericRecyclerAdapter<>(
                 jobs,
@@ -234,14 +234,11 @@ public class UiHelpers {
                 (view, job, position) -> {
                     JobCardViewHolder viewHolder = new JobCardViewHolder(view);
                     JobCardState state = new JobCardState();
-                    if (Helpers.intToBoolean(job.isArchived())) {
 
-                    }
-                        populateJobData(viewHolder, job);
-                        initializeJobState(viewHolder, job, state, context);
-                        setupBookmarkClickListener(viewHolder, job, state, context);
-                        setupArchiveClickListener(viewHolder, job, state, context);
-
+                    populateJobData(viewHolder, job);
+                    initializeJobState(viewHolder, job, state, context);
+                    setupBookmarkClickListener(viewHolder, job, state, context);
+                    setupArchiveClickListener(viewHolder, job, state, context, recyclerView);
                 }
         );
     }
@@ -305,7 +302,8 @@ public class UiHelpers {
             JobCardViewHolder viewHolder,
             JobFetchResponse job,
             JobCardState state,
-            Context context
+            Context context,
+            RecyclerView recyclerView
     ) {
         viewHolder.ivLike.setOnClickListener(v -> {
             if (state.isArchived) {
@@ -315,7 +313,7 @@ public class UiHelpers {
                     showToast("Job is saved. Unsave first.", context);
                     return;
                 }
-                archiveJob(viewHolder, job, state, context);
+                archiveJob(viewHolder, job, state, context, recyclerView);
             }
         });
     }
@@ -366,7 +364,8 @@ public class UiHelpers {
             JobCardViewHolder viewHolder,
             JobFetchResponse job,
             JobCardState state,
-            Context context
+            Context context,
+            RecyclerView recyclerView
     ) {
         Helpers.actionArchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
             @Override
@@ -376,6 +375,12 @@ public class UiHelpers {
                 );
                 state.isArchived = true;
                 showToast(message, context);
+
+                // Remove item from adapter
+                RecyclerView.Adapter<?> adapterObj = recyclerView.getAdapter();
+                if (adapterObj instanceof GenericRecyclerAdapter) {
+                    ((GenericRecyclerAdapter<JobFetchResponse>) adapterObj).removeItem(job);
+                }
             }
 
             @Override
