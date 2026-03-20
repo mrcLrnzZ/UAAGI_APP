@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class JobViewModel extends ViewModel {
 
         JobService service = new JobService(context);
 
-        service.fetchJobById(jobId, new JobService.JobServiceCallback() {
+        service.fetchJobById(jobId, SessionManager.getInstance(context).getUserId(),new JobService.JobServiceCallback() {
 
             @Override
             public void onResponse(List<JobFetchResponse> response) {
@@ -68,7 +69,6 @@ public class JobViewModel extends ViewModel {
             }
         });
     }
-
     public void fetchSavedJobs(int userId, Context context) {
         isLoading.setValue(true);
         JobService jobService = new JobService(context);
@@ -90,7 +90,6 @@ public class JobViewModel extends ViewModel {
             }
         });
     }
-
     public void fetchArchivedJobs(int userId, Context context) {
         isLoading.setValue(true);
         JobService service = new JobService(context);

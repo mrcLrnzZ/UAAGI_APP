@@ -19,6 +19,7 @@ import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.utils.PdfPickerHelper;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class ApplyOption extends Fragment {
     private void fetchJobs(int jobID) {
         showLoading();
         JobService service = new JobService(requireContext());
-        service.fetchJobById(jobID, new JobService.JobServiceCallback() {
+        service.fetchJobById(jobID, SessionManager.getInstance(requireContext()).getUserId(),new JobService.JobServiceCallback() {
             @Override
             public void onResponse(List<JobFetchResponse> jobs) {
                 showContent(jobs);

@@ -88,16 +88,19 @@ public class AppliedJobs extends Fragment {
         });
 
         applicantViewModel.getApplicants().observe(getViewLifecycleOwner(), applicants -> {
-            updateCount(tvAppliedCount, applicants != null ? applicants.size() : 0);
             
+            int appliedCount = 0;
             int interviewCount = 0;
             if (applicants != null) {
                 for (Applicant a : applicants) {
                     if (a.getInterviewStatus() != null && a.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
                         interviewCount++;
+                    } else if (a.getInterviewStatus() != null && a.getInterviewStatus().equalsIgnoreCase("Pending")) {
+                        appliedCount++;
                     }
                 }
             }
+            updateCount(tvAppliedCount, appliedCount);
             updateCount(tvInterviewsCount, interviewCount);
         });
     }

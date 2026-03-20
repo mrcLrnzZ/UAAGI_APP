@@ -163,7 +163,15 @@ public class UiHelpers {
             Context context
     ) {
         boolean isIntern;
-        GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(jobs, context);
+        List<JobFetchResponse> filteredJobs = new ArrayList<>();
+
+        for (JobFetchResponse job : jobs) {
+            if (!Helpers.intToBoolean(job.isArchived())) {
+                filteredJobs.add(job);
+            }
+        }
+
+        GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(filteredJobs, context);
         setupJobCardClickListener(adapter, fragmentManager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -226,11 +234,14 @@ public class UiHelpers {
                 (view, job, position) -> {
                     JobCardViewHolder viewHolder = new JobCardViewHolder(view);
                     JobCardState state = new JobCardState();
+                    if (Helpers.intToBoolean(job.isArchived())) {
 
-                    populateJobData(viewHolder, job);
-                    initializeJobState(viewHolder, job, state, context);
-                    setupBookmarkClickListener(viewHolder, job, state, context);
-                    setupArchiveClickListener(viewHolder, job, state, context);
+                    }
+                        populateJobData(viewHolder, job);
+                        initializeJobState(viewHolder, job, state, context);
+                        setupBookmarkClickListener(viewHolder, job, state, context);
+                        setupArchiveClickListener(viewHolder, job, state, context);
+
                 }
         );
     }
@@ -253,38 +264,23 @@ public class UiHelpers {
             JobCardState state,
             Context context
     ) {
-        Helpers.actionFetchArchivedJobId(context, new JobService.JobIdServiceCallback() {
-            @Override
-            public void onResponse(List<Integer> jobIds) {
-                if (jobIds != null && jobIds.contains(job.getId())) {
-                    state.isArchived = true;
-                    viewHolder.ivLike.setColorFilter(
-                            ContextCompat.getColor(context, R.color.holo_blue_light)
-                    );
-                }
-            }
+        state.isArchived = Helpers.intToBoolean(job.isArchived());
+        if (state.isArchived) {
+            viewHolder.ivLike.setColorFilter(
+                    ContextCompat.getColor(context, R.color.holo_blue_light)
+            );
+        } else {
+            viewHolder.ivLike.setColorFilter(null);
+        }
 
-            @Override
-            public void onError(String errorMessage) {
-                showToast(errorMessage, context);
-            }
-        });
-        Helpers.actionFetchSavedJobId(context, new JobService.JobIdServiceCallback() {
-            @Override
-            public void onResponse(List<Integer> jobIds) {
-                if (jobIds != null && jobIds.contains(job.getId())) {
-                    state.isSaved = true;
-                    viewHolder.ivBookmark.setColorFilter(
-                            ContextCompat.getColor(context, R.color.holo_red_dark)
-                    );
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                showToast(errorMessage, context);
-            }
-        });
+        state.isSaved = Helpers.intToBoolean(job.isSaved());
+        if (state.isSaved) {
+            viewHolder.ivBookmark.setColorFilter(
+                    ContextCompat.getColor(context, R.color.holo_red_dark)
+            );
+        } else {
+            viewHolder.ivBookmark.setColorFilter(null);
+        }
     }
     private static void setupBookmarkClickListener(
             JobCardViewHolder viewHolder,

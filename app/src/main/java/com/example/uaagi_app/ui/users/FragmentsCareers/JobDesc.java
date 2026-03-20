@@ -21,6 +21,7 @@ import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
+import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class JobDesc extends Fragment {
             try {
                 jobIdInt = Integer.parseInt(jobId);
                 fetchJobDetails(jobId);
-                checkJobStatus();
+
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Invalid job ID: " + jobId);
             }
@@ -174,40 +175,7 @@ public class JobDesc extends Fragment {
         Log.d(TAG, "Job department: " + department);
         return view;
     }
-    
-    private void checkJobStatus() {
-        if (jobIdInt == -1) return;
-        
-        Helpers.actionFetchSavedJobId(requireContext(), new JobService.JobIdServiceCallback() {
-            @Override
-            public void onResponse(List<Integer> jobIds) {
-                if (jobIds != null && jobIds.contains(jobIdInt)) {
-                    isSaved = true;
-                    updateStatusIcons();
-                }
-            }
 
-            @Override
-            public void onError(String errorMessage) {
-                Log.e(TAG, "Error fetching saved jobs: " + errorMessage);
-            }
-        });
-
-        Helpers.actionFetchArchivedJobId(requireContext(), new JobService.JobIdServiceCallback() {
-            @Override
-            public void onResponse(List<Integer> jobIds) {
-                if (jobIds != null && jobIds.contains(jobIdInt)) {
-                    isArchived = true;
-                    updateStatusIcons();
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Log.e(TAG, "Error fetching archived jobs: " + errorMessage);
-            }
-        });
-    }
 
     private void updateStatusIcons() {
         if (!isAdded()) return;
@@ -224,29 +192,13 @@ public class JobDesc extends Fragment {
             btnBlock.setColorFilter(null);
         }
     }
-    private void initializeStatesOfIcon(int jobId){
-        Helpers.actionFetchSavedJobId(requireContext(), new JobService.JobIdServiceCallback() {
-            @Override
-            public void onResponse(List<Integer> jobIds) {
-                 isSaved = jobIds.contains(jobId);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-        });
-        Helpers.actionFetchArchivedJobId(requireContext(), new JobService.JobIdServiceCallback() {
-            @Override
-            public void onResponse(List<Integer> jobIds) {
-                 isArchived = jobIds.contains(jobId);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-        });
+    private void initializeStatesOfIcon(JobFetchResponse job){
+        if (Helpers.intToBoolean(job.isSaved())) {
+            isSaved = true;
+        }
+        if (Helpers.intToBoolean(job.isArchived())) {
+            isArchived = true;
+        }
     }
 
     private String getArgumentsFromBundle(){
@@ -275,7 +227,7 @@ public class JobDesc extends Fragment {
         Log.d(TAG, "fetchJobDetails: "+ jobId);
         try {
             int id = Integer.parseInt(jobId);
-            service.fetchJobById(id, new JobService.JobServiceCallback() {
+            service.fetchJobById(id, SessionManager.getInstance(requireContext()).getUserId(),new JobService.JobServiceCallback() {
                 @Override
                 public void onResponse(List<JobFetchResponse> response) {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
@@ -295,7 +247,8 @@ public class JobDesc extends Fragment {
                     jobBenefits.setText(job.getBenefits());
                     jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                     jobDept.setText(job.getDepartment());
-                    initializeStatesOfIcon(job.getId());
+                    initializeStatesOfIcon(job);
+                    updateStatusIcons();
                     btnBack.setOnClickListener(v ->
                             UiHelpers.switchFragment(
                                     requireActivity().getSupportFragmentManager(),

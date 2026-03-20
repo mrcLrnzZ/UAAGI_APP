@@ -57,6 +57,10 @@ public class JobFetchResponse {
     private final LocalDateTime restoredAt;
     @SerializedName("deleted_at")
     private final LocalDateTime deletedAt;
+    @SerializedName("is_saved")
+    private final Integer isSaved;
+    @SerializedName("is_archived")
+    private final Integer isArchived;
 
 
     // Private constructor for builder
@@ -89,6 +93,9 @@ public class JobFetchResponse {
         this.restoredBy = builder.restoredBy;
         this.restoredAt = builder.restoredAt;
         this.deletedAt = builder.deletedAt;
+        this.isSaved = builder.isSaved;
+        this.isArchived = builder.isArchived;
+
     }
 
     // Builder Class
@@ -121,6 +128,8 @@ public class JobFetchResponse {
         private Integer restoredBy;
         private LocalDateTime restoredAt;
         private LocalDateTime deletedAt;
+        private Integer isSaved;
+        private Integer isArchived;
 
         public Builder() {}
 
@@ -152,6 +161,8 @@ public class JobFetchResponse {
         public Builder restoredBy(Integer restoredBy) { this.restoredBy = restoredBy; return this; }
         public Builder restoredAt(LocalDateTime restoredAt) { this.restoredAt = restoredAt; return this; }
         public Builder deletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; return this; }
+        public Builder isSaved(Integer isSaved) { this.isSaved = isSaved; return this; }
+        public Builder isArchived(Integer isArchived) { this.isArchived = isArchived; return this;}
 
         public JobFetchResponse build() {
             return new JobFetchResponse(this);
@@ -187,6 +198,9 @@ public class JobFetchResponse {
     public Integer getRestoredBy() { return restoredBy; }
     public LocalDateTime getRestoredAt() { return restoredAt; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
+    public Integer isSaved() { return isSaved; }
+    public Integer isArchived() { return isArchived; }
+
     @Override
     public String toString() {
         return "JobFetchResponse{" +
@@ -198,4 +212,3 @@ public class JobFetchResponse {
     }
 
 }
-

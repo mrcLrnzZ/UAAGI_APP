@@ -18,7 +18,8 @@ public interface JobsApi {
     );
     @GET("index.php/jobs")
     Call<ApiResponse<JobFetchResponse>>  fetchJobById(
-            @Query("jobId") int jobId
+            @Query("jobId") int jobId,
+            @Query("userId") int userId
     );
     @POST("index.php/user/save-job")
     Call<ApiResponse> saveJob(

@@ -160,7 +160,7 @@ public class SectionInterview extends Fragment {
                 ivStatusIcon.setColorFilter(Color.parseColor("#D32F2F"));
                 tvApplicationStatus.setTextColor(Color.parseColor("#D32F2F"));
             }
-            case "accepted" -> {
+            case "approved" -> {
                 statusBadgeContainer.setBackgroundColor(Color.parseColor("#EAF3DE")); // green
 
                 ivStatusIcon.setImageResource(R.drawable.ic_check_circle);

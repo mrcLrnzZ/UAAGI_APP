@@ -239,4 +239,14 @@ public class Helpers {
             return timeStr;
         }
     }
+    public static boolean intToBoolean(int value) {
+        if (value == 0) {
+            return false;
+        } else if (value == 1) {
+            return true;
+        } else {
+            throw new IllegalArgumentException("Input value must be 0 or 1");
+        }
+    }
+
 }

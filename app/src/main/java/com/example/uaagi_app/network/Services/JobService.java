@@ -80,7 +80,7 @@ public class JobService {
        Fetch single job
        ========================================================= */
 
-    public void fetchJobById(int jobId, JobServiceCallback callback) {
+    public void fetchJobById(int jobId, int userId, JobServiceCallback callback) {
 
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
@@ -88,7 +88,7 @@ public class JobService {
         }
 
         Call<ApiResponse<JobFetchResponse>> call =
-                jobsApi.fetchJobById(jobId);
+                jobsApi.fetchJobById(jobId, userId);
 
         call.enqueue(new Callback<ApiResponse<JobFetchResponse>>() {
             @Override
