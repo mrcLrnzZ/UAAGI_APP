@@ -22,6 +22,7 @@ import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
+import com.example.uaagi_app.utils.Helpers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -133,12 +134,12 @@ public class DivisionOption extends Fragment {
 
                 String division = job.getDepartment();
                 if (isIntern) {
-                    if (division != null && !addedDivisions.contains(division) && Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
+                    if (division != null && !addedDivisions.contains(division) && Objects.equals(job.getJobType().getDisplayName(), "Internship") && !Helpers.intToBoolean(job.isArchived())) {
                         addedDivisions.add(division);
                         filteredJobs.add(job);
                     }
                 }else {
-                    if (division != null && !addedDivisions.contains(division) && Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
+                    if (division != null && !addedDivisions.contains(division) && Objects.equals(job.getJobType().getDisplayName(), "Internship") && !Helpers.intToBoolean(job.isArchived())) {
                         addedDivisions.add(division);
                         filteredJobs.add(job);
                     }
