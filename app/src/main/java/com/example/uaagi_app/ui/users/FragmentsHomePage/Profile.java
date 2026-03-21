@@ -171,6 +171,14 @@
             requireActivity().findViewById(R.id.top_bar)
                     .setVisibility(View.VISIBLE);
         }
-
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            if (imagePickerLauncher != null) {
+                imagePickerLauncher.unregister();
+            }
+            requireActivity().findViewById(R.id.top_bar)
+                    .setVisibility(View.VISIBLE);
+        }
 
     }

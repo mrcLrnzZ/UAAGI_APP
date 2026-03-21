@@ -85,6 +85,7 @@ public class ActivityHomePage extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             UiHelpers.switchToFragment(getSupportFragmentManager(), new Home(), "home");
+            logFragmentStack(getSupportFragmentManager());
         }
 
         initializeViews();
@@ -127,7 +128,6 @@ public class ActivityHomePage extends AppCompatActivity {
             notifDot.setVisibility(View.GONE);
             UiHelpers.switchToFragment(getSupportFragmentManager(), new Notification());
         });
-        logFragmentStack(getSupportFragmentManager());
     }
 
     private void checkAndRequestPermissions() {
@@ -159,7 +159,13 @@ public class ActivityHomePage extends AppCompatActivity {
                         Log.d("FCM", "Subscribed to all_users topic");
                     }
                 });
-
+        FirebaseMessaging.getInstance()
+                .subscribeToTopic("user-" + SessionManager.getInstance(this).getUserId())
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("FCM", "Subscribed to user topic");
+                    }
+                });
         int userId = SessionManager.getInstance(this).getUserId();
         NotificationService service = new NotificationService(this);
 
@@ -354,6 +360,7 @@ public class ActivityHomePage extends AppCompatActivity {
 
                 if (fm.getBackStackEntryCount() > 0) {
                     fm.popBackStack();
+                    List<Fragment> fragment = fm.getFragments();
                 } else {
                     setEnabled(false);
                     getOnBackPressedDispatcher().onBackPressed();
@@ -364,10 +371,8 @@ public class ActivityHomePage extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    private void logFragmentStack(FragmentManager fragmentManager) {
-
-        List<Fragment> fragments = fragmentManager.getFragments();
-
+    private void logFragmentStack(FragmentManager fm) {
+        List<Fragment> fragments = fm.getFragments();
         Log.d("FRAGMENT_DEBUG", "----- Active Fragments -----");
 
         for (Fragment fragment : fragments) {
@@ -376,17 +381,16 @@ public class ActivityHomePage extends AppCompatActivity {
                         "Fragment: " + fragment.getClass().getSimpleName()
                                 + " | Tag: " + fragment.getTag()
                                 + " | Visible: " + fragment.isVisible()
+                                + " | Resumed: " + fragment.isResumed()
                                 + " | Added: " + fragment.isAdded());
             }
         }
 
-        Log.d("FRAGMENT_DEBUG", "BackStack Count: " + fragmentManager.getBackStackEntryCount());
-
-        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
-            FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(i);
+        Log.d("FRAGMENT_DEBUG", "BackStack Count: " + fm.getBackStackEntryCount());
+        for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
+            FragmentManager.BackStackEntry entry = fm.getBackStackEntryAt(i);
             Log.d("FRAGMENT_DEBUG", "BackStack[" + i + "] = " + entry.getName());
         }
-
         Log.d("FRAGMENT_DEBUG", "---------------------------");
     }
     @Override
