@@ -258,8 +258,9 @@ public class UiHelpers {
             public void onResponse(List<Integer> jobIds) {
                 if (jobIds != null && jobIds.contains(job.getId())) {
                     state.isArchived = true;
+                    viewHolder.ivLike.setImageResource(R.drawable.unarchive);
                     viewHolder.ivLike.setColorFilter(
-                            ContextCompat.getColor(context, R.color.holo_blue_light)
+                            ContextCompat.getColor(context, R.color.DarkBlue)
                     );
                 }
             }
@@ -375,8 +376,9 @@ public class UiHelpers {
         Helpers.actionArchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
             @Override
             public void feedback(String message) {
+                viewHolder.ivLike.setImageResource(R.drawable.unarchive);
                 viewHolder.ivLike.setColorFilter(
-                        ContextCompat.getColor(context, R.color.holo_blue_light)
+                        ContextCompat.getColor(context, R.color.holo_red_dark)
                 );
                 state.isArchived = true;
                 showToast(message, context);
@@ -397,6 +399,7 @@ public class UiHelpers {
         Helpers.actionUnarchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
             @Override
             public void feedback(String message) {
+                viewHolder.ivLike.setImageResource(R.drawable.archive);
                 viewHolder.ivLike.setColorFilter(null);
                 state.isArchived = false;
                 showToast(message, context);

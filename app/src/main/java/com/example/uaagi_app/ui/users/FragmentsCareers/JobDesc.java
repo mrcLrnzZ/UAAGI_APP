@@ -215,20 +215,23 @@ public class JobDesc extends Fragment {
         if (isSaved) {
             btnBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
         } else {
-            btnBookmark.setColorFilter(null);
+            btnBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.DarkBlue));
         }
 
         if (isArchived) {
-            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_blue_light));
+            btnBlock.setImageResource(R.drawable.unarchive);
+            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
         } else {
-            btnBlock.setColorFilter(null);
+            btnBlock.setImageResource(R.drawable.archive);
+            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.DarkBlue));
         }
     }
     private void initializeStatesOfIcon(int jobId){
         Helpers.actionFetchSavedJobId(requireContext(), new JobService.JobIdServiceCallback() {
             @Override
             public void onResponse(List<Integer> jobIds) {
-                 isSaved = jobIds.contains(jobId);
+                 isSaved = jobIds != null && jobIds.contains(jobId);
+                 updateStatusIcons();
             }
 
             @Override
@@ -239,7 +242,8 @@ public class JobDesc extends Fragment {
         Helpers.actionFetchArchivedJobId(requireContext(), new JobService.JobIdServiceCallback() {
             @Override
             public void onResponse(List<Integer> jobIds) {
-                 isArchived = jobIds.contains(jobId);
+                 isArchived = jobIds != null && jobIds.contains(jobId);
+                 updateStatusIcons();
             }
 
             @Override

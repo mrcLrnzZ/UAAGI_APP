@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/jobCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="16dp"
+    app:cardCornerRadius="14dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="@color/White"
-    app:strokeColor="@color/LightGray"
+    app:strokeColor="@color/PaleBlue"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -24,18 +24,19 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Title, Company & Actions row -->
+            <!-- Logo + Title + Actions row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_marginBottom="12dp">
 
+                <!-- Title + Company -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="3dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -45,8 +46,10 @@
                         android:text="Job Title"
                         android:fontFamily="sans-serif-black"
                         android:textColor="@color/DarkBlue"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="2dp"/>
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginBottom="3dp"/>
 
                     <TextView
                         android:id="@+id/tvCompany"
@@ -54,53 +57,66 @@
                         android:layout_height="wrap_content"
                         android:text="Company Name"
                         android:textColor="@color/Gray"
-                        android:textSize="13sp"/>
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <!-- Bookmark / Like -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    >
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <ImageView
-                        android:id="@+id/ivBookmark"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/baseline_bookmark_24"
-                        android:tint="@color/LightBlue"
-                        android:layout_marginBottom="8dp"/>
+                    <LinearLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@color/WhiteSmoke"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/ivBookmark"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/baseline_bookmark_24"
+                            android:scaleType="fitCenter"
+                            app:tint="@color/LightBlue"/>
+                    </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/ivLike"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/unlike"
-                        android:tint="@color/LightBlue"/>
+                    <LinearLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@color/WhiteSmoke"
+                        android:gravity="center"
+                        android:layout_marginStart="7dp">
+                        <ImageView
+                            android:id="@+id/ivLike"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/archive"
+                            app:tint="@color/LightBlue"/>
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
-
+            <!-- Tags row 1 — Salary + Job Type -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="6dp">
+                android:layout_marginBottom="7dp">
 
                 <TextView
                     android:id="@+id/tvSalary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/PaleBlue"
+                    android:background="@drawable/tag_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:text="Salary"
-                    android:textColor="@color/Deepwater"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="10sp"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginEnd="6dp"/>
@@ -109,19 +125,20 @@
                     android:id="@+id/tvJobType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/PaleBlue"
+                    android:background="@drawable/tag_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:text="Job Type"
-                    android:textColor="@color/Deepwater"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="10sp"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginEnd="6dp"/>
+
             </LinearLayout>
 
-            <!-- Extra tags -->
+            <!-- Tags row 2 — Experience + Shift + PayTag -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,13 +148,13 @@
                     android:id="@+id/tvExperienceLevel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/PaleBlue"
+                    android:background="@drawable/tag_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:text="Experience"
-                    android:textColor="@color/Deepwater"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="10sp"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginEnd="6dp"/>
@@ -146,13 +163,13 @@
                     android:id="@+id/tvShift"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/PaleBlue"
+                    android:background="@drawable/tag_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:text="Shift"
-                    android:textColor="@color/Deepwater"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="10sp"
                     android:fontFamily="sans-serif-medium"
                     android:layout_marginEnd="6dp"/>
@@ -161,15 +178,16 @@
                     android:id="@+id/tvPayTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/PaleBlue"
+                    android:background="@drawable/tag_background"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:text="Pay Tag"
-                    android:textColor="@color/Deepwater"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="10sp"
                     android:fontFamily="sans-serif-medium"/>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -190,7 +208,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:src="@drawable/pin"
-                android:tint="@color/Deepwater"
+                android:tint="@color/LightBlue"
                 android:layout_marginEnd="6dp"/>
 
             <TextView
@@ -199,10 +217,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Location"
-                android:textColor="@color/Deepwater"
+                android:textColor="@color/LightBlue"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif-medium"/>
+
         </LinearLayout>
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
