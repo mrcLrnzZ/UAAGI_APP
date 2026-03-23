@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,6 +153,7 @@
                         android:gravity="center"
                         android:padding="10dp">
                         <TextView
+                            android:id="@+id/NumOfJobs"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1.2k"
@@ -179,6 +179,7 @@
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/WhiteSmoke"
                     app:strokeWidth="0dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -200,6 +201,7 @@
                             android:textSize="9sp"
                             android:fontFamily="sans-serif-medium"/>
                     </LinearLayout>
+
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -217,7 +219,7 @@
                         android:gravity="center"
                         android:padding="10dp">
                         <TextView
-                            android:id="@+id/tvAppliedCount"
+                            android:id="@+id/tvAppliedStatCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3"

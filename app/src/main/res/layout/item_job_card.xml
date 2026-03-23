@@ -17,14 +17,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ── Card Body ── -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Logo + Title + Actions row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +31,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="12dp">
 
-                <!-- Title + Company -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -60,7 +58,6 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
 
-                <!-- Bookmark / Like -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,7 +96,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Tags row 1 — Salary + Job Type -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +134,6 @@
 
             </LinearLayout>
 
-            <!-- Tags row 2 — Experience + Shift + PayTag -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,7 +187,6 @@
 
         </LinearLayout>
 
-        <!-- ── Location Footer Strip ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,7 +202,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:src="@drawable/pin"
-                android:tint="@color/LightBlue"
+                app:tint="@color/LightBlue"
                 android:layout_marginEnd="6dp"/>
 
             <TextView

@@ -177,25 +177,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:background="@color/DarkBlue"
                         android:paddingStart="24dp"
                         android:paddingEnd="20dp"
+                        android:background="@color/PaleBlue"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp">
 
-                        <View
-                            android:layout_width="5dp"
-                            android:layout_height="5dp"
-                            android:background="@drawable/circle_background"
-                            android:layout_marginEnd="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Lifestyle · Utility · Innovation"
-                            android:textColor="@color/LightBlue"
-                            android:textSize="9sp"
-                            android:fontFamily="sans-serif-medium"/>
 
                     </LinearLayout>
 
