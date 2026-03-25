@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,15 +23,15 @@ import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionInterview;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionSaved;
 import com.example.uaagi_app.utils.SessionManager;
 
-import java.util.List;
-
 public class AppliedJobs extends Fragment {
 
-    // Views
+    // Views for Tabs
     private LinearLayout tabSaved, tabApplied, tabInterviews, tabArchived;
     private TextView tvSaved, tvApplied, tvInterviews, tvArchived;
-    private TextView tvSavedCount, tvAppliedCount, tvInterviewsCount, tvArchivedCount;
-    
+
+    // Views for Stats
+    private TextView tvAppliedStatCount, tvInterviewStatCount, tvSavedStatCount, tvArchivedStatCount;
+
     private JobViewModel jobViewModel;
     private ApplicantViewModel applicantViewModel;
 
@@ -64,10 +63,10 @@ public class AppliedJobs extends Fragment {
 
         // Setup tabs
         setupTabs();
-        
+
         observeCounts();
         fetchData();
-        
+
         return view;
     }
 
@@ -80,56 +79,39 @@ public class AppliedJobs extends Fragment {
 
     private void observeCounts() {
         jobViewModel.getSavedJobs().observe(getViewLifecycleOwner(), savedJobs -> {
-            updateCount(tvSavedCount, savedJobs != null ? savedJobs.size() : 0);
+            int count = savedJobs != null ? savedJobs.size() : 0;
+            tvSavedStatCount.setText(String.valueOf(count));
         });
 
         jobViewModel.getArchivedJobs().observe(getViewLifecycleOwner(), archivedJobs -> {
-            updateCount(tvArchivedCount, archivedJobs != null ? archivedJobs.size() : 0);
+            int count = archivedJobs != null ? archivedJobs.size() : 0;
+            tvArchivedStatCount.setText(String.valueOf(count));
         });
 
         applicantViewModel.getApplicants().observe(getViewLifecycleOwner(), applicants -> {
-            
-            int appliedCount = 0;
+            int appliedCount = applicants != null ? applicants.size() : 0;
+            tvAppliedStatCount.setText(String.valueOf(appliedCount));
+
             int interviewCount = 0;
             if (applicants != null) {
                 for (Applicant a : applicants) {
                     if (a.getInterviewStatus() != null && a.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
                         interviewCount++;
-                    } else if (a.getInterviewStatus() != null && a.getInterviewStatus().equalsIgnoreCase("Pending")) {
-                        appliedCount++;
                     }
                 }
             }
-            updateCount(tvAppliedCount, appliedCount);
-            updateCount(tvInterviewsCount, interviewCount);
+            tvInterviewStatCount.setText(String.valueOf(interviewCount));
         });
     }
 
-    private void updateCount(TextView countView, int count) {
-        if (count > 0) {
-            countView.setText(String.valueOf(count));
-            countView.setVisibility(View.VISIBLE);
-        } else {
-            countView.setVisibility(View.GONE);
-        }
-    }
-
-    private void resetTabStyles(LinearLayout tab, TextView textView, TextView countView) {
+    private void resetTabStyles(LinearLayout tab, TextView textView) {
         tab.setBackgroundResource(R.drawable.tab_unselected_background);
         textView.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        if (countView != null) {
-            countView.setTextColor(getResources().getColor(android.R.color.darker_gray));
-            countView.setBackgroundResource(R.drawable.count_badge_background);
-        }
     }
 
-    private void highlightTab(LinearLayout tab, TextView textView, TextView countView) {
+    private void highlightTab(LinearLayout tab, TextView textView) {
         tab.setBackgroundResource(R.drawable.tab_selected_background);
         textView.setTextColor(getResources().getColor(android.R.color.white));
-        if (countView != null) {
-            countView.setTextColor(getResources().getColor(android.R.color.black));
-            countView.setBackgroundResource(R.drawable.circle_white);
-        }
     }
 
     private void initializeViews(View view) {
@@ -145,11 +127,11 @@ public class AppliedJobs extends Fragment {
         tvInterviews = view.findViewById(R.id.tvInterviews);
         tvArchived = view.findViewById(R.id.tvArchived);
 
-        // Tab Counts
-        tvSavedCount = view.findViewById(R.id.tvSavedCount);
-        tvAppliedCount = view.findViewById(R.id.tvAppliedCount);
-        tvInterviewsCount = view.findViewById(R.id.tvInterviewsCount);
-        tvArchivedCount = view.findViewById(R.id.tvArchivedCount);
+        // Stats Counts (Hero Banner)
+        tvAppliedStatCount = view.findViewById(R.id.tvAppliedStatCount);
+        tvInterviewStatCount = view.findViewById(R.id.tvInterviewStatCount);
+        tvSavedStatCount = view.findViewById(R.id.tvSavedStatCount);
+        tvArchivedStatCount = view.findViewById(R.id.tvArchivedStatCount);
     }
 
     private void setupTabs() {
@@ -166,27 +148,27 @@ public class AppliedJobs extends Fragment {
         currentTab = tab;
 
         // Reset all tabs to unselected state
-        resetTabStyles(tabSaved, tvSaved, tvSavedCount);
-        resetTabStyles(tabApplied, tvApplied, tvAppliedCount);
-        resetTabStyles(tabInterviews, tvInterviews, tvInterviewsCount);
-        resetTabStyles(tabArchived, tvArchived, tvArchivedCount);
+        resetTabStyles(tabSaved, tvSaved);
+        resetTabStyles(tabApplied, tvApplied);
+        resetTabStyles(tabInterviews, tvInterviews);
+        resetTabStyles(tabArchived, tvArchived);
 
         // Highlight selected tab
         switch (tab) {
             case "saved":
-                highlightTab(tabSaved, tvSaved, tvSavedCount);
+                highlightTab(tabSaved, tvSaved);
                 loadFragment(new SectionSaved(), "saved");
                 break;
             case "applied":
-                highlightTab(tabApplied, tvApplied, tvAppliedCount);
+                highlightTab(tabApplied, tvApplied);
                 loadFragment(new SectionApplied(), "applied");
                 break;
             case "interviews":
-                highlightTab(tabInterviews, tvInterviews, tvInterviewsCount);
+                highlightTab(tabInterviews, tvInterviews);
                 loadFragment(new SectionInterview(), "interviews");
                 break;
             case "archived":
-                highlightTab(tabArchived, tvArchived, tvArchivedCount);
+                highlightTab(tabArchived, tvArchived);
                 loadFragment(new SectionArchived(), "archived");
                 break;
         }

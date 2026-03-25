@@ -271,24 +271,17 @@ public class ActivityHomePage extends AppCompatActivity {
     }
 
     private void animateToActive(ImageView icon, TextView text, View indicator) {
-        animateColorFilter(icon, Color.parseColor("#99FFFFFF"), Color.WHITE);
-
-        animateTextColor(text, Color.parseColor("#99FFFFFF"), Color.WHITE);
-
+        animateColorFilter(icon, Color.parseColor("#90CAF9"), Color.parseColor("#0D3B66"));
+        animateTextColor(text, Color.parseColor("#90CAF9"), Color.parseColor("#0D3B66"));
         text.setTypeface(null, Typeface.BOLD);
-
         animateIndicatorIn(indicator);
-
         animateScale(icon);
     }
 
     private void animateToInactive(ImageView icon, TextView text, View indicator) {
-        animateColorFilter(icon, Color.WHITE, Color.parseColor("#666666")); // dark gray
-
-        animateTextColor(text, Color.WHITE, Color.parseColor("#666666"));
-
+        animateColorFilter(icon, Color.parseColor("#FF757575"), Color.parseColor("#FF757575"));
+        animateTextColor(text, Color.parseColor("#FF757575"), Color.parseColor("#FF757575"));
         text.setTypeface(null, Typeface.NORMAL);
-
         animateIndicatorOut(indicator);
     }
     private void animateColorFilter(ImageView imageView, int fromColor, int toColor) {

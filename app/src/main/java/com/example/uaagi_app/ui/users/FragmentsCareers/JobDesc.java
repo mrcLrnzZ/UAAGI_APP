@@ -81,7 +81,7 @@ public class JobDesc extends Fragment {
             try {
                 jobIdInt = Integer.parseInt(jobId);
                 fetchJobDetails(jobId);
-
+                checkJobStatus();
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Invalid job ID: " + jobId);
             }
@@ -183,13 +183,15 @@ public class JobDesc extends Fragment {
         if (isSaved) {
             btnBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
         } else {
-            btnBookmark.setColorFilter(null);
+            btnBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.DarkBlue));
         }
 
         if (isArchived) {
-            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_blue_light));
+            btnBlock.setImageResource(R.drawable.unarchive);
+            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
         } else {
-            btnBlock.setColorFilter(null);
+            btnBlock.setImageResource(R.drawable.archive);
+            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.DarkBlue));
         }
     }
     private void initializeStatesOfIcon(JobFetchResponse job){
@@ -227,7 +229,7 @@ public class JobDesc extends Fragment {
         Log.d(TAG, "fetchJobDetails: "+ jobId);
         try {
             int id = Integer.parseInt(jobId);
-            service.fetchJobById(id, SessionManager.getInstance(requireContext()).getUserId(),new JobService.JobServiceCallback() {
+            service.fetchJobById(id, new JobService.JobServiceCallback() {
                 @Override
                 public void onResponse(List<JobFetchResponse> response) {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
@@ -247,8 +249,7 @@ public class JobDesc extends Fragment {
                     jobBenefits.setText(job.getBenefits());
                     jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                     jobDept.setText(job.getDepartment());
-                    initializeStatesOfIcon(job);
-                    updateStatusIcons();
+                    initializeStatesOfIcon(job.getId());
                     btnBack.setOnClickListener(v ->
                             UiHelpers.switchFragment(
                                     requireActivity().getSupportFragmentManager(),

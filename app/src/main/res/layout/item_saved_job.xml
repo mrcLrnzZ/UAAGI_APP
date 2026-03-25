@@ -1,114 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="10dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginTop="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/White"
+    app:strokeColor="@color/PaleBlue"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@android:color/white">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="14dp">
+            android:padding="16dp">
 
-            <!-- Top Row: Title + Button -->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toStartOf="@+id/btnUpdateStatus"
-                    android:layout_marginEnd="12dp">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvCompanyName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tiger Global Business Services Inc."
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:textColor="@color/LightBlue"
                         android:fontFamily="sans-serif-medium"
                         android:letterSpacing="0.05"
-                        android:textAllCaps="true"
-                        android:layout_marginBottom="6dp" />
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginBottom="3dp"/>
 
-                    <!-- Job title + bookmark icon side by side -->
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tvJobTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:text="Intern - IT, Marketing, Finance, Admin and HR"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="@color/DarkBlue"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="2dp"/>
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvJobTitle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Intern - IT, Marketing, Finance, Admin and HR (Feb-March Start - Remote)"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/DarkBlue"
-                            android:fontFamily="sans-serif-medium"
-                            android:lineSpacingExtra="2dp" />
-
-                        <ImageView
-                            android:id="@+id/ivBookmark"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            app:tint="@color/DarkBlue"
-                            android:src="@drawable/baseline_bookmark_24"
-                            android:layout_marginStart="8dp" />
-
-                    </LinearLayout>
-
+                <LinearLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/PaleBlue"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp">
+                    <ImageView
+                        android:id="@+id/ivBookmark"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/baseline_bookmark_24"
+                        android:scaleType="fitCenter"
+                        app:tint="@color/LightBlue"/>
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivMenuDots"
                     android:visibility="gone"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:src="@drawable/ic_more_vert"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
                     android:clickable="true"
                     android:focusable="true"
+                    android:padding="6dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/gray_400" />
+                    android:layout_marginStart="4dp"
+                    app:tint="@color/Gray"/>
+            </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnUpdateStatus"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="View status"
-                    android:textSize="12sp"
-                    android:textColor="@color/White"
-                    android:textAllCaps="false"
-                    android:fontFamily="sans-serif-medium"
-                    android:background="@drawable/update_status_button_background"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <!-- Response Warning Badge -->
             <LinearLayout
                 android:id="@+id/layoutResponseWarning"
                 android:visibility="gone"
@@ -119,78 +105,69 @@
                 android:background="@drawable/warning_badge_background"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp">
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="10dp">
 
                 <ImageView
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:src="@drawable/ic_info"
-                    app:tint="@color/holo_red_dark"
-                    android:layout_marginEnd="4dp" />
+                    app:tint="@color/DarkBlue"
+                    android:layout_marginEnd="4dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Response seems unlikely"
                     android:textSize="11sp"
-                    android:textColor="@color/holo_red_dark"
-                    android:fontFamily="sans-serif-medium" />
+                    android:textColor="@color/DarkBlue"
+                    android:fontFamily="sans-serif-medium"/>
             </LinearLayout>
-
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/PaleBlue"
-                android:layout_marginBottom="10dp" />
 
             <View
                 android:layout_width="40dp"
                 android:layout_height="2dp"
                 android:background="@color/LightBlue"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="12dp"/>
 
-            <!-- Location -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="6dp">
+                android:layout_marginBottom="8dp">
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
                     android:src="@drawable/pin"
-                    app:tint="@color/DarkBlue" />
+                    app:tint="@color/LightBlue"
+                    android:layout_marginEnd="6dp"/>
 
                 <TextView
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Madrigal Business Park"
-                    android:textSize="13sp"
-                    android:textColor="@color/gray_600"
-                    android:fontFamily="sans-serif"
-                    android:layout_marginStart="6dp" />
+                    android:textSize="12sp"
+                    android:textColor="@color/Gray"
+                    android:fontFamily="sans-serif-medium"/>
             </LinearLayout>
 
-            <!-- Applied Date -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="12dp">
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
                     android:src="@drawable/ic_calendar"
-                    app:tint="@color/DarkBlue" />
+                    app:tint="@color/LightBlue"
+                    android:layout_marginEnd="6dp"/>
 
                 <TextView
                     android:id="@+id/tvAppliedDate"
@@ -198,24 +175,59 @@
                     android:layout_height="wrap_content"
                     android:text="Applied on Indeed · Jan 23"
                     android:textSize="12sp"
-                    android:textColor="@color/gray_600"
-                    android:fontFamily="sans-serif"
-                    android:layout_marginStart="6dp" />
+                    android:textColor="@color/Gray"
+                    android:fontFamily="sans-serif-medium"/>
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnViewJobDetails"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:text="View Job Details"
-                android:textSize="12sp"
-                android:gravity="center"
+                android:id="@+id/btnUpdateStatus"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="View status"
+                android:textSize="13sp"
                 android:textColor="@color/White"
                 android:textAllCaps="false"
                 android:fontFamily="sans-serif-medium"
-                android:background="@drawable/update_status_button_background" />
+                android:background="@drawable/update_status_button_background"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/PaleBlue"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Feb–Mar Start · Remote"
+                android:textColor="@color/LightBlue"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium"/>
+
+            <Button
+                android:id="@+id/btnViewJobDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:text="View Details"
+                android:textSize="10sp"
+                android:textColor="@color/White"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/update_status_button_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"/>
         </LinearLayout>
 
     </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

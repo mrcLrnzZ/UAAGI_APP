@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -11,15 +18,243 @@
             android:orientation="vertical"
             android:background="@color/White">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/PaleBlue">
+
+                <!-- Decorative circles -->
+                <View
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/circle_background"
+                    android:alpha="0.35"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginEnd="-20dp"/>
+
+                <View
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/circle_background"
+                    android:alpha="0.18"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"/>
+
+                <View
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_background"
+                    android:alpha="0.20"
+                    android:layout_gravity="bottom|start"
+                    android:layout_marginBottom="-20dp"
+                    android:layout_marginStart="-20dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="24dp"
+                    android:paddingTop="40dp"
+                    android:paddingEnd="24dp"
+                    android:paddingBottom="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.1"
+                        android:text="Good morning, Juan"
+                        android:textAllCaps="true"
+                        android:textColor="@color/LightBlue"
+                        android:textSize="10sp" />
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:fontFamily="sans-serif-black"
+                        android:lineSpacingExtra="2dp"
+                        android:text="Find Your Dream Job"
+                        android:textColor="@color/DarkBlue"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="248 new listings today in Metro Manila"
+                        android:textColor="@color/LightBlue"
+                        android:textSize="12sp" />
+
+                    <!-- Search + Filter -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            app:boxBackgroundColor="@color/White"
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="10dp"
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:startIconDrawable="@drawable/search"
+                            app:startIconTint="@color/Gray">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etSearch"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="16dp"
+
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- ── STATS ROW ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="4dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/WhiteSmoke"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="10dp">
+                        <TextView
+                            android:id="@+id/NumOfJobs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1.2k"
+                            android:textColor="@color/DarkBlue"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Open Roles"
+                            android:textColor="@color/Gray"
+                            android:textSize="9sp"
+                            android:fontFamily="sans-serif-medium"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/WhiteSmoke"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textColor="@color/DarkBlue"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Companies"
+                            android:textColor="@color/Gray"
+                            android:textSize="9sp"
+                            android:fontFamily="sans-serif-medium"/>
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/WhiteSmoke"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="10dp">
+                        <TextView
+                            android:id="@+id/tvAppliedStatCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3"
+                            android:textColor="@color/DarkBlue"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Applied"
+                            android:textColor="@color/Gray"
+                            android:textSize="9sp"
+                            android:fontFamily="sans-serif-medium"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- ── DIVIDER ── -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/PaleBlue"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"/>
+
+            <!-- ── FEATURED JOBS HEADER ── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/White"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
-                android:paddingTop="32dp"
-                android:paddingBottom="20dp">
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -28,8 +263,8 @@
                     android:textColor="@color/LightBlue"
                     android:textSize="10sp"
                     android:letterSpacing="0.14"
-                    android:fontFamily="sans-serif-medium"
-                    android:layout_marginBottom="8dp"/>
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="4dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -38,7 +273,7 @@
                     android:textColor="@color/DarkBlue"
                     android:textSize="23sp"
                     android:fontFamily="sans-serif-black"
-                    android:layout_marginBottom="6dp"/>
+                    android:layout_marginBottom="4dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -49,36 +284,107 @@
                     android:lineSpacingExtra="3dp"/>
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:paddingTop="20dp"
                 android:paddingBottom="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Filter Chips -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="OPEN POSITIONS"
-                    android:textColor="@color/Gray"
-                    android:textSize="10sp"
-                    android:letterSpacing="0.14"
-                    android:fontFamily="sans-serif-medium"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginStart="2dp"/>
+                    android:scrollbars="none"
+                    android:layout_marginBottom="10dp">
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        app:singleSelection="true">
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="All"
+                            app:checkedIconVisible="false"
+                            android:textColor="@color/White"
+                            android:fontFamily="sans-serif-black"
+                            app:chipBackgroundColor="@color/DarkBlue"
+                            android:checked="true"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Full-time"
+                            android:textColor="@color/DarkBlue"
+                            app:chipBackgroundColor="@color/PaleBlue"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Remote"
+                            android:textColor="@color/DarkBlue"
+                            app:chipBackgroundColor="@color/PaleBlue"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Entry Level"
+                            android:textColor="@color/DarkBlue"
+                            app:chipBackgroundColor="@color/PaleBlue"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hybrid"
+                            android:textColor="@color/DarkBlue"
+                            app:chipBackgroundColor="@color/PaleBlue"/>
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
 
+                <!-- Results Count + Sort -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:id="@+id/tvResultCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="24 open positions"
+                        android:textColor="@color/Gray"
+                        android:textSize="11sp"/>
+                    <TextView
+                        android:id="@+id/btnSort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sort ↕"
+                        android:textColor="@color/LightBlue"
+                        android:textSize="11sp"
+                        android:fontFamily="sans-serif-medium"/>
+                </LinearLayout>
 
+                <!-- RecyclerView -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/job_container"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     android:layout_marginBottom="16dp"
                     android:visibility="gone"/>
 
             </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/loading_container"
                 android:visibility="gone"
@@ -90,7 +396,9 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"/>
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
