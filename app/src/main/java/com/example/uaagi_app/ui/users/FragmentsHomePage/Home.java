@@ -19,10 +19,12 @@ import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
+import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.SessionManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class Home extends Fragment implements FragmentError.RetryListener {
     private View loadingContainer;
     private View errorContainer;
     private TextView tvNumOfJobs, tvAppliedStatCount, tvResultCount;
+    private TextInputEditText etSearch;
     private ChipGroup chipGroupFilter;
     private JobViewModel jobViewModel;
 
@@ -85,8 +88,16 @@ public class Home extends Fragment implements FragmentError.RetryListener {
         chipGroupFilter = view.findViewById(R.id.chipGroupFilter);
         tvAppliedStatCount = view.findViewById(R.id.tvAppliedStatCount);
         tvResultCount = view.findViewById(R.id.tvResultCount);
+        etSearch = view.findViewById(R.id.etSearch);
+        setupSearchFunctionality();
     }
-
+    private void setupSearchFunctionality() {
+        SimpleTextWatcher.bindTextWatcher(etSearch,
+                new SimpleTextWatcher(query -> {
+                    jobViewModel.setSearchQuery(query);
+                })
+        );
+    }
     private void fetchData() {
         jobViewModel.fetchJobForUser(requireContext());
 

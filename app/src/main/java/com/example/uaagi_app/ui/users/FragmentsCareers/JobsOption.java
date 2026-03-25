@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import android.widget.FrameLayout;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.JobViewModel;
-import com.example.uaagi_app.network.Services.ApplicationService;
-import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
@@ -25,9 +22,7 @@ import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
 import com.example.uaagi_app.network.dto.JobFetchResponse;
-import com.example.uaagi_app.utils.SessionManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class JobsOption extends Fragment implements FragmentError.RetryListener {
