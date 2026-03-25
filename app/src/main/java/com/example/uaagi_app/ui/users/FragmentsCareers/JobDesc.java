@@ -81,7 +81,6 @@ public class JobDesc extends Fragment {
             try {
                 jobIdInt = Integer.parseInt(jobId);
                 fetchJobDetails(jobId);
-                checkJobStatus();
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Invalid job ID: " + jobId);
             }
@@ -229,7 +228,7 @@ public class JobDesc extends Fragment {
         Log.d(TAG, "fetchJobDetails: "+ jobId);
         try {
             int id = Integer.parseInt(jobId);
-            service.fetchJobById(id, new JobService.JobServiceCallback() {
+            service.fetchJobById(id, SessionManager.getInstance(requireContext()).getUserId(),new JobService.JobServiceCallback() {
                 @Override
                 public void onResponse(List<JobFetchResponse> response) {
                     if (progressBar != null) progressBar.setVisibility(View.GONE);
@@ -249,7 +248,7 @@ public class JobDesc extends Fragment {
                     jobBenefits.setText(job.getBenefits());
                     jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                     jobDept.setText(job.getDepartment());
-                    initializeStatesOfIcon(job.getId());
+                    initializeStatesOfIcon(job);
                     btnBack.setOnClickListener(v ->
                             UiHelpers.switchFragment(
                                     requireActivity().getSupportFragmentManager(),

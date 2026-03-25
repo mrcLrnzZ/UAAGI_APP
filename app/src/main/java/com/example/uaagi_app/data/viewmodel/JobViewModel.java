@@ -17,6 +17,7 @@ import java.util.List;
 public class JobViewModel extends ViewModel {
 
     private final MutableLiveData<JobFetchResponse> jobData = new MutableLiveData<>();
+    private final MutableLiveData<List<JobFetchResponse>> jobList = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<List<JobFetchResponse>> savedJobs = new MutableLiveData<>();
@@ -29,7 +30,9 @@ public class JobViewModel extends ViewModel {
     public LiveData<List<JobFetchResponse>> getSavedJobs() {
         return savedJobs;
     }
-
+    public LiveData<List<JobFetchResponse>> getJobList() {
+        return jobList;
+    }
     public LiveData<List<JobFetchResponse>> getArchivedJobs() {
         return archivedJobs;
     }
@@ -104,6 +107,28 @@ public class JobViewModel extends ViewModel {
                     errorMessage.setValue("No archived jobs found.");
                 }
             }
+            @Override
+            public void onError(String message) {
+                isLoading.setValue(false);
+                errorMessage.setValue(message);
+            }
+        });
+    }
+    public void fetchJobForUser(Context context){
+        isLoading.setValue(true);
+        JobService service = new JobService(context);
+        service.fetchJobsForUser(new JobService.JobServiceCallback() {
+            @Override
+            public void onResponse(List<JobFetchResponse> jobs) {
+                isLoading.setValue(false);
+                if (jobs != null) {
+                    jobList.setValue(jobs);
+                }else{
+                    jobList.setValue(new ArrayList<>());
+                    errorMessage.setValue("No jobs found for the user.");
+                }
+            }
+
             @Override
             public void onError(String message) {
                 isLoading.setValue(false);

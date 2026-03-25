@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.network.Services.ApplicationService;
 import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.Applicant;
@@ -29,6 +31,7 @@ public class Home extends Fragment implements FragmentError.RetryListener {
     private View loadingContainer;
     private View errorContainer;
     private TextView tvNumOfJobs, tvAppliedStatCount;
+    private JobViewModel jobViewModel;
 
     @Override
     public View onCreateView(
@@ -37,6 +40,24 @@ public class Home extends Fragment implements FragmentError.RetryListener {
             Bundle savedInstanceState
     ) {
         View view = inflater.inflate(R.layout.fragment_navigate_home, container, false);
+        jobViewModel = new ViewModelProvider(this).get(JobViewModel.class);
+        jobViewModel.getLoadingState().observe(getViewLifecycleOwner(), isLoading -> {
+            if (isLoading != null && isLoading) {
+                showLoading();
+            }
+        });
+
+        jobViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                showError(error);
+            }
+        });
+        jobViewModel.getJobList().observe(getViewLifecycleOwner(), jobs -> {
+            if (jobs != null) {
+                showContent(jobs);
+                tvNumOfJobs.setText(String.valueOf(jobs.size()));
+            }
+        });
         setupUiStates(view);
         jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         fetchData();
@@ -49,28 +70,12 @@ public class Home extends Fragment implements FragmentError.RetryListener {
         tvNumOfJobs = view.findViewById(R.id.NumOfJobs);
         tvAppliedStatCount = view.findViewById(R.id.tvAppliedStatCount);
     }
-    
-    private void fetchData() {
-        showLoading();
-        int userId = SessionManager.getInstance(requireContext()).getUserId();
-        
-        // Fetch Job Count and List
-        JobService jobService = new JobService(requireContext());
-        jobService.fetchJobsForUser(new JobService.JobServiceCallback() {
-            @Override
-            public void onResponse(List<JobFetchResponse> response) {
-                showContent(response);
-                if (response != null) {
-                    tvNumOfJobs.setText(String.valueOf(response.size()));
-                }
-            }
-            @Override
-            public void onError(String errorMessage) {
-                showError(errorMessage);
-            }
-        });
 
-        // Fetch Applied Count
+    private void fetchData() {
+        jobViewModel.fetchJobForUser(requireContext());
+
+        int userId = SessionManager.getInstance(requireContext()).getUserId();
+
         ApplicationService appService = new ApplicationService(requireContext());
         appService.fetchApplicantsForUser(userId, new ApplicationService.FetchApplicantsCallback() {
             @Override
@@ -79,6 +84,7 @@ public class Home extends Fragment implements FragmentError.RetryListener {
                     tvAppliedStatCount.setText(String.valueOf(applicants.size()));
                 }
             }
+
             @Override
             public void onError(String message) {
                 Log.e("HomeFragment", "Error fetching applications: " + message);
