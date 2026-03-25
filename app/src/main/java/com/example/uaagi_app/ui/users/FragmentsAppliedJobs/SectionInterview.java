@@ -71,7 +71,7 @@ public class SectionInterview extends Fragment {
                         ", Company: " + applicant.getCompany() +
                         ", Status: " + applicant.getInterviewStatus());
 
-                if (!applicant.getInterviewStatus().equalsIgnoreCase("Pending")    ) {
+                if (applicant.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
                     interviewList.add(applicant);
                 }
             }
@@ -136,8 +136,6 @@ public class SectionInterview extends Fragment {
         tvApplicationStatus.setText(Helpers.capitalize(Helpers.safeText(applicant.getStatus())));
 
         String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
-        Log.d("StatusOfApplicant", "Status: " + status);
-
         if ("rejected".equalsIgnoreCase(Helpers.safeText(applicant.getStatus()))) {
             infoRejectBox.setVisibility(View.VISIBLE);
             infoBox.setVisibility(View.GONE);
@@ -162,19 +160,12 @@ public class SectionInterview extends Fragment {
                 ivStatusIcon.setColorFilter(Color.parseColor("#D32F2F"));
                 tvApplicationStatus.setTextColor(Color.parseColor("#D32F2F"));
             }
-            case "applied" -> {
-                statusBadgeContainer.setBackgroundColor(Color.parseColor("#EAF3DE")); // green
-
-                ivStatusIcon.setImageResource(R.drawable.ic_info);
-                ivStatusIcon.setColorFilter(Color.parseColor("#3B6D11"));
-                tvApplicationStatus.setTextColor(Color.parseColor("#3B6D11"));
-            }
-            case "accepted" -> {
+            case "approved" -> {
                 statusBadgeContainer.setBackgroundColor(Color.parseColor("#EAF3DE")); // green
 
                 ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
-                ivStatusIcon.setColorFilter(Color.parseColor("#3B6D11"));
-                tvApplicationStatus.setTextColor(Color.parseColor("#3B6D11"));
+                ivStatusIcon.setColorFilter(Color.parseColor("#EAF3DE"));
+                tvApplicationStatus.setTextColor(Color.parseColor("#EAF3DE"));
             }
             case "pending" -> {
                 statusBadgeContainer.setBackgroundColor(Color.parseColor("#FFF8E1")); // yellow
