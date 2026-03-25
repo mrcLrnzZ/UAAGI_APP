@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.model.PreEmploymentForm.*;
+import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentsCareers.JobDesc;
@@ -197,7 +197,7 @@ public class AdapterCollection {
         );
     }
 
-    public static GenericRecyclerAdapter<JobFetchResponse> createSavedJobsAdapter(List<JobFetchResponse> savedJobs, FragmentManager fragmentManager, Context context) {
+    public static GenericRecyclerAdapter<JobFetchResponse> createSavedJobsAdapter(List<JobFetchResponse> savedJobs, FragmentManager fragmentManager, Context context, JobViewModel jobViewModel) {
         final GenericRecyclerAdapter<JobFetchResponse>[] adapterRef = new GenericRecyclerAdapter[1];
         
         adapterRef[0] = new GenericRecyclerAdapter<>(
@@ -224,6 +224,7 @@ public class AdapterCollection {
                                     if (adapterRef[0] != null) {
                                         adapterRef[0].removeItem(job);
                                     }
+                                    jobViewModel.removeSavedJob(job);
                                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                                 }
 

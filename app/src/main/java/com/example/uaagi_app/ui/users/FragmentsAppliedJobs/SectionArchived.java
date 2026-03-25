@@ -64,7 +64,8 @@ public class SectionArchived extends Fragment {
                 rvArchived,
                 archivedJobs,
                 requireActivity().getSupportFragmentManager(),
-                requireContext()
+                requireContext(),
+                jobViewModel
         );
     }
 

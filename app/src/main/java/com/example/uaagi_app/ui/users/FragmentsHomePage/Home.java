@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.network.Services.ApplicationService;
-import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.SessionManager;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class Home extends Fragment implements FragmentError.RetryListener {
     private RecyclerView jobRecyclerView;
     private View loadingContainer;
     private View errorContainer;
-    private TextView tvNumOfJobs, tvAppliedStatCount;
+    private TextView tvNumOfJobs, tvAppliedStatCount, tvResultCount;
+    private ChipGroup chipGroupFilter;
     private JobViewModel jobViewModel;
 
     @Override
@@ -56,19 +58,33 @@ public class Home extends Fragment implements FragmentError.RetryListener {
             if (jobs != null) {
                 showContent(jobs);
                 tvNumOfJobs.setText(String.valueOf(jobs.size()));
+                tvResultCount.setText(jobs.size() + " open positions");
             }
         });
         setupUiStates(view);
         jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         fetchData();
+
+        chipGroupFilter.setOnCheckedChangeListener((group, checkedId) -> {
+            Chip selectedChip = group.findViewById(checkedId);
+
+            if (selectedChip != null) {
+                String filter = selectedChip.getText().toString();
+                jobViewModel.setChipFilter(filter);
+                tvResultCount.setText(jobViewModel.getJobList().getValue().size() + " open positions");
+            }
+        });
         return view;
     }
+
     private void setupUiStates(View view){
         jobRecyclerView = view.findViewById(R.id.job_container);
         loadingContainer = view.findViewById(R.id.loading_container);
         errorContainer = view.findViewById(R.id.error_container);
         tvNumOfJobs = view.findViewById(R.id.NumOfJobs);
+        chipGroupFilter = view.findViewById(R.id.chipGroupFilter);
         tvAppliedStatCount = view.findViewById(R.id.tvAppliedStatCount);
+        tvResultCount = view.findViewById(R.id.tvResultCount);
     }
 
     private void fetchData() {
@@ -110,7 +126,8 @@ public class Home extends Fragment implements FragmentError.RetryListener {
                 jobRecyclerView,
                 jobs,
                 requireActivity().getSupportFragmentManager(),
-                requireContext()
+                requireContext(),
+                jobViewModel
         );
     }
 

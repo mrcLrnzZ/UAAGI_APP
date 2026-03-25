@@ -75,7 +75,8 @@ public class SectionSaved extends Fragment {
         GenericRecyclerAdapter<JobFetchResponse> adapter = AdapterCollection.createSavedJobsAdapter(
                 savedJobs,
                 requireActivity().getSupportFragmentManager(),
-                requireContext()
+                requireContext(),
+                jobViewModel
         );
         rvSaved.setAdapter(adapter);
     }

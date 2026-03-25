@@ -326,7 +326,7 @@
                             style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Remote"
+                            android:text="Fully-Remote"
                             android:textColor="@color/DarkBlue"
                             app:chipBackgroundColor="@color/PaleBlue"/>
                         <com.google.android.material.chip.Chip

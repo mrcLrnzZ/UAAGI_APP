@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.viewmodel.JobViewModel;
 import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
@@ -160,10 +161,11 @@ public class UiHelpers {
             RecyclerView recyclerView,
             List<JobFetchResponse> jobs,
             FragmentManager fragmentManager,
-            Context context
+            Context context,
+            JobViewModel jobViewModel
     ) {
         boolean isIntern;
-        GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(jobs, context);
+        GenericRecyclerAdapter<JobFetchResponse> adapter = createJobCardAdapter(jobs, context, recyclerView, jobViewModel);
         setupJobCardClickListener(adapter, fragmentManager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -173,7 +175,8 @@ public class UiHelpers {
             RecyclerView recyclerView,
             List<JobFetchResponse> jobs,
             FragmentManager fragmentManager,
-            Context context
+            Context context,
+            JobViewModel jobViewModel
     ) {
         GenericRecyclerAdapter<JobFetchResponse> adapter = new GenericRecyclerAdapter<>(
                 jobs,
@@ -199,6 +202,7 @@ public class UiHelpers {
                                     RecyclerView.Adapter<?> adapterObj = recyclerView.getAdapter();
                                     if (adapterObj instanceof GenericRecyclerAdapter) {
                                         ((GenericRecyclerAdapter<JobFetchResponse>) adapterObj).removeItem(job);
+                                        jobViewModel.removeArchivedJob(job);
                                     }
                                 }
 
@@ -218,7 +222,9 @@ public class UiHelpers {
 
     private static GenericRecyclerAdapter<JobFetchResponse> createJobCardAdapter(
             List<JobFetchResponse> jobs,
-            Context context
+            Context context,
+            RecyclerView recyclerView,
+            JobViewModel jobViewModel
     ) {
         return new GenericRecyclerAdapter<>(
                 jobs,
@@ -230,7 +236,7 @@ public class UiHelpers {
                     populateJobData(viewHolder, job);
                     initializeJobState(viewHolder, job, state, context);
                     setupBookmarkClickListener(viewHolder, job, state, context);
-                    setupArchiveClickListener(viewHolder, job, state, context);
+                    setupArchiveClickListener(viewHolder, job, state, context, recyclerView, jobViewModel);
                 }
         );
     }
@@ -294,7 +300,9 @@ public class UiHelpers {
             JobCardViewHolder viewHolder,
             JobFetchResponse job,
             JobCardState state,
-            Context context
+            Context context,
+            RecyclerView recyclerView,
+            JobViewModel jobViewModel
     ) {
         viewHolder.ivLike.setOnClickListener(v -> {
             if (state.isArchived) {
@@ -303,6 +311,11 @@ public class UiHelpers {
                 if (state.isSaved) {
                     showToast("Job is saved. Unsave first.", context);
                     return;
+                }
+                RecyclerView.Adapter<?> adapterObj = recyclerView.getAdapter();
+                if (adapterObj instanceof GenericRecyclerAdapter) {
+                    ((GenericRecyclerAdapter<JobFetchResponse>) adapterObj).removeItem(job);
+                    jobViewModel.removeArchivedJob(job);
                 }
                 archiveJob(viewHolder, job, state, context);
             }

@@ -3,6 +3,7 @@ package com.example.uaagi_app.ui.users.FragmentsCareers;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,20 +12,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.viewmodel.JobViewModel;
+import com.example.uaagi_app.network.Services.ApplicationService;
+import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.network.dto.JobEnums.Company;
 import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
 
-import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
+import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class JobsOption extends Fragment implements FragmentError.RetryListener {
     private static final String TAG = "JobsOptionFragment";
@@ -32,12 +36,13 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
     private static final String ARG_IS_INTERN = "isIntern";
     private boolean isIntern;
     private RecyclerView jobRecyclerView;
-    private View loadingContainer;
+    private FrameLayout loadingContainer;
     private String companyName, departmentName;
     private EditText searchJob;
-    private List<JobFetchResponse> allJobs;
-    private List<JobFetchResponse> filteredJobs;
-    private View errorContainer;
+
+    private FrameLayout errorContainer;
+    private JobViewModel jobViewModel;
+
     public JobsOption() {
     }
 
@@ -51,9 +56,26 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
             departmentName = getArguments().getString("Department");
             isIntern = getArguments().getBoolean(ARG_IS_INTERN);
         }
+        jobViewModel = new ViewModelProvider(requireActivity()).get(JobViewModel.class);
         setupUiStates(view);
         jobRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        fetchJobs();
+        jobViewModel.getLoadingState().observe(getViewLifecycleOwner(), isLoading -> {
+            if (isLoading != null && isLoading) {
+                showLoading();
+            }
+        });
+        jobViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                showError(error);
+            }
+        });
+        jobViewModel.setFilters(companyName, departmentName, isIntern);
+        jobViewModel.getJobList().observe(getViewLifecycleOwner(), jobs -> {
+            if (jobs != null) {
+                showContent(jobs);
+            }
+        });
+        jobViewModel.fetchJobForUser(requireContext());
         return view;
     }
     public static JobsOption newInstance(Company company, String department, boolean isIntern) {
@@ -65,20 +87,6 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         fragment.setArguments(args);
         return fragment;
     }
-    private void fetchJobs() {
-        showLoading();
-        JobService service = new JobService(requireContext());
-        service.fetchJobsForUser(new JobService.JobServiceCallback() {
-            @Override
-            public void onResponse(List<JobFetchResponse> response) {
-                showContent(response);
-            }
-            @Override
-            public void onError(String errorMessage) {
-                showError(errorMessage);
-            }
-        });
-    }
     private void setupUiStates(View view){
         jobRecyclerView = view.findViewById(R.id.job_container);
         loadingContainer = view.findViewById(R.id.loading_container);
@@ -89,7 +97,9 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
 
     private void setupSearchFunctionality() {
         SimpleTextWatcher.bindTextWatcher(searchJob,
-                new SimpleTextWatcher(query -> filterJobs(query))
+                new SimpleTextWatcher(query -> {
+                    jobViewModel.setSearchQuery(query);
+                })
         );
     }
     private void showLoading() {
@@ -103,46 +113,16 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         );
     }
     private void showContent(List<JobFetchResponse> jobs) {
-
         loadingContainer.setVisibility(View.GONE);
         errorContainer.setVisibility(View.GONE);
         jobRecyclerView.setVisibility(View.VISIBLE);
 
-        if (companyName == null || departmentName == null) return;
-
-        filteredJobs = new ArrayList<>();
-
-        Log.d(TAG, "Company Name: " + companyName);
-        Log.d(TAG, "Department Name: " + departmentName);
-        Log.d(TAG, "Jobs: " + jobs.toString());
-        for (JobFetchResponse job : jobs) {
-            if (isIntern) {
-                if (job.getCompany() != null &&
-                        companyName.equals(job.getCompany().getDisplayName()) &&
-                        departmentName.equals(job.getDepartment()) &&
-                        Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
-
-                    filteredJobs.add(job);
-                }
-            }else
-            if (job.getCompany() != null &&
-                    companyName.equals(job.getCompany().getDisplayName()) &&
-                    departmentName.equals(job.getDepartment()) &&
-                    !Objects.equals(job.getJobType().getDisplayName(), "Internship")) {
-
-                filteredJobs.add(job);
-            }
-        }
-        Log.d(TAG, "Filtered Jobs Size: " + filteredJobs.size());
-
-        allJobs = new ArrayList<>(filteredJobs);
-
-        UiHelpers
-                .jobCardAdapter(
+        UiHelpers.jobCardAdapter(
                 jobRecyclerView,
-                filteredJobs,
+                jobs,
                 requireActivity().getSupportFragmentManager(),
-                requireContext()
+                requireContext(),
+                jobViewModel
         );
     }
     private void showError(String message) {
@@ -156,35 +136,8 @@ public class JobsOption extends Fragment implements FragmentError.RetryListener 
         );
     }
 
-    private void filterJobs(String query){
-        if (allJobs == null) {
-            return;
-        }
-
-        List<JobFetchResponse> searchResults = new ArrayList<>();
-
-        if (query.isEmpty()) {
-            searchResults.addAll(allJobs);
-        } else {
-            String lowerCaseQuery = query.toLowerCase().trim();
-            for (JobFetchResponse job : allJobs) {
-                if (job.getJobTitle() != null &&
-                    job.getJobTitle().toLowerCase().contains(lowerCaseQuery)) {
-                    searchResults.add(job);
-                }
-            }
-        }
-
-        UiHelpers.jobCardAdapter(
-                jobRecyclerView,
-                searchResults,
-                requireActivity().getSupportFragmentManager(),
-                requireContext()
-        );
-    }
-
     @Override
     public void onRetry() {
-        fetchJobs();
+        jobViewModel.fetchJobForUser(requireContext());
     }
 }

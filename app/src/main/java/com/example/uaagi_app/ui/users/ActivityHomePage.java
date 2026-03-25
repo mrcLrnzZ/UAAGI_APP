@@ -41,7 +41,6 @@ import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.ui.users.FragmentsHomePage.Notification;
 import com.example.uaagi_app.utils.SessionManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityHomePage extends AppCompatActivity {
