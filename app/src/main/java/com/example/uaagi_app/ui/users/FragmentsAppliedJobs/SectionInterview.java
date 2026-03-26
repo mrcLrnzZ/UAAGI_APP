@@ -1,5 +1,6 @@
 package com.example.uaagi_app.ui.users.FragmentsAppliedJobs;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +83,7 @@ public class SectionInterview extends Fragment {
             interviewList.clear();
 
             for (Applicant applicant : applicants) {
-                if (applicant.getInterviewStatus() != null && applicant.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
+                if (applicant.getInterviewStatus() != null && !applicant.getInterviewStatus().equalsIgnoreCase("Pending")) {
                     interviewList.add(applicant);
                 }
             }
@@ -106,6 +108,7 @@ public class SectionInterview extends Fragment {
                 });
 
         adapter.setOnItemClickListener((item, position) -> {
+
             showUpdateStatusDialog(item);
         });
 
@@ -122,6 +125,7 @@ public class SectionInterview extends Fragment {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
+        // Bind Views
         TextView tvDialogTitle = dialog.findViewById(R.id.tvDialogTitle);
         TextView tvDialogSubtitle = dialog.findViewById(R.id.tvDialogSubtitle);
         ImageView ivStatusIcon = dialog.findViewById(R.id.ivStatusIcon);
@@ -138,75 +142,69 @@ public class SectionInterview extends Fragment {
         Button btnDecline = dialog.findViewById(R.id.btnDecline);
         Button btnReschedule = dialog.findViewById(R.id.btnReschedule);
 
-        tvDialogTitle.setText("Interview Scheduled");
-        tvDialogSubtitle.setText(applicant.getCompany() + " · " + applicant.getJobTitle());
-
+        // Common Setup
+        tvDialogSubtitle.setText(String.format("%s · %s", applicant.getCompany(), applicant.getJobTitle()));
         tvInterviewDate.setText(Helpers.formatToOrdinalDate(Helpers.safeText(applicant.getInterviewDate())));
         tvInterviewTime.setText(Helpers.formatTime(Helpers.safeText(applicant.getInterviewStart())));
         tvModeInterview.setText(Helpers.safeText(applicant.getInterviewType()));
         tvPlaceOfInterview.setText(Helpers.safeText(applicant.getLocation()));
 
-        btnAddToCalendar.setOnClickListener(v -> {
-            addToCalendar(applicant);
-        });
-
-        // Handle "Approved" (accepted) status visibility
-        String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
-        if (status.equals("accepted")) {
-            statusBadgeContainer.setVisibility(View.VISIBLE);
-            tvApplicationStatus.setText("Approved");
-            statusBadgeContainer.setBackgroundResource(R.drawable.bg_approved_badge);
-            ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
-            ivStatusIcon.setColorFilter(Color.parseColor("#4A7C59"));
-            tvApplicationStatus.setTextColor(Color.parseColor("#4A7C59"));
-        } else if (status.equals("rejected")) {
-            statusBadgeContainer.setVisibility(View.VISIBLE);
-            tvApplicationStatus.setText("Rejected");
-            statusBadgeContainer.setBackgroundColor(Color.parseColor("#FDECEA"));
-            ivStatusIcon.setImageResource(R.drawable.ic_cancel);
-            ivStatusIcon.setColorFilter(Color.parseColor("#D32F2F"));
-            tvApplicationStatus.setTextColor(Color.parseColor("#D32F2F"));
-
-            infoRejectBox.setVisibility(View.VISIBLE);
-            infoBox.setVisibility(View.GONE);
-
-            TextView reasonText = new TextView(requireContext());
-            reasonText.setText("Reason: " + (applicant.getReason() != null ? applicant.getReason() : "No reason provided"));
-            reasonText.setTextColor(Color.parseColor("#D32F2F"));
-            infoRejectBox.removeAllViews();
-            infoRejectBox.addView(reasonText);
-        } else {
-            statusBadgeContainer.setVisibility(View.GONE);
-        }
-        switch (status) {
-            case "rejected" -> {
-                statusBadgeContainer.setBackgroundColor(Color.parseColor("#FDECEA")); // red
-                ivStatusIcon.setImageResource(R.drawable.ic_cancel);
-                ivStatusIcon.setColorFilter(Color.parseColor("#D32F2F"));
-                tvApplicationStatus.setTextColor(Color.parseColor("#D32F2F"));
-            }
-            case "approved" -> {
-                statusBadgeContainer.setBackgroundColor(Color.parseColor("#EAF3DE")); // green
-
-                ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
-                ivStatusIcon.setColorFilter(Color.parseColor("#EAF3DE"));
-                tvApplicationStatus.setTextColor(Color.parseColor("#EAF3DE"));
-            }
-            case "pending" -> {
-                statusBadgeContainer.setBackgroundColor(Color.parseColor("#FFF8E1")); // yellow
-
-        btnDecline.setOnClickListener(v -> {
-            showRejectConfirmationDialog(applicant, dialog);
-        });
-
-        btnReschedule.setOnClickListener(v -> {
-            showRescheduleDialog(applicant, dialog);
-        });
-
         ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
+        btnAddToCalendar.setOnClickListener(v -> addToCalendar(applicant));
+
+        String status = Helpers.safeText(applicant.getInterviewStatus()).toLowerCase();
+
+        // Reset visibility states
+        statusBadgeContainer.setVisibility(View.VISIBLE);
+        infoRejectBox.setVisibility(View.GONE);
+        infoBox.setVisibility(View.VISIBLE);
+        btnDecline.setVisibility(View.GONE);
+        btnReschedule.setVisibility(View.GONE);
+
+        switch (status) {
+            case "accepted" -> {
+                tvDialogTitle.setText("Interview Scheduled");
+                tvApplicationStatus.setText("Approved");
+                statusBadgeContainer.setBackgroundResource(R.drawable.bg_approved_badge);
+                ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
+                int approvedColor = Color.parseColor("#4A7C59");
+                ivStatusIcon.setColorFilter(approvedColor);
+                tvApplicationStatus.setTextColor(approvedColor);
+            }
+            case "rejected" -> {
+                tvDialogTitle.setText("Application Status");
+                tvApplicationStatus.setText("Rejected");
+                statusBadgeContainer.setBackgroundResource(R.drawable.bg_rejected_badge);
+                ivStatusIcon.setImageResource(R.drawable.ic_cancel);
+                int rejectedColor = Color.parseColor("#D32F2F");
+                ivStatusIcon.setColorFilter(rejectedColor);
+                tvApplicationStatus.setTextColor(rejectedColor);
+
+                infoRejectBox.setVisibility(View.VISIBLE);
+                infoBox.setVisibility(View.GONE);
+
+                TextView tvReason = dialog.findViewById(R.id.tvRejectionReason);
+                if (tvReason != null) {
+                    tvReason.setText("Reason: " + (applicant.getReason() != null ? applicant.getReason() : "No reason provided"));
+                }
+            }
+            case "scheduled" -> {
+                tvDialogTitle.setText("You have a scheduled interview");
+                statusBadgeContainer.setVisibility(View.GONE);
+                btnDecline.setVisibility(View.VISIBLE);
+                btnReschedule.setVisibility(View.VISIBLE);
+
+                btnDecline.setOnClickListener(v -> showRejectConfirmationDialog(applicant, dialog));
+                btnReschedule.setOnClickListener(v -> showRescheduleDialog(applicant, dialog));
+            }
+            default -> {
+                tvDialogTitle.setText("Interview Details");
+                statusBadgeContainer.setVisibility(View.GONE);
+            }
+        }
+
         dialog.show();
     }
-
     private void addToCalendar(Applicant applicant) {
         try {
             String dateStr = applicant.getInterviewDate();
@@ -217,7 +215,7 @@ public class SectionInterview extends Fragment {
 
             if (date != null) {
                 long startTime = date.getTime();
-                long endTime = startTime + (60 * 60 * 1000); // 1 hour duration
+                long endTime = startTime + (60 * 60 * 1000);
 
                 Intent intent = new Intent(Intent.ACTION_INSERT)
                         .setData(CalendarContract.Events.CONTENT_URI)

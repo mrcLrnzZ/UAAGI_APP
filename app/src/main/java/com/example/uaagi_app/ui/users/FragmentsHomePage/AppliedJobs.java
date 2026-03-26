@@ -98,7 +98,7 @@ public class AppliedJobs extends Fragment {
                     String interviewStatus = a.getInterviewStatus();
 
                     // Only count as "Interview" if explicitly scheduled
-                    if (interviewStatus != null && interviewStatus.equalsIgnoreCase("Scheduled")) {
+                    if (interviewStatus != null && !interviewStatus.equalsIgnoreCase("Pending")) {
                         interviewCount++;
                     }
                     // Standardized logic: Count as "Applied" if status is "Applied" or "Interviewing"

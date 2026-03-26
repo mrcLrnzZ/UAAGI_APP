@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Applicant {
     @SerializedName("applicantion_id")
-    private final int applicantionId;
+    private final int applicationId;
     @SerializedName("user_id")
     private final int userId;
     @SerializedName("job_id")
@@ -51,7 +51,7 @@ public class Applicant {
     private final String interviewEnd;
 
     private Applicant(Builder builder) {
-        this.applicantionId = builder.applicantionId;
+        this.applicationId = builder.applicantionId;
         this.userId = builder.userId;
         this.jobId = builder.jobId;
         this.applyMethod = builder.applyMethod;
@@ -77,7 +77,7 @@ public class Applicant {
     }
 
     public int getApplicationId() {
-        return applicantionId;
+        return applicationId;
     }
 
     public int getUserId() {

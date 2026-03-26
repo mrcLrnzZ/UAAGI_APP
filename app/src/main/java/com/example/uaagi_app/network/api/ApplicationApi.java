@@ -12,6 +12,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
@@ -24,6 +25,15 @@ public interface ApplicationApi {
             @Field("user_id") int userId,
             @Field("job_id") int jobId,
             @Field("apply_method") String applyMethod
+    );
+
+    @PATCH("index.php/application-reject")
+    Call<ApiResponse> rejectApplication(
+            @Query("application_id") int applicationId
+    );
+    @PATCH("index.php/application-reschedule")
+    Call<ApiResponse> rescheduleApplication(
+            @Query("application_id") int applicationId
     );
 
     @Multipart
