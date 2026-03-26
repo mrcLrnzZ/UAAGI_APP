@@ -80,36 +80,48 @@ public class AppliedJobs extends Fragment {
     private void observeCounts() {
         jobViewModel.getSavedJobs().observe(getViewLifecycleOwner(), savedJobs -> {
             int count = savedJobs != null ? savedJobs.size() : 0;
-            tvSavedStatCount.setText(String.valueOf(count));
+            if (tvSavedStatCount != null) tvSavedStatCount.setText(String.valueOf(count));
         });
 
         jobViewModel.getArchivedJobs().observe(getViewLifecycleOwner(), archivedJobs -> {
             int count = archivedJobs != null ? archivedJobs.size() : 0;
-            tvArchivedStatCount.setText(String.valueOf(count));
+            if (tvArchivedStatCount != null) tvArchivedStatCount.setText(String.valueOf(count));
         });
 
         applicantViewModel.getApplicants().observe(getViewLifecycleOwner(), applicants -> {
-            int appliedCount = applicants != null ? applicants.size() : 0;
-            tvAppliedStatCount.setText(String.valueOf(appliedCount));
-
             int interviewCount = 0;
+            int appliedOnlyCount = 0;
+            
             if (applicants != null) {
                 for (Applicant a : applicants) {
-                    if (a.getInterviewStatus() != null && a.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
+                    String status = a.getStatus();
+                    String interviewStatus = a.getInterviewStatus();
+
+                    // Only count as "Interview" if explicitly scheduled
+                    if (interviewStatus != null && interviewStatus.equalsIgnoreCase("Scheduled")) {
                         interviewCount++;
+                    } 
+                    // Standardized logic: Count as "Applied" if status is "Applied" or "Interviewing"
+                    // but it is NOT yet scheduled for an interview.
+                    else if (status != null && (status.equalsIgnoreCase("Applied") || status.equalsIgnoreCase("Interviewing"))) {
+                        appliedOnlyCount++;
                     }
                 }
             }
-            tvInterviewStatCount.setText(String.valueOf(interviewCount));
+            
+            if (tvAppliedStatCount != null) tvAppliedStatCount.setText(String.valueOf(appliedOnlyCount));
+            if (tvInterviewStatCount != null) tvInterviewStatCount.setText(String.valueOf(interviewCount));
         });
     }
 
     private void resetTabStyles(LinearLayout tab, TextView textView) {
+        if (tab == null || textView == null) return;
         tab.setBackgroundResource(R.drawable.tab_unselected_background);
         textView.setTextColor(getResources().getColor(android.R.color.darker_gray));
     }
 
     private void highlightTab(LinearLayout tab, TextView textView) {
+        if (tab == null || textView == null) return;
         tab.setBackgroundResource(R.drawable.tab_selected_background);
         textView.setTextColor(getResources().getColor(android.R.color.white));
     }
@@ -135,10 +147,10 @@ public class AppliedJobs extends Fragment {
     }
 
     private void setupTabs() {
-        tabSaved.setOnClickListener(v -> selectTab("saved"));
-        tabApplied.setOnClickListener(v -> selectTab("applied"));
-        tabInterviews.setOnClickListener(v -> selectTab("interviews"));
-        tabArchived.setOnClickListener(v -> selectTab("archived"));
+        if (tabSaved != null) tabSaved.setOnClickListener(v -> selectTab("saved"));
+        if (tabApplied != null) tabApplied.setOnClickListener(v -> selectTab("applied"));
+        if (tabInterviews != null) tabInterviews.setOnClickListener(v -> selectTab("interviews"));
+        if (tabArchived != null) tabArchived.setOnClickListener(v -> selectTab("archived"));
 
         // Set Applied as default selected
         selectTab("applied");
@@ -175,9 +187,11 @@ public class AppliedJobs extends Fragment {
     }
 
     private void loadFragment(Fragment fragment, String tag) {
-        FragmentManager fm = getChildFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.fragmentContainer, fragment, tag)
-                .commit();
+        if (isAdded()) {
+            FragmentManager fm = getChildFragmentManager();
+            fm.beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment, tag)
+                    .commit();
+        }
     }
 }

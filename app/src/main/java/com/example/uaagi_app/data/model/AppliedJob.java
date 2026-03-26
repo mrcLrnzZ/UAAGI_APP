@@ -12,6 +12,9 @@ public class AppliedJob {
     private String status; // "applied", "interviewing", "offer_received", "hired", "not_selected", "no_longer_interested"
     private String interviewDate;
     private String interviewTime;
+    
+    // Application Strength / Match Score
+    private int matchScore; // 0 to 100
 
     public AppliedJob() {
     }
@@ -133,5 +136,13 @@ public class AppliedJob {
 
     public void setInterviewTime(String interviewTime) {
         this.interviewTime = interviewTime;
+    }
+
+    public int getMatchScore() {
+        return matchScore;
+    }
+
+    public void setMatchScore(int matchScore) {
+        this.matchScore = matchScore;
     }
 }

@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +22,9 @@ import java.util.List;
 
 public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.JobViewHolder> {
 
-    private Context context;
-    private List<AppliedJob> jobList;
-    private OnJobActionListener listener;
+    private final Context context;
+    private final List<AppliedJob> jobList;
+    private final OnJobActionListener listener;
 
     public interface OnJobActionListener {
         void onStatusUpdated(AppliedJob job, String newStatus);
@@ -66,15 +65,19 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
             }
         }
 
-        // Update Status Button Click
+        // Hide update status button as it is currently not supported by the shared dialog layout
         if (holder.btnUpdateStatus != null) {
-            holder.btnUpdateStatus.setOnClickListener(v -> showUpdateStatusDialog(job));
+            holder.btnUpdateStatus.setVisibility(View.GONE);
         }
 
         // Menu Dots Click
         if (holder.ivMenuDots != null) {
             holder.ivMenuDots.setOnClickListener(v -> showManageJobDialog(job));
         }
+        
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onViewDetails(job);
+        });
     }
 
     @Override
@@ -82,81 +85,29 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
         return jobList.size();
     }
 
-    // Show Update Status Dialog
-    private void showUpdateStatusDialog(AppliedJob job) {
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_update_status);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
-
-        // Close button
-        ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
-        if (ivCloseDialog != null) {
-            ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
-        }
-
-        // Status options
-//        LinearLayout statusInterviewing = dialog.findViewById(R.id.statusInterviewing);
-//        LinearLayout statusOfferReceived = dialog.findViewById(R.id.statusOfferReceived);
-//        LinearLayout statusHired = dialog.findViewById(R.id.statusHired);
-//        LinearLayout statusNotSelected = dialog.findViewById(R.id.statusNotSelected);
-//        LinearLayout statusNoLongerInterested = dialog.findViewById(R.id.statusNoLongerInterested);
-//
-//        statusInterviewing.setOnClickListener(v -> {
-//            updateJobStatus(job, "interviewing", "Interviewing");
-//            dialog.dismiss();
-//        });
-//
-//        statusOfferReceived.setOnClickListener(v -> {
-//            updateJobStatus(job, "offer_received", "Offer received");
-//            dialog.dismiss();
-//        });
-//
-//        statusHired.setOnClickListener(v -> {
-//            updateJobStatus(job, "hired", "Hired");
-//            dialog.dismiss();
-//        });
-//
-//        statusNotSelected.setOnClickListener(v -> {
-//            updateJobStatus(job, "not_selected", "Not selected by employer");
-//            dialog.dismiss();
-//        });
-//
-//        statusNoLongerInterested.setOnClickListener(v -> {
-//            updateJobStatus(job, "no_longer_interested", "No longer interested");
-//            dialog.dismiss();
-//        });
-
-        dialog.show();
-    }
-
     // Show Manage Job Dialog (3-dot menu)
     private void showManageJobDialog(AppliedJob job) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_manage_job);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
-
-        // Close button
-        ImageView ivCloseManageDialog = dialog.findViewById(R.id.ivCloseManageDialog);
-        if (ivCloseManageDialog != null) {
-            ivCloseManageDialog.setOnClickListener(v -> dialog.dismiss());
+        
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            window.setGravity(Gravity.BOTTOM);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
         }
 
-        // Management options
+        ImageView ivCloseManageDialog = dialog.findViewById(R.id.ivCloseManageDialog);
+        if (ivCloseManageDialog != null) ivCloseManageDialog.setOnClickListener(v -> dialog.dismiss());
+
         LinearLayout optionViewDetails = dialog.findViewById(R.id.optionViewDetails);
         LinearLayout optionArchive = dialog.findViewById(R.id.optionArchive);
         LinearLayout optionWithdraw = dialog.findViewById(R.id.optionWithdraw);
 
         if (optionViewDetails != null) {
             optionViewDetails.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onViewDetails(job);
-                }
+                if (listener != null) listener.onViewDetails(job);
                 dialog.dismiss();
             });
         }
@@ -165,7 +116,6 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
             optionArchive.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onJobArchived(job);
-                    Toast.makeText(context, "Job archived", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             });
@@ -175,23 +125,12 @@ public class AppliedJobsAdapter extends RecyclerView.Adapter<AppliedJobsAdapter.
             optionWithdraw.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onApplicationWithdrawn(job);
-                    Toast.makeText(context, "Application withdrawn", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             });
         }
 
         dialog.show();
-    }
-
-    // Update job status
-    private void updateJobStatus(AppliedJob job, String status, String statusName) {
-        job.setStatus(status);
-        if (listener != null) {
-            listener.onStatusUpdated(job, status);
-        }
-        Toast.makeText(context, "Status updated to: " + statusName, Toast.LENGTH_SHORT).show();
-        notifyDataSetChanged();
     }
 
     public static class JobViewHolder extends RecyclerView.ViewHolder {

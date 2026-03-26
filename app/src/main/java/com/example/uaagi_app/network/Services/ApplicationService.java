@@ -63,6 +63,50 @@ public class ApplicationService {
 
         executeVoidCall(call, callback);
     }
+
+    public void withdrawApplication(int applicationId, SimpleCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection.");
+            return;
+        }
+
+        Call<ApiResponse> call = applicationApi.withdrawApplication(applicationId);
+        executeSimpleCall(call, callback);
+    }
+
+    public void rescheduleInterview(int applicationId, String preferredDate, String preferredTime, String reason, SimpleCallback callback) {
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection.");
+            return;
+        }
+
+        Call<ApiResponse> call = applicationApi.rescheduleInterview(applicationId, preferredDate, preferredTime, reason);
+        executeSimpleCall(call, callback);
+    }
+
+    private void executeSimpleCall(Call<ApiResponse> call, SimpleCallback callback) {
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.isSuccess()) {
+                        callback.onResponse(apiResponse.getMessage());
+                    } else {
+                        callback.onError(apiResponse.getMessage());
+                    }
+                } else {
+                    RetrofitErrorHandler.handleError(response, null, callback::onError);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                RetrofitErrorHandler.handleError(null, t, callback::onError);
+            }
+        });
+    }
+
     private void executeVoidCall(Call<ApiResponse> call, SubmitApplicationCallback callback) {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -129,5 +173,8 @@ public class ApplicationService {
     }
     public interface SubmitApplicationCallback extends RetrofitErrorHandler.ApiErrorCallback{
         void onResponse();
+    }
+    public interface SimpleCallback extends RetrofitErrorHandler.ApiErrorCallback {
+        void onResponse(String message);
     }
 }

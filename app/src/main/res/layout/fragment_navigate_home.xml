@@ -111,14 +111,17 @@
                             app:boxCornerRadiusTopEnd="10dp"
                             app:boxCornerRadiusTopStart="10dp"
                             app:startIconDrawable="@drawable/search"
-                            app:startIconTint="@color/Gray">
+                            app:startIconTint="@color/Gray"
+                            app:endIconMode="clear_text">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etSearch"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingStart="16dp"
-
+                                android:hint="Search job titles, companies..."
+                                android:inputType="text"
+                                android:imeOptions="actionSearch"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
