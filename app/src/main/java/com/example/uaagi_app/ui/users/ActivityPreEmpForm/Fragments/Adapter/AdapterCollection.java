@@ -209,7 +209,6 @@ public class AdapterCollection {
                     TextView jobLocation = view.findViewById(R.id.tvLocation);
                     ImageView ivBookmark = view.findViewById(R.id.ivBookmark);
                     TextView tvAppliedDate = view.findViewById(R.id.tvAppliedDate);
-                    Button btnViewJobDetails = view.findViewById(R.id.btnViewJobDetails);
                     boolean isIntern = Objects.equals(job.getJobType().getDisplayName(), "Internship");
                     if (jobTitle != null) jobTitle.setText(Helpers.safeText(job.getJobTitle()));
                     if (jobCompanyName != null) jobCompanyName.setText(Helpers.safeText(job.getCompany() != null ? job.getCompany().getDisplayName() : ""));
@@ -251,9 +250,6 @@ public class AdapterCollection {
                     };
 
                     view.setOnClickListener(navigateToDetails);
-                    if (btnViewJobDetails != null) {
-                        btnViewJobDetails.setOnClickListener(navigateToDetails);
-                    }
 
                 }
         );

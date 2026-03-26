@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.network.Services.JobService;
@@ -249,4 +250,10 @@ public class Helpers {
         }
     }
 
+
+    public static void showToast(String message, Context context) {
+        if (context != null) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

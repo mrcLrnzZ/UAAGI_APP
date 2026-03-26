@@ -39,4 +39,19 @@ public interface ApplicationApi {
     Call<ApiResponse<List<Applicant>>> fetchApplicantsForUser(
             @Query("user_id") int userId
     );
+
+    @FormUrlEncoded
+    @POST("index.php/application-withdraw")
+    Call<ApiResponse> withdrawApplication(
+            @Field("application_id") int applicationId
+    );
+
+    @FormUrlEncoded
+    @POST("index.php/application-reschedule")
+    Call<ApiResponse> rescheduleInterview(
+            @Field("application_id") int applicationId,
+            @Field("preferred_date") String preferredDate,
+            @Field("preferred_time") String preferredTime,
+            @Field("reason") String reason
+    );
 }

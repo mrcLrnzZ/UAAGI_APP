@@ -73,17 +73,16 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvDialogTitle"
+                        android:id="@+id/tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Interview Scheduled"
+                        android:text="Interview Declined"
                         android:textColor="@color/White"
                         android:textSize="20sp"
                         android:fontFamily="sans-serif-black"
                         android:layout_marginBottom="4dp"/>
 
                     <TextView
-                        android:id="@+id/tvDialogSubtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Foton Philippines · Junior Web Developer"
@@ -102,24 +101,23 @@
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
                         android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:visibility="gone">
+                        android:paddingBottom="5dp">
 
                         <ImageView
                             android:id="@+id/ivStatusIcon"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:src="@drawable/ic_check_circle"
-                            app:tint="#4A7C59"/>
+                            android:src="@drawable/failed"
+                            app:tint="@color/holo_red_dark"/>
 
                         <TextView
                             android:id="@+id/tvApplicationStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Approved"
+                            android:text="Rejected"
                             android:textSize="11sp"
                             android:textStyle="bold"
-                            android:textColor="#4A7C59"
+                            android:textColor="@color/holo_red_dark"
                             android:fontFamily="sans-serif-medium"
                             android:layout_marginStart="6dp"/>
                     </LinearLayout>
@@ -140,34 +138,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvLabelDetails"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="10dp">
-                    <TextView
-                        android:id="@+id/tvLabelDetails"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="INTERVIEW DETAILS"
-                        android:textSize="9sp"
-                        android:textColor="@color/Gray"
-                        android:fontFamily="sans-serif-medium"
-                        android:letterSpacing="0.1"/>
-
-                    <TextView
-                        android:id="@+id/btnAddToCalendar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+ Add to Calendar"
-                        android:textColor="@color/LightBlue"
-                        android:textSize="10sp"
-                        android:fontFamily="sans-serif-bold"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                </LinearLayout>
+                    android:text="REJECTION DETAILS"
+                    android:textSize="9sp"
+                    android:textColor="@color/Gray"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="10dp"/>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/detailsBox"
@@ -192,6 +172,7 @@
                             android:orientation="vertical"
                             android:visibility="visible">
 
+                            <!-- Reason for Rejection row -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -208,26 +189,27 @@
                                     <ImageView
                                         android:layout_width="15dp"
                                         android:layout_height="15dp"
-                                        android:src="@drawable/ic_calendar"
+                                        android:src="@drawable/failed"
                                         app:tint="@color/LightBlue"/>
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Date"
+                                        android:text="Reason for Rejection"
                                         android:textSize="9sp"
                                         android:textColor="@color/Gray"
                                         android:fontFamily="sans-serif-medium"/>
                                     <TextView
-                                        android:id="@+id/interviewDate"
+                                        android:id="@+id/tvRejectionReason"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="March 15, 2026"
+                                        android:text="—"
                                         android:textSize="13sp"
                                         android:textStyle="bold"
                                         android:textColor="@color/DarkBlue"
@@ -240,11 +222,12 @@
                                 android:layout_height="0.5dp"
                                 android:background="@color/PaleBlue"/>
 
+                            <!-- Additional Information of Reason row -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:gravity="center_vertical"
+                                android:gravity="top"
                                 android:padding="12dp">
 
                                 <LinearLayout
@@ -256,75 +239,27 @@
                                     <ImageView
                                         android:layout_width="15dp"
                                         android:layout_height="15dp"
-                                        android:src="@drawable/clock"
+                                        android:src="@drawable/ic_info"
                                         app:tint="@color/LightBlue"/>
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Time"
+                                        android:text="Additional Information of Reason"
                                         android:textSize="9sp"
                                         android:textColor="@color/Gray"
                                         android:fontFamily="sans-serif-medium"/>
                                     <TextView
-                                        android:id="@+id/interviewTime"
+                                        android:id="@+id/tvRejectionAdditionalInfo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="3:00 PM"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/DarkBlue"
-                                        android:fontFamily="sans-serif-medium"/>
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="0.5dp"
-                                android:background="@color/PaleBlue"/>
-
-                            <!-- Mode row -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:padding="12dp">
-
-                                <LinearLayout
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:gravity="center"
-                                    android:background="@color/PaleBlue"
-                                    android:layout_marginEnd="12dp">
-                                    <ImageView
-                                        android:layout_width="15dp"
-                                        android:layout_height="15dp"
-                                        android:src="@drawable/mode"
-                                        app:tint="@color/LightBlue"/>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Mode"
-                                        android:textSize="9sp"
-                                        android:textColor="@color/Gray"
-                                        android:fontFamily="sans-serif-medium"/>
-                                    <TextView
-                                        android:id="@+id/tvModeInterview"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="In-person Interview"
+                                        android:text="—"
                                         android:textSize="13sp"
                                         android:textStyle="bold"
                                         android:textColor="@color/DarkBlue"
@@ -343,35 +278,6 @@
                             android:padding="16dp"
                             android:background="#FDECEA"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:background="@color/PaleBlue"
-                            android:paddingStart="14dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="9dp"
-                            android:paddingBottom="9dp">
-
-                            <ImageView
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:src="@drawable/pin"
-                                app:tint="@color/LightBlue"
-                                android:layout_marginEnd="6dp"/>
-
-                            <TextView
-                                android:id="@+id/tvPlaceOfInterview"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Balintawak, Quezon City"
-                                android:textColor="@color/LightBlue"
-                                android:textSize="10sp"
-                                android:fontFamily="sans-serif-medium"/>
-                        </LinearLayout>
-
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -381,39 +287,6 @@
                     android:layout_height="1dp"
                     android:background="@color/PaleBlue"
                     android:layout_marginBottom="14dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/btnDecline"
-                        android:layout_width="0dp"
-                        android:layout_height="46dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        android:text="Withdraw Application"
-                        android:textSize="12sp"
-                        android:textColor="@color/Gray"
-                        android:background="@drawable/cancel_bg"
-                        android:stateListAnimator="@null"/>
-
-                    <Button
-                        android:id="@+id/btnReschedule"
-                        android:layout_width="0dp"
-                        android:layout_height="46dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:text="RESCHEDULE"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/White"
-                        android:letterSpacing="0.05"
-                        android:background="@drawable/logout_bg"
-                        android:stateListAnimator="@null"/>
-
-                </LinearLayout>
 
             </LinearLayout>
 

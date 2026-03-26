@@ -1,11 +1,13 @@
 package com.example.uaagi_app.ui.users.FragmentsAppliedJobs;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 
-import androidx.annotation.BinderThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,25 +15,30 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.ApplicantViewModel;
+import com.example.uaagi_app.network.Services.ApplicationService;
 import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SectionInterview extends Fragment {
 
@@ -39,6 +46,13 @@ public class SectionInterview extends Fragment {
     private GenericRecyclerAdapter<Applicant> adapter;
     private List<Applicant> interviewList = new ArrayList<>();
     private ApplicantViewModel applicantViewModel;
+    private ApplicationService applicationService;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        applicationService = new ApplicationService(requireContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,11 +81,7 @@ public class SectionInterview extends Fragment {
             interviewList.clear();
 
             for (Applicant applicant : applicants) {
-                Log.d("Interview Record", "Job: " + applicant.getJobTitle() +
-                        ", Company: " + applicant.getCompany() +
-                        ", Status: " + applicant.getInterviewStatus());
-
-                if (applicant.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
+                if (applicant.getInterviewStatus() != null && applicant.getInterviewStatus().equalsIgnoreCase("Scheduled")) {
                     interviewList.add(applicant);
                 }
             }
@@ -112,6 +122,8 @@ public class SectionInterview extends Fragment {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
+        TextView tvDialogTitle = dialog.findViewById(R.id.tvDialogTitle);
+        TextView tvDialogSubtitle = dialog.findViewById(R.id.tvDialogSubtitle);
         ImageView ivStatusIcon = dialog.findViewById(R.id.ivStatusIcon);
         LinearLayout infoRejectBox = dialog.findViewById(R.id.infoRejectBox);
         LinearLayout infoBox = dialog.findViewById(R.id.infoBox);
@@ -122,36 +134,49 @@ public class SectionInterview extends Fragment {
         TextView tvModeInterview = dialog.findViewById(R.id.tvModeInterview);
         TextView tvPlaceOfInterview = dialog.findViewById(R.id.tvPlaceOfInterview);
         TextView tvApplicationStatus = dialog.findViewById(R.id.tvApplicationStatus);
+        TextView btnAddToCalendar = dialog.findViewById(R.id.btnAddToCalendar);
         Button btnDecline = dialog.findViewById(R.id.btnDecline);
         Button btnReschedule = dialog.findViewById(R.id.btnReschedule);
 
-        tvInterviewDate.setText(
-                Helpers.formatToOrdinalDate(Helpers.safeText(applicant.getInterviewDate()))
-        );
-        tvInterviewTime.setText(
-                Helpers.formatTime(Helpers.safeText(applicant.getInterviewStart()))
-        );
+        tvDialogTitle.setText("Interview Scheduled");
+        tvDialogSubtitle.setText(applicant.getCompany() + " · " + applicant.getJobTitle());
+
+        tvInterviewDate.setText(Helpers.formatToOrdinalDate(Helpers.safeText(applicant.getInterviewDate())));
+        tvInterviewTime.setText(Helpers.formatTime(Helpers.safeText(applicant.getInterviewStart())));
         tvModeInterview.setText(Helpers.safeText(applicant.getInterviewType()));
         tvPlaceOfInterview.setText(Helpers.safeText(applicant.getLocation()));
-        tvApplicationStatus.setText(Helpers.capitalize(Helpers.safeText(applicant.getStatus())));
 
+        btnAddToCalendar.setOnClickListener(v -> {
+            addToCalendar(applicant);
+        });
+
+        // Handle "Approved" (accepted) status visibility
         String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
-        if ("rejected".equalsIgnoreCase(Helpers.safeText(applicant.getStatus()))) {
+        if (status.equals("accepted")) {
+            statusBadgeContainer.setVisibility(View.VISIBLE);
+            tvApplicationStatus.setText("Approved");
+            statusBadgeContainer.setBackgroundResource(R.drawable.bg_approved_badge);
+            ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
+            ivStatusIcon.setColorFilter(Color.parseColor("#4A7C59"));
+            tvApplicationStatus.setTextColor(Color.parseColor("#4A7C59"));
+        } else if (status.equals("rejected")) {
+            statusBadgeContainer.setVisibility(View.VISIBLE);
+            tvApplicationStatus.setText("Rejected");
+            statusBadgeContainer.setBackgroundColor(Color.parseColor("#FDECEA"));
+            ivStatusIcon.setImageResource(R.drawable.ic_cancel);
+            ivStatusIcon.setColorFilter(Color.parseColor("#D32F2F"));
+            tvApplicationStatus.setTextColor(Color.parseColor("#D32F2F"));
+
             infoRejectBox.setVisibility(View.VISIBLE);
             infoBox.setVisibility(View.GONE);
-            btnDecline.setVisibility(View.GONE);
-            btnReschedule.setVisibility(View.GONE);
 
-            // Example: dynamically add a TextView explaining rejection
             TextView reasonText = new TextView(requireContext());
-            reasonText.setText(applicant.getReason());
-            reasonText.setTextColor(Color.parseColor("#D32F2F")); // dark red text
-            reasonText.setTextSize(14f);
-
-            infoRejectBox.removeAllViews(); // clear old views
+            reasonText.setText("Reason: " + (applicant.getReason() != null ? applicant.getReason() : "No reason provided"));
+            reasonText.setTextColor(Color.parseColor("#D32F2F"));
+            infoRejectBox.removeAllViews();
             infoRejectBox.addView(reasonText);
         } else {
-            infoRejectBox.setVisibility(View.GONE);
+            statusBadgeContainer.setVisibility(View.GONE);
         }
         switch (status) {
             case "rejected" -> {
@@ -170,18 +195,167 @@ public class SectionInterview extends Fragment {
             case "pending" -> {
                 statusBadgeContainer.setBackgroundColor(Color.parseColor("#FFF8E1")); // yellow
 
-                ivStatusIcon.setImageResource(R.drawable.ic_info);
-            }
-            default -> {
-                statusBadgeContainer.setBackgroundColor(Color.parseColor("#BDBDBD")); // gray
+        btnDecline.setOnClickListener(v -> {
+            showRejectConfirmationDialog(applicant, dialog);
+        });
 
-                ivStatusIcon.setImageResource(R.drawable.ic_info);
-            }
-        }
+        btnReschedule.setOnClickListener(v -> {
+            showRescheduleDialog(applicant, dialog);
+        });
 
         ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
-
         dialog.show();
     }
 
+    private void addToCalendar(Applicant applicant) {
+        try {
+            String dateStr = applicant.getInterviewDate();
+            String timeStr = applicant.getInterviewStart();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            Date date = sdf.parse(dateStr + " " + timeStr);
+
+            if (date != null) {
+                long startTime = date.getTime();
+                long endTime = startTime + (60 * 60 * 1000); // 1 hour duration
+
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
+                        .putExtra(CalendarContract.Events.TITLE, "Interview: " + applicant.getJobTitle() + " at " + applicant.getCompany())
+                        .putExtra(CalendarContract.Events.DESCRIPTION, "Interview Mode: " + applicant.getInterviewType())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, applicant.getLocation())
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Helpers.showToast("Could not add to calendar", requireContext());
+        }
+    }
+
+    private void showRejectConfirmationDialog(Applicant applicant, Dialog parentDialog) {
+        Dialog confirmDialog = new Dialog(requireContext());
+        confirmDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirmDialog.setContentView(R.layout.dialog_withdraw_application);
+
+        if (confirmDialog.getWindow() != null) {
+            confirmDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            confirmDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        TextView tvTitle = confirmDialog.findViewById(R.id.tvDialogTitle);
+        TextView tvSubtitle = confirmDialog.findViewById(R.id.tvDialogSubtitle);
+        TextView tvMessage = confirmDialog.findViewById(R.id.tvDialogMessage);
+        TextView tvDetails = confirmDialog.findViewById(R.id.tvDialogDetails);
+        ImageView ivClose = confirmDialog.findViewById(R.id.ivCloseDialog);
+        Button btnCancel = confirmDialog.findViewById(R.id.btnCancel);
+        Button btnConfirm = confirmDialog.findViewById(R.id.btnConfirm);
+
+        tvTitle.setText("Withdraw Application");
+        tvSubtitle.setText(applicant.getCompany() + " · " + applicant.getJobTitle());
+        tvMessage.setText("Are you sure you want to withdraw?");
+        tvDetails.setText("This will permanently remove your application for " + applicant.getJobTitle() + " at " + applicant.getCompany() + ". This action cannot be undone.");
+
+        btnConfirm.setText("Yes, Withdraw");
+
+        ivClose.setOnClickListener(v -> confirmDialog.dismiss());
+        btnCancel.setOnClickListener(v -> confirmDialog.dismiss());
+        btnConfirm.setOnClickListener(v -> {
+            applicationService.withdrawApplication(applicant.getApplicationId(), new ApplicationService.SimpleCallback() {
+                @Override
+                public void onResponse(String message) {
+                    confirmDialog.dismiss();
+                    parentDialog.dismiss();
+                    Helpers.showToast("Application withdrawn", requireContext());
+                    refreshData();
+                }
+
+                @Override
+                public void onError(String message) {
+                    Helpers.showToast("Error: " + message, requireContext());
+                }
+            });
+        });
+
+        confirmDialog.show();
+    }
+
+    private void showRescheduleDialog(Applicant applicant, Dialog parentDialog) {
+        Dialog rescheduleDialog = new Dialog(requireContext());
+        rescheduleDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        rescheduleDialog.setContentView(R.layout.dialog_reschedule_interview);
+
+        if (rescheduleDialog.getWindow() != null) {
+            rescheduleDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            rescheduleDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        TextView tvPreferredDate = rescheduleDialog.findViewById(R.id.tvPreferredDate);
+        TextView tvPreferredTime = rescheduleDialog.findViewById(R.id.tvPreferredTime);
+        EditText etReason = rescheduleDialog.findViewById(R.id.etRescheduleReason);
+        LinearLayout rowDate = rescheduleDialog.findViewById(R.id.rowPreferredDate);
+        LinearLayout rowTime = rescheduleDialog.findViewById(R.id.rowPreferredTime);
+        Button btnCancel = rescheduleDialog.findViewById(R.id.btnCancel);
+        Button btnSubmit = rescheduleDialog.findViewById(R.id.btnSubmitRequest);
+        ImageView ivClose = rescheduleDialog.findViewById(R.id.ivCloseDialog);
+
+        final Calendar calendar = Calendar.getInstance();
+
+        rowDate.setOnClickListener(v -> {
+            new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                tvPreferredDate.setText(date);
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        });
+
+        rowTime.setOnClickListener(v -> {
+            new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                String time = String.format(Locale.getDefault(), "%02d:%02d:00", hourOfDay, minute);
+                tvPreferredTime.setText(time);
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+        });
+
+        btnCancel.setOnClickListener(v -> rescheduleDialog.dismiss());
+        ivClose.setOnClickListener(v -> rescheduleDialog.dismiss());
+
+        btnSubmit.setOnClickListener(v -> {
+            String date = tvPreferredDate.getText().toString();
+            String time = tvPreferredTime.getText().toString();
+            String reason = etReason.getText().toString();
+
+            if (date.equals("Select a date") || time.equals("Select a time") || reason.isEmpty()) {
+                Helpers.showToast("Please fill all fields", requireContext());
+                return;
+            }
+
+            applicationService.rescheduleInterview(applicant.getApplicationId(), date, time, reason, new ApplicationService.SimpleCallback() {
+                @Override
+                public void onResponse(String message) {
+                    rescheduleDialog.dismiss();
+                    parentDialog.dismiss();
+                    Helpers.showToast("Reschedule request submitted", requireContext());
+                    refreshData();
+                }
+
+                @Override
+                public void onError(String message) {
+                    Helpers.showToast("Error: " + message, requireContext());
+                }
+            });
+        });
+
+        rescheduleDialog.show();
+    }
+
+    private void refreshData() {
+        int userId = SessionManager.getInstance(requireContext()).getUserId();
+        applicantViewModel.fetchApplicantsForUser(userId, requireContext());
+    }
 }

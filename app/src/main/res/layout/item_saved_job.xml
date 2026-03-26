@@ -215,18 +215,6 @@
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium"/>
 
-            <Button
-                android:id="@+id/btnViewJobDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="31dp"
-                android:text="View Details"
-                android:textSize="10sp"
-                android:textColor="@color/White"
-                android:textAllCaps="false"
-                android:fontFamily="sans-serif-medium"
-                android:background="@drawable/update_status_button_background"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"/>
         </LinearLayout>
 
     </LinearLayout>
