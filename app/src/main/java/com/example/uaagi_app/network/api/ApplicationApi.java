@@ -38,10 +38,6 @@ public interface ApplicationApi {
     Call<ApiResponse> rejectApplication(
             @Query("application_id") int applicationId
     );
-    @PATCH("index.php/application-reschedule")
-    Call<ApiResponse> rescheduleApplication(
-            @Query("application_id") int applicationId
-    );
 
     @Multipart
     @POST("index.php/application-send")
@@ -67,8 +63,8 @@ public interface ApplicationApi {
     @POST("index.php/application-reschedule")
     Call<ApiResponse> rescheduleInterview(
             @Field("application_id") int applicationId,
-            @Field("preferred_date") String preferredDate,
-            @Field("preferred_time") String preferredTime,
+            @Field("preferred_date_time") String preferredDateTime,
+            @Field("previous_time") String previousTime,
             @Field("reason") String reason
     );
 }

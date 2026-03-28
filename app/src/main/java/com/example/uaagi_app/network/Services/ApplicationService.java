@@ -82,13 +82,13 @@ public class ApplicationService {
         executeSimpleCall(call, callback);
     }
 
-    public void rescheduleInterview(int applicationId, String preferredDate, String preferredTime, String reason, SimpleCallback callback) {
+    public void rescheduleInterview(int applicationId, String dateTime, String oldDateTime, String reason, SimpleCallback callback) {
         if (!NetworkUtils.isInternetAvailable(context)) {
             callback.onError("No internet connection.");
             return;
         }
 
-        Call<ApiResponse> call = applicationApi.rescheduleInterview(applicationId, preferredDate, preferredTime, reason);
+        Call<ApiResponse> call = applicationApi.rescheduleInterview(applicationId, dateTime, oldDateTime, reason);
         executeSimpleCall(call, callback);
     }
 

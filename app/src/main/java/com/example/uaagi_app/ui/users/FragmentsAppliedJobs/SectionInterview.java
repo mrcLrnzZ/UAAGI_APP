@@ -142,9 +142,10 @@ public class SectionInterview extends Fragment {
         dialog.show();
     }
     private void showUpdateStatusDialog(Applicant applicant) {
-        String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
+        String statusApplication = Helpers.safeText(applicant.getStatus()).toLowerCase();
+        String statusInterview =  Helpers.safeText(applicant.getInterviewStatus().toLowerCase());
 
-        if ("rejected".equals(status)) {
+        if ("rejected".equals(statusApplication)) {
             showDialogRejected(applicant);
             return;
         }
@@ -192,7 +193,7 @@ public class SectionInterview extends Fragment {
         btnDecline.setVisibility(View.GONE);
         btnReschedule.setVisibility(View.GONE);
 
-        switch (status) {
+        switch (statusInterview) {
             case "accepted" -> {
                 tvDialogTitle.setText("Interview Scheduled");
                 tvApplicationStatus.setText("Approved");
@@ -339,13 +340,15 @@ public class SectionInterview extends Fragment {
             String date = tvPreferredDate.getText().toString();
             String time = tvPreferredTime.getText().toString();
             String reason = etReason.getText().toString();
+            String dateTime = date + " " + time;
+            String oldDateTime = applicant.getInterviewDate();
 
             if (date.equals("Select a date") || time.equals("Select a time") || reason.isEmpty()) {
                 Helpers.showToast("Please fill all fields", requireContext());
                 return;
             }
 
-            applicationService.rescheduleInterview(applicant.getApplicationId(), date, time, reason, new ApplicationService.SimpleCallback() {
+            applicationService.rescheduleInterview(applicant.getApplicationId(), dateTime, oldDateTime, reason, new ApplicationService.SimpleCallback() {
                 @Override
                 public void onResponse(String message) {
                     rescheduleDialog.dismiss();

@@ -3,7 +3,7 @@ package com.example.uaagi_app.network.dto;
 import com.google.gson.annotations.SerializedName;
 
 public class Applicant {
-    @SerializedName("applicantion_id")
+    @SerializedName("application_id")
     private final int applicationId;
     @SerializedName("user_id")
     private final int userId;
