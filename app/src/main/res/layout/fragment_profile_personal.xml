@@ -86,11 +86,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvLastName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Bien"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -111,11 +113,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvFirstName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Angel Emie Jane"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -136,11 +140,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvMiddleName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Pareja"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -178,11 +184,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/Dob"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="July 26, 2005"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -203,11 +211,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/Age"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="20"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -228,11 +238,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvGender"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Female"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -270,11 +282,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvReligion"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Protestant"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -295,11 +309,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvCivilStatus"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Single"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -320,11 +336,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvNationality"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="Filipino"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -403,11 +421,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvMobileNo"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="09685413999"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -428,11 +448,13 @@
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/tvTelephoneNo"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:enabled="false"
                             android:text="123-567-234"
                             android:textColor="#0D1B2E"
                             android:textSize="14sp" />
@@ -464,11 +486,13 @@
                         android:textSize="9sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tvEmail"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:enabled="false"
                         android:text="angelemiejane.bien@gmail.com"
                         android:textColor="#0D1B2E"
                         android:textSize="14sp" />
@@ -540,11 +564,13 @@
                         android:textSize="9sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tvCurrentAddr"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:enabled="false"
                         android:lineSpacingExtra="3dp"
                         android:text="183 KKK Street, Bagong Barrio, Barangay 150, City of Caloocan, National Capital Region (NCR)"
                         android:textColor="#0D1B2E"
@@ -576,11 +602,13 @@
                         android:textSize="9sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tvPermanentAddr"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:background="@null"
+                        android:enabled="false"
                         android:lineSpacingExtra="3dp"
                         android:text="183 KKK Street, Bagong Barrio, Barangay 150, City of Caloocan, National Capital Region (NCR)"
                         android:textColor="#0D1B2E"

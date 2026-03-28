@@ -24,6 +24,7 @@ import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
 import com.example.uaagi_app.network.RetrofitClient;
 import com.example.uaagi_app.network.api.DocumentApi;
+import com.example.uaagi_app.ui.users.FragmentsHomePage.Profile;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.io.File;
@@ -47,7 +48,6 @@ public class ChildProfile extends Fragment {
     private ProgressBar progressBar;
     private LinearLayout profileContainer, getDocumentBtn;
 
-
     public ChildProfile() {
     }
 
@@ -70,21 +70,27 @@ public class ChildProfile extends Fragment {
                 requireParentFragment() != null ? requireParentFragment() : this
         ).get(ProfileViewModel.class);
 
-        personalInfoOption.setOnClickListener(v ->
-                loadFragment(new PersonalInfo())
-        );
+        personalInfoOption.setOnClickListener(v -> {
+            if (getParentFragment() instanceof Profile) {
+                ((Profile) getParentFragment()).updateHeaderButtons(true);
+            }
+            loadFragment(new PersonalInfo());
+        });
 
-        getDocumentBtn.setOnClickListener( v -> {
-
+        getDocumentBtn.setOnClickListener(v -> {
             preEmpPDF(SessionManager.getInstance(requireContext()).getUserId());
         });
 
-        professionalOption.setOnClickListener(v ->
-                loadFragment(new ProfessionalInfo())
-        );
+        professionalOption.setOnClickListener(v -> {
+            if (getParentFragment() instanceof Profile) {
+                ((Profile) getParentFragment()).updateHeaderButtons(true);
+            }
+            loadFragment(new ProfessionalInfo());
+        });
 
         return view;
     }
+
     private void preEmpPDF(int userId) {
         DocumentApi api = RetrofitClient.getInstance().create(DocumentApi.class);
         Call<ResponseBody> call = api.downloadPdf(userId);
@@ -95,14 +101,15 @@ public class ChildProfile extends Fragment {
                     savePdf(response.body());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
-    private void savePdf(ResponseBody body) {
 
+    private void savePdf(ResponseBody body) {
         try {
             InputStream inputStream = body.byteStream();
 
@@ -163,12 +170,14 @@ public class ChildProfile extends Fragment {
             e.printStackTrace();
         }
     }
+
     private void openPdf(Uri uri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "application/pdf");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

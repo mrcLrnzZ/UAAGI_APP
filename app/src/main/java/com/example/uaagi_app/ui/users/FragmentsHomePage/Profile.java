@@ -1,176 +1,208 @@
-    package com.example.uaagi_app.ui.users.FragmentsHomePage;
+package com.example.uaagi_app.ui.users.FragmentsHomePage;
 
-    import static com.example.uaagi_app.network.RetrofitClient.IMAGE_BASE_URL;
+import static com.example.uaagi_app.network.RetrofitClient.IMAGE_BASE_URL;
 
-    import android.app.Dialog;
-    import android.content.Intent;
-    import android.os.Bundle;
-    import android.util.Log;
-    import android.view.Gravity;
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.view.Window;
-    import android.widget.Button;
-    import android.widget.ImageButton;
-    import android.widget.ImageView;
-    import android.widget.ProgressBar;
-    import android.widget.TextView;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-    import androidx.activity.result.ActivityResultLauncher;
-    import androidx.activity.result.contract.ActivityResultContracts;
-    import androidx.annotation.NonNull;
-    import androidx.annotation.Nullable;
-    import androidx.fragment.app.Fragment;
-    import androidx.lifecycle.ViewModelProvider;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-    import com.bumptech.glide.Glide;
-    import com.bumptech.glide.load.engine.DiskCacheStrategy;
-    import com.example.uaagi_app.R;
-    import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
-    import com.example.uaagi_app.network.Services.UploadImageService;
-    import com.example.uaagi_app.ui.users.ActivityLoginPage;
-    import com.example.uaagi_app.ui.users.FragmentsProfile.ChildProfile;
-    import com.example.uaagi_app.utils.SessionManager;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.uaagi_app.R;
+import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
+import com.example.uaagi_app.network.Services.UploadImageService;
+import com.example.uaagi_app.ui.users.ActivityLoginPage;
+import com.example.uaagi_app.ui.users.FragmentsProfile.ChildProfile;
+import com.example.uaagi_app.ui.users.FragmentsProfile.PersonalInfo;
+import com.example.uaagi_app.ui.users.FragmentsProfile.ProfessionalInfo;
+import com.example.uaagi_app.utils.SessionManager;
 
-    public class Profile extends Fragment {
+public class Profile extends Fragment {
 
-        private ProfileViewModel viewModel;
-        private static final String TAG = "Profile";
-        private TextView fullNameTv;
-        private ProgressBar progressBar;
-        private ImageView profilePhoto, btnLogout;
-        private ActivityResultLauncher<String> imagePickerLauncher;
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                                 ViewGroup container,
-                                 Bundle savedInstanceState) {
+    private ProfileViewModel viewModel;
+    private static final String TAG = "Profile";
+    private TextView fullNameTv;
+    private ProgressBar progressBar;
+    private ImageView profilePhoto, btnLogout, btnEdit;
+    private ImageButton btnBack;
+    private ActivityResultLauncher<String> imagePickerLauncher;
+    private boolean isEditing = false;
 
-            View view = inflater.inflate(R.layout.fragment_navigate_profile, container, false);
-            imagePickerLauncher = registerForActivityResult(
-                    new ActivityResultContracts.GetContent(),
-                    uri -> {
-                        if (uri != null) {
-                            UploadImageService.getInstance().uploadImage(uri, requireContext(), profilePhoto);
-                        }
-                    });
-            fullNameTv = view.findViewById(R.id.FullName);
-            progressBar = view.findViewById(R.id.profileProgressBar);
-            profilePhoto = view.findViewById(R.id.ProfilePhoto);
-            btnLogout = view.findViewById(R.id.logout);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
 
-            viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-            viewModel.fetchContent(requireContext());
-
-            return view;
-        }
-
-        @Override
-        public void onViewCreated(@NonNull View view,
-                                  @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-            int userId = SessionManager.getInstance(requireContext()).getUserId();
-            String imageUrl = IMAGE_BASE_URL + "user_" + userId + ".jpg?ts=" + System.currentTimeMillis();
-
-
-            Glide.with(requireContext())
-                    .load(imageUrl)
-                    .circleCrop()
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(profilePhoto);
-
-            profilePhoto.setOnClickListener(v -> {
-                imagePickerLauncher.launch("image/*");
-            });
-
-            ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
-                    new ActivityResultContracts.GetContent(),
-                    uri -> {
-                        if (uri != null) {
-                            UploadImageService.getInstance().uploadImage(uri, requireContext(), profilePhoto);
-                        }
+        View view = inflater.inflate(R.layout.fragment_navigate_profile, container, false);
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        UploadImageService.getInstance().uploadImage(uri, requireContext(), profilePhoto);
                     }
-            );
-
-            viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
-                progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-                fullNameTv.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-            });
-
-            viewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
-                if (data != null && data.getUserInfo() != null) {
-                    Log.d(TAG, "onViewCreated: "+ data.getEducation());
-                    String fullName =
-                            data.getUserInfo().getFirstName() + " " +
-                                    data.getUserInfo().getMiddleName() + " " +
-                                    data.getUserInfo().getLastName();
-
-                    fullNameTv.setText(fullName);
-                }
-            });
-
-            btnLogout.setOnClickListener(v -> {
-                Dialog dialog = new Dialog(requireContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.item_profile_logout);
-
-                if (dialog.getWindow() != null) {
-                    dialog.getWindow().setLayout(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                    );
-                    dialog.getWindow().setGravity(Gravity.CENTER);
-                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                }
-
-                ImageView btnClose = dialog.findViewById(R.id.btnClose);
-                Button btnCancel = dialog.findViewById(R.id.btnCancel);
-                Button btnSignOut = dialog.findViewById(R.id.btnSignOut);
-
-                btnClose.setOnClickListener(e -> dialog.dismiss());
-                btnCancel.setOnClickListener(e -> dialog.dismiss());
-
-                btnSignOut.setOnClickListener(e -> {
-
-                    SessionManager.getInstance(requireContext()).logout();
-
-                    requireActivity()
-                            .getSupportFragmentManager()
-                            .popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                    Intent intent = new Intent(requireContext(), ActivityLoginPage.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-
-                    requireActivity().finish();
-
-                    dialog.dismiss();
                 });
+        fullNameTv = view.findViewById(R.id.FullName);
+        progressBar = view.findViewById(R.id.profileProgressBar);
+        profilePhoto = view.findViewById(R.id.ProfilePhoto);
+        btnLogout = view.findViewById(R.id.logout);
+        btnEdit = view.findViewById(R.id.btnedit);
+        btnBack = view.findViewById(R.id.btnback);
 
-                dialog.show();
+
+        viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        viewModel.fetchContent(requireContext());
+
+        return view;
+    }
+
+
+    public void updateHeaderButtons(boolean isSubProfile) {
+        if (btnLogout != null && btnEdit != null && btnBack != null) {
+            btnLogout.setVisibility(isSubProfile ? View.GONE : View.VISIBLE);
+            btnEdit.setVisibility(isSubProfile ? View.VISIBLE : View.GONE);
+            btnBack.setVisibility(isSubProfile ? View.VISIBLE : View.GONE);
+            
+            if (!isSubProfile) {
+                isEditing = false;
+                btnEdit.setImageResource(R.drawable.edit);
+            }
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int userId = SessionManager.getInstance(requireContext()).getUserId();
+        String imageUrl = IMAGE_BASE_URL + "user_" + userId + ".jpg?ts=" + System.currentTimeMillis();
+
+        Glide.with(requireContext())
+                .load(imageUrl)
+                .circleCrop()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(profilePhoto);
+
+        profilePhoto.setOnClickListener(v -> {
+            imagePickerLauncher.launch("image/*");
+        });
+
+        viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            fullNameTv.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        });
+
+        viewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
+            if (data != null && data.getUserInfo() != null) {
+                String fullName =
+                        data.getUserInfo().getFirstName() + " " +
+                                data.getUserInfo().getMiddleName() + " " +
+                                data.getUserInfo().getLastName();
+
+                fullNameTv.setText(fullName);
+            }
+        });
+
+        btnLogout.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(requireContext());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.item_profile_logout);
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setLayout(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                );
+                dialog.getWindow().setGravity(Gravity.CENTER);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            }
+
+            ImageView btnClose = dialog.findViewById(R.id.btnClose);
+            Button btnCancel = dialog.findViewById(R.id.btnCancel);
+            Button btnSignOut = dialog.findViewById(R.id.btnSignOut);
+
+            btnClose.setOnClickListener(e -> dialog.dismiss());
+            btnCancel.setOnClickListener(e -> dialog.dismiss());
+
+            btnSignOut.setOnClickListener(e -> {
+                SessionManager.getInstance(requireContext()).logout();
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                Intent intent = new Intent(requireContext(), ActivityLoginPage.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                requireActivity().finish();
+                dialog.dismiss();
             });
+            dialog.show();
+        });
 
+        btnBack.setOnClickListener(v -> {
+            if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+                getChildFragmentManager().popBackStack();
+                updateHeaderButtons(false);
+            }
+        });
+
+        btnEdit.setOnClickListener(v -> {
+            Fragment current = getChildFragmentManager().findFragmentById(R.id.profileOptionsContainer);
+            
+            isEditing = !isEditing;
+            btnEdit.setImageResource(isEditing ? R.drawable.ic_check_circle : R.drawable.edit);
+
+            if (current instanceof PersonalInfo) {
+                ((PersonalInfo) current).setEditEnabled(isEditing);
+            } else if (current instanceof ProfessionalInfo) {
+                ((ProfessionalInfo) current).setEditEnabled(isEditing);
+
+            }
+
+            if (!isEditing) {
+                Log.d(TAG, "Profile saved");
+                // Trigger your save to API logic here
+            }
+        });
+
+        if (savedInstanceState == null) {
             getChildFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.slide_up, 0)
                     .replace(R.id.profileOptionsContainer, new ChildProfile())
                     .commit();
         }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            requireActivity().findViewById(R.id.top_bar)
-                    .setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            requireActivity().findViewById(R.id.top_bar)
-                    .setVisibility(View.VISIBLE);
-        }
-
-
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        requireActivity().findViewById(R.id.top_bar)
+                .setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        requireActivity().findViewById(R.id.top_bar)
+                .setVisibility(View.VISIBLE);
+    }
+}

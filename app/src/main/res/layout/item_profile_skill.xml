@@ -26,11 +26,13 @@
                 android:textStyle="bold"
                 android:letterSpacing="0.05" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvSkillType"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:background="@null"
+                android:enabled="false"
                 android:text="Programming"
                 android:textColor="#0D1B2E"
                 android:textSize="13sp" />
@@ -51,11 +53,13 @@
                 android:textStyle="bold"
                 android:letterSpacing="0.05" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvSkillDescription"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:background="@null"
+                android:enabled="false"
                 android:text="Java, Kotlin, Python, and C++"
                 android:textColor="#0D1B2E"
                 android:textSize="12sp"

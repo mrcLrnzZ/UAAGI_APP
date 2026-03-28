@@ -28,31 +28,37 @@
                 android:textColor="#1B4F9B"
                 android:textSize="9sp"
                 android:textStyle="bold" />
-            <TextView
+            <EditText
                 android:id="@+id/tvSchoolName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:layout_marginTop="3dp"
                 android:lineSpacingExtra="2dp"
+                android:background="@null"
                 android:text="School Name"
                 android:textColor="#0D1B2E"
                 android:textSize="13sp" />
         </LinearLayout>
 
-        <TextView
+        <EditText
             android:id="@+id/tvYear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:enabled="false"
+            android:background="@null"
             android:layout_weight="1"
             android:text="2024"
             android:textColor="#0D1B2E"
             android:textSize="13sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/tvAward"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:enabled="false"
+            android:background="@null"
             android:text="Award"
             android:textColor="#1B6B3A"
             android:textSize="12sp"

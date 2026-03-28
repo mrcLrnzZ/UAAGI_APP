@@ -26,11 +26,13 @@
                 android:textSize="9sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvWorkCompany"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:background="@null"
+                android:enabled="false"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textColor="#0D1B2E"
@@ -52,11 +54,13 @@
                 android:textSize="9sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvWorkPosition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:background="@null"
+                android:enabled="false"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textColor="#0D1B2E"
@@ -78,11 +82,13 @@
                 android:textSize="9sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvWorkDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:background="@null"
+                android:enabled="false"
                 android:lineSpacingExtra="2dp"
                 android:textColor="#0D1B2E"
                 android:textSize="12sp" />
