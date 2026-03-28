@@ -208,6 +208,7 @@
                                 android:textSize="13sp"/>
 
                             <TextView
+                                android:id="@+id/tvTimelineDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
@@ -255,7 +256,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="Oct 28, 2023"
+                                android:text="Not yet viewed"
                                 android:textColor="@color/Gray"
                                 android:textSize="11sp"/>
                         </LinearLayout>

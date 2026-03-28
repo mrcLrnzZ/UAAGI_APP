@@ -2,6 +2,7 @@ package com.example.uaagi_app.data.model;
 
 public class AppliedJob {
     private String jobId;
+    private String viewedAt;
     private String jobTitle;
     private String companyName;
     private String location;
@@ -21,7 +22,7 @@ public class AppliedJob {
 
     public AppliedJob(String jobId, String jobTitle, String companyName, String location,
                       String appliedDate, String appliedPlatform, String employerResponseTime,
-                      boolean responseUnlikely, String status) {
+                      boolean responseUnlikely, String status, String viewedAt) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.companyName = companyName;
@@ -31,6 +32,7 @@ public class AppliedJob {
         this.employerResponseTime = employerResponseTime;
         this.responseUnlikely = responseUnlikely;
         this.status = status;
+        this.viewedAt = viewedAt;
     }
 
     public AppliedJob(String jobId, String jobTitle, String companyName, String location,
@@ -145,4 +147,5 @@ public class AppliedJob {
     public void setMatchScore(int matchScore) {
         this.matchScore = matchScore;
     }
+    public String getViewedAt() { return viewedAt; }
 }

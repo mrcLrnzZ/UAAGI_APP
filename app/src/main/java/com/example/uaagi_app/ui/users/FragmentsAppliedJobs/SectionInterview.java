@@ -114,8 +114,41 @@ public class SectionInterview extends Fragment {
 
         rvInterview.setAdapter(adapter);
     }
+    private void showDialogRejected(Applicant applicant) {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_update_status_rejected);
 
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        TextView tvDialogTitle = dialog.findViewById(R.id.tvTitle);
+        ImageView ivStatusIcon = dialog.findViewById(R.id.ivStatusIcon);
+        TextView tvApplicationStatus = dialog.findViewById(R.id.tvApplicationStatus);
+        LinearLayout statusBadgeContainer = dialog.findViewById(R.id.statusBadgeContainer);
+        ImageView ivCloseDialog = dialog.findViewById(R.id.ivCloseDialog);
+
+        tvDialogTitle.setText("Application Status");
+        tvApplicationStatus.setText("Rejected");
+        statusBadgeContainer.setBackgroundResource(R.drawable.bg_rejected_badge);
+        ivStatusIcon.setImageResource(R.drawable.ic_cancel);
+        int rejectedColor = Color.parseColor("#D32F2F");
+        ivStatusIcon.setColorFilter(rejectedColor);
+        tvApplicationStatus.setTextColor(rejectedColor);
+        ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
+        TextView tvReason = dialog.findViewById(R.id.tvRejectionReason);
+        tvReason.setText("Reason: " + (applicant.getReason() != null ? applicant.getReason() : "No reason provided"));
+        dialog.show();
+    }
     private void showUpdateStatusDialog(Applicant applicant) {
+        String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
+
+        if ("rejected".equals(status)) {
+            showDialogRejected(applicant);
+            return;
+        }
+
         Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_update_status);
@@ -152,15 +185,12 @@ public class SectionInterview extends Fragment {
         ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
         btnAddToCalendar.setOnClickListener(v -> addToCalendar(applicant));
 
-        String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
-
         // Reset visibility states
         statusBadgeContainer.setVisibility(View.VISIBLE);
         infoRejectBox.setVisibility(View.GONE);
         infoBox.setVisibility(View.VISIBLE);
         btnDecline.setVisibility(View.GONE);
         btnReschedule.setVisibility(View.GONE);
-        Log.d("StatusDEBUG", status);
 
         switch (status) {
             case "accepted" -> {
@@ -171,23 +201,6 @@ public class SectionInterview extends Fragment {
                 int approvedColor = Color.parseColor("#4A7C59");
                 ivStatusIcon.setColorFilter(approvedColor);
                 tvApplicationStatus.setTextColor(approvedColor);
-            }
-            case "rejected" -> {
-                tvDialogTitle.setText("Application Status");
-                tvApplicationStatus.setText("Rejected");
-                statusBadgeContainer.setBackgroundResource(R.drawable.bg_rejected_badge);
-                ivStatusIcon.setImageResource(R.drawable.ic_cancel);
-                int rejectedColor = Color.parseColor("#D32F2F");
-                ivStatusIcon.setColorFilter(rejectedColor);
-                tvApplicationStatus.setTextColor(rejectedColor);
-
-                infoRejectBox.setVisibility(View.VISIBLE);
-                infoBox.setVisibility(View.GONE);
-
-                TextView tvReason = dialog.findViewById(R.id.tvRejectionReason);
-                if (tvReason != null) {
-                    tvReason.setText("Reason: " + (applicant.getReason() != null ? applicant.getReason() : "No reason provided"));
-                }
             }
             case "scheduled" -> {
                 tvDialogTitle.setText("You have a scheduled interview");

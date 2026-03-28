@@ -27,6 +27,7 @@ import com.example.uaagi_app.data.model.AppliedJob;
 import com.example.uaagi_app.data.viewmodel.ApplicantViewModel;
 import com.example.uaagi_app.network.Services.ApplicationService;
 import com.example.uaagi_app.network.dto.Applicant;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
@@ -121,7 +122,8 @@ public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJob
                             applicant.getApplyMethod(),
                             "This employer typically responds within 1 day",
                             false,
-                            applicant.getStatus()
+                            applicant.getStatus(),
+                            applicant.getViewedAt()
                     );
                     job.setMatchScore(65 + random.nextInt(31));
                     appliedJobsList.add(job);
@@ -194,7 +196,8 @@ public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJob
         ((TextView) dialog.findViewById(R.id.tvDialogJobTitle)).setText(job.getJobTitle());
         ((TextView) dialog.findViewById(R.id.tvTimelineAppliedDate)).setText(job.getAppliedDate());
         ((TextView) dialog.findViewById(R.id.tvTimelineStatus)).setText("Status: " + job.getStatus());
-        
+        TextView tvTimelineDate = dialog.findViewById(R.id.tvTimelineDate);
+        if (tvTimelineDate != null) tvTimelineDate.setText(Helpers.formatToOrdinalDate(job.getViewedAt()));
         dialog.findViewById(R.id.ivCloseTimeline).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();

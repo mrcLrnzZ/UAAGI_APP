@@ -9,6 +9,8 @@ public class Applicant {
     private final int userId;
     @SerializedName("job_id")
     private final int jobId;
+    @SerializedName("viewed_at")
+    private final String viewedAt;
     @SerializedName("apply_method")
     private final String applyMethod;
     @SerializedName("submission_date")
@@ -51,7 +53,7 @@ public class Applicant {
     private final String interviewEnd;
 
     private Applicant(Builder builder) {
-        this.applicationId = builder.applicantionId;
+        this.applicationId = builder.applicationId;
         this.userId = builder.userId;
         this.jobId = builder.jobId;
         this.applyMethod = builder.applyMethod;
@@ -74,8 +76,9 @@ public class Applicant {
         this.interviewer = builder.interviewer;
         this.interviewStart = builder.interviewStart;
         this.interviewEnd = builder.interviewEnd;
+        this.viewedAt = builder.viewedAt;
     }
-
+    public String getViewedAt() { return viewedAt; }
     public int getApplicationId() {
         return applicationId;
     }
@@ -169,9 +172,10 @@ public class Applicant {
     }
 
     public static class Builder {
-        private int applicantionId;
+        private int applicationId;
         private int userId;
         private int jobId;
+        private String viewedAt;
         private String applyMethod;
         private String submissionDate;
         private String status;
@@ -193,7 +197,8 @@ public class Applicant {
         private String interviewStart;
         private String interviewEnd;
         public Builder() {}
-        public Builder applicantionId(int applicantionId) { this.applicantionId = applicantionId; return this; }
+        public Builder applicationId(int applicationId) { this.applicationId = applicationId; return this; }
+        public Builder viewedAt(String viewedAt) { this.viewedAt = viewedAt; return this; }
         public Builder userId(int userId) { this.userId = userId; return this; }
         public Builder jobId(int jobId) { this.jobId = jobId; return this; }
         public Builder applyMethod(String applyMethod) { this.applyMethod = applyMethod; return this; }
