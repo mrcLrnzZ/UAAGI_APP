@@ -152,7 +152,7 @@ public class SectionInterview extends Fragment {
         ivCloseDialog.setOnClickListener(v -> dialog.dismiss());
         btnAddToCalendar.setOnClickListener(v -> addToCalendar(applicant));
 
-        String status = Helpers.safeText(applicant.getInterviewStatus()).toLowerCase();
+        String status = Helpers.safeText(applicant.getStatus()).toLowerCase();
 
         // Reset visibility states
         statusBadgeContainer.setVisibility(View.VISIBLE);
@@ -160,6 +160,7 @@ public class SectionInterview extends Fragment {
         infoBox.setVisibility(View.VISIBLE);
         btnDecline.setVisibility(View.GONE);
         btnReschedule.setVisibility(View.GONE);
+        Log.d("StatusDEBUG", status);
 
         switch (status) {
             case "accepted" -> {
@@ -232,7 +233,6 @@ public class SectionInterview extends Fragment {
             Helpers.showToast("Could not add to calendar", requireContext());
         }
     }
-
     private void showRejectConfirmationDialog(Applicant applicant, Dialog parentDialog) {
         Dialog confirmDialog = new Dialog(requireContext());
         confirmDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -279,7 +279,6 @@ public class SectionInterview extends Fragment {
 
         confirmDialog.show();
     }
-
     private void showRescheduleDialog(Applicant applicant, Dialog parentDialog) {
         Dialog rescheduleDialog = new Dialog(requireContext());
         rescheduleDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -351,7 +350,6 @@ public class SectionInterview extends Fragment {
 
         rescheduleDialog.show();
     }
-
     private void refreshData() {
         int userId = SessionManager.getInstance(requireContext()).getUserId();
         applicantViewModel.fetchApplicantsForUser(userId, requireContext());

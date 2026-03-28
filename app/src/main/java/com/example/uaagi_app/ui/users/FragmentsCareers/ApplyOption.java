@@ -1,5 +1,7 @@
 package com.example.uaagi_app.ui.users.FragmentsCareers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uaagi_app.R;
+import com.example.uaagi_app.network.Services.ApplicationService;
 import com.example.uaagi_app.network.Services.JobService;
 import com.example.uaagi_app.network.dto.JobFetchResponse;
 import com.example.uaagi_app.ui.users.FragmentError;
@@ -67,12 +70,14 @@ public class ApplyOption extends Fragment {
             radioPreEmployment.setChecked(true);
             radioUploadResume.setChecked(false);
             selectedRadio[0] = radioPreEmployment;
+            btnContinuePreEmployment.setText("Continue with Pre-Employment");
         });
 
         option2.setOnClickListener(v -> {
             radioUploadResume.setChecked(true);
             radioPreEmployment.setChecked(false);
             selectedRadio[0] = radioUploadResume;
+            btnContinuePreEmployment.setText("Continue with Resume");
         });
 
         btnContinuePreEmployment.setOnClickListener(v -> {
@@ -80,31 +85,69 @@ public class ApplyOption extends Fragment {
                 Toast.makeText(requireContext(), "Please select an option", Toast.LENGTH_SHORT).show();
             } else if (selectedRadio[0] == radioPreEmployment) {
                 unsetRadioButtons();
-                UiHelpers.switchFragment(
-                        requireActivity().getSupportFragmentManager(),
-                        ApplyPreEmp.newInstance(Integer.parseInt(jobID))
-                );
+                if (jobID != null) {
+                    UiHelpers.switchFragment(
+                            requireActivity().getSupportFragmentManager(),
+                            ApplyPreEmp.newInstance(Integer.parseInt(jobID))
+                    );
+                }
             } else if (selectedRadio[0] == radioUploadResume) {
-                unsetRadioButtons();
-                Toast.makeText(requireContext(), "You selected Upload Resume", Toast.LENGTH_SHORT).show();
-                pdfPickerHelper.openPdfPicker(Integer.parseInt(jobID), new PdfPickerHelper.PdfUploadCallback() {
-                    @Override
-                    public void onSuccess() {
-                        navigateToResult("success");
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        if ("Already sent".contains(errorMessage)) {
-                            navigateToResult("alreadysent");
-                        } else {
-                            navigateToResult("error");
-                        }
-                    }
-                });
+                showResumeUploadDialog(jobID);
             }
         });
         return view;
+    }
+
+    private void showResumeUploadDialog(String jobID) {
+        int parsedJobId;
+        try {
+            parsedJobId = Integer.parseInt(jobID);
+        } catch (NumberFormatException e) {
+            navigateToResult("error");
+            return;
+        }
+        unsetRadioButtons();
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Upload Resume")
+                .setMessage("Do you want to send your previous resume?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    ApplicationService service = new ApplicationService(requireContext());
+                    service.submitReuseResume(
+                            SessionManager.getInstance(requireContext()).getUserId(),
+                            parsedJobId,
+                            1,
+                            "resume",
+                            new ApplicationService.SubmitApplicationCallback() {
+                                @Override
+                                public void onResponse() {
+                                    navigateToResult("success");
+                                }
+
+                                @Override
+                                public void onError(String errorMessage) {
+                                    handleError(errorMessage);
+                                }
+                            });
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    pdfPickerHelper.openPdfPicker(parsedJobId, new PdfPickerHelper.PdfUploadCallback() {
+                        @Override
+                        public void onSuccess() {
+                            navigateToResult("success");
+                        }
+
+                        @Override
+                        public void onError(String errorMessage) {
+                            handleError(errorMessage);
+                        }
+                    });
+                })
+                .show();
+    }
+    private void handleError(String errorMessage) {
+        String result = (errorMessage != null && errorMessage.contains("Already sent"))
+                ? "alreadysent" : "error";
+        navigateToResult(result);
     }
     private void fetchJobs(int jobID) {
         showLoading();

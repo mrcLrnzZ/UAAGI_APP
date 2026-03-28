@@ -42,6 +42,14 @@ public class ApplicationService {
         Call<ApiResponse> call = applicationApi.submitApplication(userId, jobId, applyMethod);
         executeVoidCall(call, callback);
     }
+    public void submitReuseResume(int userId, int jobId, int reUseResume, String applyMethod, SubmitApplicationCallback callback){
+        if (!NetworkUtils.isInternetAvailable(context)) {
+            callback.onError("No internet connection.");
+            return;
+        }
+        Call<ApiResponse> call = applicationApi.submitReuseResume(userId, jobId, reUseResume, applyMethod);
+        executeVoidCall(call, callback);
+    }
     public void submitResumeApplication(int userId, int jobId, String applyMethod,
                                         MultipartBody.Part file, SubmitApplicationCallback callback) {
 

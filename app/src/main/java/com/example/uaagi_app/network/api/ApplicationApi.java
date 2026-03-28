@@ -26,7 +26,14 @@ public interface ApplicationApi {
             @Field("job_id") int jobId,
             @Field("apply_method") String applyMethod
     );
-
+    @FormUrlEncoded
+    @POST("index.php/application-send")
+    Call<ApiResponse> submitReuseResume(
+            @Field("user_id") int userId,
+            @Field("job_id") int jobId,
+            @Field("re_use_resume") int reUseResume,
+            @Field("apply_method") String applyMethod
+    );
     @PATCH("index.php/application-reject")
     Call<ApiResponse> rejectApplication(
             @Query("application_id") int applicationId

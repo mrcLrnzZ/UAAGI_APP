@@ -44,7 +44,8 @@ import com.example.uaagi_app.utils.SessionManager;
 import java.util.List;
 
 public class ActivityHomePage extends AppCompatActivity {
-
+    int userId = SessionManager.getInstance(this).getUserId();
+    NotificationService service = new NotificationService(this);
     private LinearLayout tabHome;
     private LinearLayout tabApplied;
     private LinearLayout tabCareers;
@@ -165,8 +166,20 @@ public class ActivityHomePage extends AppCompatActivity {
                         Log.d("FCM", "Subscribed to user topic");
                     }
                 });
-        int userId = SessionManager.getInstance(this).getUserId();
-        NotificationService service = new NotificationService(this);
+
+        notificationFetcher(service ,userId);
+        pusherManager = new PusherManager();
+        pusherManager.connect();
+
+        pusherManager.subscribeToUserChannel(userId, (title, message, createdAt) -> {
+            runOnUiThread(() -> handleRealtimeNotification(title, message, createdAt));
+        });
+
+        pusherManager.subscribeToPublicChannel((title, message, createdAt) -> {
+            runOnUiThread(() -> handleRealtimeNotification(title, message, createdAt));
+        });
+    }
+    private void notificationFetcher(NotificationService service, int userId ) {
 
         service.fetchUserNotifications(userId,
                 new NotificationService.NotificationCallback() {
@@ -181,18 +194,7 @@ public class ActivityHomePage extends AppCompatActivity {
                     }
                 });
 
-        pusherManager = new PusherManager();
-        pusherManager.connect();
-
-        pusherManager.subscribeToUserChannel(userId, (title, message, createdAt) -> {
-            runOnUiThread(() -> handleRealtimeNotification(title, message, createdAt));
-        });
-
-        pusherManager.subscribeToPublicChannel((title, message, createdAt) -> {
-            runOnUiThread(() -> handleRealtimeNotification(title, message, createdAt));
-        });
     }
-
     private void handleRealtimeNotification(String title, String message, String createdAt) {
         View notifDot = findViewById(R.id.notifDot);
         if (notifDot != null) {
@@ -205,7 +207,6 @@ public class ActivityHomePage extends AppCompatActivity {
         NotificationRepository.getInstance().addNotification(notif);
         NotificationCenter.notify(title, message, timeAgo);
     }
-
     private boolean isClickable() {
         long currentTime = System.currentTimeMillis();
         // If less than 300ms (animation duration) has passed, ignore the click
@@ -215,7 +216,6 @@ public class ActivityHomePage extends AppCompatActivity {
         lastClickTime = currentTime;
         return true;
     }
-
     private void initializeViews() {
         tabHome = findViewById(R.id.tab_home);
         tabApplied = findViewById(R.id.tab_applied);
@@ -240,7 +240,6 @@ public class ActivityHomePage extends AppCompatActivity {
 
         notifIcon = findViewById(R.id.notifIcon);
     }
-
     private void setSelectedTab(String selectedTab) {
         if (currentSelectedTab.equals(selectedTab)) {
             return;
@@ -268,7 +267,6 @@ public class ActivityHomePage extends AppCompatActivity {
 
         currentSelectedTab = selectedTab;
     }
-
     private void animateToActive(ImageView icon, TextView text, View indicator) {
         animateColorFilter(icon, Color.parseColor("#90CAF9"), Color.parseColor("#0D3B66"));
         animateTextColor(text, Color.parseColor("#90CAF9"), Color.parseColor("#0D3B66"));
@@ -276,7 +274,6 @@ public class ActivityHomePage extends AppCompatActivity {
         animateIndicatorIn(indicator);
         animateScale(icon);
     }
-
     private void animateToInactive(ImageView icon, TextView text, View indicator) {
         animateColorFilter(icon, Color.parseColor("#FF757575"), Color.parseColor("#FF757575"));
         animateTextColor(text, Color.parseColor("#FF757575"), Color.parseColor("#FF757575"));
@@ -292,7 +289,6 @@ public class ActivityHomePage extends AppCompatActivity {
         });
         colorAnimator.start();
     }
-
     private void animateTextColor(TextView textView, int fromColor, int toColor) {
         ValueAnimator colorAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
         colorAnimator.setDuration(ANIMATION_DURATION);
@@ -302,7 +298,6 @@ public class ActivityHomePage extends AppCompatActivity {
         });
         colorAnimator.start();
     }
-
     private void animateIndicatorIn(View indicator) {
         indicator.setVisibility(View.VISIBLE);
         indicator.setAlpha(0f);
@@ -315,7 +310,6 @@ public class ActivityHomePage extends AppCompatActivity {
                 .setInterpolator(new DecelerateInterpolator())
                 .start();
     }
-
     private void animateIndicatorOut(View indicator) {
         indicator.animate()
                 .alpha(0f)
@@ -325,7 +319,6 @@ public class ActivityHomePage extends AppCompatActivity {
                 .withEndAction(() -> indicator.setVisibility(View.GONE))
                 .start();
     }
-
     private void animateScale(ImageView icon) {
         icon.animate()
                 .scaleX(1.2f)
@@ -362,7 +355,6 @@ public class ActivityHomePage extends AppCompatActivity {
 
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
-
     private void logFragmentStack(FragmentManager fm) {
         List<Fragment> fragments = fm.getFragments();
         Log.d("FRAGMENT_DEBUG", "----- Active Fragments -----");
@@ -391,5 +383,10 @@ public class ActivityHomePage extends AppCompatActivity {
         if (pusherManager != null) {
             pusherManager.disconnect();
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        notificationFetcher(service ,userId);
     }
 }
