@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.uaagi_app.network.RetrofitClient;
 import com.example.uaagi_app.network.Services.PreEmpFetchService;
+import com.example.uaagi_app.network.Services.ProfileUpdateService;
 import com.example.uaagi_app.network.api.PreEmpApi;
 import com.example.uaagi_app.network.dto.PreEmpDto.Education;
 import com.example.uaagi_app.network.dto.PreEmpFetchResponse;
+import com.example.uaagi_app.network.dto.UpdateProfileDTO;
 import com.example.uaagi_app.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class ProfileViewModel extends ViewModel {
     private final MutableLiveData<PreEmpFetchResponse> preEmpData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> updateSuccess = new MutableLiveData<>();
 
     public LiveData<PreEmpFetchResponse> getPreEmpData() {
         return preEmpData;
@@ -35,6 +38,10 @@ public class ProfileViewModel extends ViewModel {
         return error;
     }
 
+    public LiveData<Boolean> getUpdateSuccess() {
+        return updateSuccess;
+    }
+
     public void setPreEmpData(PreEmpFetchResponse data) {
         preEmpData.setValue(data);
     }
@@ -46,20 +53,15 @@ public class ProfileViewModel extends ViewModel {
     public void setError(String message) {
         error.setValue(message);
     }
+
     public void fetchContent(Context context) {
-
         loading.setValue(true);
-
         int userId = SessionManager.getInstance(context).getUserId();
 
-        PreEmpApi api = RetrofitClient
-                .getInstance()
-                .create(PreEmpApi.class);
-
+        PreEmpApi api = RetrofitClient.getInstance().create(PreEmpApi.class);
         PreEmpFetchService service = new PreEmpFetchService(api);
 
         service.fetchPreEmpForm(userId, new PreEmpFetchService.PreEmpFetchCallback() {
-
             @Override
             public void onSuccess(PreEmpFetchResponse data) {
                 loading.setValue(false);
@@ -73,6 +75,31 @@ public class ProfileViewModel extends ViewModel {
             }
         });
     }
+
+    public void updateProfile(Context context, UpdateProfileDTO dto) {
+        loading.setValue(true);
+        int userId = SessionManager.getInstance(context).getUserId();
+
+        PreEmpApi api = RetrofitClient.getInstance().create(PreEmpApi.class);
+        ProfileUpdateService service = new ProfileUpdateService(api);
+
+        service.updateProfile(userId, dto, new ProfileUpdateService.ProfileUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                loading.setValue(false);
+                updateSuccess.setValue(true);
+                fetchContent(context);
+            }
+
+            @Override
+            public void onError(String message) {
+                loading.setValue(false);
+                updateSuccess.setValue(false);
+                error.setValue(message);
+            }
+        });
+    }
+
     public LiveData<List<Education>> getEducationList() {
         return Transformations.map(preEmpData, data -> {
             if (data != null) {

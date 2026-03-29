@@ -5,6 +5,7 @@ import android.text.TextWatcher;
 import android.widget.TextView;
 
 import java.util.function.Consumer;
+
 public class SimpleTextWatcher implements TextWatcher {
     private final Consumer<String> onTextChanged;
 
@@ -12,25 +13,25 @@ public class SimpleTextWatcher implements TextWatcher {
         this.onTextChanged = onTextChanged;
     }
 
-    private static void removeWatcher(TextView view, Object tag) {
+    public static void removeWatcher(TextView view) {
+        Object tag = view.getTag();
         if (tag instanceof TextWatcher) {
             view.removeTextChangedListener((TextWatcher) tag);
+            view.setTag(null);
         }
     }
-    public static void bindTextWatcher(TextView view, TextWatcher watcher) {
-        Object tag = view.getTag();
 
-        if (tag instanceof TextWatcher) {
-            view.removeTextChangedListener((TextWatcher) tag);
-        }
-
+    public static void bindTextWatcher(TextView view, SimpleTextWatcher watcher) {
+        removeWatcher(view);
         view.addTextChangedListener(watcher);
         view.setTag(watcher);
     }
 
     @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
     @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-        onTextChanged.accept(s.toString());
+        if (onTextChanged != null) {
+            onTextChanged.accept(s.toString());
+        }
     }
     @Override public void afterTextChanged(Editable s) {}
 }

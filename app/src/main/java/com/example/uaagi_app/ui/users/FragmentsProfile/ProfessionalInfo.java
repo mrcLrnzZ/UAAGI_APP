@@ -1,12 +1,11 @@
 package com.example.uaagi_app.ui.users.FragmentsProfile;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +33,7 @@ public class ProfessionalInfo extends Fragment {
     private GenericRecyclerAdapter<ProfessionalSkills> adapterSkills;
     private ProfileViewModel viewModel;
     private boolean isEditEnabled = false;
+    private ImageButton btnAddWork, btnAddCert, btnAddSkill;
 
     public ProfessionalInfo() {}
 
@@ -46,10 +46,22 @@ public class ProfessionalInfo extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(requireParentFragment()).get(ProfileViewModel.class);
+
+        btnAddWork = view.findViewById(R.id.btnAddWorkExperience);
+        btnAddCert = view.findViewById(R.id.btnAddCertificate);
+        btnAddSkill = view.findViewById(R.id.btnAddSkill);
+
+        setupAddButtons();
         setupWorkExperience(view);
         setupCertificates(view);
         setupSkills(view);
         observeProfessionalData();
+    }
+
+    private void setupAddButtons() {
+        if (btnAddWork != null) btnAddWork.setOnClickListener(v -> adapterWorkExperience.addItem(new WorkExperience()));
+        if (btnAddCert != null) btnAddCert.setOnClickListener(v -> adapterCertificates.addItem(new Certificate()));
+        if (btnAddSkill != null) btnAddSkill.setOnClickListener(v -> adapterSkills.addItem(new ProfessionalSkills()));
     }
 
     private void setupWorkExperience(View view) {
@@ -68,9 +80,9 @@ public class ProfessionalInfo extends Fragment {
             etPosition.setEnabled(isEditEnabled);
             etDesc.setEnabled(isEditEnabled);
 
-            etCompany.addTextChangedListener(new SimpleTextWatcher(s -> item.setCompany(s)));
-            etPosition.addTextChangedListener(new SimpleTextWatcher(s -> item.setPosition(s)));
-            etDesc.addTextChangedListener(new SimpleTextWatcher(s -> item.setDescription(s)));
+            SimpleTextWatcher.bindTextWatcher(etCompany, new SimpleTextWatcher(item::setCompany));
+            SimpleTextWatcher.bindTextWatcher(etPosition, new SimpleTextWatcher(item::setPosition));
+            SimpleTextWatcher.bindTextWatcher(etDesc, new SimpleTextWatcher(item::setDescription));
         });
         rvWorkExperience.setAdapter(adapterWorkExperience);
     }
@@ -88,8 +100,8 @@ public class ProfessionalInfo extends Fragment {
             etTitle.setEnabled(isEditEnabled);
             etOrg.setEnabled(isEditEnabled);
 
-            etTitle.addTextChangedListener(new SimpleTextWatcher(s -> item.setName(s)));
-            etOrg.addTextChangedListener(new SimpleTextWatcher(s -> item.setOrganization(s)));
+            SimpleTextWatcher.bindTextWatcher(etTitle, new SimpleTextWatcher(item::setName));
+            SimpleTextWatcher.bindTextWatcher(etOrg, new SimpleTextWatcher(item::setOrganization));
         });
         rvCertificates.setAdapter(adapterCertificates);
     }
@@ -107,14 +119,18 @@ public class ProfessionalInfo extends Fragment {
             etType.setEnabled(isEditEnabled);
             etDesc.setEnabled(isEditEnabled);
 
-            etType.addTextChangedListener(new SimpleTextWatcher(s -> item.setCategory(s)));
-            etDesc.addTextChangedListener(new SimpleTextWatcher(s -> item.setDescription(s)));
+            SimpleTextWatcher.bindTextWatcher(etType, new SimpleTextWatcher(item::setCategory));
+            SimpleTextWatcher.bindTextWatcher(etDesc, new SimpleTextWatcher(item::setDescription));
         });
         rvSkills.setAdapter(adapterSkills);
     }
 
     public void setEditEnabled(boolean enabled) {
         this.isEditEnabled = enabled;
+        if (btnAddWork != null) btnAddWork.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        if (btnAddCert != null) btnAddCert.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        if (btnAddSkill != null) btnAddSkill.setVisibility(enabled ? View.VISIBLE : View.GONE);
+
         if (adapterWorkExperience != null) adapterWorkExperience.notifyDataSetChanged();
         if (adapterCertificates != null) adapterCertificates.notifyDataSetChanged();
         if (adapterSkills != null) adapterSkills.notifyDataSetChanged();
@@ -128,5 +144,4 @@ public class ProfessionalInfo extends Fragment {
             if (data.getProfessionalSkills() != null) adapterSkills.updateList(data.getProfessionalSkills());
         });
     }
-
 }

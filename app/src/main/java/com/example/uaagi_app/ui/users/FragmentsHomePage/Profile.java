@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -29,6 +30,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
 import com.example.uaagi_app.network.Services.UploadImageService;
+import com.example.uaagi_app.network.dto.PreEmpDto.UserInfo;
+import com.example.uaagi_app.network.dto.PreEmpFetchResponse;
+import com.example.uaagi_app.network.dto.UpdateProfileDTO;
 import com.example.uaagi_app.ui.users.ActivityLoginPage;
 import com.example.uaagi_app.ui.users.FragmentsProfile.ChildProfile;
 import com.example.uaagi_app.ui.users.FragmentsProfile.PersonalInfo;
@@ -110,6 +114,12 @@ public class Profile extends Fragment {
             fullNameTv.setVisibility(isLoading ? View.GONE : View.VISIBLE);
         });
 
+        viewModel.getUpdateSuccess().observe(getViewLifecycleOwner(), success -> {
+            if (success) {
+                Toast.makeText(requireContext(), "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         viewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
             if (data != null && data.getUserInfo() != null) {
                 String fullName =
@@ -171,15 +181,17 @@ public class Profile extends Fragment {
             btnEdit.setImageResource(isEditing ? R.drawable.ic_check_circle : R.drawable.edit);
 
             if (current instanceof PersonalInfo) {
-                ((PersonalInfo) current).setEditEnabled(isEditing);
+                PersonalInfo personalInfo = (PersonalInfo) current;
+                if (!isEditing) {
+                    personalInfo.syncData();
+                }
+                personalInfo.setEditEnabled(isEditing);
             } else if (current instanceof ProfessionalInfo) {
                 ((ProfessionalInfo) current).setEditEnabled(isEditing);
-
             }
 
             if (!isEditing) {
-                Log.d(TAG, "Profile saved");
-                // Trigger your save to API logic here
+                saveProfileChanges();
             }
         });
 
@@ -190,6 +202,42 @@ public class Profile extends Fragment {
                     .replace(R.id.profileOptionsContainer, new ChildProfile())
                     .commit();
         }
+    }
+
+    private void saveProfileChanges() {
+        PreEmpFetchResponse currentData = viewModel.getPreEmpData().getValue();
+        if (currentData == null) return;
+
+        UpdateProfileDTO dto = new UpdateProfileDTO();
+        UserInfo userInfo = currentData.getUserInfo();
+        
+        if (userInfo != null) {
+            dto.setFirstName(userInfo.getFirstName());
+            dto.setLastName(userInfo.getLastName());
+            dto.setMiddleName(userInfo.getMiddleName());
+            dto.setDob(userInfo.getDob());
+            try {
+                dto.setAge(Integer.parseInt(userInfo.getAge()));
+            } catch (NumberFormatException e) {
+                dto.setAge(0);
+            }
+            dto.setGender(userInfo.getGender());
+            dto.setReligion(userInfo.getReligion());
+            dto.setCivilStatus(userInfo.getCivilStatus());
+            dto.setNationality(userInfo.getNationality());
+            dto.setCellNo(userInfo.getCellNo());
+            dto.setTelNo(userInfo.getTelNo());
+            dto.setEmail(userInfo.getEmail());
+            dto.setCurrentAddress(userInfo.getCurrentAddress());
+            dto.setPermanentAddress(userInfo.getPermanentAddress());
+        }
+
+        dto.setEducation(currentData.getEducation());
+        dto.setWorkExperience(currentData.getWorkExperience());
+        dto.setCertificate(currentData.getCertificate());
+        dto.setProfessionalSkills(currentData.getProfessionalSkills());
+
+        viewModel.updateProfile(requireContext(), dto);
     }
 
     @Override

@@ -24,6 +24,15 @@ public class WorkExperience {
         this.endDate = endDate != null ? endDate : "";
         this.description = description != null ? description : "";
     }
+    public WorkExperience() {
+        this.workId      = "";
+        this.preempId    = "";
+        this.company     = "";
+        this.position    = "";
+        this.startDate   = "";
+        this.endDate     = "";
+        this.description = "";
+    }
 
     public String getWorkId() {
         return workId;

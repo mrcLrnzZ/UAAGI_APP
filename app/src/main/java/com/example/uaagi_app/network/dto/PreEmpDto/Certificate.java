@@ -24,7 +24,15 @@ public class Certificate {
         this.expiryDate = expiryDate != null ? expiryDate : "";
         this.description = description != null ? description : "";
     }
-
+    public Certificate(){
+        this.certId = "";
+        this.preempId = "";
+        this.name = "";
+        this.organization = "";
+        this.issueDate = "";
+        this.expiryDate = "";
+        this.description = "";
+    }
     public String getCertId() {
         return certId;
     }

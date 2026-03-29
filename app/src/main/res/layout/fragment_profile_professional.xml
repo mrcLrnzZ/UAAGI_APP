@@ -17,6 +17,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Work Experiences Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,12 +48,22 @@
                             android:background="#1B4F9B" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Work Experiences"
                             android:textColor="#0D1B2E"
                             android:textSize="13sp"
                             android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btnAddWorkExperience"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/outline_add_24"
+                            android:visibility="gone"
+                            app:tint="#1B4F9B" />
                     </LinearLayout>
 
                     <View
@@ -70,6 +81,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Certificates Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,12 +112,22 @@
                             android:background="#1B4F9B" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Certificates"
                             android:textColor="#0D1B2E"
                             android:textSize="13sp"
                             android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btnAddCertificate"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/outline_add_24"
+                            android:visibility="gone"
+                            app:tint="#1B4F9B" />
                     </LinearLayout>
 
                     <View
@@ -123,6 +145,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Skills Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,12 +176,22 @@
                             android:background="#1B4F9B" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Skills &amp; Qualifications"
                             android:textColor="#0D1B2E"
                             android:textSize="13sp"
                             android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btnAddSkill"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/outline_add_24"
+                            android:visibility="gone"
+                            app:tint="#1B4F9B" />
                     </LinearLayout>
 
                     <View

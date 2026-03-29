@@ -14,6 +14,13 @@ public class ProfessionalSkills {
         this.level = level != null ? level : "";
         this.description = description != null ? description : "";
     }
+    public ProfessionalSkills() {
+        this.skillId = "";
+        this.preempId = "";
+        this.category = "";
+        this.level = "";
+        this.description = "";
+    }
 
     public String getSkillId() {
         return skillId;
