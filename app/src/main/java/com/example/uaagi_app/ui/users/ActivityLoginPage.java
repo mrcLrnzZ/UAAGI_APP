@@ -104,9 +104,13 @@ public class ActivityLoginPage extends AppCompatActivity {
         btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn);
         btnGoogleSignIn.setOnClickListener(v -> {
             showLoginLoading();
-            Intent signInIntent = googleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
+
+            googleSignInClient.signOut().addOnCompleteListener(task -> {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            });
         });
+
 
         initViews();
         setupStatusBar();
@@ -254,6 +258,7 @@ public class ActivityLoginPage extends AppCompatActivity {
 
         } catch (ApiException e) {
             hideLoginLoading();
+            Log.e("LOGIN_ERROR", "Code: " + e.getStatusCode());
             Log.e("GOOGLE_SIGN_IN", "Sign in failed", e);
         }
     }

@@ -32,9 +32,18 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled  = true
     }
+
+    applicationVariants.all {
+        outputs.forEach {
+            val fileName = "UAAGI-OneHire-${buildType.name}-v${versionName}.apk"
+            (it as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
+                .outputFileName = fileName
+        }
+    }
 }
 
 dependencies {
+    implementation(libs.androidx.camera.camera2.pipe)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.volley)

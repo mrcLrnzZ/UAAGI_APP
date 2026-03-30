@@ -27,4 +27,5 @@
     <string name="enter_otp_sent_to_gmail_com">Enter OTP sent to @Gmail.com</string>
     <string name="invalid_otp_please_try_again">Invalid OTP. Please try again.</string>
     <string name="didn_t_receive_otp_resend_otp">Didn’t receive OTP? Resend OTP</string>
+    <string name="open_positions_count">%1$d open positions</string>
 </resources>
