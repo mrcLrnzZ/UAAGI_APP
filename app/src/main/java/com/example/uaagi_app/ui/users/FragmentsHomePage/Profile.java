@@ -30,6 +30,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.uaagi_app.R;
 import com.example.uaagi_app.data.viewmodel.ProfileViewModel;
 import com.example.uaagi_app.network.Services.UploadImageService;
+import com.example.uaagi_app.network.dto.PreEmpDto.ProfessionalSkills;
 import com.example.uaagi_app.network.dto.PreEmpDto.UserInfo;
 import com.example.uaagi_app.network.dto.PreEmpFetchResponse;
 import com.example.uaagi_app.network.dto.UpdateProfileDTO;
@@ -38,6 +39,9 @@ import com.example.uaagi_app.ui.users.FragmentsProfile.ChildProfile;
 import com.example.uaagi_app.ui.users.FragmentsProfile.PersonalInfo;
 import com.example.uaagi_app.ui.users.FragmentsProfile.ProfessionalInfo;
 import com.example.uaagi_app.utils.SessionManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Profile extends Fragment {
 
@@ -235,8 +239,16 @@ public class Profile extends Fragment {
         dto.setEducation(currentData.getEducation());
         dto.setWorkExperience(currentData.getWorkExperience());
         dto.setCertificate(currentData.getCertificate());
-        dto.setProfessionalSkills(currentData.getProfessionalSkills());
+        List<ProfessionalSkills> filtered = new ArrayList<>();
 
+        if (currentData.getProfessionalSkills() != null) {
+            for (ProfessionalSkills skill : currentData.getProfessionalSkills()) {
+                if (skill.getCategory() != null && !skill.getCategory().trim().isEmpty() &&
+                        skill.getDescription() != null && !skill.getDescription().trim().isEmpty()) {
+                    filtered.add(skill);
+                }
+            }
+        }
         viewModel.updateProfile(requireContext(), dto);
     }
 

@@ -105,7 +105,6 @@ public class ProfessionalInfo extends Fragment {
         });
         rvCertificates.setAdapter(adapterCertificates);
     }
-
     private void setupSkills(View view) {
         rvSkills = view.findViewById(R.id.rvSkills);
         rvSkills.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -124,7 +123,6 @@ public class ProfessionalInfo extends Fragment {
         });
         rvSkills.setAdapter(adapterSkills);
     }
-
     public void setEditEnabled(boolean enabled) {
         this.isEditEnabled = enabled;
         if (btnAddWork != null) btnAddWork.setVisibility(enabled ? View.VISIBLE : View.GONE);
@@ -135,7 +133,6 @@ public class ProfessionalInfo extends Fragment {
         if (adapterCertificates != null) adapterCertificates.notifyDataSetChanged();
         if (adapterSkills != null) adapterSkills.notifyDataSetChanged();
     }
-
     private void observeProfessionalData() {
         viewModel.getPreEmpData().observe(getViewLifecycleOwner(), data -> {
             if (data == null) return;
