@@ -85,13 +85,13 @@
                         android:textColor="@color/DarkBlue"
                         android:textSize="26sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="248 new listings today in Metro Manila"
-                        android:textColor="@color/LightBlue"
-                        android:textSize="12sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="16dp"-->
+<!--                        android:text="248 new listings today in Metro Manila"-->
+<!--                        android:textColor="@color/LightBlue"-->
+<!--                        android:textSize="12sp" />-->
 
                     <!-- Search + Filter -->
                     <LinearLayout
