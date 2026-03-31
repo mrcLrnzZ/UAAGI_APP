@@ -201,12 +201,12 @@
                             android:textSize="14sp"
                             android:layout_marginBottom="2dp"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Updated December 18, 2025"
-                            android:textSize="11sp"
-                            android:textColor="@color/Gray"/>
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Updated December 18, 2025"-->
+<!--                            android:textSize="11sp"-->
+<!--                            android:textColor="@color/Gray"/>-->
                     </LinearLayout>
                 </LinearLayout>
 
