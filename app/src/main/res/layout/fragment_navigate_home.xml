@@ -122,6 +122,7 @@
                                 android:paddingStart="16dp"
                                 android:hint="Search job titles, companies..."
                                 android:inputType="text"
+                                android:textColor="@color/Black"
                                 android:imeOptions="actionSearch"
                                 />
 
