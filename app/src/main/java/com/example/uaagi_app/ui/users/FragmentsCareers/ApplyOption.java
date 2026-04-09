@@ -130,15 +130,12 @@ public class ApplyOption extends Fragment {
                             });
                 })
                 .setNegativeButton("No", (dialog, which) -> {
-                    pdfPickerHelper.openPdfPicker(parsedJobId, new PdfPickerHelper.PdfUploadCallback() {
-                        @Override
-                        public void onSuccess() {
-                            navigateToResult("success");
-                        }
-
-                        @Override
-                        public void onError(String errorMessage) {
-                            handleError(errorMessage);
+                    pdfPickerHelper.pickPdf(pdfUri -> {
+                        if (pdfUri != null) {
+                            UiHelpers.switchFragment(
+                                    requireActivity().getSupportFragmentManager(),
+                                    ResumePreview.newInstance(parsedJobId, pdfUri)
+                            );
                         }
                     });
                 })

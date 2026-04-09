@@ -31,9 +31,14 @@ public class PdfPickerHelper {
         void onError(String errorMessage);
     }
 
+    public interface PdfPickCallback {
+        void onPicked(Uri uri);
+    }
+
     private final Fragment fragment;
     private final ActivityResultLauncher<Intent> pdfPickerLauncher;
     private PdfUploadCallback callback;
+    private PdfPickCallback pickCallback;
     private int jobId;
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -46,7 +51,11 @@ public class PdfPickerHelper {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Uri pdfUri = result.getData().getData();
                         if (pdfUri != null) {
-                            uploadPdfFile(pdfUri);
+                            if (pickCallback != null) {
+                                pickCallback.onPicked(pdfUri);
+                            } else {
+                                uploadPdfFile(pdfUri);
+                            }
                         }
                     }
                 }
@@ -56,11 +65,29 @@ public class PdfPickerHelper {
     public void openPdfPicker(int jobId, PdfUploadCallback callback) {
         this.jobId = jobId;
         this.callback = callback;
+        this.pickCallback = null;
 
+        launchPicker();
+    }
+
+    public void pickPdf(PdfPickCallback pickCallback) {
+        this.pickCallback = pickCallback;
+        this.callback = null;
+
+        launchPicker();
+    }
+
+    private void launchPicker() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/pdf");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         pdfPickerLauncher.launch(Intent.createChooser(intent, "Select PDF"));
+    }
+
+    public void uploadPdfFile(Uri pdfUri, int jobId, PdfUploadCallback callback) {
+        this.jobId = jobId;
+        this.callback = callback;
+        uploadPdfFile(pdfUri);
     }
 
     private void uploadPdfFile(Uri pdfUri) {
@@ -150,7 +177,7 @@ public class PdfPickerHelper {
         }
     }
 
-    private long getFileSize(Context context, Uri uri) {
+    public static long getFileSize(Context context, Uri uri) {
         try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
@@ -162,6 +189,28 @@ public class PdfPickerHelper {
             Log.e("PdfPickerHelper", "Error getting file size", e);
         }
         return 0;
+    }
+
+    public static String getFileName(Context context, Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (nameIndex != -1) {
+                        result = cursor.getString(nameIndex);
+                    }
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
 }
