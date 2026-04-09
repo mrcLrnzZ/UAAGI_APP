@@ -23,14 +23,13 @@ import com.example.uaagi_app.ui.users.FragmentError;
 import com.example.uaagi_app.ui.users.FragmentLoading;
 import com.example.uaagi_app.ui.utils.SimpleTextWatcher;
 import com.example.uaagi_app.ui.utils.UiHelpers;
-import com.example.uaagi_app.utils.Helpers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DivisionOption extends Fragment {
+public class DivisionOption extends Fragment implements FragmentError.RetryListener {
     private RecyclerView divisionRecyclerView;
     private String companyName;
     private GenericRecyclerAdapter<JobFetchResponse> adapter;
@@ -103,6 +102,7 @@ public class DivisionOption extends Fragment {
     }
 
     private void showError(String message) {
+        if (message == null) return;
         loadingContainer.setVisibility(View.GONE);
         divisionRecyclerView.setVisibility(View.GONE);
         errorContainer.setVisibility(View.VISIBLE);
@@ -130,9 +130,7 @@ public class DivisionOption extends Fragment {
     }
 
     private void showContent(List<JobFetchResponse> jobs) {
-        loadingContainer.setVisibility(View.GONE);
-        errorContainer.setVisibility(View.GONE);
-        divisionRecyclerView.setVisibility(View.VISIBLE);
+        if (jobs == null) return;
 
         List<JobFetchResponse> divisionList = new ArrayList<>();
         Set<String> addedDivisions = new HashSet<>();
@@ -145,6 +143,20 @@ public class DivisionOption extends Fragment {
                 divisionList.add(job);
             }
         }
+
+        if (divisionList.isEmpty()) {
+            Boolean isLoading = jobViewModel.getLoadingState().getValue();
+            String error = jobViewModel.getErrorMessage().getValue();
+
+            if (Boolean.FALSE.equals(isLoading) && error == null) {
+                showError("No divisions found for " + companyName);
+            }
+            return;
+        }
+
+        loadingContainer.setVisibility(View.GONE);
+        errorContainer.setVisibility(View.GONE);
+        divisionRecyclerView.setVisibility(View.VISIBLE);
 
         if (adapter == null) {
             adapter = new GenericRecyclerAdapter<>(
@@ -167,6 +179,13 @@ public class DivisionOption extends Fragment {
             divisionRecyclerView.setAdapter(adapter);
         } else {
             adapter.updateList(divisionList);
+        }
+    }
+
+    @Override
+    public void onRetry() {
+        if (jobViewModel != null) {
+            jobViewModel.fetchJobForUser(requireContext());
         }
     }
 

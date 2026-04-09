@@ -52,7 +52,7 @@ public class JobViewModel extends ViewModel {
     }
 
     public void fetchJobById(int jobId, Context context) {
-
+        errorMessage.setValue(null);
         isLoading.setValue(true);
 
         JobService service = new JobService(context);
@@ -79,6 +79,7 @@ public class JobViewModel extends ViewModel {
         });
     }
     public void fetchSavedJobs(int userId, Context context) {
+        errorMessage.setValue(null);
         isLoading.setValue(true);
         JobService jobService = new JobService(context);
         jobService.fetchSavedJob(userId, new JobService.JobServiceCallback() {
@@ -100,6 +101,7 @@ public class JobViewModel extends ViewModel {
         });
     }
     public void fetchArchivedJobs(int userId, Context context) {
+        errorMessage.setValue(null);
         isLoading.setValue(true);
         JobService service = new JobService(context);
         service.fetchArchivedJob(userId, new JobService.JobServiceCallback() {
@@ -121,6 +123,7 @@ public class JobViewModel extends ViewModel {
         });
     }
     public void fetchJobForUser(Context context){
+        errorMessage.setValue(null);
         isLoading.setValue(true);
         JobService service = new JobService(context);
 
@@ -136,6 +139,7 @@ public class JobViewModel extends ViewModel {
                 } else {
                     allJobs = new ArrayList<>();
                     jobList.setValue(allJobs);
+                    errorMessage.setValue("No jobs available.");
                 }
             }
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,6 +35,7 @@ public class PdfPickerHelper {
     private final ActivityResultLauncher<Intent> pdfPickerLauncher;
     private PdfUploadCallback callback;
     private int jobId;
+    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
     public PdfPickerHelper(Fragment fragment) {
         this.fragment = fragment;
@@ -63,9 +64,17 @@ public class PdfPickerHelper {
     }
 
     private void uploadPdfFile(Uri pdfUri) {
-        try {
-            Context context = fragment.requireContext();
+        Context context = fragment.requireContext();
 
+        long fileSize = getFileSize(context, pdfUri);
+        if (fileSize > MAX_FILE_SIZE) {
+            String errorMsg = "File size exceeds the 10MB limit.";
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+            if (callback != null) callback.onError(errorMsg);
+            return;
+        }
+
+        try {
             File tempFile = new File(context.getCacheDir(), "upload_resume.pdf");
 
             try (InputStream inputStream =
@@ -79,6 +88,16 @@ public class PdfPickerHelper {
                 while ((read = inputStream.read(buffer)) != -1) {
                     outputStream.write(buffer, 0, read);
                 }
+            }
+
+            if (tempFile.length() > MAX_FILE_SIZE) {
+                if (tempFile.exists()) {
+                    tempFile.delete();
+                }
+                String errorMsg = "File size exceeds the 10MB limit.";
+                Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+                if (callback != null) callback.onError(errorMsg);
+                return;
             }
 
             RequestBody requestFile =
@@ -124,11 +143,25 @@ public class PdfPickerHelper {
         } catch (Exception e) {
             String errorMsg = "Error preparing file: " + e.getMessage();
             Log.e("PdfPickerHelper", errorMsg, e);
-            Toast.makeText(fragment.requireContext(),
+            Toast.makeText(context,
                     errorMsg,
                     Toast.LENGTH_SHORT).show();
             if (callback != null) callback.onError(errorMsg);
         }
+    }
+
+    private long getFileSize(Context context, Uri uri) {
+        try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                if (sizeIndex != -1) {
+                    return cursor.getLong(sizeIndex);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("PdfPickerHelper", "Error getting file size", e);
+        }
+        return 0;
     }
 
 }

@@ -30,6 +30,7 @@ public class FragmentLoading extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
 
         loadingText.setText("Loading, please wait...");
+        loadingText.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
 
         return view;

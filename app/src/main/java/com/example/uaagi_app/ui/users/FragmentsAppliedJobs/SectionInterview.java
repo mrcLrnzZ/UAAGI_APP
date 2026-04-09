@@ -16,13 +16,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +32,9 @@ import com.example.uaagi_app.data.viewmodel.ApplicantViewModel;
 import com.example.uaagi_app.network.Services.ApplicationService;
 import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.ui.users.ActivityPreEmpForm.Fragments.Adapter.GenericRecyclerAdapter;
+import com.example.uaagi_app.ui.users.FragmentError;
+import com.example.uaagi_app.ui.users.FragmentLoading;
+import com.example.uaagi_app.ui.utils.UiHelpers;
 import com.example.uaagi_app.utils.Helpers;
 import com.example.uaagi_app.utils.SessionManager;
 
@@ -42,9 +45,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class SectionInterview extends Fragment {
+public class SectionInterview extends Fragment implements FragmentError.RetryListener {
 
     private RecyclerView rvInterview;
+    private FrameLayout loadingContainer, errorContainer;
     private GenericRecyclerAdapter<Applicant> adapter;
     private List<Applicant> interviewList = new ArrayList<>();
     private ApplicantViewModel applicantViewModel;
@@ -63,6 +67,9 @@ public class SectionInterview extends Fragment {
         View view = inflater.inflate(R.layout.fragment_applied_jobs_section_interview, container, false);
 
         rvInterview = view.findViewById(R.id.rvInterview);
+        loadingContainer = view.findViewById(R.id.loading_container);
+        errorContainer = view.findViewById(R.id.error_container);
+        
         rvInterview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         setupAdapter();
@@ -76,20 +83,79 @@ public class SectionInterview extends Fragment {
 
         applicantViewModel = new ViewModelProvider(requireActivity()).get(ApplicantViewModel.class);
 
-        int userId = SessionManager.getInstance(requireContext()).getUserId();
-        applicantViewModel.fetchApplicantsForUser(userId, requireContext());
+        setupObservers();
+        
+        refreshData();
+    }
+
+    private void setupObservers() {
+        applicantViewModel.getLoadingState().observe(getViewLifecycleOwner(), isLoading -> {
+            if (Boolean.TRUE.equals(isLoading)) {
+                showLoading();
+            }
+        });
+
+        applicantViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                showError(error);
+            }
+        });
 
         applicantViewModel.getApplicants().observe(getViewLifecycleOwner(), applicants -> {
-            interviewList.clear();
+            List<Applicant> filteredList = new ArrayList<>();
 
             for (Applicant applicant : applicants) {
                 if (applicant.getInterviewStatus() != null && !applicant.getInterviewStatus().equalsIgnoreCase("Pending")) {
-                    interviewList.add(applicant);
+                    filteredList.add(applicant);
                 }
             }
 
-            adapter.updateList(interviewList);
+            if (filteredList.isEmpty()) {
+                Boolean isLoading = applicantViewModel.getLoadingState().getValue();
+                String error = applicantViewModel.getErrorMessage().getValue();
+                
+                if (Boolean.FALSE.equals(isLoading) && error == null) {
+                    showError("No interview schedules found.");
+                }
+            } else {
+                showContent(filteredList);
+            }
         });
+    }
+
+    private void showLoading() {
+        loadingContainer.setVisibility(View.VISIBLE);
+        errorContainer.setVisibility(View.GONE);
+        rvInterview.setVisibility(View.GONE);
+        UiHelpers.replaceChildFragment(
+                getChildFragmentManager(),
+                R.id.loading_container,
+                FragmentLoading.newInstance()
+        );
+    }
+
+    private void showError(String message) {
+        loadingContainer.setVisibility(View.GONE);
+        rvInterview.setVisibility(View.GONE);
+        errorContainer.setVisibility(View.VISIBLE);
+        UiHelpers.replaceChildFragment(
+                getChildFragmentManager(),
+                R.id.error_container,
+                FragmentError.newInstance(message)
+        );
+    }
+
+    private void showContent(List<Applicant> applicants) {
+        loadingContainer.setVisibility(View.GONE);
+        errorContainer.setVisibility(View.GONE);
+        rvInterview.setVisibility(View.VISIBLE);
+        interviewList = applicants;
+        adapter.updateList(interviewList);
+    }
+
+    @Override
+    public void onRetry() {
+        refreshData();
     }
 
     private void setupAdapter() {
@@ -108,12 +174,12 @@ public class SectionInterview extends Fragment {
                 });
 
         adapter.setOnItemClickListener((item, position) -> {
-
             showUpdateStatusDialog(item);
         });
 
         rvInterview.setAdapter(adapter);
     }
+
     private void showDialogRejected(Applicant applicant) {
         Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -141,6 +207,7 @@ public class SectionInterview extends Fragment {
         tvReason.setText("Reason: " + (applicant.getReason() != null ? applicant.getReason() : "No reason provided"));
         dialog.show();
     }
+
     private void showUpdateStatusDialog(Applicant applicant) {
         String statusApplication = Helpers.safeText(applicant.getStatus()).toLowerCase();
         String statusInterview =  Helpers.safeText(applicant.getInterviewStatus().toLowerCase());
@@ -220,6 +287,7 @@ public class SectionInterview extends Fragment {
 
         dialog.show();
     }
+
     private void addToCalendar(Applicant applicant) {
         try {
             String dateStr = applicant.getInterviewDate();
@@ -247,6 +315,7 @@ public class SectionInterview extends Fragment {
             Helpers.showToast("Could not add to calendar", requireContext());
         }
     }
+
     private void showRejectConfirmationDialog(Applicant applicant, Dialog parentDialog) {
         Dialog confirmDialog = new Dialog(requireContext());
         confirmDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -293,6 +362,7 @@ public class SectionInterview extends Fragment {
 
         confirmDialog.show();
     }
+
     private void showRescheduleDialog(Applicant applicant, Dialog parentDialog) {
         Dialog rescheduleDialog = new Dialog(requireContext());
         rescheduleDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -366,8 +436,11 @@ public class SectionInterview extends Fragment {
 
         rescheduleDialog.show();
     }
+
     private void refreshData() {
-        int userId = SessionManager.getInstance(requireContext()).getUserId();
-        applicantViewModel.fetchApplicantsForUser(userId, requireContext());
+        if (isAdded()) {
+            int userId = SessionManager.getInstance(requireContext()).getUserId();
+            applicantViewModel.fetchApplicantsForUser(userId, requireContext());
+        }
     }
 }
