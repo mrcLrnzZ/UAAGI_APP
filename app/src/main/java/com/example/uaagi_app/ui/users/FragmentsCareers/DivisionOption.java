@@ -2,6 +2,8 @@ package com.example.uaagi_app.ui.users.FragmentsCareers;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,8 +54,31 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
         return fragment;
     }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_careers_division, container, false);
+        setupUiStates(view);
+
+        if (getArguments() != null) {
+            String companyDisplayName = getArguments().getString(ARG_COMPANY);
+            Company selectedCompany = Company.fromString(companyDisplayName);
+            isIntern = getArguments().getBoolean(ARG_IS_INTERN);
+            companyName = selectedCompany != null ? selectedCompany.getDisplayName() : companyDisplayName;
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupViewModel();
+    }
+
     private void setupUiStates(View view) {
         divisionRecyclerView = view.findViewById(R.id.division_container);
+        divisionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         loadingContainer = view.findViewById(R.id.loading_container);
         errorContainer = view.findViewById(R.id.error_container);
         searchEditText = view.findViewById(R.id.search_division);
@@ -77,7 +102,7 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
         List<JobFetchResponse> filteredList = new ArrayList<>();
 
         if (query.isEmpty()) {
-            filteredList.addAll(allJobs);
+            filteredList.addAll(getUniqueDivisions(allJobs));
         } else {
             String lowerCaseQuery = query.toLowerCase().trim();
             for (JobFetchResponse job : allJobs) {
@@ -86,8 +111,24 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
                     filteredList.add(job);
                 }
             }
+            filteredList = getUniqueDivisions(filteredList);
         }
         adapter.updateList(filteredList);
+    }
+
+    private List<JobFetchResponse> getUniqueDivisions(List<JobFetchResponse> jobs) {
+        List<JobFetchResponse> divisionList = new ArrayList<>();
+        Set<String> addedDivisions = new HashSet<>();
+        if (jobs != null) {
+            for (JobFetchResponse job : jobs) {
+                String division = job.getDepartment();
+                if (division != null && !addedDivisions.contains(division)) {
+                    addedDivisions.add(division);
+                    divisionList.add(job);
+                }
+            }
+        }
+        return divisionList;
     }
 
     private void showLoading() {
@@ -116,6 +157,10 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
     private void setupViewModel() {
         jobViewModel = new ViewModelProvider(this).get(JobViewModel.class);
 
+        jobViewModel.getLoadingState().removeObservers(getViewLifecycleOwner());
+        jobViewModel.getErrorMessage().removeObservers(getViewLifecycleOwner());
+        jobViewModel.getJobList().removeObservers(getViewLifecycleOwner());
+
         jobViewModel.getLoadingState().observe(getViewLifecycleOwner(), isLoading -> {
             if (Boolean.TRUE.equals(isLoading)) {
                 showLoading();
@@ -123,26 +168,22 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
         });
 
         jobViewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::showError);
-        jobViewModel.setFilters(companyName, null, isIntern);
         jobViewModel.getJobList().observe(getViewLifecycleOwner(), this::showContent);
 
-        jobViewModel.fetchJobForUser(requireContext());
+        jobViewModel.setFilters(companyName, null, isIntern);
+
+        List<JobFetchResponse> currentJobs = jobViewModel.getJobList().getValue();
+        if (currentJobs == null || currentJobs.isEmpty()) {
+            jobViewModel.fetchJobForUser(requireContext());
+        } else {
+            showContent(currentJobs);
+        }
     }
 
     private void showContent(List<JobFetchResponse> jobs) {
         if (jobs == null) return;
 
-        List<JobFetchResponse> divisionList = new ArrayList<>();
-        Set<String> addedDivisions = new HashSet<>();
-
-        for (JobFetchResponse job : jobs) {
-            String division = job.getDepartment();
-
-            if (division != null && !addedDivisions.contains(division)) {
-                addedDivisions.add(division);
-                divisionList.add(job);
-            }
-        }
+        List<JobFetchResponse> divisionList = getUniqueDivisions(jobs);
 
         if (divisionList.isEmpty()) {
             Boolean isLoading = jobViewModel.getLoadingState().getValue();
@@ -167,18 +208,24 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
                         tvDivision.setText(job.getDepartment());
 
                         itemView.setOnClickListener(v -> {
-                            JobsOption fragment = JobsOption.newInstance(
-                                    job.getCompany(),
-                                    job.getDepartment(),
-                                    isIntern
-                            );
-                            UiHelpers.switchFragment(getParentFragmentManager(), fragment);
+                            Company companyEnum = Company.fromString(job.getCompany().getDisplayName());
+                            if (companyEnum != null) {
+                                JobsOption fragment = JobsOption.newInstance(
+                                        companyEnum,
+                                        job.getDepartment(),
+                                        isIntern
+                                );
+                                UiHelpers.switchFragment(getParentFragmentManager(), fragment);
+                            }
                         });
                     }
             );
-            divisionRecyclerView.setAdapter(adapter);
         } else {
             adapter.updateList(divisionList);
+        }
+
+        if (divisionRecyclerView.getAdapter() == null) {
+            divisionRecyclerView.setAdapter(adapter);
         }
     }
 
@@ -187,24 +234,5 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
         if (jobViewModel != null) {
             jobViewModel.fetchJobForUser(requireContext());
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_careers_division, container, false);
-        setupUiStates(view);
-        divisionRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        if (getArguments() != null) {
-            Company selectedCompany = Company.fromString(getArguments().getString(ARG_COMPANY));
-            isIntern = getArguments().getBoolean(ARG_IS_INTERN);
-            companyName = selectedCompany != null ? selectedCompany.getDisplayName() : null;
-        }
-
-        setupViewModel();
-
-        return view;
     }
 }
