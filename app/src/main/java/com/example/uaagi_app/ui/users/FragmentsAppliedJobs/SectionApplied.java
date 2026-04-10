@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +127,7 @@ public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJob
                             applicant.getViewedAt()
                     );
                     job.setMatchScore(65 + random.nextInt(31));
+                    Log.d("AppliedJob", "Viewed At: " + job.getViewedAt());
                     appliedJobsList.add(job);
                 }
             }
@@ -196,8 +198,12 @@ public class SectionApplied extends Fragment implements AppliedJobsAdapter.OnJob
         ((TextView) dialog.findViewById(R.id.tvDialogJobTitle)).setText(job.getJobTitle());
         ((TextView) dialog.findViewById(R.id.tvTimelineAppliedDate)).setText(job.getAppliedDate());
         ((TextView) dialog.findViewById(R.id.tvTimelineStatus)).setText("Status: " + job.getStatus());
+        TextView tvViewedBy = dialog.findViewById(R.id.tvViewedBy);
         TextView tvTimelineDate = dialog.findViewById(R.id.tvTimelineDate);
+        TextView tvHasViewed = dialog.findViewById(R.id.tvHasViewed);
+        if (tvViewedBy != null) tvViewedBy.setText(job.getViewedAt() != null ? "Application viewed by recruiter" : "Not yet viewed");
         if (tvTimelineDate != null) tvTimelineDate.setText(Helpers.formatToOrdinalDate(job.getViewedAt()));
+        if (tvHasViewed != null) tvHasViewed.setText(job.getViewedAt() != null ? "Has been Viewed" : "Not yet viewed");
         dialog.findViewById(R.id.ivCloseTimeline).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();

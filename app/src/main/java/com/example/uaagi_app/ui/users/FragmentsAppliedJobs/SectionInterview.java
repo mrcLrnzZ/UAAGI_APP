@@ -108,7 +108,6 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
                 String status = applicant.getStatus();
                 String interviewStatus = applicant.getInterviewStatus();
 
-                // Exclude rejected jobs from the interview tab
                 boolean isRejected = status != null && status.equalsIgnoreCase("Rejected");
 
                 if (interviewStatus != null && !interviewStatus.equalsIgnoreCase("Pending") && !isRejected) {
@@ -182,7 +181,7 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
                     tvLocation.setText(Helpers.safeText(applicant.getLocation()));
 
                     if (tvBadgeStatus != null) {
-                        String status = applicant.getInterviewStatus();
+                        String status = applicant.getRescheduleStatus();
                         if ("Rescheduled".equalsIgnoreCase(status)) {
                             tvBadgeStatus.setVisibility(View.VISIBLE);
                             tvBadgeStatus.setText("Pending reschedule request");
@@ -282,49 +281,55 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
         btnReschedule.setEnabled(true);
         btnReschedule.setAlpha(1.0f);
         btnReschedule.setText("Reschedule");
+        if (applicant.getRescheduleStatus() != null && applicant.getRescheduleStatus().equalsIgnoreCase("Pending")) {
+            tvDialogTitle.setText("Reschedule Request Pending");
+            tvApplicationStatus.setText("Pending reschedule request");
+            statusBadgeContainer.setBackgroundResource(R.drawable.bg_pending_badge);
+            ivStatusIcon.setImageResource(R.drawable.baseline_error_outline_24);
+            int pendingColor = Color.parseColor("#FF9800");
+            ivStatusIcon.setColorFilter(pendingColor);
+            tvApplicationStatus.setTextColor(pendingColor);
 
-        switch (statusInterview) {
-            case "accepted" -> {
-                tvDialogTitle.setText("Interview Scheduled");
-                tvApplicationStatus.setText("Approved");
-                statusBadgeContainer.setBackgroundResource(R.drawable.bg_approved_badge);
-                ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
-                int approvedColor = Color.parseColor("#4A7C59");
-                ivStatusIcon.setColorFilter(approvedColor);
-                tvApplicationStatus.setTextColor(approvedColor);
-            }
-            case "scheduled" -> {
-                tvDialogTitle.setText("You have a scheduled interview");
-                statusBadgeContainer.setVisibility(View.GONE);
-                btnDecline.setVisibility(View.VISIBLE);
-                btnReschedule.setVisibility(View.VISIBLE);
-
-                btnDecline.setOnClickListener(v -> showRejectConfirmationDialog(applicant, dialog));
-                btnReschedule.setOnClickListener(v -> showRescheduleDialog(applicant, dialog));
-            }
-            case "rescheduled" -> {
-                tvDialogTitle.setText("Reschedule Request Pending");
-                tvApplicationStatus.setText("Pending reschedule request");
-                statusBadgeContainer.setBackgroundResource(R.drawable.bg_pending_badge);
-                ivStatusIcon.setImageResource(R.drawable.baseline_error_outline_24);
-                int pendingColor = Color.parseColor("#FF9800");
-                ivStatusIcon.setColorFilter(pendingColor);
-                tvApplicationStatus.setTextColor(pendingColor);
-                
-                btnReschedule.setVisibility(View.VISIBLE);
-                btnReschedule.setEnabled(false);
-                btnReschedule.setAlpha(0.5f);
-                btnReschedule.setText("Pending reschedule request");
-            }
-            default -> {
-                tvDialogTitle.setText("Interview Details");
-                statusBadgeContainer.setVisibility(View.GONE);
+            btnReschedule.setVisibility(View.VISIBLE);
+            btnReschedule.setEnabled(false);
+            btnReschedule.setAlpha(0.5f);
+            btnReschedule.setText("Pending reschedule request");
+        }else {
+            switch (statusInterview) {
+                case "accepted" -> {
+                    tvDialogTitle.setText("Interview Scheduled");
+                    tvApplicationStatus.setText("Approved");
+                    statusBadgeContainer.setBackgroundResource(R.drawable.bg_approved_badge);
+                    ivStatusIcon.setImageResource(R.drawable.ic_check_circle);
+                    int approvedColor = Color.parseColor("#4A7C59");
+                    ivStatusIcon.setColorFilter(approvedColor);
+                    tvApplicationStatus.setTextColor(approvedColor);
+                }
+                case "scheduled" -> {
+                    tvDialogTitle.setText("You have a scheduled interview");
+                    statusBadgeContainer.setVisibility(View.GONE);
+                    btnDecline.setVisibility(View.VISIBLE);
+                    btnReschedule.setVisibility(View.VISIBLE);
+                    haRescheduled(applicant, btnReschedule);
+                    btnDecline.setOnClickListener(v -> showRejectConfirmationDialog(applicant, dialog));
+                    btnReschedule.setOnClickListener(v -> showRescheduleDialog(applicant, dialog));
+                }
+                case "rescheduled" -> {
+                    tvDialogTitle.setText("Reschedule Request Pending");
+                }
+                default -> {
+                    tvDialogTitle.setText("Interview Details");
+                    statusBadgeContainer.setVisibility(View.GONE);
+                }
             }
         }
-
         dialog.show();
     }
-
+    private void haRescheduled(Applicant applicant, Button btnReschedule) {
+        if (applicant.getRescheduleStatus() != null){
+            btnReschedule.setVisibility(View.GONE);
+        }
+    }
     private void addToCalendar(Applicant applicant) {
         try {
             String dateStr = applicant.getInterviewDate();

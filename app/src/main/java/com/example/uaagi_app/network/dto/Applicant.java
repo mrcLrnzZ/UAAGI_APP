@@ -51,6 +51,8 @@ public class Applicant {
     private final String interviewStart;
     @SerializedName("interview_end")
     private final String interviewEnd;
+    @SerializedName("reschedule_status")
+    private final String rescheduleStatus;
 
     private Applicant(Builder builder) {
         this.applicationId = builder.applicationId;
@@ -77,6 +79,7 @@ public class Applicant {
         this.interviewStart = builder.interviewStart;
         this.interviewEnd = builder.interviewEnd;
         this.viewedAt = builder.viewedAt;
+        this.rescheduleStatus = builder.rescheduleStatus;
     }
     public String getViewedAt() { return viewedAt; }
     public int getApplicationId() {
@@ -170,6 +173,9 @@ public class Applicant {
     public String getInterviewEnd() {
         return interviewEnd;
     }
+    public String getRescheduleStatus() {
+        return rescheduleStatus;
+    }
 
     public static class Builder {
         private int applicationId;
@@ -196,9 +202,12 @@ public class Applicant {
         private String interviewer;
         private String interviewStart;
         private String interviewEnd;
+        private String rescheduleStatus;
+
         public Builder() {}
-        public Builder applicationId(int applicationId) { this.applicationId = applicationId; return this; }
         public Builder viewedAt(String viewedAt) { this.viewedAt = viewedAt; return this; }
+        public Builder rescheduleStatus(String rescheduleStatus) { this.rescheduleStatus = rescheduleStatus; return this; }
+        public Builder applicationId(int applicationId) { this.applicationId = applicationId; return this; }
         public Builder userId(int userId) { this.userId = userId; return this; }
         public Builder jobId(int jobId) { this.jobId = jobId; return this; }
         public Builder applyMethod(String applyMethod) { this.applyMethod = applyMethod; return this; }
