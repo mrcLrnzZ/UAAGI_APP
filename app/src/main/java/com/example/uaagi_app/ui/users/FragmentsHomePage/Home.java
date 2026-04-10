@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,7 @@ public class Home extends Fragment implements FragmentError.RetryListener {
     private TextView tvNumOfJobs, tvAppliedStatCount, tvResultCount, tvGreetings;
     private TextInputEditText etSearch;
     private ChipGroup chipGroupFilter;
+    private NestedScrollView nestedScrollView;
     private JobViewModel jobViewModel;
     private ProfileViewModel profileViewModel;
 
@@ -70,6 +72,12 @@ public class Home extends Fragment implements FragmentError.RetryListener {
                 if (jobViewModel.getJobList().getValue() != null) {
                     tvResultCount.setText(getString(R.string.open_positions_count, jobViewModel.getJobList().getValue().size()));
                 }
+            }
+        });
+
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                jobViewModel.loadNextPage();
             }
         });
         
@@ -136,6 +144,7 @@ public class Home extends Fragment implements FragmentError.RetryListener {
         tvResultCount = view.findViewById(R.id.tvResultCount);
         tvGreetings = view.findViewById(R.id.tvGreetings);
         etSearch = view.findViewById(R.id.etSearch);
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
         setupSearchFunctionality();
     }
 

@@ -171,6 +171,10 @@ public class JobDesc extends Fragment {
             }
         });
         
+        btnBack.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
         Log.d(TAG, "Job department: " + department);
         return view;
     }
@@ -249,12 +253,6 @@ public class JobDesc extends Fragment {
                     jobRemoteOption.setText(job.getRemoteOption().getDisplayName());
                     jobDept.setText(job.getDepartment());
                     initializeStatesOfIcon(job);
-                    btnBack.setOnClickListener(v ->
-                            UiHelpers.switchFragment(
-                                    requireActivity().getSupportFragmentManager(),
-                                    JobsOption.newInstance(job.getCompany(), job.getDepartment(), isIntern)
-                            )
-                    );
                 }
 
                 @Override

@@ -422,7 +422,7 @@ public class UiHelpers {
             bundle.putBoolean("isIntern", isIntern);
             fragment.setArguments(bundle);
 
-            UiHelpers.switchFragment(fragmentManager, fragment);
+            UiHelpers.replaceFragment(fragmentManager, fragment, true);
         });
     }
     private static class JobCardViewHolder {

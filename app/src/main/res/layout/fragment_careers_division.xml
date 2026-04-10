@@ -72,6 +72,7 @@
                         android:paddingBottom="20dp">
 
                         <TextView
+                            android:id="@+id/tvCompanyBrand"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="FOTON PHILIPPINES"
@@ -92,6 +93,7 @@
                             android:layout_marginBottom="4dp"/>
 
                         <TextView
+                            android:id="@+id/tvCompanySlogan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Build your career with Foton Philippines."

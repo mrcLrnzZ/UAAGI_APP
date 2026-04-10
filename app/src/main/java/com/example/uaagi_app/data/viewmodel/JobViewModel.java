@@ -19,6 +19,7 @@ public class JobViewModel extends ViewModel {
     private final MutableLiveData<JobFetchResponse> jobData = new MutableLiveData<>();
     private final MutableLiveData<List<JobFetchResponse>> jobList = new MutableLiveData<>();
     private List<JobFetchResponse> allJobs = new ArrayList<>();
+    private List<JobFetchResponse> filteredJobs = new ArrayList<>();
     private String chipFilter = "All";
     private String searchQuery = "";
     private String companyFilter = "";
@@ -28,6 +29,11 @@ public class JobViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<List<JobFetchResponse>> savedJobs = new MutableLiveData<>();
     private final MutableLiveData<List<JobFetchResponse>> archivedJobs = new MutableLiveData<>();
+
+    // Pagination
+    private int currentPage = 1;
+    private static final int PAGE_SIZE = 5;
+    private final MutableLiveData<Boolean> isPaginationLoading = new MutableLiveData<>();
 
     public LiveData<JobFetchResponse> getJobData() {
         return jobData;
@@ -49,6 +55,10 @@ public class JobViewModel extends ViewModel {
 
     public LiveData<Boolean> getLoadingState() {
         return isLoading;
+    }
+    
+    public LiveData<Boolean> getPaginationLoadingState() {
+        return isPaginationLoading;
     }
 
     public void fetchJobById(int jobId, Context context) {
@@ -134,7 +144,7 @@ public class JobViewModel extends ViewModel {
 
                 if (jobs != null) {
                     allJobs = jobs;
-                    jobList.setValue(allJobs);
+                    currentPage = 1;
                     applyFilters();
                 } else {
                     allJobs = new ArrayList<>();
@@ -150,6 +160,24 @@ public class JobViewModel extends ViewModel {
             }
         });
     }
+    
+    public void loadNextPage() {
+        if (Boolean.TRUE.equals(isPaginationLoading.getValue())) return;
+        
+        int totalFiltered = filteredJobs.size();
+        if (currentPage * PAGE_SIZE < totalFiltered) {
+            isPaginationLoading.setValue(true);
+            currentPage++;
+            updatePaginatedList();
+            isPaginationLoading.postValue(false);
+        }
+    }
+
+    private void updatePaginatedList() {
+        int end = Math.min(currentPage * PAGE_SIZE, filteredJobs.size());
+        jobList.setValue(new ArrayList<>(filteredJobs.subList(0, end)));
+    }
+
     public void removeSavedJob(JobFetchResponse job) {
         if (savedJobs.getValue() == null) return;
 
@@ -167,7 +195,7 @@ public class JobViewModel extends ViewModel {
         archivedJobs.setValue(updatedList);
     }
     private void applyFilters() {
-        List<JobFetchResponse> result = new ArrayList<>();
+        filteredJobs = new ArrayList<>();
 
         for (JobFetchResponse job : allJobs) {
 
@@ -182,7 +210,8 @@ public class JobViewModel extends ViewModel {
                     : !"Internship".equalsIgnoreCase(job.getJobType().getDisplayName());
 
             boolean matchesSearch = (searchQuery == null || searchQuery.isEmpty())
-                    || (job.getJobTitle() != null && job.getJobTitle().toLowerCase().contains(searchQuery.toLowerCase()));
+                    || (job.getJobTitle() != null && job.getJobTitle().toLowerCase().contains(searchQuery.toLowerCase()))
+                    || (job.getCompany() != null && job.getCompany().getDisplayName() != null && job.getCompany().getDisplayName().toLowerCase().contains(searchQuery.toLowerCase()));
 
             boolean matchesChip;
             switch (chipFilter != null ? chipFilter : "All") {
@@ -209,11 +238,12 @@ public class JobViewModel extends ViewModel {
             }
 
             if (matchesCompany && matchesDepartment && matchesIntern && matchesSearch && matchesChip) {
-                result.add(job);
+                filteredJobs.add(job);
             }
         }
 
-        jobList.setValue(result);
+        currentPage = 1;
+        updatePaginatedList();
     }
     public void setFilters(String company, String department, boolean isIntern) {
         this.companyFilter = company;

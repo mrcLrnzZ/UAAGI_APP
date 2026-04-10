@@ -7,6 +7,7 @@
     android:background="@color/White">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -161,7 +162,7 @@
                             android:id="@+id/NumOfJobs"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1.2k"
+                            android:text=""
                             android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:fontFamily="sans-serif-black"/>
@@ -227,7 +228,7 @@
                             android:id="@+id/tvAppliedStatCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3"
+                            android:text=""
                             android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:fontFamily="sans-serif-black"/>

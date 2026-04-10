@@ -105,7 +105,13 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
             List<Applicant> filteredList = new ArrayList<>();
 
             for (Applicant applicant : applicants) {
-                if (applicant.getInterviewStatus() != null && !applicant.getInterviewStatus().equalsIgnoreCase("Pending")) {
+                String status = applicant.getStatus();
+                String interviewStatus = applicant.getInterviewStatus();
+
+                // Exclude rejected jobs from the interview tab
+                boolean isRejected = status != null && status.equalsIgnoreCase("Rejected");
+
+                if (interviewStatus != null && !interviewStatus.equalsIgnoreCase("Pending") && !isRejected) {
                     filteredList.add(applicant);
                 }
             }
@@ -116,6 +122,8 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
                 
                 if (Boolean.FALSE.equals(isLoading) && error == null) {
                     showError("No interview schedules found.");
+                } else if (Boolean.FALSE.equals(isLoading)) {
+                    loadingContainer.setVisibility(View.GONE);
                 }
             } else {
                 showContent(filteredList);
@@ -166,11 +174,23 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
                     TextView tvCompany = view.findViewById(R.id.tvCompanyName);
                     TextView tvInterviewDate = view.findViewById(R.id.tvInterviewDate);
                     TextView tvLocation = view.findViewById(R.id.tvLocation);
+                    TextView tvBadgeStatus = view.findViewById(R.id.tvBadgeStatus);
 
                     tvJobTitle.setText(Helpers.safeText(applicant.getJobTitle()));
                     tvCompany.setText(Helpers.safeText(applicant.getCompany()));
                     tvInterviewDate.setText(Helpers.formatToOrdinalDate(Helpers.safeText(applicant.getInterviewDate())));
                     tvLocation.setText(Helpers.safeText(applicant.getLocation()));
+
+                    if (tvBadgeStatus != null) {
+                        String status = applicant.getInterviewStatus();
+                        if ("Rescheduled".equalsIgnoreCase(status)) {
+                            tvBadgeStatus.setVisibility(View.VISIBLE);
+                            tvBadgeStatus.setText("Pending reschedule request");
+                            tvBadgeStatus.setBackgroundResource(R.drawable.bg_pending_badge);
+                        } else {
+                            tvBadgeStatus.setVisibility(View.GONE);
+                        }
+                    }
                 });
 
         adapter.setOnItemClickListener((item, position) -> {
@@ -259,6 +279,9 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
         infoBox.setVisibility(View.VISIBLE);
         btnDecline.setVisibility(View.GONE);
         btnReschedule.setVisibility(View.GONE);
+        btnReschedule.setEnabled(true);
+        btnReschedule.setAlpha(1.0f);
+        btnReschedule.setText("Reschedule");
 
         switch (statusInterview) {
             case "accepted" -> {
@@ -278,6 +301,20 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
 
                 btnDecline.setOnClickListener(v -> showRejectConfirmationDialog(applicant, dialog));
                 btnReschedule.setOnClickListener(v -> showRescheduleDialog(applicant, dialog));
+            }
+            case "rescheduled" -> {
+                tvDialogTitle.setText("Reschedule Request Pending");
+                tvApplicationStatus.setText("Pending reschedule request");
+                statusBadgeContainer.setBackgroundResource(R.drawable.bg_pending_badge);
+                ivStatusIcon.setImageResource(R.drawable.baseline_error_outline_24);
+                int pendingColor = Color.parseColor("#FF9800");
+                ivStatusIcon.setColorFilter(pendingColor);
+                tvApplicationStatus.setTextColor(pendingColor);
+                
+                btnReschedule.setVisibility(View.VISIBLE);
+                btnReschedule.setEnabled(false);
+                btnReschedule.setAlpha(0.5f);
+                btnReschedule.setText("Pending reschedule request");
             }
             default -> {
                 tvDialogTitle.setText("Interview Details");
@@ -385,22 +422,42 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
         final Calendar calendar = Calendar.getInstance();
 
         rowDate.setOnClickListener(v -> {
-            new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
                 tvPreferredDate.setText(date);
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                tvPreferredTime.setText("Select a time");
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            datePickerDialog.show();
         });
 
         rowTime.setOnClickListener(v -> {
-            new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+            if (tvPreferredDate.getText().toString().equals("Select a date")) {
+                Helpers.showToast("Please select a date first", requireContext());
+                return;
+            }
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+                Calendar now = Calendar.getInstance();
+                if (calendar.get(Calendar.YEAR) == now.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
+                    if (hourOfDay < now.get(Calendar.HOUR_OF_DAY) || 
+                        (hourOfDay == now.get(Calendar.HOUR_OF_DAY) && minute <= now.get(Calendar.MINUTE))) {
+                        Helpers.showToast("Cannot select past time for today", requireContext());
+                        return;
+                    }
+                }
+                
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
                 String time = String.format(Locale.getDefault(), "%02d:%02d:00", hourOfDay, minute);
                 tvPreferredTime.setText(time);
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+            timePickerDialog.show();
         });
 
         btnCancel.setOnClickListener(v -> rescheduleDialog.dismiss());
@@ -416,6 +473,13 @@ public class SectionInterview extends Fragment implements FragmentError.RetryLis
             if (date.equals("Select a date") || time.equals("Select a time") || reason.isEmpty()) {
                 Helpers.showToast("Please fill all fields", requireContext());
                 return;
+            }
+            
+            // Final check on existing status before submit
+            if ("rescheduled".equalsIgnoreCase(applicant.getInterviewStatus())) {
+                 Helpers.showToast("A reschedule request is already pending for this interview.", requireContext());
+                 rescheduleDialog.dismiss();
+                 return;
             }
 
             applicationService.rescheduleInterview(applicant.getApplicationId(), dateTime, oldDateTime, reason, new ApplicationService.SimpleCallback() {

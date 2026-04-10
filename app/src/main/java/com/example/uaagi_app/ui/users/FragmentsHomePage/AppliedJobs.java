@@ -20,17 +20,18 @@ import com.example.uaagi_app.network.dto.Applicant;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionApplied;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionArchived;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionInterview;
+import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionRejected;
 import com.example.uaagi_app.ui.users.FragmentsAppliedJobs.SectionSaved;
 import com.example.uaagi_app.utils.SessionManager;
 
 public class AppliedJobs extends Fragment {
 
     // Views for Tabs
-    private LinearLayout tabSaved, tabApplied, tabInterviews, tabArchived;
-    private TextView tvSaved, tvApplied, tvInterviews, tvArchived;
+    private LinearLayout tabSaved, tabApplied, tabInterviews, tabArchived, tabRejected;
+    private TextView tvSaved, tvApplied, tvInterviews, tvArchived, tvRejected;
 
     // Views for Stats
-    private TextView tvAppliedStatCount, tvInterviewStatCount, tvSavedStatCount, tvArchivedStatCount;
+    private TextView tvAppliedStatCount, tvInterviewStatCount, tvSavedStatCount, tvArchivedStatCount, tvRejectedStatCount;
 
     private JobViewModel jobViewModel;
     private ApplicantViewModel applicantViewModel;
@@ -91,19 +92,18 @@ public class AppliedJobs extends Fragment {
         applicantViewModel.getApplicants().observe(getViewLifecycleOwner(), applicants -> {
             int interviewCount = 0;
             int appliedOnlyCount = 0;
+            int rejectedCount = 0;
 
             if (applicants != null) {
                 for (Applicant a : applicants) {
                     String status = a.getStatus();
                     String interviewStatus = a.getInterviewStatus();
 
-                    // Only count as "Interview" if explicitly scheduled
-                    if (interviewStatus != null && !interviewStatus.equalsIgnoreCase("Pending")) {
+                    if (status != null && (status.equalsIgnoreCase("Rejected"))) {
+                        rejectedCount++;
+                    } else if (interviewStatus != null && !interviewStatus.equalsIgnoreCase("Pending")) {
                         interviewCount++;
-                    }
-                    // Standardized logic: Count as "Applied" if status is "Applied" or "Interviewing"
-                    // but it is NOT yet scheduled for an interview.
-                    else if (status != null && (status.equalsIgnoreCase("Applied") || status.equalsIgnoreCase("Interviewing"))) {
+                    } else if (status != null && (status.equalsIgnoreCase("Applied") || status.equalsIgnoreCase("Interviewing"))) {
                         appliedOnlyCount++;
                     }
                 }
@@ -111,6 +111,7 @@ public class AppliedJobs extends Fragment {
 
             if (tvAppliedStatCount != null) tvAppliedStatCount.setText(String.valueOf(appliedOnlyCount));
             if (tvInterviewStatCount != null) tvInterviewStatCount.setText(String.valueOf(interviewCount));
+            if (tvRejectedStatCount != null) tvRejectedStatCount.setText(String.valueOf(rejectedCount));
         });
     }
 
@@ -132,16 +133,19 @@ public class AppliedJobs extends Fragment {
         tabApplied = view.findViewById(R.id.tabApplied);
         tabInterviews = view.findViewById(R.id.tabInterviews);
         tabArchived = view.findViewById(R.id.tabArchived);
+        tabRejected = view.findViewById(R.id.tabRejected);
 
         // Tab TextViews
         tvSaved = view.findViewById(R.id.tvSaved);
         tvApplied = view.findViewById(R.id.tvApplied);
         tvInterviews = view.findViewById(R.id.tvInterviews);
         tvArchived = view.findViewById(R.id.tvArchived);
+        tvRejected = view.findViewById(R.id.tvRejected);
 
         // Stats Counts (Hero Banner)
         tvAppliedStatCount = view.findViewById(R.id.tvAppliedStatCount);
         tvInterviewStatCount = view.findViewById(R.id.tvInterviewStatCount);
+        tvRejectedStatCount = view.findViewById(R.id.tvRejectedStatCount);
         tvSavedStatCount = view.findViewById(R.id.tvSavedStatCount);
         tvArchivedStatCount = view.findViewById(R.id.tvArchivedStatCount);
     }
@@ -151,6 +155,7 @@ public class AppliedJobs extends Fragment {
         if (tabApplied != null) tabApplied.setOnClickListener(v -> selectTab("applied"));
         if (tabInterviews != null) tabInterviews.setOnClickListener(v -> selectTab("interviews"));
         if (tabArchived != null) tabArchived.setOnClickListener(v -> selectTab("archived"));
+        if (tabRejected != null) tabRejected.setOnClickListener(v -> selectTab("rejected"));
 
         // Set Applied as default selected
         selectTab("applied");
@@ -164,6 +169,7 @@ public class AppliedJobs extends Fragment {
         resetTabStyles(tabApplied, tvApplied);
         resetTabStyles(tabInterviews, tvInterviews);
         resetTabStyles(tabArchived, tvArchived);
+        resetTabStyles(tabRejected, tvRejected);
 
         // Highlight selected tab
         switch (tab) {
@@ -178,6 +184,10 @@ public class AppliedJobs extends Fragment {
             case "interviews":
                 highlightTab(tabInterviews, tvInterviews);
                 loadFragment(new SectionInterview(), "interviews");
+                break;
+            case "rejected":
+                highlightTab(tabRejected, tvRejected);
+                loadFragment(new SectionRejected(), "rejected");
                 break;
             case "archived":
                 highlightTab(tabArchived, tvArchived);

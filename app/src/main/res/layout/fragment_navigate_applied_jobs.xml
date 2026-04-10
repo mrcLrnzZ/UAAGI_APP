@@ -86,7 +86,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="4dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="#B3FFFFFF"
@@ -96,21 +96,21 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="10dp">
+                        android:padding="8dp">
                         <TextView
                             android:id="@+id/tvAppliedStatCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textColor="@color/DarkBlue"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:fontFamily="sans-serif-black"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Applied"
                             android:textColor="@color/LightBlue"
-                            android:textSize="9sp"
+                            android:textSize="8sp"
                             android:fontFamily="sans-serif-medium"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -119,7 +119,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="4dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="#B3FFFFFF"
@@ -129,21 +129,21 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="10dp">
+                        android:padding="8dp">
                         <TextView
                             android:id="@+id/tvInterviewStatCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textColor="@color/DarkBlue"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:fontFamily="sans-serif-black"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Interview"
                             android:textColor="@color/LightBlue"
-                            android:textSize="9sp"
+                            android:textSize="8sp"
                             android:fontFamily="sans-serif-medium"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -152,7 +152,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
+                    android:layout_marginEnd="4dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
                     app:cardBackgroundColor="#B3FFFFFF"
@@ -162,21 +162,54 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="10dp">
+                        android:padding="8dp">
+                        <TextView
+                            android:id="@+id/tvRejectedStatCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/DarkBlue"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif-black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rejected"
+                            android:textColor="@color/LightBlue"
+                            android:textSize="8sp"
+                            android:fontFamily="sans-serif-medium"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#B3FFFFFF"
+                    app:strokeWidth="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="8dp">
                         <TextView
                             android:id="@+id/tvSavedStatCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textColor="@color/DarkBlue"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:fontFamily="sans-serif-black"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Saved"
                             android:textColor="@color/LightBlue"
-                            android:textSize="9sp"
+                            android:textSize="8sp"
                             android:fontFamily="sans-serif-medium"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -194,21 +227,21 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="10dp">
+                        android:padding="8dp">
                         <TextView
                             android:id="@+id/tvArchivedStatCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textColor="@color/DarkBlue"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:fontFamily="sans-serif-black"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Archived"
                             android:textColor="@color/LightBlue"
-                            android:textSize="9sp"
+                            android:textSize="8sp"
                             android:fontFamily="sans-serif-medium"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -275,6 +308,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Interviews"
+                    android:textSize="14sp"
+                    android:textColor="#5F5E5A"
+                    android:fontFamily="sans-serif-medium"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tabRejected"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/tab_unselected_background"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:id="@+id/tvRejected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rejected"
                     android:textSize="14sp"
                     android:textColor="#5F5E5A"
                     android:fontFamily="sans-serif-medium"/>

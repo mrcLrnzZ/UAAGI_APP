@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRejectedJobs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/layoutEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="visible">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieEmpty"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/logo_5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No rejected applications"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/DarkBlue"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Keep moving forward. Your next opportunity is waiting!"
+            android:textSize="14sp"
+            android:textColor="@color/Gray"
+            android:gravity="center"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

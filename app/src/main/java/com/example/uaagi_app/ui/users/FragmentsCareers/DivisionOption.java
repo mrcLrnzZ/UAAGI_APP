@@ -37,6 +37,7 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
     private GenericRecyclerAdapter<JobFetchResponse> adapter;
     private FrameLayout loadingContainer, errorContainer;
     private EditText searchEditText;
+    private TextView tvCompanyBrand, tvCompanySlogan;
     private JobViewModel jobViewModel;
     private static final String ARG_COMPANY = "company";
     private static final String ARG_IS_INTERN = "isIntern";
@@ -65,6 +66,13 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
             Company selectedCompany = Company.fromString(companyDisplayName);
             isIntern = getArguments().getBoolean(ARG_IS_INTERN);
             companyName = selectedCompany != null ? selectedCompany.getDisplayName() : companyDisplayName;
+            
+            if (tvCompanyBrand != null) {
+                tvCompanyBrand.setText(companyName.toUpperCase());
+            }
+            if (tvCompanySlogan != null) {
+                tvCompanySlogan.setText("Build your career with " + companyName + ".");
+            }
         }
 
         return view;
@@ -82,6 +90,8 @@ public class DivisionOption extends Fragment implements FragmentError.RetryListe
         loadingContainer = view.findViewById(R.id.loading_container);
         errorContainer = view.findViewById(R.id.error_container);
         searchEditText = view.findViewById(R.id.search_division);
+        tvCompanyBrand = view.findViewById(R.id.tvCompanyBrand);
+        tvCompanySlogan = view.findViewById(R.id.tvCompanySlogan);
         setupSearchFunctionality();
     }
 
