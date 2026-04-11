@@ -43,6 +43,7 @@ public class JobDesc extends Fragment {
     private boolean isSaved = false;
     private boolean isArchived = false;
     private int jobIdInt = -1;
+    private boolean isActionPending = false;
 
     public static Fragment newInstance(int id, boolean isInter) {
         JobDesc fragment = new JobDesc();
@@ -96,23 +97,26 @@ public class JobDesc extends Fragment {
         });
         
         btnBookmark.setOnClickListener(v -> {
-            if (jobIdInt == -1) return;
+            if (jobIdInt == -1 || isActionPending) return;
             if (isArchived) {
                 Toast.makeText(requireContext(), "Job is archived. Unarchive first.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            isActionPending = true;
             if (isSaved) {
                 Helpers.actionUnsaveJob(requireContext(), jobIdInt, new JobService.FeedbackCallback() {
                     @Override
                     public void feedback(String message) {
                         isSaved = false;
                         updateStatusIcons();
+                        isActionPending = false;
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
+                        isActionPending = false;
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -122,11 +126,13 @@ public class JobDesc extends Fragment {
                     public void feedback(String message) {
                         isSaved = true;
                         updateStatusIcons();
+                        isActionPending = false;
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
+                        isActionPending = false;
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -134,23 +140,26 @@ public class JobDesc extends Fragment {
         });
 
         btnBlock.setOnClickListener(v -> {
-            if (jobIdInt == -1) return;
+            if (jobIdInt == -1 || isActionPending) return;
             if (isSaved) {
                 Toast.makeText(requireContext(), "Job is saved. Unsave first.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            isActionPending = true;
             if (isArchived) {
                 Helpers.actionUnarchiveJob(requireContext(), jobIdInt, new JobService.FeedbackCallback() {
                     @Override
                     public void feedback(String message) {
                         isArchived = false;
                         updateStatusIcons();
+                        isActionPending = false;
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
+                        isActionPending = false;
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -160,11 +169,13 @@ public class JobDesc extends Fragment {
                     public void feedback(String message) {
                         isArchived = true;
                         updateStatusIcons();
+                        isActionPending = false;
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
+                        isActionPending = false;
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
