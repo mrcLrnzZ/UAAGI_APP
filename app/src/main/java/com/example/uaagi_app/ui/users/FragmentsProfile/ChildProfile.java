@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +31,7 @@ import com.example.uaagi_app.utils.SessionManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -46,7 +49,7 @@ public class ChildProfile extends Fragment {
     private TextView profileAdd;
     private ProfileViewModel viewModel;
     private ProgressBar progressBar;
-    private LinearLayout profileContainer, getDocumentBtn;
+    private LinearLayout profileContainer, getDocumentBtn, getResumeBtn;
 
     public ChildProfile() {
     }
@@ -65,6 +68,7 @@ public class ChildProfile extends Fragment {
         profileContact = view.findViewById(R.id.ProfileContact);
         profileAdd = view.findViewById(R.id.ProfileAdd);
         getDocumentBtn = view.findViewById(R.id.getDocumentBtn);
+        getResumeBtn = view.findViewById(R.id.getResumeBtn);
 
         viewModel = new ViewModelProvider(
                 requireParentFragment() != null ? requireParentFragment() : this
@@ -79,6 +83,10 @@ public class ChildProfile extends Fragment {
 
         getDocumentBtn.setOnClickListener(v -> {
             preEmpPDF(SessionManager.getInstance(requireContext()).getUserId());
+        });
+
+        getResumeBtn.setOnClickListener(v -> {
+            resumePDF(SessionManager.getInstance(requireContext()).getUserId());
         });
 
         professionalOption.setOnClickListener(v -> {
@@ -96,26 +104,49 @@ public class ChildProfile extends Fragment {
         Call<ResponseBody> call = api.downloadPdf(userId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    savePdf(response.body());
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    savePdf(response.body(), "preemployment.pdf");
+                } else {
+                    Toast.makeText(requireContext(), "Failed to download form", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
-    private void savePdf(ResponseBody body) {
+    private void resumePDF(int userId) {
+        DocumentApi api = RetrofitClient.getInstance().create(DocumentApi.class);
+        Call<ResponseBody> call = api.downloadResume(userId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    savePdf(response.body(), "resume.pdf");
+                } else {
+                    Toast.makeText(requireContext(), "Failed to download resume", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void savePdf(ResponseBody body, String fileName) {
         try {
             InputStream inputStream = body.byteStream();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 ContentValues values = new ContentValues();
-                values.put(MediaStore.MediaColumns.DISPLAY_NAME, "preemployment.pdf");
+                values.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
                 values.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
                 values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
 
@@ -126,6 +157,7 @@ public class ChildProfile extends Fragment {
                 if (uri == null) return;
 
                 OutputStream outputStream = requireContext().getContentResolver().openOutputStream(uri);
+                if (outputStream == null) return;
 
                 byte[] buffer = new byte[4096];
                 int bytesRead;
@@ -142,7 +174,7 @@ public class ChildProfile extends Fragment {
             } else {
                 File file = new File(
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                        "preemployment.pdf"
+                        fileName
                 );
 
                 FileOutputStream outputStream = new FileOutputStream(file);
@@ -168,6 +200,7 @@ public class ChildProfile extends Fragment {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(requireContext(), "Error saving file", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -175,20 +208,26 @@ public class ChildProfile extends Fragment {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "application/pdf");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(requireContext(), "No application found to view PDF", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            if (isLoading) {
-                progressBar.setVisibility(View.VISIBLE);
-                profileContainer.setVisibility(View.GONE);
-            } else {
-                progressBar.setVisibility(View.GONE);
-                profileContainer.setVisibility(View.VISIBLE);
+            if (isLoading != null) {
+                if (isLoading) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    profileContainer.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    profileContainer.setVisibility(View.VISIBLE);
+                }
             }
         });
 

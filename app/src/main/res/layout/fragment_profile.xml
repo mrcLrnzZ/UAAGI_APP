@@ -139,22 +139,21 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ── Pre-Employment Form ── -->
+        <!-- ── Documents ── -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="2dp"
-            android:text="Pre-Employment Form"
+            android:text="Documents"
             android:fontFamily="sans-serif-black"
             android:textColor="@color/DarkBlue"
             android:textSize="14sp"/>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/PreEmpProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             app:cardCornerRadius="14dp"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/White"
@@ -195,18 +194,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="OneHire Resume"
+                            android:text="OneHire Form"
                             android:fontFamily="sans-serif-black"
                             android:textColor="@color/DarkBlue"
                             android:textSize="14sp"
                             android:layout_marginBottom="2dp"/>
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Updated December 18, 2025"-->
-<!--                            android:textSize="11sp"-->
-<!--                            android:textColor="@color/Gray"/>-->
                     </LinearLayout>
                 </LinearLayout>
 
@@ -223,7 +215,81 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TAP TO VIEW DOCUMENT"
+                        android:text="TAP TO VIEW FORM"
+                        android:textColor="@color/Deepwater"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.06"
+                        android:fontFamily="sans-serif-medium"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/White"
+            app:strokeColor="@color/LightGray"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/getResumeBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:gravity="center"
+                        android:layout_marginEnd="14dp">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/profile_documents"
+                            app:tint="@color/Deepwater"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="My Resume"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="@color/DarkBlue"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="2dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- PaleBlue footer strip -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/PaleBlue"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TAP TO VIEW RESUME"
                         android:textColor="@color/Deepwater"
                         android:textSize="10sp"
                         android:letterSpacing="0.06"

@@ -25,4 +25,8 @@ public interface DocumentApi {
     Call<ResponseBody> downloadPdf(
             @Query("user_id") int userId
     );
+    @GET("index.php/resume")
+    Call<ResponseBody> downloadResume(
+            @Query("user_id") int userId
+    );
 }
