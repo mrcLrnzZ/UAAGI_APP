@@ -29,6 +29,7 @@ public class JobViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<List<JobFetchResponse>> savedJobs = new MutableLiveData<>();
     private final MutableLiveData<List<JobFetchResponse>> archivedJobs = new MutableLiveData<>();
+    private final MutableLiveData<Integer> totalJobCount = new MutableLiveData<>(0);
 
     // Pagination
     private int currentPage = 1;
@@ -47,6 +48,10 @@ public class JobViewModel extends ViewModel {
     }
     public LiveData<List<JobFetchResponse>> getArchivedJobs() {
         return archivedJobs;
+    }
+
+    public LiveData<Integer> getTotalJobCount() {
+        return totalJobCount;
     }
 
     public LiveData<String> getErrorMessage() {
@@ -143,12 +148,13 @@ public class JobViewModel extends ViewModel {
                 isLoading.setValue(false);
 
                 if (jobs != null) {
-                    allJobs = jobs;
+                    allJobs = new ArrayList<>(jobs);
                     currentPage = 1;
                     applyFilters();
                 } else {
                     allJobs = new ArrayList<>();
                     jobList.setValue(allJobs);
+                    totalJobCount.setValue(0);
                     errorMessage.setValue("No jobs available.");
                 }
             }
@@ -194,6 +200,17 @@ public class JobViewModel extends ViewModel {
 
         archivedJobs.setValue(updatedList);
     }
+
+    public void onJobArchived(JobFetchResponse job) {
+        // Remove from current filtered results and main list if present
+        boolean removedFromFiltered = filteredJobs.removeIf(j -> j.getId() == job.getId());
+        if (removedFromFiltered) {
+            allJobs.removeIf(j -> j.getId() == job.getId());
+            totalJobCount.setValue(filteredJobs.size());
+            updatePaginatedList();
+        }
+    }
+
     private void applyFilters() {
         filteredJobs = new ArrayList<>();
 
@@ -237,11 +254,14 @@ public class JobViewModel extends ViewModel {
                     break;
             }
 
-            if (matchesCompany && matchesDepartment && matchesIntern && matchesSearch && matchesChip) {
+            boolean isArchived = job.isArchived() != null && job.isArchived() == 1;
+
+            if (matchesCompany && matchesDepartment && matchesIntern && matchesSearch && matchesChip && !isArchived) {
                 filteredJobs.add(job);
             }
         }
 
+        totalJobCount.setValue(filteredJobs.size());
         currentPage = 1;
         updatePaginatedList();
     }

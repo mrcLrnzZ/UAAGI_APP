@@ -312,12 +312,7 @@ public class UiHelpers {
                     showToast("Job is saved. Unsave first.", context);
                     return;
                 }
-                RecyclerView.Adapter<?> adapterObj = recyclerView.getAdapter();
-                if (adapterObj instanceof GenericRecyclerAdapter) {
-                    ((GenericRecyclerAdapter<JobFetchResponse>) adapterObj).removeItem(job);
-                    jobViewModel.removeArchivedJob(job);
-                }
-                archiveJob(viewHolder, job, state, context);
+                archiveJob(viewHolder, job, state, context, jobViewModel);
             }
         });
     }
@@ -368,16 +363,14 @@ public class UiHelpers {
             JobCardViewHolder viewHolder,
             JobFetchResponse job,
             JobCardState state,
-            Context context
+            Context context,
+            JobViewModel jobViewModel
     ) {
         Helpers.actionArchiveJob(context, job.getId(), new JobService.FeedbackCallback() {
             @Override
             public void feedback(String message) {
-                viewHolder.ivLike.setImageResource(R.drawable.unarchive);
-                viewHolder.ivLike.setColorFilter(
-                        ContextCompat.getColor(context, R.color.holo_red_dark)
-                );
                 state.isArchived = true;
+                jobViewModel.onJobArchived(job);
                 showToast(message, context);
             }
 

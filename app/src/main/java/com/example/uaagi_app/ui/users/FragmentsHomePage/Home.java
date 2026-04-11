@@ -69,9 +69,6 @@ public class Home extends Fragment implements FragmentError.RetryListener {
             if (selectedChip != null) {
                 String filter = selectedChip.getText().toString();
                 jobViewModel.setChipFilter(filter);
-                if (jobViewModel.getJobList().getValue() != null) {
-                    tvResultCount.setText(getString(R.string.open_positions_count, jobViewModel.getJobList().getValue().size()));
-                }
             }
         });
 
@@ -100,8 +97,13 @@ public class Home extends Fragment implements FragmentError.RetryListener {
         jobViewModel.getJobList().observe(getViewLifecycleOwner(), jobs -> {
             if (jobs != null) {
                 showContent(jobs);
-                tvNumOfJobs.setText(String.valueOf(jobs.size()));
-                tvResultCount.setText(getString(R.string.open_positions_count, jobs.size()));
+            }
+        });
+
+        jobViewModel.getTotalJobCount().observe(getViewLifecycleOwner(), count -> {
+            if (count != null) {
+                tvNumOfJobs.setText(String.valueOf(count));
+                tvResultCount.setText(getString(R.string.open_positions_count, count));
             }
         });
 
