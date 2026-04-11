@@ -199,9 +199,12 @@ public class JobDesc extends Fragment {
     }
     private void initializeStatesOfIcon(JobFetchResponse job){
         if (Helpers.intToBoolean(job.isSaved())) {
+            btnBookmark.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
             isSaved = true;
         }
         if (Helpers.intToBoolean(job.isArchived())) {
+            btnBlock.setImageResource(R.drawable.unarchive);
+            btnBlock.setColorFilter(ContextCompat.getColor(requireContext(), R.color.holo_red_dark));
             isArchived = true;
         }
     }
